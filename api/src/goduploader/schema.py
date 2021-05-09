@@ -117,12 +117,12 @@ class LikeArtwork(relay.ClientIDMutation):
         if artwork is None:
             raise Exception('Artwork not found')
 
-        like = LikeModel(
-            account_id=current_user.id,
-            artwork_id=artwork.id,
-        )
-        session.add(like)
-        session.commit()
+        with session.begin():
+            like = LikeModel(
+                account_id=current_user.id,
+                artwork_id=artwork.id,
+            )
+            session.add(like)
 
         return LikeArtwork(like=like)
 
@@ -143,24 +143,23 @@ class UploadArtwork(graphene.ClientIDMutation):
         if not request.files.getlist('illusts'):
             raise Exception('illusts required')
 
-        artwork = ArtworkModel(
-            title=input['title'],
-            caption=input['caption'],
-        )
-        session.add(artwork)
-
-        for buf in request.files.getlist('illusts'):
-            artwork.illusts.append(buf)
-            _, ext = os.path.splitext(buf.filename)
-            filename = f'{uuid.uuid4()}{ext}'
-            buf.save(f'./public/illusts/{filename}')
-            illust = IllustModel(
-                filename=filename,
+        with session.begin():
+            artwork = ArtworkModel(
+                title=input['title'],
+                caption=input['caption'],
             )
-            session.add(illust)
-            artwork.illusts.append(illust)
+            session.add(artwork)
 
-        session.commit()
+            for buf in request.files.getlist('illusts'):
+                artwork.illusts.append(buf)
+                _, ext = os.path.splitext(buf.filename)
+                filename = f'{uuid.uuid4()}{ext}'
+                buf.save(f'./public/illusts/{filename}')
+                illust = IllustModel(
+                    filename=filename,
+                )
+                session.add(illust)
+                artwork.illusts.append(illust)
 
         return UploadArtwork(artwork=artwork)
 
