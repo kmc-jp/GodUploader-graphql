@@ -1,16 +1,20 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import RelayEnvironment from "./RelayEnvironment";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { RouteRenderer } from "./routes";
+import { routes } from "./routing";
 
 ReactDOM.render(
   <React.StrictMode>
     <RelayEnvironmentProvider environment={RelayEnvironment}>
       <Suspense fallback={<p>Now loading...</p>}>
-        <App />
+        <BrowserRouter>
+          <RouteRenderer routes={routes} />
+        </BrowserRouter>
       </Suspense>
     </RelayEnvironmentProvider>
   </React.StrictMode>,

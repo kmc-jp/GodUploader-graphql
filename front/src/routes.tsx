@@ -1,13 +1,22 @@
 import { Route, Switch } from "react-router-dom";
-import { RouteConfig as OriginalRouteConfig } from "react-router-config";
+import {
+  RouteConfig as OriginalRouteConfig,
+  RouteConfigComponentProps as OriginalRouteConfigComponentProps,
+} from "react-router-config";
 import type { SwitchProps } from "react-router";
 import { Environment } from "relay-runtime";
 import { useRelayEnvironment } from "react-relay";
 
-export type RouteConfig = Pick<OriginalRouteConfig, "component"> &
-  OriginalRouteConfig & {
-    prepare?: (args: PrepareArguments) => any;
-  };
+export type RouteConfig = OriginalRouteConfig & {
+  route?: RouteConfig;
+  component?: React.ComponentType<RouteConfigComponentProps<any>> | React.ComponentType;
+}
+
+export interface RouteConfigComponentProps<
+  Params extends { [K in keyof Params]?: string } = {}
+> extends OriginalRouteConfigComponentProps<Params> {
+  route?: RouteConfig;
+}
 
 export interface PrepareArguments {
   params: Record<string, unknown>;
@@ -50,11 +59,17 @@ const renderRoutes = (
   ) : null;
 };
 
-export const RouteRenderer = (
-  routes: RouteConfig[] | undefined,
-  extraProps?: any,
-  switchProps?: SwitchProps
-) => {
+interface RendererProps {
+  routes: RouteConfig[] | undefined;
+  extraProps?: any;
+  switchProps?: SwitchProps;
+}
+
+export const RouteRenderer = ({
+  routes,
+  extraProps,
+  switchProps,
+}: RendererProps) => {
   const environment = useRelayEnvironment();
   return renderRoutes(routes, environment, extraProps, switchProps);
 };
