@@ -65,4 +65,15 @@ class Query(graphene.ObjectType):
 
         return artworks
 
+    tagged_artworks = SQLAlchemyConnectionField(Artwork.connection, tag=graphene.NonNull(graphene.String))
+
+    def resolve_tagged_artworks(self, info, **args):
+        artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
+        artworks = artwork_query \
+            .join(ArtworkModel.tags, isouter=True) \
+            .join(ArtworkTagRelationModel.tag, isouter=True) \
+            .filter(TagModel.name == args.get('tag'))
+
+        return artworks
+
 schema = graphene.Schema(query=Query)
