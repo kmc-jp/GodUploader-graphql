@@ -1,8 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
-import { usePreloadedQuery, PreloadedQuery } from "react-relay";
+import { graphql, usePreloadedQuery, PreloadedQuery } from "react-relay";
 import React from "react";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
-import { RouteConfigComponentProps } from "../routes";
 
 export const indexQuery = graphql`
   query IndexQuery {
@@ -35,13 +33,13 @@ export const indexQuery = graphql`
   }
 `;
 
-interface Props extends RouteConfigComponentProps<any> {
+interface Props {
   prepared: {
     homeQuery: PreloadedQuery<IndexQuery, Record<string, unknown>>;
   };
 }
 
-export const Index: React.FC<Props> = ({ prepared }: Props) => {
+export const Index: React.VFC<Props> = ({ prepared }: Props) => {
   const { safeArtworks, accounts } = usePreloadedQuery<IndexQuery>(
     indexQuery,
     prepared.homeQuery

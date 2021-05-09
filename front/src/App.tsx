@@ -1,12 +1,15 @@
 import React from "react";
-import { renderRoutes, RouteConfigComponentProps } from "react-router-config";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
+import { RouteRenderer } from "./routes";
 
-function App({ route }: RouteConfigComponentProps) {
+function App({ route }) {
   return (
     <div className="App">
       <h1>God Illust Uploader</h1>
-      {renderRoutes(route && route.routes)}
+      <BrowserRouter>
+        <RouteRenderer routes={route && route.routes} />
+      </BrowserRouter>
     </div>
   );
 }
