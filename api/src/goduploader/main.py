@@ -7,7 +7,12 @@ app = Flask(__name__, static_folder='public')
 CORS(app)
 
 app.add_url_rule(
-    '/', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True)
+    '/',
+    view_func=GraphQLView.as_view(
+        'graphql',
+        schema=schema,
+        graphiql=True,
+    ),
 )
 
 @app.teardown_appcontext
