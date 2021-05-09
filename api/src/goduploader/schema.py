@@ -1,6 +1,7 @@
 import graphene
 from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
+from sqlalchemy.sql.elements import or_, not_
 from model import (
     Account as AccountModel,
     ArtworkTagRelation as ArtworkTagRelationModel,
@@ -50,5 +51,18 @@ class Query(graphene.ObjectType):
     node = relay.Node.Field()
     accounts = SQLAlchemyConnectionField(Account.connection)
     artworks = SQLAlchemyConnectionField(Artwork.connection)
+    safe_artworks = SQLAlchemyConnectionField(Artwork.connection)
+
+    def resolve_safe_artworks(self, info, **args):
+        artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
+        artworks = artwork_query \
+            .join(ArtworkModel.tags, isouter=True) \
+            .join(ArtworkTagRelationModel.tag, isouter=True) \
+            .filter(or_(
+                TagModel.name == None,
+                not_(TagModel.name.in_(['R-18', 'R-18G'])))
+            )
+
+        return artworks
 
 schema = graphene.Schema(query=Query)
