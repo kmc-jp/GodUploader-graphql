@@ -1,7 +1,10 @@
+from flask import request
 import graphene
 from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
+import os.path
 from sqlalchemy.sql.elements import or_, not_
+import uuid
 from db import session
 from model import (
     Account as AccountModel,
@@ -110,7 +113,46 @@ class LikeArtwork(relay.ClientIDMutation):
 
         return LikeArtwork(like=like)
 
+class UploadArtwork(graphene.ClientIDMutation):
+    class Input:
+        title = graphene.String(required=True)
+        caption = graphene.String(required=True)
+        tags = graphene.String()
+
+    artwork = graphene.Field(Artwork)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        current_user = viewer()
+        if current_user is None:
+            raise Exception('Please login')
+
+        if not request.files.getlist('illusts'):
+            raise Exception('illusts required')
+
+        artwork = ArtworkModel(
+            title=input['title'],
+            caption=input['caption'],
+        )
+        session.add(artwork)
+
+        for buf in request.files.getlist('illusts'):
+            artwork.illusts.append(buf)
+            _, ext = os.path.splitext(buf.filename)
+            filename = f'{uuid.uuid4()}{ext}'
+            buf.save(f'./public/illusts/{filename}')
+            illust = IllustModel(
+                filename=filename,
+            )
+            session.add(illust)
+            artwork.illusts.append(illust)
+
+        session.commit()
+
+        return UploadArtwork(artwork=artwork)
+
 class Mutation(graphene.ObjectType):
     like_artwork = LikeArtwork.Field()
+    upload_artwork = UploadArtwork.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
