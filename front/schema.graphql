@@ -1,0 +1,281 @@
+type Account implements Node {
+  """The ID of the object."""
+  id: ID!
+  kmcid: String!
+  name: String!
+  foldersCount: Int!
+  lastLoggedIn: DateTime!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  artworks(before: String, after: String, first: Int, last: Int): ArtworkConnection
+}
+
+type AccountConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [AccountEdge]!
+}
+
+"""A Relay edge containing a `Account` and its cursor."""
+type AccountEdge {
+  """The item at the end of the edge"""
+  node: Account
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""An enumeration."""
+enum AccountSortEnum {
+  ID_ASC
+  ID_DESC
+  KMCID_ASC
+  KMCID_DESC
+  NAME_ASC
+  NAME_DESC
+  FOLDERS_COUNT_ASC
+  FOLDERS_COUNT_DESC
+  LAST_LOGGED_IN_ASC
+  LAST_LOGGED_IN_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+}
+
+type Artwork implements Node {
+  """The ID of the object."""
+  id: ID!
+  accountId: Int!
+  title: String!
+  caption: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  illusts(before: String, after: String, first: Int, last: Int): IllustConnection
+  comments(before: String, after: String, first: Int, last: Int): CommentConnection
+  likes(before: String, after: String, first: Int, last: Int): LikeConnection
+  tags(before: String, after: String, first: Int, last: Int): ArtworkTagRelationConnection
+  account: Account
+}
+
+type ArtworkConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ArtworkEdge]!
+}
+
+"""A Relay edge containing a `Artwork` and its cursor."""
+type ArtworkEdge {
+  """The item at the end of the edge"""
+  node: Artwork
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""An enumeration."""
+enum ArtworkSortEnum {
+  ID_ASC
+  ID_DESC
+  ACCOUNT_ID_ASC
+  ACCOUNT_ID_DESC
+  TITLE_ASC
+  TITLE_DESC
+  CAPTION_ASC
+  CAPTION_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+}
+
+type ArtworkTagRelation implements Node {
+  artworkId: ID!
+  tagId: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  artwork: Artwork
+  tag: Tag
+
+  """The ID of the object."""
+  id: ID!
+}
+
+type ArtworkTagRelationConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ArtworkTagRelationEdge]!
+}
+
+"""A Relay edge containing a `ArtworkTagRelation` and its cursor."""
+type ArtworkTagRelationEdge {
+  """The item at the end of the edge"""
+  node: ArtworkTagRelation
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type Comment implements Node {
+  """The ID of the object."""
+  id: ID!
+  text: String!
+  accountId: Int!
+  artworkId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  artwork: Artwork
+}
+
+type CommentConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [CommentEdge]!
+}
+
+"""A Relay edge containing a `Comment` and its cursor."""
+type CommentEdge {
+  """The item at the end of the edge"""
+  node: Comment
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+type Illust implements Node {
+  """The ID of the object."""
+  id: ID!
+  artworkId: Int!
+  filename: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  artwork: Artwork
+}
+
+type IllustConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [IllustEdge]!
+}
+
+"""A Relay edge containing a `Illust` and its cursor."""
+type IllustEdge {
+  """The item at the end of the edge"""
+  node: Illust
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type Like implements Node {
+  """The ID of the object."""
+  id: ID!
+  accountId: Int!
+  artworkId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  artwork: Artwork
+}
+
+input LikeArtworkInput {
+  artworkId: ID!
+  clientMutationId: String
+}
+
+type LikeArtworkPayload {
+  like: Like
+  clientMutationId: String
+}
+
+type LikeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [LikeEdge]!
+}
+
+"""A Relay edge containing a `Like` and its cursor."""
+type LikeEdge {
+  """The item at the end of the edge"""
+  node: Like
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type Mutation {
+  likeArtwork(input: LikeArtworkInput!): LikeArtworkPayload
+  uploadArtwork(input: UploadArtworkInput!): UploadArtworkPayload
+}
+
+"""An object with an ID"""
+interface Node {
+  """The ID of the object."""
+  id: ID!
+}
+
+"""
+The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
+"""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  """The ID of the object"""
+  node(id: ID!): Node
+  accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
+  artworks(sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
+  viewer: Account
+  safeArtworks(sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
+  taggedArtworks(tag: String!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
+}
+
+type Tag implements Node {
+  """The ID of the object."""
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  artworks(before: String, after: String, first: Int, last: Int): ArtworkTagRelationConnection
+}
+
+input UploadArtworkInput {
+  title: String!
+  caption: String!
+  tags: String
+  clientMutationId: String
+}
+
+type UploadArtworkPayload {
+  artwork: Artwork
+  clientMutationId: String
+}
