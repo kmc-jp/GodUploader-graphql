@@ -49,5 +49,6 @@ class Tag(SQLAlchemyObjectType):
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
     accounts = SQLAlchemyConnectionField(Account.connection)
+    artworks = SQLAlchemyConnectionField(Artwork.connection)
 
 schema = graphene.Schema(query=Query)
