@@ -20,6 +20,7 @@ class Account(Base):
     index_folders_count = Index('folders_count', folders_count)
 
     artworks = relationship('Artwork', backref='account')
+    likes = relationship('Like', backref='account')
 
 class ArtworkTagRelation(Base):
     __tablename__ = 'artwork_tag_relation'

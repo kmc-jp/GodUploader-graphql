@@ -8,6 +8,7 @@ type Account implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   artworks(before: String, after: String, first: Int, last: Int): ArtworkConnection
+  likes(before: String, after: String, first: Int, last: Int): LikeConnection
 }
 
 type AccountConnection {
@@ -191,6 +192,7 @@ type Like implements Node {
   artworkId: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
+  account: Account
   artwork: Artwork
 }
 
