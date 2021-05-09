@@ -90,16 +90,3 @@ class Tag(Base):
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     artworks = relationship('ArtworkTagRelation', back_populates='tag')
-
-# Relations
-
-
-class ArtworkIllustRelation(Base):
-    __tablename__ = 'artwork_illust_relation'
-
-    artwork_id = Column(Integer, nullable=False)
-    illust_id = Column(Integer, nullable=False)
-    primary_key = PrimaryKeyConstraint(artwork_id, illust_id)
-
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
