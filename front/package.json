@@ -25,7 +25,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "relay-compiler": "relay-compiler --schema schema.graphql --src ./src/ --wtachman false $@"
   },
   "eslintConfig": {
     "extends": [
