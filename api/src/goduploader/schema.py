@@ -51,6 +51,7 @@ class Query(graphene.ObjectType):
     node = relay.Node.Field()
     accounts = SQLAlchemyConnectionField(Account.connection)
     artworks = SQLAlchemyConnectionField(Artwork.connection)
+
     safe_artworks = SQLAlchemyConnectionField(Artwork.connection)
 
     def resolve_safe_artworks(self, info, **args):
