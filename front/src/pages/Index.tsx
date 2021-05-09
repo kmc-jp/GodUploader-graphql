@@ -1,10 +1,6 @@
-import {
-  usePreloadedQuery,
-  loadQuery,
-} from "react-relay";
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
-import RelayEnvironment from "../RelayEnvironment";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
 export const indexQuery = graphql`
@@ -40,17 +36,16 @@ export const indexQuery = graphql`
   }
 `;
 
-const queryReference = loadQuery<IndexQuery>(
-  RelayEnvironment,
-  indexQuery,
-  {},
-  { fetchPolicy: "store-or-network" }
-);
+interface IndexProps {
+  prepared?: {
+    indexQuery: PreloadedQuery<IndexQuery, Record<string, unknown>>;
+  };
+}
 
-export const Index: React.VFC = () => {
-  const { safeArtworks, activeAccounts } = usePreloadedQuery(
+export const Index: React.VFC<IndexProps> = ({ prepared }) => {
+  const { safeArtworks, activeAccounts } = usePreloadedQuery<IndexQuery>(
     indexQuery,
-    queryReference
+    prepared!.indexQuery
   );
   const artworkCount = safeArtworks?.edges?.length || 0;
 
@@ -68,7 +63,10 @@ export const Index: React.VFC = () => {
 
           return (
             <div key={`newer-illusts-${node.id}`}>
-              <img src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`} alt={node?.title} />
+              <img
+                src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
+                alt={node?.title}
+              />
               <div className="caption">
                 <h3>{node?.title}</h3>
                 <p>{account.name}</p>

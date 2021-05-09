@@ -1,12 +1,13 @@
 import React from "react";
+import { Environment, loadQuery, useRelayEnvironment } from "react-relay";
 import { SwitchProps } from "react-router";
 import { Route, Switch } from "react-router-dom";
-import type {
+import {
   RouteConfig as OriginalRouteConfig,
   RouteConfigComponentProps as OriginalRouteConfigComponentProps,
 } from "react-router-config";
 import App from "./App";
-import { Index } from "./pages/Index";
+import { Index, indexQuery } from "./pages/Index";
 
 export const routes: RouteConfig[] = [
   {
@@ -16,22 +17,41 @@ export const routes: RouteConfig[] = [
         path: "/",
         exact: true,
         component: Index,
+        prepare: ({ environment }) => ({
+          indexQuery: loadQuery(
+            environment,
+            indexQuery,
+            {},
+            { fetchPolicy: "store-or-network" }
+          ),
+        }),
       },
     ],
   },
 ];
 
-export interface RouteConfigComponentProps extends OriginalRouteConfigComponentProps {
+export interface RouteConfigComponentProps<Params extends { [K in keyof Params]?: string } = {}>
+  extends OriginalRouteConfigComponentProps<Params> {
   route?: RouteConfig;
+  prepared?: any;
+}
+
+interface PrepareArguments {
+  params: Record<string, any>;
+  environment: Environment;
 }
 
 export interface RouteConfig extends OriginalRouteConfig {
-  component?: React.ComponentType<OriginalRouteConfigComponentProps<any>> | React.ComponentType;
+  component?:
+    | React.ComponentType<RouteConfigComponentProps<any>>
+    | React.ComponentType;
   routes?: RouteConfig[];
+  prepare?: ({ params, environment }: PrepareArguments) => any;
 }
 
 export const renderRoutes = (
   routes: RouteConfig[] | undefined,
+  environment: Environment,
   extraProps?: any,
   switchProps?: SwitchProps
 ) => {
@@ -47,7 +67,19 @@ export const renderRoutes = (
             if (!route.component) {
               return null;
             }
-            return <route.component {...props} {...extraProps} route={route} />;
+
+            const params = props.match.params;
+            const prepared = route.prepare
+              ? route.prepare({ params, environment })
+              : null;
+            return (
+              <route.component
+                {...props}
+                {...extraProps}
+                prepared={prepared}
+                route={route}
+              />
+            );
           }}
         />
       ))}
@@ -60,5 +92,6 @@ interface Props {
 }
 
 export const RouteRenderer: React.FC<Props> = ({ routes }) => {
-  return renderRoutes(routes);
+  const environment = useRelayEnvironment();
+  return renderRoutes(routes, environment);
 };
