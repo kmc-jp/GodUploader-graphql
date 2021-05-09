@@ -9,7 +9,7 @@ import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
 export const indexQuery = graphql`
   query IndexQuery {
-    accounts(sort: [FOLDERS_COUNT_DESC]) {
+    activeAccounts(sort: [FOLDERS_COUNT_DESC]) {
       edges {
         node {
           id
@@ -48,7 +48,7 @@ const queryReference = loadQuery<IndexQuery>(
 );
 
 export const Index: React.VFC = () => {
-  const { safeArtworks, accounts } = usePreloadedQuery(
+  const { safeArtworks, activeAccounts } = usePreloadedQuery(
     indexQuery,
     queryReference
   );
@@ -80,7 +80,7 @@ export const Index: React.VFC = () => {
       </div>
       <div>
         <h2>利用者達</h2>
-        {accounts?.edges.map((edge) => {
+        {activeAccounts?.edges.map((edge) => {
           if (!edge) {
             return null;
           }

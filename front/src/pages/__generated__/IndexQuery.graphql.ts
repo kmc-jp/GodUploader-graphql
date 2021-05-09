@@ -5,7 +5,7 @@
 import { ConcreteRequest } from "relay-runtime";
 export type IndexQueryVariables = {};
 export type IndexQueryResponse = {
-    readonly accounts: {
+    readonly activeAccounts: {
         readonly edges: ReadonlyArray<{
             readonly node: {
                 readonly id: string;
@@ -43,7 +43,7 @@ export type IndexQuery = {
 
 /*
 query IndexQuery {
-  accounts(sort: [FOLDERS_COUNT_DESC]) {
+  activeAccounts(sort: [FOLDERS_COUNT_DESC]) {
     edges {
       node {
         id
@@ -104,7 +104,7 @@ v2 = {
   ],
   "concreteType": "AccountConnection",
   "kind": "LinkedField",
-  "name": "accounts",
+  "name": "activeAccounts",
   "plural": false,
   "selections": [
     {
@@ -139,7 +139,7 @@ v2 = {
       "storageKey": null
     }
   ],
-  "storageKey": "accounts(sort:[\"FOLDERS_COUNT_DESC\"])"
+  "storageKey": "activeAccounts(sort:[\"FOLDERS_COUNT_DESC\"])"
 },
 v3 = [
   {
@@ -371,14 +371,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "af86dade238ceb452e7f3ac6d6e81c13",
+    "cacheID": "bf3f827c86dbedbcb6eb123f9c1506c3",
     "id": null,
     "metadata": {},
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  accounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        name\n        foldersCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        id\n        title\n        caption\n        illusts(first: 1) {\n          edges {\n            node {\n              filename\n              id\n            }\n          }\n        }\n        account {\n          name\n          id\n        }\n      }\n    }\n  }\n}\n"
+    "text": "query IndexQuery {\n  activeAccounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        name\n        foldersCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        id\n        title\n        caption\n        illusts(first: 1) {\n          edges {\n            node {\n              filename\n              id\n            }\n          }\n        }\n        account {\n          name\n          id\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '3fd8f2624afbe2d9d869f1d48aefc053';
+(node as any).hash = '438badd662c3c4593f89da4a45e39370';
 export default node;
