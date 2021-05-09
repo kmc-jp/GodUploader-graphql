@@ -2,7 +2,7 @@ import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
-import { Link } from "react-router-dom";
+import { ArtworkListItem } from "../components/ArtworkListItem";
 
 export const indexQuery = graphql`
   query IndexQuery {
@@ -18,19 +18,7 @@ export const indexQuery = graphql`
     safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {
       edges {
         node {
-          id
-          title
-          caption
-          illusts(first: 1) {
-            edges {
-              node {
-                filename
-              }
-            }
-          }
-          account {
-            name
-          }
+          ...ArtworkListItem_artwork
         }
       }
     }
@@ -58,25 +46,8 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
           if (!edge) {
             return null;
           }
-          const node = edge.node!;
-          const firstIllust = node.illusts!.edges![0]!.node!;
-          const account = node.account!;
 
-          return (
-            <div key={`newer-illusts-${node.id}`}>
-              <Link to={`/artwork/${node.id}`}>
-                <img
-                  src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
-                  alt={node?.title}
-                />
-                <div className="caption">
-                  <h3>{node?.title}</h3>
-                  <p>{account.name}</p>
-                  <p>{node?.caption}</p>
-                </div>
-              </Link>
-            </div>
-          );
+          return <ArtworkListItem artwork={edge.node!}/>
         })}
       </div>
       <div>

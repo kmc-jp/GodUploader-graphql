@@ -3,6 +3,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
+import { FragmentRefs } from "relay-runtime";
 export type IndexQueryVariables = {};
 export type IndexQueryResponse = {
     readonly activeAccounts: {
@@ -17,19 +18,7 @@ export type IndexQueryResponse = {
     readonly safeArtworks: {
         readonly edges: ReadonlyArray<{
             readonly node: {
-                readonly id: string;
-                readonly title: string;
-                readonly caption: string;
-                readonly illusts: {
-                    readonly edges: ReadonlyArray<{
-                        readonly node: {
-                            readonly filename: string;
-                        } | null;
-                    } | null>;
-                } | null;
-                readonly account: {
-                    readonly name: string;
-                } | null;
+                readonly " $fragmentRefs": FragmentRefs<"ArtworkListItem_artwork">;
             } | null;
         } | null>;
     } | null;
@@ -55,23 +44,28 @@ query IndexQuery {
   safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {
     edges {
       node {
+        ...ArtworkListItem_artwork
         id
-        title
-        caption
-        illusts(first: 1) {
-          edges {
-            node {
-              filename
-              id
-            }
-          }
-        }
-        account {
-          name
-          id
-        }
       }
     }
+  }
+}
+
+fragment ArtworkListItem_artwork on Artwork {
+  id
+  title
+  caption
+  illusts(first: 1) {
+    edges {
+      node {
+        filename
+        id
+      }
+    }
+  }
+  account {
+    name
+    id
   }
 }
 */
@@ -154,35 +148,7 @@ v3 = [
       "CREATED_AT_DESC"
     ]
   }
-],
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "title",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "caption",
-  "storageKey": null
-},
-v6 = [
-  {
-    "kind": "Literal",
-    "name": "first",
-    "value": 1
-  }
-],
-v7 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "filename",
-  "storageKey": null
-};
+];
 return {
   "fragment": {
     "argumentDefinitions": [],
@@ -215,54 +181,10 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v0/*: any*/),
-                  (v4/*: any*/),
-                  (v5/*: any*/),
                   {
-                    "alias": null,
-                    "args": (v6/*: any*/),
-                    "concreteType": "IllustConnection",
-                    "kind": "LinkedField",
-                    "name": "illusts",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "IllustEdge",
-                        "kind": "LinkedField",
-                        "name": "edges",
-                        "plural": true,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Illust",
-                            "kind": "LinkedField",
-                            "name": "node",
-                            "plural": false,
-                            "selections": [
-                              (v7/*: any*/)
-                            ],
-                            "storageKey": null
-                          }
-                        ],
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": "illusts(first:1)"
-                  },
-                  {
-                    "alias": null,
                     "args": null,
-                    "concreteType": "Account",
-                    "kind": "LinkedField",
-                    "name": "account",
-                    "plural": false,
-                    "selections": [
-                      (v1/*: any*/)
-                    ],
-                    "storageKey": null
+                    "kind": "FragmentSpread",
+                    "name": "ArtworkListItem_artwork"
                   }
                 ],
                 "storageKey": null
@@ -309,11 +231,29 @@ return {
                 "plural": false,
                 "selections": [
                   (v0/*: any*/),
-                  (v4/*: any*/),
-                  (v5/*: any*/),
                   {
                     "alias": null,
-                    "args": (v6/*: any*/),
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "title",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "caption",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": [
+                      {
+                        "kind": "Literal",
+                        "name": "first",
+                        "value": 1
+                      }
+                    ],
                     "concreteType": "IllustConnection",
                     "kind": "LinkedField",
                     "name": "illusts",
@@ -335,7 +275,13 @@ return {
                             "name": "node",
                             "plural": false,
                             "selections": [
-                              (v7/*: any*/),
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "filename",
+                                "storageKey": null
+                              },
                               (v0/*: any*/)
                             ],
                             "storageKey": null
@@ -371,14 +317,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "bf3f827c86dbedbcb6eb123f9c1506c3",
+    "cacheID": "e0ebbbcce89efa1fb2346dc6c359a99f",
     "id": null,
     "metadata": {},
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  activeAccounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        name\n        foldersCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        id\n        title\n        caption\n        illusts(first: 1) {\n          edges {\n            node {\n              filename\n              id\n            }\n          }\n        }\n        account {\n          name\n          id\n        }\n      }\n    }\n  }\n}\n"
+    "text": "query IndexQuery {\n  activeAccounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        name\n        foldersCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '438badd662c3c4593f89da4a45e39370';
+(node as any).hash = '667bef34c9128d04ccdf0cdd109c3084';
 export default node;
