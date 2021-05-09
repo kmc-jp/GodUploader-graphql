@@ -1,7 +1,7 @@
 import graphene
 from graphene import relay
-from graphene_sqlalchemy import SQLAlchemyObjectType
-from .model import (
+from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
+from model import (
     Account as AccountModel,
     Artwork as ArtworkModel,
     Comment as CommentModel,
@@ -42,5 +42,6 @@ class Tag(SQLAlchemyObjectType):
 
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
+    accounts = SQLAlchemyConnectionField(Account.connection)
 
 schema = graphene.Schema(query=Query)
