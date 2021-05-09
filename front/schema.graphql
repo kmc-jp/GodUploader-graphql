@@ -255,6 +255,8 @@ type Query {
   accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
   artworks(sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   viewer: Account
+  accountByKmcid(kmcid: String!): Account
+  activeAccounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
   safeArtworks(sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   taggedArtworks(tag: String!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
 }
