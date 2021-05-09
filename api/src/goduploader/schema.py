@@ -67,6 +67,14 @@ class Query(graphene.ObjectType):
     def resolve_account_by_kmcid(self, info, **args):
         return Account.get_query(info).filter(AccountModel.kmcid == args['kmcid']).first()
 
+    active_accounts = SQLAlchemyConnectionField(Account.connection)
+
+    def resolve_active_accounts(self, info, **args):
+        account_query = SQLAlchemyConnectionField.get_query(AccountModel, info, **args)
+        accounts = account_query \
+            .filter(AccountModel.folders_count > 0)
+        return accounts
+
     safe_artworks = SQLAlchemyConnectionField(Artwork.connection)
 
     def resolve_safe_artworks(self, info, **args):
