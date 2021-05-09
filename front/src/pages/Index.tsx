@@ -34,13 +34,15 @@ export const indexQuery = graphql`
 `;
 
 interface Props {
-  queryReference: PreloadedQuery<IndexQuery, Record<string, unknown>>;
+  prepared: {
+    homeQuery: PreloadedQuery<IndexQuery, Record<string, unknown>>;
+  };
 }
 
-export const Index: React.VFC<Props> = ({ queryReference }: Props) => {
+export const Index: React.VFC<Props> = ({ prepared }: Props) => {
   const { safeArtworks, accounts } = usePreloadedQuery<IndexQuery>(
     indexQuery,
-    queryReference
+    prepared.homeQuery
   );
   const artworkCount = safeArtworks?.edges?.length || 0;
 
