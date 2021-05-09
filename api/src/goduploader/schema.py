@@ -62,6 +62,11 @@ class Query(graphene.ObjectType):
     def resolve_viewer(self, info):
         return viewer()
 
+    account_by_kmcid = graphene.Field(Account, kmcid=graphene.NonNull(graphene.String))
+
+    def resolve_account_by_kmcid(self, info, **args):
+        return Account.get_query(info).filter(AccountModel.kmcid == args['kmcid']).first()
+
     safe_artworks = SQLAlchemyConnectionField(Artwork.connection)
 
     def resolve_safe_artworks(self, info, **args):
