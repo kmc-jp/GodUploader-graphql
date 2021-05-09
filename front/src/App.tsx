@@ -1,14 +1,18 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import "./App.css";
-import { RouteRenderer } from "./routes";
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import './App.css';
+import { Index } from './pages/Index';
 
-function App({ route }) {
+function App() {
   return (
     <div className="App">
       <h1>God Illust Uploader</h1>
       <BrowserRouter>
-        <RouteRenderer routes={route && route.routes} />
+        <Switch>
+          <Route path="/">
+            <Index />
+          </Route>
+        </Switch>
       </BrowserRouter>
     </div>
   );
