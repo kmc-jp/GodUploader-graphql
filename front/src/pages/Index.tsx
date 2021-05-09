@@ -1,5 +1,10 @@
-import { graphql, usePreloadedQuery, PreloadedQuery } from "react-relay";
+import {
+  usePreloadedQuery,
+  loadQuery,
+} from "react-relay";
+import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
+import RelayEnvironment from "../RelayEnvironment";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
 export const indexQuery = graphql`
@@ -33,12 +38,15 @@ export const indexQuery = graphql`
   }
 `;
 
-interface Props {
-  queryReference: PreloadedQuery<IndexQuery, Record<string, unknown>>;
-}
+const queryReference = loadQuery<IndexQuery>(
+  RelayEnvironment,
+  indexQuery,
+  {},
+  { fetchPolicy: "store-or-network" }
+);
 
-export const Index: React.VFC<Props> = ({ queryReference }: Props) => {
-  const { safeArtworks, accounts } = usePreloadedQuery<IndexQuery>(
+export const Index: React.VFC = () => {
+  const { safeArtworks, accounts } = usePreloadedQuery(
     indexQuery,
     queryReference
   );
@@ -75,7 +83,11 @@ export const Index: React.VFC<Props> = ({ queryReference }: Props) => {
             return null;
           }
           const node = edge.node!;
-          return <div>{node.name}({node.foldersCount})</div>
+          return (
+            <div>
+              {node.name}({node.foldersCount})
+            </div>
+          );
         })}
       </div>
     </div>
