@@ -3,7 +3,7 @@ from flask_graphql import GraphQLView
 from flask_cors import CORS
 from db import session
 from schema import schema
-app = Flask(__name__)
+app = Flask(__name__, static_folder='public')
 CORS(app)
 
 app.add_url_rule(
