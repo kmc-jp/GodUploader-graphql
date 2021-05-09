@@ -68,7 +68,7 @@ export const Index: React.VFC = () => {
 
           return (
             <div key={`newer-illusts-${node.id}`}>
-              <img src={firstIllust.filename} alt={node?.title} />
+              <img src={`http://localhost:5000/public/illusts/${firstIllust.filename}`} alt={node?.title} />
               <div className="caption">
                 <h3>{node?.title}</h3>
                 <p>{account.name}</p>
