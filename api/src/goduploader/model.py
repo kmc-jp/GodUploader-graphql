@@ -2,9 +2,7 @@ from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy.sql.schema import Index, PrimaryKeyConstraint
 from sqlalchemy.sql.sqltypes import DateTime, Integer, String, Text
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from db import Base
 
 class Account(Base):
     __tablename__ = 'account'
