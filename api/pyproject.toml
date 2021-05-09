@@ -10,6 +10,7 @@ Flask = "^1.1.2"
 SQLAlchemy = "^1.4.14"
 graphene-sqlalchemy = "^2.3.0"
 Flask-GraphQL = "^2.0.1"
+Flask-Cors = "^3.0.10"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
