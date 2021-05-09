@@ -4,6 +4,7 @@ from flask_cors import CORS
 from db import session
 from schema import schema
 app = Flask(__name__, static_folder='public')
+app.debug = True
 CORS(app)
 
 app.add_url_rule(
