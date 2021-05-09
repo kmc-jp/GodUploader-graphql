@@ -8,5 +8,9 @@ app.add_url_rule(
     '/', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True)
 )
 
+@app.teardown_appcontext
+def shutdown_sessions(exception=None):
+    session.remove()
+
 if __name__ == "__main__":
     app.run()
