@@ -13,6 +13,7 @@ class Account(Base):
     kmcid = Column(String, unique=True, nullable=False)
     name = Column(String, nullable=False)
     folders_count = Column(Integer, nullable=False, default=0)
+    last_logged_in = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
