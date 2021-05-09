@@ -1,19 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { renderRoutes, RouteConfigComponentProps } from 'react-router-config';
 import './App.css';
-import { Index } from './pages/Index';
 
-function App() {
+function App({ route }: RouteConfigComponentProps) {
   return (
     <div className="App">
       <h1>God Illust Uploader</h1>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/">
-            <Index />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      {renderRoutes(route && route.routes)}
     </div>
   );
 }
