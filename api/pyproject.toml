@@ -8,6 +8,7 @@ authors = ["utgwkk <utagawakiki@gmail.com>"]
 python = "^3.8"
 Flask = "^1.1.2"
 SQLAlchemy = "^1.4.14"
+graphene-sqlalchemy = "^2.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
