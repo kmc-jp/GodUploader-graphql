@@ -3,6 +3,7 @@ from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 from model import (
     Account as AccountModel,
+    ArtworkTagRelation as ArtworkTagRelationModel,
     Artwork as ArtworkModel,
     Comment as CommentModel,
     Illust as IllustModel,
@@ -13,6 +14,11 @@ from model import (
 class Account(SQLAlchemyObjectType):
     class Meta:
         model = AccountModel
+        interfaces = (relay.Node,)
+
+class ArtworkTagRelation(SQLAlchemyObjectType):
+    class Meta:
+        model = ArtworkTagRelationModel
         interfaces = (relay.Node,)
 
 class Artwork(SQLAlchemyObjectType):
