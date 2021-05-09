@@ -8,6 +8,7 @@ export type IndexQueryResponse = {
     readonly accounts: {
         readonly edges: ReadonlyArray<{
             readonly node: {
+                readonly id: string;
                 readonly name: string;
                 readonly foldersCount: number;
             } | null;
@@ -16,6 +17,7 @@ export type IndexQueryResponse = {
     readonly safeArtworks: {
         readonly edges: ReadonlyArray<{
             readonly node: {
+                readonly id: string;
                 readonly title: string;
                 readonly caption: string;
                 readonly illusts: {
@@ -44,15 +46,16 @@ query IndexQuery {
   accounts(sort: [FOLDERS_COUNT_DESC]) {
     edges {
       node {
+        id
         name
         foldersCount
-        id
       }
     }
   }
   safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {
     edges {
       node {
+        id
         title
         caption
         illusts(first: 1) {
@@ -67,7 +70,6 @@ query IndexQuery {
           name
           id
         }
-        id
       }
     }
   }
@@ -75,15 +77,13 @@ query IndexQuery {
 */
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "kind": "Literal",
-    "name": "sort",
-    "value": [
-      "FOLDERS_COUNT_DESC"
-    ]
-  }
-],
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
 v1 = {
   "alias": null,
   "args": null,
@@ -93,10 +93,53 @@ v1 = {
 },
 v2 = {
   "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "foldersCount",
-  "storageKey": null
+  "args": [
+    {
+      "kind": "Literal",
+      "name": "sort",
+      "value": [
+        "FOLDERS_COUNT_DESC"
+      ]
+    }
+  ],
+  "concreteType": "AccountConnection",
+  "kind": "LinkedField",
+  "name": "accounts",
+  "plural": false,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "concreteType": "AccountEdge",
+      "kind": "LinkedField",
+      "name": "edges",
+      "plural": true,
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "Account",
+          "kind": "LinkedField",
+          "name": "node",
+          "plural": false,
+          "selections": [
+            (v0/*: any*/),
+            (v1/*: any*/),
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "foldersCount",
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
+        }
+      ],
+      "storageKey": null
+    }
+  ],
+  "storageKey": "accounts(sort:[\"FOLDERS_COUNT_DESC\"])"
 },
 v3 = [
   {
@@ -139,13 +182,6 @@ v7 = {
   "kind": "ScalarField",
   "name": "filename",
   "storageKey": null
-},
-v8 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
 };
 return {
   "fragment": {
@@ -154,41 +190,7 @@ return {
     "metadata": null,
     "name": "IndexQuery",
     "selections": [
-      {
-        "alias": null,
-        "args": (v0/*: any*/),
-        "concreteType": "AccountConnection",
-        "kind": "LinkedField",
-        "name": "accounts",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "AccountEdge",
-            "kind": "LinkedField",
-            "name": "edges",
-            "plural": true,
-            "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "Account",
-                "kind": "LinkedField",
-                "name": "node",
-                "plural": false,
-                "selections": [
-                  (v1/*: any*/),
-                  (v2/*: any*/)
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": "accounts(sort:[\"FOLDERS_COUNT_DESC\"])"
-      },
+      (v2/*: any*/),
       {
         "alias": null,
         "args": (v3/*: any*/),
@@ -213,6 +215,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
+                  (v0/*: any*/),
                   (v4/*: any*/),
                   (v5/*: any*/),
                   {
@@ -280,42 +283,7 @@ return {
     "kind": "Operation",
     "name": "IndexQuery",
     "selections": [
-      {
-        "alias": null,
-        "args": (v0/*: any*/),
-        "concreteType": "AccountConnection",
-        "kind": "LinkedField",
-        "name": "accounts",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "AccountEdge",
-            "kind": "LinkedField",
-            "name": "edges",
-            "plural": true,
-            "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "Account",
-                "kind": "LinkedField",
-                "name": "node",
-                "plural": false,
-                "selections": [
-                  (v1/*: any*/),
-                  (v2/*: any*/),
-                  (v8/*: any*/)
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": "accounts(sort:[\"FOLDERS_COUNT_DESC\"])"
-      },
+      (v2/*: any*/),
       {
         "alias": null,
         "args": (v3/*: any*/),
@@ -340,6 +308,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
+                  (v0/*: any*/),
                   (v4/*: any*/),
                   (v5/*: any*/),
                   {
@@ -367,7 +336,7 @@ return {
                             "plural": false,
                             "selections": [
                               (v7/*: any*/),
-                              (v8/*: any*/)
+                              (v0/*: any*/)
                             ],
                             "storageKey": null
                           }
@@ -386,11 +355,10 @@ return {
                     "plural": false,
                     "selections": [
                       (v1/*: any*/),
-                      (v8/*: any*/)
+                      (v0/*: any*/)
                     ],
                     "storageKey": null
-                  },
-                  (v8/*: any*/)
+                  }
                 ],
                 "storageKey": null
               }
@@ -403,14 +371,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f05f76550df1e4138793cf0a5559fa74",
+    "cacheID": "af86dade238ceb452e7f3ac6d6e81c13",
     "id": null,
     "metadata": {},
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  accounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        name\n        foldersCount\n        id\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        title\n        caption\n        illusts(first: 1) {\n          edges {\n            node {\n              filename\n              id\n            }\n          }\n        }\n        account {\n          name\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query IndexQuery {\n  accounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        name\n        foldersCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        id\n        title\n        caption\n        illusts(first: 1) {\n          edges {\n            node {\n              filename\n              id\n            }\n          }\n        }\n        account {\n          name\n          id\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'c2742d90f0501cb0de000a64f1a9f77e';
+(node as any).hash = '3fd8f2624afbe2d9d869f1d48aefc053';
 export default node;

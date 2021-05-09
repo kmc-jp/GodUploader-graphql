@@ -12,6 +12,7 @@ export const indexQuery = graphql`
     accounts(sort: [FOLDERS_COUNT_DESC]) {
       edges {
         node {
+          id
           name
           foldersCount
         }
@@ -20,6 +21,7 @@ export const indexQuery = graphql`
     safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {
       edges {
         node {
+          id
           title
           caption
           illusts(first: 1) {
@@ -65,7 +67,7 @@ export const Index: React.VFC = () => {
           const account = node.account!;
 
           return (
-            <div>
+            <div key={`newer-illusts-${node.id}`}>
               <img src={firstIllust.filename} alt={node?.title} />
               <div className="caption">
                 <h3>{node?.title}</h3>
@@ -84,7 +86,7 @@ export const Index: React.VFC = () => {
           }
           const node = edge.node!;
           return (
-            <div>
+            <div key={`accounts-${node.id}`}>
               {node.name}({node.foldersCount})
             </div>
           );
