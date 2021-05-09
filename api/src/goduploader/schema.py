@@ -11,6 +11,7 @@ from model import (
     Like as LikeModel,
     Tag as TagModel,
 )
+from viewer import viewer
 
 class Account(SQLAlchemyObjectType):
     class Meta:
@@ -51,6 +52,11 @@ class Query(graphene.ObjectType):
     node = relay.Node.Field()
     accounts = SQLAlchemyConnectionField(Account.connection)
     artworks = SQLAlchemyConnectionField(Artwork.connection)
+
+    viewer = graphene.Field(Account)
+
+    def resolve_viewer(self, info):
+        return viewer()
 
     safe_artworks = SQLAlchemyConnectionField(Artwork.connection)
 
