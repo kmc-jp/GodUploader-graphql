@@ -8,6 +8,7 @@ import {
 } from "react-router-config";
 import App from "./App";
 import { Index, indexQuery } from "./pages/Index";
+import { ArtworkDetail, artworkDetailQuery } from "./pages/ArtworkDetail";
 
 export const routes: RouteConfig[] = [
   {
@@ -22,6 +23,18 @@ export const routes: RouteConfig[] = [
             environment,
             indexQuery,
             {},
+            { fetchPolicy: "store-or-network" }
+          ),
+        }),
+      },
+      {
+        path: "/artwork/:id",
+        component: ArtworkDetail,
+        prepare: ({ params, environment }) => ({
+          artworkDetailQuery: loadQuery(
+            environment,
+            artworkDetailQuery,
+            { id: params.id },
             { fetchPolicy: "store-or-network" }
           ),
         }),

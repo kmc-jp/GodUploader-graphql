@@ -2,6 +2,7 @@ import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
+import { Link } from "react-router-dom";
 
 export const indexQuery = graphql`
   query IndexQuery {
@@ -63,15 +64,17 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
 
           return (
             <div key={`newer-illusts-${node.id}`}>
-              <img
-                src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
-                alt={node?.title}
-              />
-              <div className="caption">
-                <h3>{node?.title}</h3>
-                <p>{account.name}</p>
-                <p>{node?.caption}</p>
-              </div>
+              <Link to={`/artwork/${node.id}`}>
+                <img
+                  src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
+                  alt={node?.title}
+                />
+                <div className="caption">
+                  <h3>{node?.title}</h3>
+                  <p>{account.name}</p>
+                  <p>{node?.caption}</p>
+                </div>
+              </Link>
             </div>
           );
         })}
