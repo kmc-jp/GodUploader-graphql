@@ -19,7 +19,7 @@ class Account(Base):
 
     index_folders_count = Index('folders_count', folders_count)
 
-    artworks = relationship('Artwork')
+    artworks = relationship('Artwork', backref='account')
 
 class ArtworkTagRelation(Base):
     __tablename__ = 'artwork_tag_relation'
@@ -93,17 +93,6 @@ class Tag(Base):
 
 # Relations
 
-class ArtworkTagRelation(Base):
-    __tablename__ = 'artwork_tag_relation'
-
-    artwork_id = Column(Integer, ForeignKey('artwork.id'), primary_key=True)
-    tag_id = Column(Integer, ForeignKey('tag.id'), primary_key=True)
-
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-    artwork = relationship('Artwork', back_populates='tags')
-    tag = relationship('Tag', back_populates='artworks')
 
 class ArtworkIllustRelation(Base):
     __tablename__ = 'artwork_illust_relation'
