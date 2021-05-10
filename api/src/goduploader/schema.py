@@ -16,6 +16,9 @@ from model import (
     Tag as TagModel,
 )
 from viewer import viewer
+from dataloader import AccountLoader
+
+account_loader = AccountLoader()
 
 class Account(SQLAlchemyObjectType):
     class Meta:
@@ -31,6 +34,11 @@ class Artwork(SQLAlchemyObjectType):
     class Meta:
         model = ArtworkModel
         interfaces = (relay.Node,)
+
+    account = graphene.Field(lambda: Account)
+
+    def resolve_account(root, info):
+        return account_loader.load(root.account_id)
 
 class Comment(SQLAlchemyObjectType):
     class Meta:
