@@ -10,6 +10,7 @@ export type IndexQueryResponse = {
         readonly edges: ReadonlyArray<{
             readonly node: {
                 readonly id: string;
+                readonly kmcid: string;
                 readonly name: string;
                 readonly foldersCount: number;
             } | null;
@@ -36,6 +37,7 @@ query IndexQuery {
     edges {
       node {
         id
+        kmcid
         name
         foldersCount
       }
@@ -118,6 +120,13 @@ v2 = {
           "plural": false,
           "selections": [
             (v0/*: any*/),
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "kmcid",
+              "storageKey": null
+            },
             (v1/*: any*/),
             {
               "alias": null,
@@ -317,14 +326,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e0ebbbcce89efa1fb2346dc6c359a99f",
+    "cacheID": "daf6f47a820c74a03529050b84054918",
     "id": null,
     "metadata": {},
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  activeAccounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        name\n        foldersCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query IndexQuery {\n  activeAccounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        foldersCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '667bef34c9128d04ccdf0cdd109c3084';
+(node as any).hash = '4e9005c9ea318a01709321416c1ddcce';
 export default node;

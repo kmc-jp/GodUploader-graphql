@@ -1,6 +1,7 @@
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
+import { Link } from "react-router-dom"
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 import { ArtworkListItem } from "../components/ArtworkListItem";
 
@@ -10,6 +11,7 @@ export const indexQuery = graphql`
       edges {
         node {
           id
+          kmcid
           name
           foldersCount
         }
@@ -59,7 +61,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
           const node = edge.node!;
           return (
             <div key={`accounts-${node.id}`}>
-              {node.name}({node.foldersCount})
+              <Link to={`/user/${node.kmcid}`}>{node.name}({node.foldersCount})</Link>
             </div>
           );
         })}
