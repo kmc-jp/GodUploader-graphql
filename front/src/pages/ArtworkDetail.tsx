@@ -45,7 +45,7 @@ export const artworkDetailQuery = graphql`
 `;
 
 interface ArtworkDetailProps {
-  prepared?: {
+  prepared: {
     artworkDetailQuery: PreloadedQuery<ArtworkDetailQuery, Record<string, any>>;
   };
 }
@@ -53,7 +53,7 @@ interface ArtworkDetailProps {
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   const { node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
     artworkDetailQuery,
-    prepared!.artworkDetailQuery
+    prepared.artworkDetailQuery
   );
   if (!artwork) {
     return <div>作品が見つかりません</div>;

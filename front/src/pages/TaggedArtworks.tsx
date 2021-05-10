@@ -18,7 +18,7 @@ export const taggedArtworksQuery = graphql`
 `;
 
 interface IndexProps {
-  prepared?: {
+  prepared: {
     taggedArtworksQuery: PreloadedQuery<TaggedArtworksQuery, Record<string, unknown>>;
   };
 }
@@ -26,7 +26,7 @@ interface IndexProps {
 export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
   const { taggedArtworks } = usePreloadedQuery<TaggedArtworksQuery>(
     taggedArtworksQuery,
-    prepared!.taggedArtworksQuery
+    prepared.taggedArtworksQuery
   );
   const match = useRouteMatch<{ tag: string }>();
   const tag = match.params.tag;

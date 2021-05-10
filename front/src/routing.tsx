@@ -56,10 +56,11 @@ export const routes: RouteConfig[] = [
   },
 ];
 
-export interface RouteConfigComponentProps<Params extends { [K in keyof Params]?: string } = {}>
-  extends OriginalRouteConfigComponentProps<Params> {
+export interface RouteConfigComponentProps<
+  Params extends { [K in keyof Params]?: string } = {}
+> extends Omit<OriginalRouteConfigComponentProps<Params>, "route"> {
   route?: RouteConfig;
-  prepared?: any;
+  prepared: any;
 }
 
 interface PrepareArguments {
@@ -67,7 +68,7 @@ interface PrepareArguments {
   environment: Environment;
 }
 
-export interface RouteConfig extends OriginalRouteConfig {
+export interface RouteConfig extends Omit<OriginalRouteConfig, 'component'> {
   component?:
     | React.ComponentType<RouteConfigComponentProps<any>>
     | React.ComponentType;

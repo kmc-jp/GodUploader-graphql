@@ -26,7 +26,7 @@ export const indexQuery = graphql`
 `;
 
 interface IndexProps {
-  prepared?: {
+  prepared: {
     indexQuery: PreloadedQuery<IndexQuery, Record<string, unknown>>;
   };
 }
@@ -34,7 +34,7 @@ interface IndexProps {
 export const Index: React.VFC<IndexProps> = ({ prepared }) => {
   const { safeArtworks, activeAccounts } = usePreloadedQuery<IndexQuery>(
     indexQuery,
-    prepared!.indexQuery
+    prepared.indexQuery
   );
   const artworkCount = safeArtworks?.edges?.length || 0;
 
