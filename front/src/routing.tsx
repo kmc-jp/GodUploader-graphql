@@ -10,6 +10,7 @@ import App from "./App";
 import { Index, indexQuery } from "./pages/Index";
 import { ArtworkDetail, artworkDetailQuery } from "./pages/ArtworkDetail";
 import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
+import { UserDetail, userDetailQuery } from "./pages/UserDetail";
 
 export const routes: RouteConfig[] = [
   {
@@ -24,6 +25,18 @@ export const routes: RouteConfig[] = [
             environment,
             indexQuery,
             {},
+            { fetchPolicy: "store-or-network" }
+          ),
+        }),
+      },
+      {
+        path: "/user/:kmcid",
+        component: UserDetail,
+        prepare: ({ params, environment }) => ({
+          userDetailQuery: loadQuery(
+            environment,
+            userDetailQuery,
+            { kmcid: params.kmcid },
             { fetchPolicy: "store-or-network" }
           ),
         }),
