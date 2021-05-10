@@ -9,6 +9,7 @@ import {
 import App from "./App";
 import { Index, indexQuery } from "./pages/Index";
 import { ArtworkDetail, artworkDetailQuery } from "./pages/ArtworkDetail";
+import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
 
 export const routes: RouteConfig[] = [
   {
@@ -35,6 +36,18 @@ export const routes: RouteConfig[] = [
             environment,
             artworkDetailQuery,
             { id: params.id },
+            { fetchPolicy: "store-or-network" }
+          ),
+        }),
+      },
+      {
+        path: "/tagged_artworks/:tag",
+        component: TaggedArtworks,
+        prepare: ({ params, environment }) => ({
+          taggedArtworksQuery: loadQuery(
+            environment,
+            taggedArtworksQuery,
+            { tag: params.tag },
             { fetchPolicy: "store-or-network" }
           ),
         }),
