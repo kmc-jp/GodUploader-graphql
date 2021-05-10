@@ -35,12 +35,12 @@ export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
     <div>
       <div>
         <h2>タグ"{tag}"の絵たち</h2>
-        {taggedArtworks?.edges.map((edge) => {
+        {taggedArtworks?.edges.map((edge, i) => {
           if (!edge) {
             return null;
           }
 
-          return <ArtworkListItem artwork={edge.node!} />
+          return <ArtworkListItem artwork={edge.node!} key={i} />
         })}
       </div>
     </div>

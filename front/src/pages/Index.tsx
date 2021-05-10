@@ -42,12 +42,12 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
     <div>
       <div>
         <h2>最新{artworkCount}件の絵</h2>
-        {safeArtworks?.edges.map((edge) => {
+        {safeArtworks?.edges.map((edge, i) => {
           if (!edge) {
             return null;
           }
 
-          return <ArtworkListItem artwork={edge.node!}/>
+          return <ArtworkListItem artwork={edge.node!} key={i}/>
         })}
       </div>
       <div>

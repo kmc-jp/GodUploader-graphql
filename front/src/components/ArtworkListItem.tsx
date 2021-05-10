@@ -33,7 +33,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
   const account = artwork.account;
 
   return (
-    <div key={`newer-illusts-${artwork.id}`}>
+    <div>
       <Link to={`/artwork/${artwork.id}`}>
         <img
           src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
