@@ -35,7 +35,7 @@ class Artwork(SQLAlchemyObjectType):
         model = ArtworkModel
         interfaces = (relay.Node,)
 
-    account = graphene.Field(lambda: Account)
+    account = graphene.Field(Account)
 
     def resolve_account(root, info):
         return account_loader.load(root.account_id)
