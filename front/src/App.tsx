@@ -1,6 +1,6 @@
-import React from 'react';
-import { RouteConfigComponentProps, RouteRenderer } from './routing';
-import './App.css';
+import React from "react";
+import { RouteConfigComponentProps, RouteRenderer } from "./routing";
+import "./App.css";
 
 function App({ route }: RouteConfigComponentProps) {
   return (
