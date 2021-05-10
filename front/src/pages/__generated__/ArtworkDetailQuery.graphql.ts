@@ -11,6 +11,10 @@ export type ArtworkDetailQueryResponse = {
         readonly title?: string;
         readonly caption?: string;
         readonly createdAt?: unknown;
+        readonly account?: {
+            readonly kmcid: string;
+            readonly name: string;
+        } | null;
         readonly illusts?: {
             readonly edges: ReadonlyArray<{
                 readonly node: {
@@ -58,6 +62,11 @@ query ArtworkDetailQuery(
       title
       caption
       createdAt
+      account {
+        kmcid
+        name
+        id
+      }
       illusts {
         edges {
           node {
@@ -134,10 +143,24 @@ v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "kmcid",
   "storageKey": null
 },
 v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v8 = {
   "alias": null,
   "args": null,
   "concreteType": "IllustConnection",
@@ -161,7 +184,7 @@ v6 = {
           "name": "node",
           "plural": false,
           "selections": [
-            (v5/*: any*/),
+            (v7/*: any*/),
             {
               "alias": null,
               "args": null,
@@ -178,7 +201,7 @@ v6 = {
   ],
   "storageKey": null
 },
-v7 = {
+v9 = {
   "alias": null,
   "args": null,
   "concreteType": "Account",
@@ -186,18 +209,12 @@ v7 = {
   "name": "account",
   "plural": false,
   "selections": [
-    (v5/*: any*/),
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "kmcid",
-      "storageKey": null
-    }
+    (v7/*: any*/),
+    (v5/*: any*/)
   ],
   "storageKey": null
 },
-v8 = {
+v10 = {
   "alias": null,
   "args": null,
   "concreteType": "Tag",
@@ -205,14 +222,8 @@ v8 = {
   "name": "tag",
   "plural": false,
   "selections": [
-    (v5/*: any*/),
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "name",
-      "storageKey": null
-    }
+    (v7/*: any*/),
+    (v6/*: any*/)
   ],
   "storageKey": null
 };
@@ -237,7 +248,20 @@ return {
               (v2/*: any*/),
               (v3/*: any*/),
               (v4/*: any*/),
-              (v6/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Account",
+                "kind": "LinkedField",
+                "name": "account",
+                "plural": false,
+                "selections": [
+                  (v5/*: any*/),
+                  (v6/*: any*/)
+                ],
+                "storageKey": null
+              },
+              (v8/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -262,7 +286,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v7/*: any*/)
+                          (v9/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -296,7 +320,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v8/*: any*/)
+                          (v10/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -338,14 +362,28 @@ return {
             "name": "__typename",
             "storageKey": null
           },
-          (v5/*: any*/),
+          (v7/*: any*/),
           {
             "kind": "InlineFragment",
             "selections": [
               (v2/*: any*/),
               (v3/*: any*/),
               (v4/*: any*/),
-              (v6/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Account",
+                "kind": "LinkedField",
+                "name": "account",
+                "plural": false,
+                "selections": [
+                  (v5/*: any*/),
+                  (v6/*: any*/),
+                  (v7/*: any*/)
+                ],
+                "storageKey": null
+              },
+              (v8/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -370,8 +408,8 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v7/*: any*/),
-                          (v5/*: any*/)
+                          (v9/*: any*/),
+                          (v7/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -405,8 +443,8 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v8/*: any*/),
-                          (v5/*: any*/)
+                          (v10/*: any*/),
+                          (v7/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -426,14 +464,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "401abc814d527f9a6484ddbbca28f202",
+    "cacheID": "a0db9de587d531dbd860bb8dcf4b9d6c",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      title\n      caption\n      createdAt\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      likes {\n        edges {\n          node {\n            account {\n              id\n              kmcid\n            }\n            id\n          }\n        }\n      }\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      likes {\n        edges {\n          node {\n            account {\n              id\n              kmcid\n            }\n            id\n          }\n        }\n      }\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '8bac9d502f3e94cc9722878bdc7daaf6';
+(node as any).hash = '40c921f5f213e67846886e3c94931abf';
 export default node;

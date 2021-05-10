@@ -11,6 +11,10 @@ export const artworkDetailQuery = graphql`
         title
         caption
         createdAt
+        account {
+          kmcid
+          name
+        }
         illusts {
           edges {
             node {
@@ -63,10 +67,19 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
     <div>
       <h2>{artwork.title}</h2>
       <p>{artwork.caption}</p>
+      <p>
+        <Link to={`/user/${artwork.account?.kmcid}`}>
+          {artwork.account?.name}
+        </Link>
+      </p>
       <ul>
-        {artwork.tags?.edges.map(edge => {
+        {artwork.tags?.edges.map((edge) => {
           const tag = edge?.node?.tag!;
-          return <li key={tag.id}><Link to={`/tagged_artworks/${tag.name}`}>{tag.name}</Link></li>
+          return (
+            <li key={tag.id}>
+              <Link to={`/tagged_artworks/${tag.name}`}>{tag.name}</Link>
+            </li>
+          );
         })}
       </ul>
       <p>{artwork.createdAt as any}</p>
