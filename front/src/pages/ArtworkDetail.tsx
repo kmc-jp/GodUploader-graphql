@@ -1,5 +1,6 @@
 import React from "react";
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 
@@ -62,6 +63,12 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
     <div>
       <h2>{artwork.title}</h2>
       <p>{artwork.caption}</p>
+      <ul>
+        {artwork.tags?.edges.map(edge => {
+          const tag = edge?.node?.tag!;
+          return <li key={tag.id}><Link to={`/tagged_artworks/${tag.name}`}>{tag.name}</Link></li>
+        })}
+      </ul>
       <p>{artwork.createdAt as any}</p>
       {artwork.illusts?.edges.map((edge) => {
         if (!edge) {
