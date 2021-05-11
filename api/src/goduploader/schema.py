@@ -1,6 +1,7 @@
 from flask import request
 import graphene
 from graphene import relay
+from graphene_file_upload.scalars import Upload
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 import os.path
 from sqlalchemy.sql.elements import or_, not_
@@ -139,16 +140,17 @@ class UploadArtwork(graphene.ClientIDMutation):
         title = graphene.String(required=True)
         caption = graphene.String(required=True)
         tags = graphene.String()
+        files = graphene.List(Upload, required=True)
 
     artwork = graphene.Field(Artwork)
 
     @classmethod
-    def mutate_and_get_payload(cls, root, info, **input):
+    def mutate_and_get_payload(cls, root, info, files, **input):
         current_user = viewer()
         if current_user is None:
             raise Exception('Please login')
 
-        if not request.files.getlist('illusts'):
+        if not files:
             raise Exception('illusts required')
 
         with session.begin():
@@ -158,7 +160,7 @@ class UploadArtwork(graphene.ClientIDMutation):
             )
             session.add(artwork)
 
-            for buf in request.files.getlist('illusts'):
+            for buf in files:
                 artwork.illusts.append(buf)
                 _, ext = os.path.splitext(buf.filename)
                 filename = f'{uuid.uuid4()}{ext}'

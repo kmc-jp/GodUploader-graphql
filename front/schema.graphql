@@ -272,10 +272,17 @@ type Tag implements Node {
   artworks(before: String, after: String, first: Int, last: Int): ArtworkTagRelationConnection
 }
 
+"""
+Create scalar that ignores normal serialization/deserialization, since
+that will be handled by the multipart request spec
+"""
+scalar Upload
+
 input UploadArtworkInput {
   title: String!
   caption: String!
   tags: String
+  files: [Upload]!
   clientMutationId: String
 }
 
