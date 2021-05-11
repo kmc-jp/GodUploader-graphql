@@ -5,8 +5,9 @@ import { UploadArtworkInput, UploadArtworkMutation } from "./__generated__/Uploa
 export const commitUploadArtworkMutation = (
   environment: Environment,
   input: UploadArtworkInput,
-  uploadables: { file: File },
+  files: FileList,
 ) => {
+  const uploadables = Array.of(files).reduce((file, current, i) => ({ ...current, i: file}), {});
   return commitMutation<UploadArtworkMutation>(environment, {
     mutation: graphql`
       mutation UploadArtworkMutation($input: UploadArtworkInput!) {
