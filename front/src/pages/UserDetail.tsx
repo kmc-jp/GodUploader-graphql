@@ -33,11 +33,12 @@ export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
   if (!user) {
     return <div>user not found</div>;
   }
+  const artworkEdges = user.artworks!.edges.slice().reverse();
 
   return (
     <div>
       <h2>{user.name}の作品置場</h2>
-      {user.artworks!.edges.map((edge, i) => {
+      {artworkEdges.map((edge, i) => {
         if (!edge) {
           return null;
         }
