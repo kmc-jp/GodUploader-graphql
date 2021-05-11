@@ -140,7 +140,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         title = graphene.String(required=True)
         caption = graphene.String(required=True)
         tags = graphene.String()
-        files = graphene.List(Upload, required=True)
+        files = Upload(required=True)
 
     artwork = graphene.Field(Artwork)
 

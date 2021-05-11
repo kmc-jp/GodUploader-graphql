@@ -282,7 +282,7 @@ input UploadArtworkInput {
   title: String!
   caption: String!
   tags: String
-  files: [Upload]!
+  files: Upload!
   clientMutationId: String
 }
 

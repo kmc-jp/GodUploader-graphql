@@ -7,7 +7,7 @@ export type UploadArtworkInput = {
     title: string;
     caption: string;
     tags?: string | null;
-    files: Array<unknown | null>;
+    files: unknown;
     clientMutationId?: string | null;
 };
 export type UploadArtworkMutationVariables = {
