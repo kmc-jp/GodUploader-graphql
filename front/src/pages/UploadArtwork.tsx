@@ -18,7 +18,7 @@ export const UploadArtwork: React.VFC = () => {
       const files = filesRef.current!.files!;
       commitUploadArtworkMutation(
         environment,
-        { title, caption, tags: "", files: [] },
+        { title, caption, tags: "", files: Array.from(files) },
         files,
         (resp) => {
           setUploadedArtworkId(resp.uploadArtwork!.artwork!.id);
