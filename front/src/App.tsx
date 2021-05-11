@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { RouteConfigComponentProps, RouteRenderer } from "./routing";
+import { ErrorBoundary } from "./errorBoundary";
 import "./App.css";
 
 function App({ route }: RouteConfigComponentProps) {
@@ -7,7 +8,9 @@ function App({ route }: RouteConfigComponentProps) {
     <div className="App">
       <h1>God Illust Uploader</h1>
       <Suspense fallback={<p>Now loading...</p>}>
-        <RouteRenderer routes={route && route.routes} />
+        <ErrorBoundary>
+          <RouteRenderer routes={route && route.routes} />
+        </ErrorBoundary>
       </Suspense>
     </div>
   );
