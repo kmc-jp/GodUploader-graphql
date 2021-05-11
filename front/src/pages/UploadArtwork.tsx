@@ -1,7 +1,7 @@
 import React, { FormEvent, useCallback, useRef, useState } from "react";
 import { useRelayEnvironment } from "react-relay";
 import { Redirect } from "react-router";
-import { commitUploadArtworkMutation } from "../mutation/UploadArtwork";
+import { commitUploadArtworkMutation, makeUploadables } from "../mutation/UploadArtwork";
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();
@@ -16,10 +16,11 @@ export const UploadArtwork: React.VFC = () => {
       const title = titleRef.current!.value;
       const caption = captionRef.current!.value;
       const files = filesRef.current!.files!;
+      const uploadables = makeUploadables(files);
       commitUploadArtworkMutation(
         environment,
-        { title, caption, tags: "", files: Array.from(files) },
-        files,
+        { title, caption, tags: "", files: uploadables },
+        uploadables,
         (resp) => {
           setUploadedArtworkId(resp.uploadArtwork!.artwork!.id);
         }
