@@ -159,7 +159,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         )
         session.add(artwork)
 
-        for buf in files:
+        for buf in request.files.values():
             _, ext = os.path.splitext(buf.filename)
             filename = f'{uuid.uuid4()}{ext}'
             buf.save(f'./public/illusts/{filename}')
