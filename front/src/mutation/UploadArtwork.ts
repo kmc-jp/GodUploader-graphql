@@ -8,7 +8,8 @@ export const commitUploadArtworkMutation = (
   files: FileList,
   onCompleted?: (response: UploadArtworkMutationResponse) => void,
 ) => {
-  const uploadables = Array.of(files).reduce((file, current, i) => ({ ...current, i: file}), {});
+  const uploadables = Array.from(files).reduce((file, current, i) => { (current as any)[i] = file; return current}, {});
+  console.log(Array.from(files));
   return commitMutation<UploadArtworkMutation>(environment, {
     mutation: graphql`
       mutation UploadArtworkMutation($input: UploadArtworkInput!) {
