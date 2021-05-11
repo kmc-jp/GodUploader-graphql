@@ -153,23 +153,21 @@ class UploadArtwork(graphene.ClientIDMutation):
         if not files:
             raise Exception('illusts required')
 
-        with session.begin():
-            artwork = ArtworkModel(
-                title=input['title'],
-                caption=input['caption'],
-            )
-            session.add(artwork)
+        artwork = ArtworkModel(
+            title=input['title'],
+            caption=input['caption'],
+        )
+        session.add(artwork)
 
-            for buf in files:
-                artwork.illusts.append(buf)
-                _, ext = os.path.splitext(buf.filename)
-                filename = f'{uuid.uuid4()}{ext}'
-                buf.save(f'./public/illusts/{filename}')
-                illust = IllustModel(
-                    filename=filename,
-                )
-                session.add(illust)
-                artwork.illusts.append(illust)
+        for buf in files:
+            _, ext = os.path.splitext(buf.filename)
+            filename = f'{uuid.uuid4()}{ext}'
+            buf.save(f'./public/illusts/{filename}')
+            illust = IllustModel(
+                filename=filename,
+            )
+            session.add(illust)
+            artwork.illusts.append(illust)
 
         return UploadArtwork(artwork=artwork)
 
