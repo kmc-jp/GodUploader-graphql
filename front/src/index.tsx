@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import RelayEnvironment from "./RelayEnvironment";
@@ -11,9 +11,7 @@ ReactDOM.render(
   <React.StrictMode>
     <RelayEnvironmentProvider environment={RelayEnvironment}>
       <BrowserRouter>
-        <Suspense fallback={<p>Now loading...</p>}>
-          <RouteRenderer routes={routes} />
-        </Suspense>
+        <RouteRenderer routes={routes} />
       </BrowserRouter>
     </RelayEnvironmentProvider>
   </React.StrictMode>,
