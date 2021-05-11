@@ -5,7 +5,8 @@ import RelayEnvironment from "./RelayEnvironment";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import { RouteRenderer, routes } from "./routing";
+import { RouteRenderer } from "./routing";
+import { routes } from "./routes";
 
 ReactDOM.render(
   <React.StrictMode>
