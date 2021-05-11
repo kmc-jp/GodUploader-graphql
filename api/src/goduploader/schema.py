@@ -157,6 +157,7 @@ class UploadArtwork(graphene.ClientIDMutation):
             title=input['title'],
             caption=input['caption'],
         )
+        artwork.account = current_user
         session.add(artwork)
 
         for buf in request.files.values():
@@ -168,6 +169,8 @@ class UploadArtwork(graphene.ClientIDMutation):
             )
             session.add(illust)
             artwork.illusts.append(illust)
+
+        session.commit()
 
         return UploadArtwork(artwork=artwork)
 
