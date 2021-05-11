@@ -1,5 +1,5 @@
 from flask import Flask
-from graphene_file_upload.flask import FileUploadGraphQLView
+from flask_graphql import GraphQLView
 from flask_cors import CORS
 from db import session
 from schema import schema
@@ -9,7 +9,7 @@ CORS(app)
 
 app.add_url_rule(
     '/',
-    view_func=FileUploadGraphQLView.as_view(
+    view_func=GraphQLView.as_view(
         'graphql',
         schema=schema,
         graphiql=True,
