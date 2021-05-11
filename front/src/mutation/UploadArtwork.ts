@@ -1,11 +1,12 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Environment, commitMutation } from "react-relay";
-import { UploadArtworkInput, UploadArtworkMutation } from "./__generated__/UploadArtworkMutation.graphql"
+import { UploadArtworkInput, UploadArtworkMutation, UploadArtworkMutationResponse } from "./__generated__/UploadArtworkMutation.graphql"
 
 export const commitUploadArtworkMutation = (
   environment: Environment,
   input: UploadArtworkInput,
   files: FileList,
+  onCompleted?: (response: UploadArtworkMutationResponse) => void,
 ) => {
   const uploadables = Array.of(files).reduce((file, current, i) => ({ ...current, i: file}), {});
   return commitMutation<UploadArtworkMutation>(environment, {
@@ -20,5 +21,6 @@ export const commitUploadArtworkMutation = (
     `,
     variables: { input },
     uploadables,
+    onCompleted,
   });
 };

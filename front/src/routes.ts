@@ -5,6 +5,7 @@ import { ArtworkDetail, artworkDetailQuery } from "./pages/ArtworkDetail";
 import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
 import { UserDetail, userDetailQuery } from "./pages/UserDetail";
 import { RouteConfig } from "./routing";
+import { UploadArtwork } from "./pages/UploadArtwork";
 
 export const routes: RouteConfig[] = [
   {
@@ -34,6 +35,10 @@ export const routes: RouteConfig[] = [
             { fetchPolicy: "store-or-network" }
           ),
         }),
+      },
+      {
+        path: "/artwork/new",
+        component: UploadArtwork,
       },
       {
         path: "/artwork/:id",
