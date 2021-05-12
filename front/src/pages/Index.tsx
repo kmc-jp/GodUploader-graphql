@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom"
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 import { ArtworkListItem } from "../components/ArtworkListItem";
+import { Chip, GridList, GridListTile, Typography } from "@material-ui/core";
 
 export const indexQuery = graphql`
   query IndexQuery {
