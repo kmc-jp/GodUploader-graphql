@@ -44,17 +44,19 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
   return (
     <div>
       <div>
-        <h2>最新{artworkCount}件の絵</h2>
-        {safeArtworks?.edges.map((edge, i) => {
-          if (!edge) {
-            return null;
-          }
+        <Typography component="h2" variant="h6">最新{artworkCount}件の絵</Typography>
+        <GridList cols={4} cellHeight="auto">
+          {safeArtworks?.edges.map((edge, i) => {
+            if (!edge) {
+              return null;
+            }
 
-          return <ArtworkListItem artwork={edge.node!} key={i}/>
-        })}
+            return <GridListTile><ArtworkListItem artwork={edge.node!} key={i}/></GridListTile>
+          })}
+        </GridList>
       </div>
       <div>
-        <h2>利用者達</h2>
+        <Typography component="h2" variant="h6">利用者達</Typography>
         {activeAccounts?.edges.map((edge) => {
           if (!edge) {
             return null;
