@@ -12,7 +12,7 @@ export type IndexQueryResponse = {
                 readonly id: string;
                 readonly kmcid: string;
                 readonly name: string;
-                readonly foldersCount: number;
+                readonly artworksCount: number;
             } | null;
         } | null>;
     } | null;
@@ -33,13 +33,13 @@ export type IndexQuery = {
 
 /*
 query IndexQuery {
-  activeAccounts(sort: [FOLDERS_COUNT_DESC]) {
+  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
     edges {
       node {
         id
         kmcid
         name
-        foldersCount
+        artworksCount
       }
     }
   }
@@ -94,7 +94,7 @@ v2 = {
       "kind": "Literal",
       "name": "sort",
       "value": [
-        "FOLDERS_COUNT_DESC"
+        "ARTWORKS_COUNT_DESC"
       ]
     }
   ],
@@ -132,7 +132,7 @@ v2 = {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "foldersCount",
+              "name": "artworksCount",
               "storageKey": null
             }
           ],
@@ -142,7 +142,7 @@ v2 = {
       "storageKey": null
     }
   ],
-  "storageKey": "activeAccounts(sort:[\"FOLDERS_COUNT_DESC\"])"
+  "storageKey": "activeAccounts(sort:[\"ARTWORKS_COUNT_DESC\"])"
 },
 v3 = [
   {
@@ -326,14 +326,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "daf6f47a820c74a03529050b84054918",
+    "cacheID": "f07b3a91549c7f2f05a1ff6e94729a8c",
     "id": null,
     "metadata": {},
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  activeAccounts(sort: [FOLDERS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        foldersCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '4e9005c9ea318a01709321416c1ddcce';
+(node as any).hash = '4c4ac026c65fbaa18d2b7463aa49dd32';
 export default node;

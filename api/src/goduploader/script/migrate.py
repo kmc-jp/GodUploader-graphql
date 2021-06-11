@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '.')
 
-from model import Account, Artwork, ArtworkIllustRelation, ArtworkTagRelation, Comment, Illust, Like, Tag
+from model import Account, Artwork, ArtworkTagRelation, Comment, Illust, Like, Tag
 from db import session
 
 import sqlite3
@@ -27,7 +27,7 @@ def migrate_accounts():
             id=old_row['id'],
             kmcid=old_row['kmcid'],
             name=old_row['name'],
-            folders_count=old_row['folders_count'],
+            artworks_count=old_row['folders_count'],
             last_logged_in=old_row['lastlogin'],
             created_at=old_row['created_at'],
             updated_at=old_row['updated_at'],
@@ -82,14 +82,6 @@ def migrate_illusts():
             updated_at=old_row['updated_at'],
         )
         session.add(new_illust)
-
-        new_relation = ArtworkIllustRelation(
-            artwork_id=old_row['folder_id'],
-            illust_id=old_row['id'],
-            created_at=old_row['created_at'],
-            updated_at=old_row['updated_at'],
-        )
-        session.add(new_relation)
 
 def migrate_likes():
     old_likes = from_db.cursor().execute('SELECT * FROM likes')

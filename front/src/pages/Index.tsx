@@ -8,13 +8,13 @@ import { Chip, GridList, GridListTile, Typography } from "@material-ui/core";
 
 export const indexQuery = graphql`
   query IndexQuery {
-    activeAccounts(sort: [FOLDERS_COUNT_DESC]) {
+    activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
       edges {
         node {
           id
           kmcid
           name
-          foldersCount
+          artworksCount
         }
       }
     }
@@ -73,7 +73,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
           return (
             <div key={`accounts-${node.id}`}>
               <Link to={`/user/${node.kmcid}`}>
-                {node.name}({node.foldersCount})
+                {node.name}({node.artworksCount})
               </Link>
             </div>
           );

@@ -81,7 +81,7 @@ class Query(graphene.ObjectType):
     def resolve_active_accounts(self, info, **args):
         account_query = SQLAlchemyConnectionField.get_query(AccountModel, info, **args)
         accounts = account_query \
-            .filter(AccountModel.folders_count > 0)
+            .filter(AccountModel.artworks_count > 0)
         return accounts
 
     safe_artworks = SQLAlchemyConnectionField(Artwork.connection)

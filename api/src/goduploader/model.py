@@ -11,13 +11,13 @@ class Account(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     kmcid = Column(String, unique=True, nullable=False)
     name = Column(String, nullable=False)
-    folders_count = Column(Integer, nullable=False, default=0)
+    artworks_count = Column(Integer, nullable=False, default=0)
     last_logged_in = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    index_folders_count = Index('folders_count', folders_count)
+    index_artworks_count = Index('artworks_count', artworks_count)
 
     artworks = relationship('Artwork', backref='account')
     likes = relationship('Like', backref='account')

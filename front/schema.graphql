@@ -3,7 +3,7 @@ type Account implements Node {
   id: ID!
   kmcid: String!
   name: String!
-  foldersCount: Int!
+  artworksCount: Int!
   lastLoggedIn: DateTime!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -36,8 +36,8 @@ enum AccountSortEnum {
   KMCID_DESC
   NAME_ASC
   NAME_DESC
-  FOLDERS_COUNT_ASC
-  FOLDERS_COUNT_DESC
+  ARTWORKS_COUNT_ASC
+  ARTWORKS_COUNT_DESC
   LAST_LOGGED_IN_ASC
   LAST_LOGGED_IN_DESC
   CREATED_AT_ASC
