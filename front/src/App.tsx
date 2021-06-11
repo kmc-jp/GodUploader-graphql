@@ -5,9 +5,7 @@ import { ErrorBoundary } from "./errorBoundary";
 function App({ route }: RouteConfigComponentProps) {
   return (
     <div className="App">
-      <h1>
-        God Illust Uploader
-      </h1>
+      <h1>God Illust Uploader</h1>
       <div className="container">
         <Suspense fallback={<p>Now loading...</p>}>
           <ErrorBoundary>
