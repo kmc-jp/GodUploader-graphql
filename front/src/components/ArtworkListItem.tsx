@@ -43,7 +43,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
           src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
           alt={artwork?.title}
           style={{
-            width: "auto",
+            maxWidth: "100%",
             height: 186,
             objectFit: "contain",
             display: "block",
