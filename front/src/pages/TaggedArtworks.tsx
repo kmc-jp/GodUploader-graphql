@@ -48,7 +48,7 @@ export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
               }
 
               return (
-                <div key={i} className="col">
+                <div key={i} className="col p-2">
                   <ArtworkListItem artwork={edge.node!} />
                 </div>
               );
