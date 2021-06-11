@@ -3,6 +3,7 @@ import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
+import { formatDateTime } from "../util";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
@@ -62,6 +63,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   if (!artwork) {
     return <div>作品が見つかりません</div>;
   }
+  const createdAt = new Date(artwork.createdAt!)
 
   return (
     <div>
@@ -74,7 +76,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               {artwork.account?.name}
             </Link>
           </p>
-          <p>{artwork.createdAt}</p>
+          <p>{formatDateTime(createdAt)}</p>
         </div>
         <div className="card-body">
           <ul>
