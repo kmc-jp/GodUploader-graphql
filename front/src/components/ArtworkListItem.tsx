@@ -33,7 +33,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
   const account = artwork.account;
 
   return (
-    <div className="card">
+    <div className="card p-1">
       <Link
         to={`/artwork/${artwork.id}`}
         className="text-body"
