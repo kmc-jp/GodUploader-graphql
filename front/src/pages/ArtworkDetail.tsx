@@ -65,37 +65,43 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
 
   return (
     <div>
-      <h2>{artwork.title}</h2>
-      <p>{artwork.caption}</p>
-      <p>
-        <Link to={`/user/${artwork.account?.kmcid}`}>
-          {artwork.account?.name}
-        </Link>
-      </p>
-      <ul>
-        {artwork.tags?.edges.map((edge) => {
-          const tag = edge?.node?.tag!;
-          return (
-            <li key={tag.id}>
-              <Link to={`/tagged_artworks/${tag.name}`}>{tag.name}</Link>
-            </li>
-          );
-        })}
-      </ul>
-      <p>{artwork.createdAt as any}</p>
-      {artwork.illusts?.edges.map((edge) => {
-        if (!edge) {
-          return null;
-        }
-        const node = edge.node;
-        return (
-          <img
-            src={`http://localhost:5000/public/illusts/${node?.filename}`}
-            key={node?.id}
-            alt=""
-          />
-        );
-      })}
+      <div className="card">
+        <div className="card-header text-center">
+          <h2>{artwork.title}</h2>
+          <p>{artwork.caption}</p>
+          <p>
+            <Link to={`/user/${artwork.account?.kmcid}`}>
+              {artwork.account?.name}
+            </Link>
+          </p>
+          <p>{artwork.createdAt as any}</p>
+        </div>
+        <div className="card-body">
+          <ul>
+            {artwork.tags?.edges.map((edge) => {
+              const tag = edge?.node?.tag!;
+              return (
+                <li key={tag.id} className="text-center">
+                  <Link to={`/tagged_artworks/${tag.name}`}>{tag.name}</Link>
+                </li>
+              );
+            })}
+          </ul>
+          {artwork.illusts?.edges.map((edge) => {
+            if (!edge) {
+              return null;
+            }
+            const node = edge.node;
+            return (
+              <img
+                src={`http://localhost:5000/public/illusts/${node?.filename}`}
+                key={node?.id}
+                alt=""
+              />
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
