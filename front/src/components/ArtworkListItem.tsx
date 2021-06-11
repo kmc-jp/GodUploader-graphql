@@ -44,7 +44,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
           alt={artwork?.title}
           style={{
             width: "auto",
-            height: 128,
+            height: 186,
             objectFit: "contain",
             display: "block",
           }}
