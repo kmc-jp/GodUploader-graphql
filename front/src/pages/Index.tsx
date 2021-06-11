@@ -56,8 +56,8 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
               }
 
               return (
-                <div className="col">
-                  <ArtworkListItem key={i} artwork={edge.node!} />
+                <div key={i} className="col">
+                  <ArtworkListItem artwork={edge.node!} />
                 </div>
               );
             })}
