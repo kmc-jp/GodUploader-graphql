@@ -38,7 +38,7 @@ export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
     <div>
       <div className="card">
         <div className="card-header">
-          <h2>タグ"{tag}"の絵たち</h2>
+          <h2 className="text-center">タグ"{tag}"の絵たち</h2>
         </div>
         <div className="card-body">
           <div className="row row-cols-4">

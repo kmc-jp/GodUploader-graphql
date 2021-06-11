@@ -39,7 +39,7 @@ export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
     <div>
       <div className="card">
         <div className="card-header">
-          <h2>{user.name}の作品置場</h2>
+          <h2 className="text-center">{user.name}の作品置場</h2>
         </div>
         <div className="card-body">
           <div className="row row-cols-4">

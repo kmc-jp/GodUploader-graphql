@@ -46,7 +46,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
     <div>
       <div className="card mb-5">
         <div className="card-header">
-          <h2>最新{artworkCount}件の絵</h2>
+          <h2 className="text-center">最新{artworkCount}件の絵</h2>
         </div>
         <div className="card-body">
           <div className="row row-cols-4">
@@ -66,7 +66,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
       </div>
       <div className="card">
         <div className="card-header">
-          <h2>利用者達</h2>
+          <h2 className="text-center">利用者達</h2>
         </div>
         <div className="card-body">
           <div className="row row-cols-4">
