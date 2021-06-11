@@ -6,6 +6,7 @@ import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
 import { UserDetail, userDetailQuery } from "./pages/UserDetail";
 import { RouteConfig } from "./routing";
 import { UploadArtwork } from "./pages/UploadArtwork";
+import { redirectToMyPageQuery, RedirectToMyPage } from "./pages/RedirectToMyPage";
 
 export const routes: RouteConfig[] = [
   {
@@ -32,6 +33,18 @@ export const routes: RouteConfig[] = [
             environment,
             userDetailQuery,
             { kmcid: params.kmcid },
+            { fetchPolicy: "store-or-network" }
+          ),
+        }),
+      },
+      {
+        path: "/my",
+        component: RedirectToMyPage,
+        prepare: ({ environment }) => ({
+          viewer: loadQuery(
+            environment,
+            redirectToMyPageQuery,
+            { },
             { fetchPolicy: "store-or-network" }
           ),
         }),
