@@ -8,7 +8,7 @@ app.debug = True
 CORS(app)
 
 app.add_url_rule(
-    '/',
+    '/api/graphql',
     view_func=GraphQLView.as_view(
         'graphql',
         schema=schema,
