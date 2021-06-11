@@ -63,7 +63,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   if (!artwork) {
     return <div>作品が見つかりません</div>;
   }
-  const createdAt = new Date(artwork.createdAt!)
+  const createdAt = new Date(artwork.createdAt!);
 
   return (
     <div>
@@ -79,16 +79,19 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           <p>{formatDateTime(createdAt)}</p>
         </div>
         <div className="card-body">
-          <ul>
-            {artwork.tags?.edges.map((edge) => {
-              const tag = edge?.node?.tag!;
-              return (
-                <li key={tag.id} className="text-center">
-                  <Link to={`/tagged_artworks/${tag.name}`}>{tag.name}</Link>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="row">
+            <ul className="breadcrumb px-2 py-2 bg-light">
+              <li className="breadcrumb-item">タグ</li>
+              {artwork.tags?.edges.map((edge) => {
+                const tag = edge?.node?.tag!;
+                return (
+                  <li key={tag.id} className="text-center breadcrumb-item">
+                    <Link to={`/tagged_artworks/${tag.name}`}>{tag.name}</Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
           {artwork.illusts?.edges.map((edge) => {
             if (!edge) {
               return null;
