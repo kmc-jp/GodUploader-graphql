@@ -19,7 +19,10 @@ export const taggedArtworksQuery = graphql`
 
 interface IndexProps {
   prepared: {
-    taggedArtworksQuery: PreloadedQuery<TaggedArtworksQuery, Record<string, unknown>>;
+    taggedArtworksQuery: PreloadedQuery<
+      TaggedArtworksQuery,
+      Record<string, unknown>
+    >;
   };
 }
 
@@ -33,15 +36,25 @@ export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
 
   return (
     <div>
-      <div>
-        <h2>タグ"{tag}"の絵たち</h2>
-        {taggedArtworks?.edges.map((edge, i) => {
-          if (!edge) {
-            return null;
-          }
+      <div className="card">
+        <div className="card-header">
+          <h2>タグ"{tag}"の絵たち</h2>
+        </div>
+        <div className="card-body">
+          <div className="row row-cols-4">
+            {taggedArtworks?.edges.map((edge, i) => {
+              if (!edge) {
+                return null;
+              }
 
-          return <ArtworkListItem artwork={edge.node!} key={i} />
-        })}
+              return (
+                <div className="col">
+                  <ArtworkListItem artwork={edge.node!} key={i} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
