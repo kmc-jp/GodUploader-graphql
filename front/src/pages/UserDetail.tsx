@@ -49,7 +49,7 @@ export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
               }
 
               return (
-                <div className="col">
+                <div className="col p-2">
                   <ArtworkListItem artwork={edge.node!} key={i} />
                 </div>
               );

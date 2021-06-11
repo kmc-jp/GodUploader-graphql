@@ -7,7 +7,7 @@ import { ErrorBoundary } from "./errorBoundary";
 function App({ route }: RouteConfigComponentProps) {
   return (
     <div className="App">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             KMC画像アップローダー God Illust Uploader

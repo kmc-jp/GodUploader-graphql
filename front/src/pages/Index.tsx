@@ -44,7 +44,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
 
   return (
     <div>
-      <div className="card">
+      <div className="card mb-5">
         <div className="card-header">
           <h2>最新{artworkCount}件の絵</h2>
         </div>
@@ -56,7 +56,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
               }
 
               return (
-                <div key={i} className="col">
+                <div key={i} className="col p-2">
                   <ArtworkListItem artwork={edge.node!} />
                 </div>
               );
@@ -76,7 +76,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
               }
               const node = edge.node!;
               return (
-                <div key={i} className="col">
+                <div key={i} className="col py-1">
                   <Link
                     to={`/user/${node.kmcid}`}
                     type="button"

@@ -34,12 +34,21 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
 
   return (
     <div className="card">
-      <Link to={`/artwork/${artwork.id}`} className="text-body" style={{textOverflow: "ellipsis"}}>
+      <Link
+        to={`/artwork/${artwork.id}`}
+        className="text-body"
+        style={{ textOverflow: "ellipsis" }}
+      >
         <img
           src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
           alt={artwork?.title}
-          style={{ width: "auto", height: 128, objectFit: "contain" }}
-          className="card-img-top"
+          style={{
+            width: "auto",
+            height: 128,
+            objectFit: "contain",
+            display: "block",
+          }}
+          className="card-img-top mx-auto my-0"
         />
         <div className="card-body">
           <h3>{artwork?.title}</h3>
