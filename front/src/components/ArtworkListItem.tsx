@@ -2,7 +2,7 @@ import React from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment } from "react-relay/hooks";
 import { Link } from "react-router-dom";
-import { ArtworkListItem_artwork$key } from "./__generated__/ArtworkListItem_artwork.graphql"
+import { ArtworkListItem_artwork$key } from "./__generated__/ArtworkListItem_artwork.graphql";
 
 interface ArtworkListItemProps {
   artwork: ArtworkListItem_artwork$key;
@@ -38,11 +38,12 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
         <img
           src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
           alt={artwork?.title}
-          style={{maxHeight: 128}}
+          style={{ width: "auto", height: 128, objectFit: "contain" }}
+          className="card-img-top"
         />
-        <div className="caption">
+        <div className="card-body">
           <h3>{artwork?.title}</h3>
-          <p>{account!.name}</p>
+          <p className="card-text">{account!.name}</p>
         </div>
       </Link>
     </div>

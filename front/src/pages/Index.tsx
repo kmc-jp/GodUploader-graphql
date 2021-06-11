@@ -2,7 +2,7 @@ import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 import { ArtworkListItem } from "../components/ArtworkListItem";
@@ -44,39 +44,55 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
 
   return (
     <div>
-      <div>
+      <div className="card">
+        <div className="card-header">
           <h2>最新{artworkCount}件の絵</h2>
-        <div>
-          {safeArtworks?.edges.map((edge, i) => {
-            if (!edge) {
-              return null;
-            }
+        </div>
+        <div className="card-body">
+          <div className="row row-cols-4">
+            {safeArtworks?.edges.map((edge, i) => {
+              if (!edge) {
+                return null;
+              }
 
-            return (
-              <div key={i}>
-                <ArtworkListItem artwork={edge.node!} />
-              </div>
-            );
-          })}
+              return (
+                <div className="col">
+                  <ArtworkListItem key={i} artwork={edge.node!} />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-      <div>
-        <h2>
-          利用者達
-        </h2>
-        {activeAccounts?.edges.map((edge) => {
-          if (!edge) {
-            return null;
-          }
-          const node = edge.node!;
-          return (
-            <div key={`accounts-${node.id}`}>
-              <Link to={`/user/${node.kmcid}`}>
-                {node.name}({node.artworksCount})
-              </Link>
-            </div>
-          );
-        })}
+      <div className="card">
+        <div className="card-header">
+          <h2>利用者達</h2>
+        </div>
+        <div className="card-body">
+          <div className="row row-cols-4">
+            {activeAccounts?.edges.map((edge, i) => {
+              if (!edge) {
+                return null;
+              }
+              const node = edge.node!;
+              return (
+                <div key={i} className="col">
+                  <Link
+                    to={`/user/${node.kmcid}`}
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    style={{
+                      textAlign: "center",
+                      width: "100%",
+                    }}
+                  >
+                    {node.name}({node.artworksCount})
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
