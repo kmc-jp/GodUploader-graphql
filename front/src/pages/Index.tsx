@@ -4,7 +4,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 import { ArtworkListItem } from "../components/ArtworkListItem";
-import { Chip, GridList, GridListTile, Typography } from "@material-ui/core";
 
 export const indexQuery = graphql`
   query IndexQuery {
@@ -44,27 +43,25 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
   return (
     <div>
       <div>
-        <Typography component="h2" variant="h6">
-          最新{artworkCount}件の絵
-        </Typography>
-        <GridList cols={4} cellHeight="auto">
+          <h2>最新{artworkCount}件の絵</h2>
+        <div>
           {safeArtworks?.edges.map((edge, i) => {
             if (!edge) {
               return null;
             }
 
             return (
-              <GridListTile key={i}>
+              <div key={i}>
                 <ArtworkListItem artwork={edge.node!} />
-              </GridListTile>
+              </div>
             );
           })}
-        </GridList>
+        </div>
       </div>
       <div>
-        <Typography component="h2" variant="h6">
+        <h2>
           利用者達
-        </Typography>
+        </h2>
         {activeAccounts?.edges.map((edge) => {
           if (!edge) {
             return null;
