@@ -74,7 +74,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               {artwork.account?.name}
             </Link>
           </p>
-          <p>{artwork.createdAt as any}</p>
+          <p>{artwork.createdAt}</p>
         </div>
         <div className="card-body">
           <ul>

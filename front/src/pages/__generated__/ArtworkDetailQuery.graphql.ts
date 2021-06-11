@@ -10,7 +10,7 @@ export type ArtworkDetailQueryResponse = {
     readonly node: {
         readonly title?: string;
         readonly caption?: string;
-        readonly createdAt?: unknown;
+        readonly createdAt?: string;
         readonly account?: {
             readonly kmcid: string;
             readonly name: string;
