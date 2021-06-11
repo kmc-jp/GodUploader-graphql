@@ -37,14 +37,26 @@ export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
 
   return (
     <div>
-      <h2>{user.name}の作品置場</h2>
-      {artworkEdges.map((edge, i) => {
-        if (!edge) {
-          return null;
-        }
+      <div className="card">
+        <div className="card-header">
+          <h2>{user.name}の作品置場</h2>
+        </div>
+        <div className="card-body">
+          <div className="row row-cols-4">
+            {artworkEdges.map((edge, i) => {
+              if (!edge) {
+                return null;
+              }
 
-        return <ArtworkListItem artwork={edge.node!} key={i} />;
-      })}
+              return (
+                <div className="col">
+                  <ArtworkListItem artwork={edge.node!} key={i} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
