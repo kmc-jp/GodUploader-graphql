@@ -99,6 +99,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
                 src={`http://localhost:5000/public/illusts/${node?.filename}`}
                 key={node?.id}
                 alt=""
+                className="mw-100"
               />
             );
           })}
