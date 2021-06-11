@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import RelayEnvironment from "./RelayEnvironment";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
 import { BrowserRouter } from "react-router-dom";

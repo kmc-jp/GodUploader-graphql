@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import { RouteConfigComponentProps, RouteRenderer } from "./routing";
 import { ErrorBoundary } from "./errorBoundary";
-import "./App.css";
 
 function App({ route }: RouteConfigComponentProps) {
   return (
