@@ -33,7 +33,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
   const account = artwork.account;
 
   return (
-    <div className="card p-1 text-truncate" style={{height: 320}}>
+    <div className="card p-1" style={{height: 320}}>
       <img
         src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
         alt={artwork?.title}
@@ -47,10 +47,10 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
       />
       <div className="card-body">
         <h3 className="text-truncate">
-          <Link to={`/artwork/${artwork.id}`} className="card-link text-body text-truncate stretched-link">{artwork?.title}</Link>
+          <Link to={`/artwork/${artwork.id}`} className="card-link text-body stretched-link">{artwork?.title}</Link>
         </h3>
-        <p className="card-text">{account!.name}</p>
-        <p className="card-text">{artwork.caption}</p>
+        <p className="card-text text-truncate">{account!.name}</p>
+        <p className="card-text text-truncate">{artwork.caption}</p>
       </div>
     </div>
   );
