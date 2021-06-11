@@ -49,8 +49,8 @@ export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
               }
 
               return (
-                <div className="col p-2">
-                  <ArtworkListItem artwork={edge.node!} key={i} />
+                <div key={i} className="col p-2">
+                  <ArtworkListItem artwork={edge.node!} />
                 </div>
               );
             })}
