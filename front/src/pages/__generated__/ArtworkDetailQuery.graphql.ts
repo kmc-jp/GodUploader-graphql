@@ -104,7 +104,13 @@ fragment ArtworkComment_comments on Artwork {
           id
         }
         id
+        __typename
       }
+      cursor
+    }
+    pageInfo {
+      hasPreviousPage
+      startCursor
     }
   }
 }
@@ -265,6 +271,32 @@ v12 = [
     "kind": "Literal",
     "name": "first",
     "value": 10000000
+  }
+],
+v13 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "cursor",
+  "storageKey": null
+},
+v14 = {
+  "kind": "ClientExtension",
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "__id",
+      "storageKey": null
+    }
+  ]
+},
+v15 = [
+  {
+    "kind": "Literal",
+    "name": "last",
+    "value": 1000000
   }
 ];
 return {
@@ -439,13 +471,7 @@ return {
                         ],
                         "storageKey": null
                       },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "cursor",
-                        "storageKey": null
-                      }
+                      (v13/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -474,18 +500,7 @@ return {
                     ],
                     "storageKey": null
                   },
-                  {
-                    "kind": "ClientExtension",
-                    "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "__id",
-                        "storageKey": null
-                      }
-                    ]
-                  }
+                  (v14/*: any*/)
                 ],
                 "storageKey": "likes(first:10000000)"
               },
@@ -500,13 +515,7 @@ return {
               },
               {
                 "alias": null,
-                "args": [
-                  {
-                    "kind": "Literal",
-                    "name": "last",
-                    "value": 1000000
-                  }
-                ],
+                "args": (v15/*: any*/),
                 "concreteType": "CommentConnection",
                 "kind": "LinkedField",
                 "name": "comments",
@@ -549,15 +558,52 @@ return {
                             ],
                             "storageKey": null
                           },
-                          (v1/*: any*/)
+                          (v1/*: any*/),
+                          (v11/*: any*/)
                         ],
+                        "storageKey": null
+                      },
+                      (v13/*: any*/)
+                    ],
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "PageInfo",
+                    "kind": "LinkedField",
+                    "name": "pageInfo",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "hasPreviousPage",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "startCursor",
                         "storageKey": null
                       }
                     ],
                     "storageKey": null
-                  }
+                  },
+                  (v14/*: any*/)
                 ],
                 "storageKey": "comments(last:1000000)"
+              },
+              {
+                "alias": null,
+                "args": (v15/*: any*/),
+                "filters": null,
+                "handle": "connection",
+                "key": "ArtworkComment_comments",
+                "kind": "LinkedHandle",
+                "name": "comments"
               },
               {
                 "alias": null,
@@ -604,12 +650,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "62586556d76f499e825dd13b6c351d82",
+    "cacheID": "0bee484269f65de6564cc24127eae94d",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      id\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      id\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

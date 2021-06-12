@@ -6,6 +6,7 @@ import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkComment_comments = {
     readonly comments: {
+        readonly __id: string;
         readonly edges: ReadonlyArray<{
             readonly node: {
                 readonly text: string;
@@ -29,21 +30,26 @@ export type ArtworkComment_comments$key = {
 const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
-  "metadata": null,
+  "metadata": {
+    "connection": [
+      {
+        "count": null,
+        "cursor": null,
+        "direction": "backward",
+        "path": [
+          "comments"
+        ]
+      }
+    ]
+  },
   "name": "ArtworkComment_comments",
   "selections": [
     {
-      "alias": null,
-      "args": [
-        {
-          "kind": "Literal",
-          "name": "last",
-          "value": 1000000
-        }
-      ],
+      "alias": "comments",
+      "args": null,
       "concreteType": "CommentConnection",
       "kind": "LinkedField",
-      "name": "comments",
+      "name": "__ArtworkComment_comments_connection",
       "plural": false,
       "selections": [
         {
@@ -93,19 +99,70 @@ const node: ReaderFragment = {
                     }
                   ],
                   "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "__typename",
+                  "storageKey": null
                 }
               ],
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "cursor",
               "storageKey": null
             }
           ],
           "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "PageInfo",
+          "kind": "LinkedField",
+          "name": "pageInfo",
+          "plural": false,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "hasPreviousPage",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "startCursor",
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
+        },
+        {
+          "kind": "ClientExtension",
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "__id",
+              "storageKey": null
+            }
+          ]
         }
       ],
-      "storageKey": "comments(last:1000000)"
+      "storageKey": null
     }
   ],
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '58e59e707a7661fc47ca25d958a5ad68';
+(node as any).hash = '0f1dce2763fafeac76fbbaf0f04b7dbc';
 export default node;

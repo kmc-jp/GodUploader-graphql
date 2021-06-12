@@ -13,7 +13,8 @@ export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
   const { comments } = useFragment<ArtworkComment_comments$key>(
     graphql`
       fragment ArtworkComment_comments on Artwork {
-        comments(last: 1000000) {
+        comments(last: 1000000) @connection(key: "ArtworkComment_comments") {
+          __id
           edges {
             node {
               text
@@ -60,13 +61,16 @@ export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
         })}
       </ul>
       <div className="mt-2">
-        <CommentForm artwork={artwork} />
+        <CommentForm artwork={artwork} connectionId={comments.__id} />
       </div>
     </div>
   );
 };
 
-const CommentForm: React.VFC<Props> = ({ artwork }) => {
+const CommentForm: React.VFC<Props & { connectionId: string }> = ({
+  artwork,
+  connectionId,
+}) => {
   const environment = useRelayEnvironment();
 
   const [isPosting, setIsPosting] = useState(false);
@@ -88,7 +92,8 @@ const CommentForm: React.VFC<Props> = ({ artwork }) => {
         onCompleted: () => {
           setIsPosting(false);
         },
-      }
+      },
+      [connectionId]
     );
   };
 
