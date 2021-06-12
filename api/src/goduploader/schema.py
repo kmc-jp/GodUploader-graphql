@@ -126,12 +126,13 @@ class LikeArtwork(relay.ClientIDMutation):
         if artwork is None:
             raise Exception('Artwork not found')
 
-        with session.begin():
-            like = LikeModel(
-                account_id=current_user.id,
-                artwork_id=artwork.id,
-            )
-            session.add(like)
+        like = LikeModel(
+            account_id=current_user.id,
+            artwork_id=artwork.id,
+        )
+        session.add(like)
+
+        session.commit()
 
         return LikeArtwork(like=like)
 
