@@ -19,7 +19,7 @@ interface PrepareArguments {
   environment: Environment;
 }
 
-export interface RouteConfig extends Omit<OriginalRouteConfig, 'component'> {
+export interface RouteConfig extends Omit<OriginalRouteConfig, "component"> {
   component?:
     | React.ComponentType<RouteConfigComponentProps<any>>
     | React.ComponentType;
