@@ -77,12 +77,16 @@ const LikeIcon: React.FC<{ node: ArtworkDetail_like$key }> = ({ node }) => {
     };
   });
 
+  if (!like.account) {
+    return null;
+  }
+
   return (
     <Link
-      to={`/user/${like.account?.kmcid}`}
+      to={`/user/${like.account.kmcid}`}
       data-bs-toggle="tooltip"
       data-bs-placement="top"
-      title={like.account?.kmcid}
+      title={like.account.kmcid}
       ref={ref}
     >
       <i className="bi bi-heart-fill"></i>
