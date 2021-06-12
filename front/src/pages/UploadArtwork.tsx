@@ -36,7 +36,7 @@ export const UploadArtwork: React.VFC = () => {
         (resp) => {
           setIsUploading(false);
           setUploadedArtworkId(resp.uploadArtwork!.artwork!.id);
-        }
+        },
       );
     },
     [environment]
