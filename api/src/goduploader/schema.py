@@ -16,6 +16,7 @@ from model import (
     Like as LikeModel,
     Tag as TagModel,
 )
+from tag import find_or_create_tags
 from viewer import viewer
 from dataloader import AccountLoader
 
@@ -191,6 +192,15 @@ class UploadArtwork(graphene.ClientIDMutation):
             )
             session.add(illust)
             artwork.illusts.append(illust)
+
+        tags = find_or_create_tags(input['tags'])
+        for tag in tags:
+            new_relation = ArtworkTagRelationModel(
+                artwork_id=artwork.id,
+                tag_id=tag.id,
+            )
+            session.add(new_relation)
+            tag.artworks_count += 1
 
         session.commit()
 
