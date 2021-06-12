@@ -101,13 +101,18 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
     <form onSubmit={handleSubmit}>
       <div className="row g-2">
         <div className="col-sm-9">
-          <input type="text" id="text" required className="form-control" />
+          <input
+            type="text"
+            id="text"
+            ref={textRef}
+            required
+            className="form-control"
+          />
         </div>
         <div className="col-sm-2">
           <input
             type="submit"
             value="コメントする"
-            ref={textRef}
             className="btn btn-primary form-control"
           />
         </div>
