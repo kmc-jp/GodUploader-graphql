@@ -48,8 +48,8 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
 
   const handleClickLikeButton = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
-    window.alert("liked");
-  }, []);
+    window.alert(`liked: ${likes?.__id}`);
+  }, [likes]);
 
   if (!(likes && likes.edges)) {
     return null;
