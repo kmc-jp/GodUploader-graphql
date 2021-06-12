@@ -3,6 +3,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
+import { FragmentRefs } from "relay-runtime";
 export type ArtworkDetailQueryVariables = {
     id: string;
 };
@@ -24,14 +25,7 @@ export type ArtworkDetailQueryResponse = {
             } | null>;
         } | null;
         readonly likes?: {
-            readonly edges: ReadonlyArray<{
-                readonly node: {
-                    readonly account: {
-                        readonly id: string;
-                        readonly kmcid: string;
-                    } | null;
-                } | null;
-            } | null>;
+            readonly " $fragmentRefs": FragmentRefs<"ArtworkDetail_likes">;
         } | null;
         readonly tags?: {
             readonly edges: ReadonlyArray<{
@@ -76,15 +70,7 @@ query ArtworkDetailQuery(
         }
       }
       likes {
-        edges {
-          node {
-            account {
-              id
-              kmcid
-            }
-            id
-          }
-        }
+        ...ArtworkDetail_likes
       }
       tags {
         edges {
@@ -99,6 +85,18 @@ query ArtworkDetailQuery(
       }
     }
     id
+  }
+}
+
+fragment ArtworkDetail_likes on LikeConnection {
+  edges {
+    node {
+      account {
+        id
+        kmcid
+      }
+      id
+    }
   }
 }
 */
@@ -204,19 +202,6 @@ v8 = {
 v9 = {
   "alias": null,
   "args": null,
-  "concreteType": "Account",
-  "kind": "LinkedField",
-  "name": "account",
-  "plural": false,
-  "selections": [
-    (v7/*: any*/),
-    (v5/*: any*/)
-  ],
-  "storageKey": null
-},
-v10 = {
-  "alias": null,
-  "args": null,
   "concreteType": "Tag",
   "kind": "LinkedField",
   "name": "tag",
@@ -271,27 +256,9 @@ return {
                 "plural": false,
                 "selections": [
                   {
-                    "alias": null,
                     "args": null,
-                    "concreteType": "LikeEdge",
-                    "kind": "LinkedField",
-                    "name": "edges",
-                    "plural": true,
-                    "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "Like",
-                        "kind": "LinkedField",
-                        "name": "node",
-                        "plural": false,
-                        "selections": [
-                          (v9/*: any*/)
-                        ],
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
+                    "kind": "FragmentSpread",
+                    "name": "ArtworkDetail_likes"
                   }
                 ],
                 "storageKey": null
@@ -320,7 +287,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v10/*: any*/)
+                          (v9/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -408,7 +375,19 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v9/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "Account",
+                            "kind": "LinkedField",
+                            "name": "account",
+                            "plural": false,
+                            "selections": [
+                              (v7/*: any*/),
+                              (v5/*: any*/)
+                            ],
+                            "storageKey": null
+                          },
                           (v7/*: any*/)
                         ],
                         "storageKey": null
@@ -443,7 +422,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v10/*: any*/),
+                          (v9/*: any*/),
                           (v7/*: any*/)
                         ],
                         "storageKey": null
@@ -464,14 +443,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a0db9de587d531dbd860bb8dcf4b9d6c",
+    "cacheID": "4d0dca300f5f6f3f3989d5e8a57b0f69",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      likes {\n        edges {\n          node {\n            account {\n              id\n              kmcid\n            }\n            id\n          }\n        }\n      }\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      likes {\n        ...ArtworkDetail_likes\n      }\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkDetail_likes on LikeConnection {\n  edges {\n    node {\n      account {\n        id\n        kmcid\n      }\n      id\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '40c921f5f213e67846886e3c94931abf';
+(node as any).hash = '57cea03984e151d2585740db9c99a191';
 export default node;

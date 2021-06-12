@@ -1,8 +1,9 @@
 import React from "react";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { PreloadedQuery, useFragment, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
+import { ArtworkDetail_likes$key } from "./__generated__/ArtworkDetail_likes.graphql";
 import { formatDateTime } from "../util";
 
 export const artworkDetailQuery = graphql`
@@ -25,14 +26,7 @@ export const artworkDetailQuery = graphql`
           }
         }
         likes {
-          edges {
-            node {
-              account {
-                id
-                kmcid
-              }
-            }
-          }
+          ...ArtworkDetail_likes
         }
         tags {
           edges {
@@ -54,6 +48,48 @@ interface ArtworkDetailProps {
     artworkDetailQuery: PreloadedQuery<ArtworkDetailQuery, Record<string, any>>;
   };
 }
+
+const LikeList: React.FC<{ likesKey: ArtworkDetail_likes$key }> = ({
+  likesKey,
+}) => {
+  const { edges } = useFragment(
+    graphql`
+      fragment ArtworkDetail_likes on LikeConnection {
+        edges {
+          node {
+            account {
+              id
+              kmcid
+            }
+          }
+        }
+      }
+    `,
+    likesKey
+  );
+  return (
+    <>
+      {edges?.map((edge, i) => {
+        if (!edge) {
+          return null;
+        }
+        const node = edge.node;
+
+        return (
+          <Link
+            key={i}
+            to={`/users/${node?.account?.kmcid}`}
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title={node?.account?.kmcid}
+          >
+            <i className="bi bi-heart-fill"></i>
+          </Link>
+        );
+      })}
+    </>
+  );
+};
 
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   const { node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
@@ -93,17 +129,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
             </ul>
           </div>
           <div className="mb-2">
-            {artwork.likes?.edges.map((edge) => {
-              if (!edge) {
-                return null;
-              }
-              const node = edge.node!;
-              return (
-                <Link to={`/users/${node.account?.kmcid}`}>
-                  <i className="bi bi-heart-fill"></i>
-                </Link>
-              );
-            })}
+            <LikeList likesKey={artwork.likes!} />
           </div>
           {artwork.illusts?.edges.map((edge) => {
             if (!edge) {
