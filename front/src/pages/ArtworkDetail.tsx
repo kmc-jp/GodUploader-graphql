@@ -1,5 +1,5 @@
 import Tooltip from "bootstrap/js/dist/tooltip";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { PreloadedQuery, useFragment, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
@@ -105,8 +105,13 @@ const LikeList: React.FC<{ likesKey: ArtworkDetail_likes$key }> = ({
     `,
     likesKey
   );
+  const handleClickLikeButton = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    window.alert("liked");
+  }, []);
+
   return (
-    <>
+    <div className="mb-2">
       {edges?.map((edge, i) => {
         if (!edge) {
           return null;
@@ -117,8 +122,14 @@ const LikeList: React.FC<{ likesKey: ArtworkDetail_likes$key }> = ({
         }
 
         return <LikeIcon key={i} node={node} />;
-      })}
-    </>
+      })}{" "}
+      <button
+        className="btn btn-outline-secondary"
+        onClick={handleClickLikeButton}
+      >
+        +<i className="bi bi-heart-fill"></i>
+      </button>
+    </div>
   );
 };
 
@@ -159,9 +170,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               })}
             </ul>
           </div>
-          <div className="mb-2">
-            <LikeList likesKey={artwork.likes!} />
-          </div>
+          <LikeList likesKey={artwork.likes!} />
           {artwork.illusts?.edges.map((edge) => {
             if (!edge) {
               return null;
