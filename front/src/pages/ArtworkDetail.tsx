@@ -1,12 +1,10 @@
-import Tooltip from "bootstrap/js/dist/tooltip";
-import React, { useCallback, useEffect, useRef } from "react";
-import { PreloadedQuery, useFragment, usePreloadedQuery } from "react-relay";
+import React from "react";
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
-import { ArtworkDetail_like$key } from "./__generated__/ArtworkDetail_like.graphql";
 import { formatDateTime } from "../util";
-import { FragmentRefs } from "relay-runtime";
+import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
@@ -27,14 +25,7 @@ export const artworkDetailQuery = graphql`
             }
           }
         }
-        likes(first: 10000000) @connection(key: "ArtworkDetail_likes") {
-          __id
-          edges {
-            node {
-              ...ArtworkDetail_like
-            }
-          }
-        }
+        ...ArtworkLikeList_likes
         tags {
           edges {
             node {
@@ -55,87 +46,6 @@ interface ArtworkDetailProps {
     artworkDetailQuery: PreloadedQuery<ArtworkDetailQuery>;
   };
 }
-
-const LikeIcon: React.FC<{ node: ArtworkDetail_like$key }> = ({ node }) => {
-  const like = useFragment(
-    graphql`
-      fragment ArtworkDetail_like on Like {
-        account {
-          id
-          kmcid
-        }
-      }
-    `,
-    node
-  );
-  const ref = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    const tooltip = new Tooltip(ref.current);
-    return () => {
-      // いいねアイコンをクリックしてユーザーページに遷移したときにツールチップが消えるようにする
-      tooltip.hide();
-    };
-  });
-
-  if (!like.account) {
-    return null;
-  }
-
-  return (
-    <Link
-      to={`/user/${like.account.kmcid}`}
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title={like.account.kmcid}
-      ref={ref}
-    >
-      <i className="bi bi-heart-fill"></i>
-    </Link>
-  );
-};
-
-const LikeList: React.FC<{
-  likes: {
-    readonly __id: string;
-    readonly edges: ReadonlyArray<{
-      readonly node: {
-        readonly " $fragmentRefs": FragmentRefs<"ArtworkDetail_like">;
-      } | null;
-    } | null>;
-  };
-}> = ({ likes }) => {
-  const handleClickLikeButton = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    window.alert("liked");
-  }, []);
-
-  return (
-    <div className="mb-2">
-      {likes.edges?.map((edge, i) => {
-        if (!edge) {
-          return null;
-        }
-        const node = edge.node;
-        if (!node) {
-          return null;
-        }
-
-        return <LikeIcon key={i} node={node} />;
-      })}{" "}
-      <button
-        className="btn btn-outline-secondary"
-        onClick={handleClickLikeButton}
-      >
-        +<i className="bi bi-heart-fill"></i>
-      </button>
-    </div>
-  );
-};
 
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   const { node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
@@ -174,7 +84,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               })}
             </ul>
           </div>
-          {artwork.likes && <LikeList likes={artwork.likes} />}
+          <LikeList artwork={artwork} />
           {artwork.illusts?.edges.map((edge) => {
             if (!edge) {
               return null;

@@ -4,17 +4,17 @@
 
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkDetail_like = {
+export type ArtworkLikeList_like = {
     readonly account: {
         readonly id: string;
         readonly kmcid: string;
     } | null;
-    readonly " $refType": "ArtworkDetail_like";
+    readonly " $refType": "ArtworkLikeList_like";
 };
-export type ArtworkDetail_like$data = ArtworkDetail_like;
-export type ArtworkDetail_like$key = {
-    readonly " $data"?: ArtworkDetail_like$data;
-    readonly " $fragmentRefs": FragmentRefs<"ArtworkDetail_like">;
+export type ArtworkLikeList_like$data = ArtworkLikeList_like;
+export type ArtworkLikeList_like$key = {
+    readonly " $data"?: ArtworkLikeList_like$data;
+    readonly " $fragmentRefs": FragmentRefs<"ArtworkLikeList_like">;
 };
 
 
@@ -23,7 +23,7 @@ const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "ArtworkDetail_like",
+  "name": "ArtworkLikeList_like",
   "selections": [
     {
       "alias": null,
@@ -54,5 +54,5 @@ const node: ReaderFragment = {
   "type": "Like",
   "abstractKey": null
 };
-(node as any).hash = '88f74ade47fc36e9bad069458d6ee163';
+(node as any).hash = '975f528f7d6050ba8e1bc66f33b0ed02';
 export default node;
