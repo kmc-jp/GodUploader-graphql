@@ -9,7 +9,10 @@ export type ArtworkLikeList_likes = {
         readonly __id: string;
         readonly edges: ReadonlyArray<{
             readonly node: {
-                readonly " $fragmentRefs": FragmentRefs<"ArtworkLikeList_like">;
+                readonly account: {
+                    readonly id: string;
+                    readonly kmcid: string;
+                } | null;
             } | null;
         } | null>;
     } | null;
@@ -67,14 +70,34 @@ const node: ReaderFragment = {
                 {
                   "alias": null,
                   "args": null,
-                  "kind": "ScalarField",
-                  "name": "__typename",
+                  "concreteType": "Account",
+                  "kind": "LinkedField",
+                  "name": "account",
+                  "plural": false,
+                  "selections": [
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "id",
+                      "storageKey": null
+                    },
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "kmcid",
+                      "storageKey": null
+                    }
+                  ],
                   "storageKey": null
                 },
                 {
+                  "alias": null,
                   "args": null,
-                  "kind": "FragmentSpread",
-                  "name": "ArtworkLikeList_like"
+                  "kind": "ScalarField",
+                  "name": "__typename",
+                  "storageKey": null
                 }
               ],
               "storageKey": null
@@ -133,5 +156,5 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '098aad5b1719c60891ee3f8007eecd65';
+(node as any).hash = '1259d1a48d2e9c4b9b3efe6b06ecb5a8';
 export default node;

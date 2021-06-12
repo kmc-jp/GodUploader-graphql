@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useFragment } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
-import { ArtworkLikeList_like$key } from "./__generated__/ArtworkLikeList_like.graphql";
 import { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
 
 interface Props {
@@ -21,7 +20,10 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
           __id
           edges {
             node {
-              ...ArtworkLikeList_like
+              account {
+                id
+                kmcid
+              }
             }
           }
         }
@@ -50,7 +52,7 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
           return null;
         }
 
-        return <LikeIcon key={i} node={node} />;
+        return <LikeIcon key={i} like={node} />;
       })}{" "}
       <button
         className="btn btn-outline-secondary"
@@ -62,18 +64,14 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
   );
 };
 
-const LikeIcon: React.FC<{ node: ArtworkLikeList_like$key }> = ({ node }) => {
-  const like = useFragment(
-    graphql`
-      fragment ArtworkLikeList_like on Like {
-        account {
-          id
-          kmcid
-        }
-      }
-    `,
-    node
-  );
+const LikeIcon: React.FC<{
+  like: {
+    readonly account: {
+      readonly id: string;
+      readonly kmcid: string;
+    } | null;
+  };
+}> = ({ like }) => {
   const ref = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
