@@ -3,7 +3,6 @@ import { useFragment, useRelayEnvironment } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import {
-  ArtworkLikeList_likes,
   ArtworkLikeList_likes$key,
 } from "./__generated__/ArtworkLikeList_likes.graphql";
 import { useTooltip } from "../../hooks/useTooltip";
