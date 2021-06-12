@@ -44,9 +44,12 @@ export const Tags: React.VFC<Props> = ({ prepared }) => {
                   <Link
                     to={`/tagged_artworks/${node.name}`}
                     type="button"
-                    className="btn btn-outline-secondary text-center w-100"
+                    className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between"
                   >
-                    {node.name}({node.artworksCount})
+                    {node.name}
+                    <span className="badge rounded-pill bg-secondary">
+                      {node.artworksCount}
+                    </span>
                   </Link>
                 </div>
               );

@@ -89,13 +89,12 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
                   <Link
                     to={`/user/${node.kmcid}`}
                     type="button"
-                    className="btn btn-outline-secondary"
-                    style={{
-                      textAlign: "center",
-                      width: "100%",
-                    }}
+                    className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between"
                   >
-                    {node.name}({node.artworksCount})
+                    {node.name}
+                    <span className="badge rounded-pill bg-secondary">
+                      {node.artworksCount}
+                    </span>
                   </Link>
                 </div>
               );
