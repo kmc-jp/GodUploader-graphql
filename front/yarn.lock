@@ -2536,10 +2536,10 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
-"@types/react-dom@^17.0.0":
-  version "17.0.3"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.3.tgz#7fdf37b8af9d6d40127137865bb3fff8871d7ee1"
-  integrity sha512-4NnJbCeWE+8YBzupn/YrJxZ8VnjcJq5iR1laqQ1vkpQgBiA7bwk0Rp24fxsdNinzJY2U+HHS4dJJDPdoMjdJ7w==
+"@types/react-dom@^17.0.7":
+  version "17.0.7"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.7.tgz#b8ee15ead9e5d6c2c858b44949fdf2ebe5212232"
+  integrity sha512-Wd5xvZRlccOrCTej8jZkoFZuZRKHzanDDv1xglI33oBNFMWrqOSzrvWFw7ngSiZjrpJAzPKFtX7JvuXpkNmQHA==
   dependencies:
     "@types/react" "*"
 
@@ -2577,10 +2577,19 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.0":
+"@types/react@*":
   version "17.0.5"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.5.tgz#3d887570c4489011f75a3fc8f965bf87d09a1bea"
   integrity sha512-bj4biDB9ZJmGAYTWSKJly6bMr4BLUiBrx9ujiJEoP9XIDY9CTaPGxE5QWN/1WjpPLzYF7/jRNnV2nNxNe970sw==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^17.0.11":
+  version "17.0.11"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.11.tgz#67fcd0ddbf5a0b083a0f94e926c7d63f3b836451"
+  integrity sha512-yFRQbD+whVonItSk7ZzP/L+gPTJVBkL/7shLEF+i9GC/1cV3JmUxEQz6+9ylhUpWSDuqo1N9qEvqS6vTj4USUA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -11254,14 +11263,14 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-dom@^17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
-  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
+react-dom@^18.0.0-alpha-01be61c12:
+  version "18.0.0-alpha-01be61c12"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.0.0-alpha-01be61c12.tgz#5ead262ba9d31c6694723d775c65c4f8173110eb"
+  integrity sha512-eu1wulGX/SBhQeA2BRGO7B2Gdprqr5CzrDGn/fEqzv4nJxIjSLMb2aSocsSVfxCt7EEH2Km3x6dezSu2phd7Dw==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    scheduler "^0.20.2"
+    scheduler "0.21.0-alpha-01be61c12"
 
 react-error-overlay@^6.0.9:
   version "6.0.9"
@@ -11396,10 +11405,10 @@ react-scripts@4.0.3:
   optionalDependencies:
     fsevents "^2.1.3"
 
-react@^17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+react@^18.0.0-alpha-01be61c12:
+  version "18.0.0-alpha-01be61c12"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.0.0-alpha-01be61c12.tgz#c543bf7d89f8f7f4e3822ee96b2266dd8331938d"
+  integrity sha512-pXuZmtfbBQ5GvKKND3pnU/a9egeeHNCA6xnB3itvoYOx3ryNe4NAsL2X9CwLNPoIKnVrgjmE6NYij0GsnLtKLA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -12024,10 +12033,10 @@ saxes@^5.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
-scheduler@^0.20.2:
-  version "0.20.2"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
-  integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
+scheduler@0.21.0-alpha-01be61c12:
+  version "0.21.0-alpha-01be61c12"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.21.0-alpha-01be61c12.tgz#8f59578d1143a0b8943c6b003ab5919f9d5a012c"
+  integrity sha512-nGGdHmm47W+2iwTmtgSCWjt2EUBM0ysBSKjQofXBqpYFq7w6Jkg7XbfxYVY+u9iUKKSg/gSbNYbcphv2N2WI0A==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
