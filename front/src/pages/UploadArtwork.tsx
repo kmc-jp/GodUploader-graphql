@@ -5,6 +5,7 @@ import {
   commitUploadArtworkMutation,
   makeUploadables,
 } from "../mutation/UploadArtwork";
+import { TagsInput } from "./UploadArtwork/TagsInput";
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();
@@ -15,6 +16,7 @@ export const UploadArtwork: React.VFC = () => {
     useState<string | null>(null);
 
   const [isUploading, setIsUploading] = useState(false);
+  const [tagList, setTagList] = useState<string[]>([]);
 
   const handleSubmit = useCallback(
     (event: FormEvent) => {
@@ -36,7 +38,7 @@ export const UploadArtwork: React.VFC = () => {
         (resp) => {
           setIsUploading(false);
           setUploadedArtworkId(resp.uploadArtwork!.artwork!.id);
-        },
+        }
       );
     },
     [environment]
@@ -93,6 +95,9 @@ export const UploadArtwork: React.VFC = () => {
               className="form-control"
               ref={captionRef}
             />
+          </div>
+          <div className="mb-3">
+            <TagsInput tagList={tagList} setTagList={setTagList} />
           </div>
           <div>
             <input
