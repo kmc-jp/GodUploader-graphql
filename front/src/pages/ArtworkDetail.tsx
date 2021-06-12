@@ -92,6 +92,19 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               })}
             </ul>
           </div>
+          <div className="mb-2">
+            {artwork.likes?.edges.map((edge) => {
+              if (!edge) {
+                return null;
+              }
+              const node = edge.node!;
+              return (
+                <Link to={`/users/${node.account?.kmcid}`}>
+                  <i className="bi bi-heart-fill"></i>
+                </Link>
+              );
+            })}
+          </div>
           {artwork.illusts?.edges.map((edge) => {
             if (!edge) {
               return null;
