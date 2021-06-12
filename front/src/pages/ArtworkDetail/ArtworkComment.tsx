@@ -1,6 +1,7 @@
-import React from "react";
-import { useFragment } from "react-relay";
+import React, { useRef, useState } from "react";
+import { useFragment, useRelayEnvironment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
+import { commitCreateCommentMutation } from "../../mutation/CreateComment";
 import { ArtworkComment_comments$key } from "./__generated__/ArtworkComment_comments.graphql";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 
@@ -35,27 +36,84 @@ export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
   edges.reverse();
 
   return (
-    <ul className="list-group">
-      {edges.map((edge, i) => {
-        if (!edge) {
-          return null;
-        }
+    <div className="mt-2">
+      <ul className="list-group">
+        {edges.map((edge, i) => {
+          if (!edge) {
+            return null;
+          }
 
-        const { node } = edge;
-        if (!node) {
-          return null;
-        }
+          const { node } = edge;
+          if (!node) {
+            return null;
+          }
 
-        return (
-          <li key={i} className="list-group-item d-flex align-items-start">
-            <div className="ms2 me-auto">
-              <div className="fw-bold">{node.account?.kmcid}</div>
-              {node.text}
+          return (
+            <li key={i} className="list-group-item d-flex align-items-start">
+              <div className="ms2 me-auto">
+                <div className="fw-bold">{node.account?.kmcid}</div>
+                {node.text}
+              </div>
+              {node.createdAt}
+            </li>
+          );
+        })}
+      </ul>
+      <div className="mt-2">
+        <CommentForm artwork={artwork} />
+      </div>
+    </div>
+  );
+};
+
+const CommentForm: React.VFC<Props> = ({ artwork }) => {
+  const environment = useRelayEnvironment();
+
+  const [isPosting, setIsPosting] = useState(false);
+  const textRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsPosting(true);
+
+    const text = textRef.current?.value;
+    if (!text) {
+      return;
+    }
+
+    commitCreateCommentMutation(
+      environment,
+      { artworkId: artwork.id!, text },
+      {
+        onCompleted: () => {
+          setIsPosting(false);
+        },
+      }
+    );
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="row g-2">
+        <div className="col-sm-9">
+          <input type="text" id="text" required className="form-control" />
+        </div>
+        <div className="col-sm-2">
+          <input
+            type="submit"
+            value="コメントする"
+            ref={textRef}
+            className="btn btn-primary form-control"
+          />
+        </div>
+        {isPosting && (
+          <div className="col-sm text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Uploading...</span>
             </div>
-            {node.createdAt}
-          </li>
-        );
-      })}
-    </ul>
+          </div>
+        )}
+      </div>
+    </form>
   );
 };

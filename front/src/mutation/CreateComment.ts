@@ -1,13 +1,15 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Environment, commitMutation } from "react-relay";
-import { CreateCommentInput } from "./__generated__/CreateCommentMutation.graphql";
+import { MutationConfig } from "relay-runtime";
+import { CreateCommentInput, CreateCommentMutation } from "./__generated__/CreateCommentMutation.graphql";
 
 export const commitCreateCommentMutation = (
   environment: Environment,
   input: CreateCommentInput,
-  connections?: string[]
+  config?: Partial<MutationConfig<CreateCommentMutation>>,
+  connections?: string[],
 ) => {
-  return commitMutation(environment, {
+  return commitMutation<CreateCommentMutation>(environment, {
     mutation: graphql`
       mutation CreateCommentMutation(
         $connections: [ID!]!
@@ -29,5 +31,6 @@ export const commitCreateCommentMutation = (
       }
     `,
     variables: { input, connections: connections || [] },
+    ...config
   });
 };
