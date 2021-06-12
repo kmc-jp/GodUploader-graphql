@@ -315,7 +315,7 @@ scalar Upload
 input UploadArtworkInput {
   title: String!
   caption: String!
-  tags: String
+  tags: [String!]!
   files: Upload!
   clientMutationId: String
 }

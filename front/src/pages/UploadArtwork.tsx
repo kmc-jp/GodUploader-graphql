@@ -31,7 +31,7 @@ export const UploadArtwork: React.VFC = () => {
         {
           title,
           caption,
-          tags: "", // TODO: タグ設定を受け付ける
+          tags: [], // TODO: タグ設定を受け付ける
           files: uploadables,
         },
         uploadables,

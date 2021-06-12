@@ -6,7 +6,7 @@ import { ConcreteRequest } from "relay-runtime";
 export type UploadArtworkInput = {
     title: string;
     caption: string;
-    tags?: string | null;
+    tags: Array<string>;
     files: unknown;
     clientMutationId?: string | null;
 };
