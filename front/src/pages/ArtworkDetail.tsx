@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 import { ArtworkDetail_like$key } from "./__generated__/ArtworkDetail_like.graphql";
-import { ArtworkDetail_likes$key } from "./__generated__/ArtworkDetail_likes.graphql";
 import { formatDateTime } from "../util";
+import { FragmentRefs } from "relay-runtime";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
@@ -27,8 +27,13 @@ export const artworkDetailQuery = graphql`
             }
           }
         }
-        likes {
-          ...ArtworkDetail_likes
+        likes(first: 10000000) @connection(key: "ArtworkDetail_likes") {
+          __id
+          edges {
+            node {
+              ...ArtworkDetail_like
+            }
+          }
         }
         tags {
           edges {
@@ -94,21 +99,16 @@ const LikeIcon: React.FC<{ node: ArtworkDetail_like$key }> = ({ node }) => {
   );
 };
 
-const LikeList: React.FC<{ likesKey: ArtworkDetail_likes$key }> = ({
-  likesKey,
-}) => {
-  const { edges } = useFragment(
-    graphql`
-      fragment ArtworkDetail_likes on LikeConnection {
-        edges {
-          node {
-            ...ArtworkDetail_like
-          }
-        }
-      }
-    `,
-    likesKey
-  );
+const LikeList: React.FC<{
+  likes: {
+    readonly __id: string;
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly " $fragmentRefs": FragmentRefs<"ArtworkDetail_like">;
+      } | null;
+    } | null>;
+  };
+}> = ({ likes }) => {
   const handleClickLikeButton = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     window.alert("liked");
@@ -116,7 +116,7 @@ const LikeList: React.FC<{ likesKey: ArtworkDetail_likes$key }> = ({
 
   return (
     <div className="mb-2">
-      {edges?.map((edge, i) => {
+      {likes.edges?.map((edge, i) => {
         if (!edge) {
           return null;
         }
@@ -174,7 +174,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               })}
             </ul>
           </div>
-          <LikeList likesKey={artwork.likes!} />
+          {artwork.likes && <LikeList likes={artwork.likes} />}
           {artwork.illusts?.edges.map((edge) => {
             if (!edge) {
               return null;
