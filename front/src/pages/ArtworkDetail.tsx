@@ -12,9 +12,6 @@ import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
-    viewer {
-      id
-    }
     node(id: $id) {
       ... on Artwork {
         id
@@ -57,7 +54,7 @@ interface ArtworkDetailProps {
 }
 
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
-  const { viewer, node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
+  const { node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
     artworkDetailQuery,
     prepared.artworkDetailQuery
   );
@@ -130,7 +127,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               })}
             </ul>
           </div>
-          <LikeList artwork={artwork} viewer={viewer} />
+          <LikeList artwork={artwork} />
           <div className="carousel slide" ref={carouselElementRef}>
             <div className="carousel-inner">
               {artwork.illusts?.edges.map((edge, i) => {

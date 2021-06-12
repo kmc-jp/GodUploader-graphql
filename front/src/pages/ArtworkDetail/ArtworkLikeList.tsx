@@ -7,28 +7,14 @@ import {
   ArtworkLikeList_likes$key,
 } from "./__generated__/ArtworkLikeList_likes.graphql";
 import { useTooltip } from "../../hooks/useTooltip";
-import clsx from "clsx";
 import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 
-type Viewer = {
-  readonly id: string;
-} | null;
-
 interface Props {
   artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;
-  viewer: Viewer;
 }
 
-const viewerLikedArtwork = (
-  viewer: Viewer,
-  likes: NonNullable<ArtworkLikeList_likes>["likes"]
-) =>
-  viewer &&
-  likes?.edges?.length &&
-  likes?.edges?.some((edge) => edge?.node?.account?.id === viewer.id);
-
-export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
+export const LikeList: React.FC<Props> = ({ artwork }) => {
   const { likes } = useFragment<ArtworkLikeList_likes$key>(
     graphql`
       fragment ArtworkLikeList_likes on Artwork {
@@ -68,21 +54,15 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
     return null;
   }
 
-  const viewerLiked = viewerLikedArtwork(viewer, likes);
-
   return (
     <div className="mb-2">
       <button
-        className={clsx(
-          "btn",
-          "btn-sm",
-          viewerLiked ? "btn-secondary" : "btn-outline-secondary"
-        )}
+        className="btn btn-sm btn-outline-secondary"
         ref={buttonRef}
         data-bs-toggle="tooltip"
         data-bs-placement="top"
         data-bs-html="true"
-        title={viewerLiked ? `いいね<i class="bi bi-heart-fill"></i>` : `<i class="bi bi-heart-fill"></i> をつける`}
+        title={`<i class="bi bi-heart-fill"></i> をつける`}
         onClick={handleClickLikeButton}
       >
         +<i className="bi bi-heart-fill"></i>
