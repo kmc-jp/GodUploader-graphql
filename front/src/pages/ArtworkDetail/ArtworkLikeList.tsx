@@ -65,6 +65,12 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
 
   return (
     <div className="mb-2">
+      <button
+        className={clsx("btn", viewerLiked ? "btn-secondary" : "btn-outline-secondary")}
+        onClick={handleClickLikeButton}
+      >
+        +<i className="bi bi-heart-fill"></i>
+      </button>
       {likes.edges.map((edge, i) => {
         if (!edge) {
           return null;
@@ -76,12 +82,6 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
 
         return <LikeIcon key={i} like={node} />;
       })}{" "}
-      <button
-        className={clsx("btn", viewerLiked ? "btn-secondary" : "btn-outline-secondary")}
-        onClick={handleClickLikeButton}
-      >
-        +<i className="bi bi-heart-fill"></i>
-      </button>
     </div>
   );
 };
