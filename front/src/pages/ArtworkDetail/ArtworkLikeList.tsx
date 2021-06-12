@@ -75,6 +75,7 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
       <button
         className={clsx(
           "btn",
+          "btn-sm",
           viewerLiked ? "btn-secondary" : "btn-outline-secondary"
         )}
         ref={buttonRef}
