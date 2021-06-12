@@ -118,6 +118,18 @@ class Query(graphene.ObjectType):
 
         return tags
 
+    tags_by_prefix = SQLAlchemyConnectionField(Tag.connection, prefix=graphene.NonNull(graphene.String))
+
+    def resolve_tags_by_prefix(self, info, **args):
+        prefix = args.get('prefix').replace('\\', '\\\\').replace('%', r'\%').replace('_', r'\_')
+        tag_query = SQLAlchemyConnectionField.get_query(TagModel, info, **args)
+
+        tags = tag_query \
+            .filter(TagModel.name.ilike(prefix + '%', escape='\\'))
+
+        return tags
+
+
 class LikeArtwork(relay.ClientIDMutation):
     class Input:
         artwork_id = graphene.ID(required=True)

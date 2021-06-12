@@ -262,6 +262,7 @@ type Query {
   safeArtworks(sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   taggedArtworks(tag: String!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   allTags(sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection
+  tagsByPrefix(prefix: String!, sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection
 }
 
 type Tag implements Node {
