@@ -8,6 +8,7 @@ type Account implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   artworks(before: String, after: String, first: Int, last: Int): ArtworkConnection
+  comments(before: String, after: String, first: Int, last: Int): CommentConnection
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
 }
 
@@ -131,6 +132,7 @@ type Comment implements Node {
   artworkId: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
+  account: Account
   artwork: Artwork
 }
 

@@ -20,6 +20,7 @@ class Account(Base):
     index_artworks_count = Index('account_artworks_count', artworks_count)
 
     artworks = relationship('Artwork', backref='account')
+    comments = relationship('Comment', backref='account')
     likes = relationship('Like', backref='account')
 
 class ArtworkTagRelation(Base):
