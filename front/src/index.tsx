@@ -10,15 +10,13 @@ import reportWebVitals from "./reportWebVitals";
 import { RouteRenderer } from "./routing";
 import { routes } from "./routes";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <BrowserRouter>
-        <RouteRenderer routes={routes} />
-      </BrowserRouter>
-    </RelayEnvironmentProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+// opt-out Strict mode of React. ref: https://github.com/ReactTraining/react-router/issues/7870
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <RelayEnvironmentProvider environment={RelayEnvironment}>
+    <BrowserRouter>
+      <RouteRenderer routes={routes} />
+    </BrowserRouter>
+  </RelayEnvironmentProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
