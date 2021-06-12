@@ -16,7 +16,7 @@ type Viewer = {
 } | null;
 
 interface Props {
-  artwork: NonNullable<ArtworkDetailQueryResponse['node']>;
+  artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;
   viewer: Viewer;
 }
 
@@ -49,28 +49,43 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
   );
   const environment = useRelayEnvironment();
 
-  const handleClickLikeButton = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    if (!(likes && likes.__id && artwork && artwork.id)) {
-      return;
-    }
-    commitLikeArtworkMutation(environment, { artworkId: artwork.id }, [ likes.__id ])
-  }, [artwork, environment, likes]);
+  const handleClickLikeButton = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      if (!(likes && likes.__id && artwork && artwork.id)) {
+        return;
+      }
+      commitLikeArtworkMutation(environment, { artworkId: artwork.id }, [
+        likes.__id,
+      ]);
+    },
+    [artwork, environment, likes]
+  );
+
+  const buttonRef = useTooltip<HTMLButtonElement>();
 
   if (!(likes && likes.edges)) {
     return null;
   }
 
-  const viewerLiked = viewerLikedArtwork(viewer, likes)
+  const viewerLiked = viewerLikedArtwork(viewer, likes);
 
   return (
     <div className="mb-2">
       <button
-        className={clsx("btn", viewerLiked ? "btn-secondary" : "btn-outline-secondary")}
+        className={clsx(
+          "btn",
+          viewerLiked ? "btn-secondary" : "btn-outline-secondary"
+        )}
+        ref={buttonRef}
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        data-bs-html="true"
+        title={viewerLiked ? `いいね<i class="bi bi-heart-fill"></i>` : `<i class="bi bi-heart-fill"></i> をつける`}
         onClick={handleClickLikeButton}
       >
         +<i className="bi bi-heart-fill"></i>
-      </button>
+      </button>{" "}
       {likes.edges.map((edge, i) => {
         if (!edge) {
           return null;
@@ -94,7 +109,7 @@ const LikeIcon: React.FC<{
     } | null;
   };
 }> = ({ like }) => {
-  const ref = useTooltip<HTMLAnchorElement>()
+  const ref = useTooltip<HTMLAnchorElement>();
 
   if (!like.account) {
     return null;
