@@ -3,14 +3,28 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { useFragment } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
-import { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
+import {
+  ArtworkLikeList_likes,
+  ArtworkLikeList_likes$key,
+} from "./__generated__/ArtworkLikeList_likes.graphql";
+import clsx from "clsx";
+
+type Viewer = {
+  readonly id: string;
+} | null;
 
 interface Props {
   artwork: ArtworkLikeList_likes$key;
-  viewer: {
-    readonly id: string;
-  } | null;
+  viewer: Viewer;
 }
+
+const viewerLikedArtwork = (
+  viewer: Viewer,
+  likes: NonNullable<ArtworkLikeList_likes>["likes"]
+) =>
+  viewer &&
+  likes?.edges?.length &&
+  likes?.edges?.some((edge) => edge?.node?.account?.id === viewer.id);
 
 export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
   const { likes } = useFragment(
@@ -41,6 +55,8 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
     return null;
   }
 
+  const viewerLiked = viewerLikedArtwork(viewer, likes)
+
   return (
     <div className="mb-2">
       {likes.edges.map((edge, i) => {
@@ -55,7 +71,7 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
         return <LikeIcon key={i} like={node} />;
       })}{" "}
       <button
-        className="btn btn-outline-secondary"
+        className={clsx("btn", viewerLiked ? "btn-secondary" : "btn-outline-secondary")}
         onClick={handleClickLikeButton}
       >
         +<i className="bi bi-heart-fill"></i>
