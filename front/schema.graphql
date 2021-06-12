@@ -267,6 +267,7 @@ type Tag implements Node {
   """The ID of the object."""
   id: ID!
   name: String!
+  artworksCount: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
   artworks(before: String, after: String, first: Int, last: Int): ArtworkTagRelationConnection

@@ -4,6 +4,7 @@ sys.path.insert(0, '.')
 from model import Account, Artwork, ArtworkTagRelation, Comment, Illust, Like, Tag
 from db import session
 
+from collections import defaultdict
 import sqlite3
 from_db = sqlite3.connect('./from.db', detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 from_db.row_factory = sqlite3.Row
@@ -95,12 +96,33 @@ def migrate_likes():
         )
         session.add(new_like)
 
+def build_tag_id_to_count():
+    rows = from_db.cursor().execute('''
+        SELECT
+            t.id,
+            COUNT(f.id) AS cnt
+        FROM tags AS t
+        LEFT JOIN folderstags AS ft
+        ON ft.tag_id = t.id
+        LEFT JOIN folders AS f
+        ON ft.folder_id = f.id
+        GROUP BY t.id
+    ''')
+
+    tag_id_to_count = defaultdict(int)
+    for row in rows:
+        tag_id_to_count[row['id']] = row['cnt']
+
+    return tag_id_to_count
+
 def migrate_tags():
     old_tags = from_db.cursor().execute('SELECT * FROM tags')
+    tag_id_to_count = build_tag_id_to_count()
     for old_row in old_tags:
         new_tag = Tag(
             id=old_row['id'],
             name=old_row['name'],
+            artworks_count=tag_id_to_count[old_row['id']],
             created_at=old_row['created_at'],
             updated_at=old_row['updated_at'],
         )

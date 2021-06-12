@@ -17,7 +17,7 @@ class Account(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    index_artworks_count = Index('artworks_count', artworks_count)
+    index_artworks_count = Index('account_artworks_count', artworks_count)
 
     artworks = relationship('Artwork', backref='account')
     likes = relationship('Like', backref='account')
@@ -86,6 +86,9 @@ class Tag(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False, unique=True)
+    artworks_count = Column(Integer, nullable=False, default=0)
+
+    index_artworks_count = Index('tag_artworks_count', artworks_count)
 
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
