@@ -1,9 +1,9 @@
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
-import { useRouteMatch } from "react-router";
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
+import { useParams } from "react-router-dom";
 
 export const taggedArtworksQuery = graphql`
   query TaggedArtworksQuery($tag: String!) {
@@ -28,8 +28,7 @@ export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
     taggedArtworksQuery,
     prepared.taggedArtworksQuery
   );
-  const match = useRouteMatch<{ tag: string }>();
-  const tag = match.params.tag;
+  const { tag } = useParams<{ tag: string }>();
 
   return (
     <div>
