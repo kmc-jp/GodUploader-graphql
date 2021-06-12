@@ -8,6 +8,9 @@ import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
+    viewer {
+      id
+    }
     node(id: $id) {
       ... on Artwork {
         title
@@ -48,7 +51,7 @@ interface ArtworkDetailProps {
 }
 
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
-  const { node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
+  const { viewer, node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
     artworkDetailQuery,
     prepared.artworkDetailQuery
   );
@@ -84,7 +87,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               })}
             </ul>
           </div>
-          <LikeList artwork={artwork} />
+          <LikeList artwork={artwork} viewer={viewer} />
           {artwork.illusts?.edges.map((edge) => {
             if (!edge) {
               return null;

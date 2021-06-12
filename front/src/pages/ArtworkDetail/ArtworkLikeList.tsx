@@ -6,7 +6,14 @@ import { graphql } from "babel-plugin-relay/macro";
 import { ArtworkLikeList_like$key } from "./__generated__/ArtworkLikeList_like.graphql";
 import { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
 
-export const LikeList: React.FC<{ artwork: ArtworkLikeList_likes$key }> = ({ artwork }) => {
+interface Props {
+  artwork: ArtworkLikeList_likes$key;
+  viewer: {
+    readonly id: string;
+  } | null;
+}
+
+export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
   const { likes } = useFragment(
     graphql`
       fragment ArtworkLikeList_likes on Artwork {
@@ -28,13 +35,13 @@ export const LikeList: React.FC<{ artwork: ArtworkLikeList_likes$key }> = ({ art
     window.alert("liked");
   }, []);
 
-  if (!likes) {
+  if (!(likes && likes.edges)) {
     return null;
   }
 
   return (
     <div className="mb-2">
-      {likes.edges?.map((edge, i) => {
+      {likes.edges.map((edge, i) => {
         if (!edge) {
           return null;
         }
