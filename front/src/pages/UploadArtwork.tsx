@@ -31,7 +31,7 @@ export const UploadArtwork: React.VFC = () => {
         {
           title,
           caption,
-          tags: [], // TODO: タグ設定を受け付ける
+          tags: tagList,
           files: uploadables,
         },
         uploadables,
@@ -41,7 +41,7 @@ export const UploadArtwork: React.VFC = () => {
         }
       );
     },
-    [environment]
+    [environment, tagList]
   );
 
   if (uploadedArtworkId) {
