@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useFragment } from "react-relay";
+import { useFragment, useRelayEnvironment } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import {
@@ -8,13 +8,15 @@ import {
 } from "./__generated__/ArtworkLikeList_likes.graphql";
 import { useTooltip } from "../../hooks/useTooltip";
 import clsx from "clsx";
+import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
+import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 
 type Viewer = {
   readonly id: string;
 } | null;
 
 interface Props {
-  artwork: ArtworkLikeList_likes$key;
+  artwork: NonNullable<ArtworkDetailQueryResponse['node']>;
   viewer: Viewer;
 }
 
@@ -27,7 +29,7 @@ const viewerLikedArtwork = (
   likes?.edges?.some((edge) => edge?.node?.account?.id === viewer.id);
 
 export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
-  const { likes } = useFragment(
+  const { likes } = useFragment<ArtworkLikeList_likes$key>(
     graphql`
       fragment ArtworkLikeList_likes on Artwork {
         likes(first: 10000000) @connection(key: "ArtworkDetail_likes") {
@@ -45,11 +47,15 @@ export const LikeList: React.FC<Props> = ({ artwork, viewer }) => {
     `,
     artwork
   );
+  const environment = useRelayEnvironment();
 
   const handleClickLikeButton = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
-    window.alert(`liked: ${likes?.__id}`);
-  }, [likes]);
+    if (!(likes && likes.__id && artwork && artwork.id)) {
+      return;
+    }
+    commitLikeArtworkMutation(environment, { artworkId: artwork.id }, [ likes.__id ])
+  }, [artwork, environment, likes]);
 
   if (!(likes && likes.edges)) {
     return null;

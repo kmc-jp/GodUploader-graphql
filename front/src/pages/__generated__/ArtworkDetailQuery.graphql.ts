@@ -12,6 +12,7 @@ export type ArtworkDetailQueryResponse = {
         readonly id: string;
     } | null;
     readonly node: {
+        readonly id?: string;
         readonly title?: string;
         readonly caption?: string;
         readonly createdAt?: string;
@@ -57,6 +58,7 @@ query ArtworkDetailQuery(
   node(id: $id) {
     __typename
     ... on Artwork {
+      id
       title
       caption
       createdAt
@@ -267,6 +269,7 @@ return {
           {
             "kind": "InlineFragment",
             "selections": [
+              (v1/*: any*/),
               (v4/*: any*/),
               (v5/*: any*/),
               (v6/*: any*/),
@@ -518,14 +521,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7355e8bbcff02364a8fd98e46f72d19b",
+    "cacheID": "5a037621ae53b31ccf8cd225a158efe6",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      ...ArtworkLikeList_likes\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      id\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      ...ArtworkLikeList_likes\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'c2f6145c33708a0b22a1bf3b74433350';
+(node as any).hash = '5b879d758b75be1faadc57a083b9addf';
 export default node;

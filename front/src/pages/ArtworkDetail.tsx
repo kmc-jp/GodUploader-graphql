@@ -13,6 +13,7 @@ export const artworkDetailQuery = graphql`
     }
     node(id: $id) {
       ... on Artwork {
+        id
         title
         caption
         createdAt
