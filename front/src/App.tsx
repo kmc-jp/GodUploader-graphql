@@ -32,11 +32,11 @@ function App({ route }: RouteConfigComponentProps) {
         </div>
       </nav>
       <div className="container">
-        <Suspense fallback={<p>Now loading...</p>}>
-          <ErrorBoundary>
+        <ErrorBoundary>
+          <Suspense fallback={<p>Now loading...</p>}>
             <RouteRenderer routes={route && route.routes} />
-          </ErrorBoundary>
-        </Suspense>
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </div>
   );
