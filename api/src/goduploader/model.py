@@ -12,10 +12,10 @@ class Account(Base):
     kmcid = Column(String, unique=True, nullable=False)
     name = Column(String, nullable=False)
     artworks_count = Column(Integer, nullable=False, default=0)
-    last_logged_in = Column(DateTime, nullable=False, default=datetime.utcnow)
+    last_logged_in = Column(DateTime, nullable=False, default=datetime.now)
 
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     index_artworks_count = Index('account_artworks_count', artworks_count)
 
@@ -28,8 +28,8 @@ class ArtworkTagRelation(Base):
     artwork_id = Column(Integer, ForeignKey('artwork.id'), primary_key=True)
     tag_id = Column(Integer, ForeignKey('tag.id'), primary_key=True)
 
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     artwork = relationship('Artwork', back_populates='tags')
     tag = relationship('Tag', back_populates='artworks')
@@ -42,8 +42,8 @@ class Artwork(Base):
     title = Column(String(255), nullable=False)
     caption = Column(Text, nullable=False)
 
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     illusts = relationship('Illust', backref='artwork')
     comments = relationship('Comment', backref='artwork')
@@ -58,8 +58,8 @@ class Comment(Base):
     account_id = Column(Integer, ForeignKey('account.id'), nullable=False)
     artwork_id = Column(Integer, ForeignKey('artwork.id'), nullable=False)
 
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
 class Illust(Base):
     __tablename__ = 'illust'
@@ -68,8 +68,8 @@ class Illust(Base):
     artwork_id = Column(Integer, ForeignKey('artwork.id'), nullable=False)
     filename = Column(String, nullable=False)
 
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
 class Like(Base):
     __tablename__ = 'like'
@@ -78,8 +78,8 @@ class Like(Base):
     account_id = Column(Integer, ForeignKey('account.id'), nullable=False)
     artwork_id = Column(Integer, ForeignKey('artwork.id'), nullable=False)
 
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
 class Tag(Base):
     __tablename__ = 'tag'
@@ -90,7 +90,7 @@ class Tag(Base):
 
     index_artworks_count = Index('tag_artworks_count', artworks_count)
 
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.now)
+    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     artworks = relationship('ArtworkTagRelation', back_populates='tag')
