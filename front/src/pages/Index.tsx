@@ -30,7 +30,7 @@ export const indexQuery = graphql`
 
 interface IndexProps {
   prepared: {
-    indexQuery: PreloadedQuery<IndexQuery, Record<string, unknown>>;
+    indexQuery: PreloadedQuery<IndexQuery>;
   };
 }
 

@@ -21,7 +21,7 @@ export const userDetailQuery = graphql`
 
 interface UserDetailProps {
   prepared: {
-    userDetailQuery: PreloadedQuery<UserDetailQuery, Record<string, any>>;
+    userDetailQuery: PreloadedQuery<UserDetailQuery>;
   };
 }
 

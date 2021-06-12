@@ -19,10 +19,7 @@ export const taggedArtworksQuery = graphql`
 
 interface IndexProps {
   prepared: {
-    taggedArtworksQuery: PreloadedQuery<
-      TaggedArtworksQuery,
-      Record<string, unknown>
-    >;
+    taggedArtworksQuery: PreloadedQuery<TaggedArtworksQuery>;
   };
 }
 

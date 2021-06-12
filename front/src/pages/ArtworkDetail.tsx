@@ -45,7 +45,7 @@ export const artworkDetailQuery = graphql`
 
 interface ArtworkDetailProps {
   prepared: {
-    artworkDetailQuery: PreloadedQuery<ArtworkDetailQuery, Record<string, any>>;
+    artworkDetailQuery: PreloadedQuery<ArtworkDetailQuery>;
   };
 }
 
