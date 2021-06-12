@@ -3,10 +3,14 @@ import App from "./App";
 import { Index, indexQuery } from "./pages/Index";
 import { ArtworkDetail, artworkDetailQuery } from "./pages/ArtworkDetail";
 import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
+import { Tags, tagsQuery } from "./pages/Tags";
 import { UserDetail, userDetailQuery } from "./pages/UserDetail";
 import { RouteConfig } from "./routing";
 import { UploadArtwork } from "./pages/UploadArtwork";
-import { redirectToMyPageQuery, RedirectToMyPage } from "./pages/RedirectToMyPage";
+import {
+  redirectToMyPageQuery,
+  RedirectToMyPage,
+} from "./pages/RedirectToMyPage";
 
 export const routes: RouteConfig[] = [
   {
@@ -44,7 +48,7 @@ export const routes: RouteConfig[] = [
           viewer: loadQuery(
             environment,
             redirectToMyPageQuery,
-            { },
+            {},
             { fetchPolicy: "store-or-network" }
           ),
         }),
@@ -61,6 +65,18 @@ export const routes: RouteConfig[] = [
             environment,
             artworkDetailQuery,
             { id: params.id },
+            { fetchPolicy: "store-or-network" }
+          ),
+        }),
+      },
+      {
+        path: "/tags",
+        component: Tags,
+        prepare: ({ environment }) => ({
+          tagsQuery: loadQuery(
+            environment,
+            tagsQuery,
+            {},
             { fetchPolicy: "store-or-network" }
           ),
         }),

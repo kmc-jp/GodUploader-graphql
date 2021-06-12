@@ -23,6 +23,11 @@ function App({ route }: RouteConfigComponentProps) {
                 マイページ
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to="/tags" className="nav-link">
+                タグ検索
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>
