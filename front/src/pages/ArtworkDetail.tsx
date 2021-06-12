@@ -8,6 +8,7 @@ import { formatDateTime } from "../util";
 import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
 import clsx from "clsx";
 import { usePrevious } from "../hooks/usePrevious";
+import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
@@ -33,6 +34,7 @@ export const artworkDetailQuery = graphql`
           }
         }
         ...ArtworkLikeList_likes
+        ...ArtworkComment_comments
         tags {
           edges {
             node {
@@ -182,6 +184,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               <span className="visually-hidden">Next</span>
             </button>
           </div>
+          <ArtworkComment artwork={artwork} />
         </div>
       </div>
     </div>

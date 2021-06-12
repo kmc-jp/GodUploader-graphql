@@ -38,7 +38,7 @@ export type ArtworkDetailQueryResponse = {
                 } | null;
             } | null>;
         } | null;
-        readonly " $fragmentRefs": FragmentRefs<"ArtworkLikeList_likes">;
+        readonly " $fragmentRefs": FragmentRefs<"ArtworkLikeList_likes" | "ArtworkComment_comments">;
     } | null;
 };
 export type ArtworkDetailQuery = {
@@ -76,6 +76,7 @@ query ArtworkDetailQuery(
         }
       }
       ...ArtworkLikeList_likes
+      ...ArtworkComment_comments
       tags {
         edges {
           node {
@@ -89,6 +90,22 @@ query ArtworkDetailQuery(
       }
     }
     id
+  }
+}
+
+fragment ArtworkComment_comments on Artwork {
+  comments(last: 1000000) {
+    edges {
+      node {
+        text
+        createdAt
+        account {
+          kmcid
+          id
+        }
+        id
+      }
+    }
   }
 }
 
@@ -325,6 +342,11 @@ return {
                 "args": null,
                 "kind": "FragmentSpread",
                 "name": "ArtworkLikeList_likes"
+              },
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "ArtworkComment_comments"
               }
             ],
             "type": "Artwork",
@@ -478,6 +500,67 @@ return {
               },
               {
                 "alias": null,
+                "args": [
+                  {
+                    "kind": "Literal",
+                    "name": "last",
+                    "value": 1000000
+                  }
+                ],
+                "concreteType": "CommentConnection",
+                "kind": "LinkedField",
+                "name": "comments",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "CommentEdge",
+                    "kind": "LinkedField",
+                    "name": "edges",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "Comment",
+                        "kind": "LinkedField",
+                        "name": "node",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "text",
+                            "storageKey": null
+                          },
+                          (v6/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "concreteType": "Account",
+                            "kind": "LinkedField",
+                            "name": "account",
+                            "plural": false,
+                            "selections": [
+                              (v7/*: any*/),
+                              (v1/*: any*/)
+                            ],
+                            "storageKey": null
+                          },
+                          (v1/*: any*/)
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": "comments(last:1000000)"
+              },
+              {
+                "alias": null,
                 "args": null,
                 "concreteType": "ArtworkTagRelationConnection",
                 "kind": "LinkedField",
@@ -521,14 +604,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "5a037621ae53b31ccf8cd225a158efe6",
+    "cacheID": "62586556d76f499e825dd13b6c351d82",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      id\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      ...ArtworkLikeList_likes\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      id\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '5b879d758b75be1faadc57a083b9addf';
+(node as any).hash = 'fc83bb8fdec505dc7d73e18e68b9ab69';
 export default node;
