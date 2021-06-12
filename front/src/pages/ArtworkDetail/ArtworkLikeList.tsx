@@ -1,5 +1,4 @@
-import Tooltip from "bootstrap/js/dist/tooltip";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback } from "react";
 import { useFragment } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
@@ -7,6 +6,7 @@ import {
   ArtworkLikeList_likes,
   ArtworkLikeList_likes$key,
 } from "./__generated__/ArtworkLikeList_likes.graphql";
+import { useTooltip } from "../../hooks/useTooltip";
 import clsx from "clsx";
 
 type Viewer = {
@@ -88,19 +88,7 @@ const LikeIcon: React.FC<{
     } | null;
   };
 }> = ({ like }) => {
-  const ref = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    const tooltip = new Tooltip(ref.current);
-    return () => {
-      // いいねアイコンをクリックしてユーザーページに遷移したときにツールチップが消えるようにする
-      tooltip.hide();
-    };
-  });
+  const ref = useTooltip<HTMLAnchorElement>()
 
   if (!like.account) {
     return null;
