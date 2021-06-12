@@ -261,6 +261,7 @@ type Query {
   activeAccounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
   safeArtworks(sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   taggedArtworks(tag: String!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
+  allTags(sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection
 }
 
 type Tag implements Node {
@@ -271,6 +272,37 @@ type Tag implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   artworks(before: String, after: String, first: Int, last: Int): ArtworkTagRelationConnection
+}
+
+type TagConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [TagEdge]!
+}
+
+"""A Relay edge containing a `Tag` and its cursor."""
+type TagEdge {
+  """The item at the end of the edge"""
+  node: Tag
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""An enumeration."""
+enum TagSortEnum {
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  ARTWORKS_COUNT_ASC
+  ARTWORKS_COUNT_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
 }
 
 """

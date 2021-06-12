@@ -109,6 +109,15 @@ class Query(graphene.ObjectType):
 
         return artworks
 
+    all_tags = SQLAlchemyConnectionField(Tag.connection)
+
+    def resolve_all_tags(self, info, **args):
+        tag_query = SQLAlchemyConnectionField.get_query(TagModel, info, **args)
+        tags = tag_query \
+            .filter(TagModel.artworks_count > 0)
+
+        return tags
+
 class LikeArtwork(relay.ClientIDMutation):
     class Input:
         artwork_id = graphene.ID(required=True)
