@@ -23,7 +23,7 @@ export type TagsQuery = {
 
 /*
 query TagsQuery {
-  allTags(sort: ID_ASC) {
+  allTags(sort: [UPDATED_AT_DESC]) {
     edges {
       node {
         name
@@ -40,7 +40,9 @@ var v0 = [
   {
     "kind": "Literal",
     "name": "sort",
-    "value": "ID_ASC"
+    "value": [
+      "UPDATED_AT_DESC"
+    ]
   }
 ],
 v1 = {
@@ -97,7 +99,7 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": "allTags(sort:\"ID_ASC\")"
+        "storageKey": "allTags(sort:[\"UPDATED_AT_DESC\"])"
       }
     ],
     "type": "Query",
@@ -149,19 +151,19 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": "allTags(sort:\"ID_ASC\")"
+        "storageKey": "allTags(sort:[\"UPDATED_AT_DESC\"])"
       }
     ]
   },
   "params": {
-    "cacheID": "7801605fe5b35057318fd5dc7fe91f63",
+    "cacheID": "d48b2be3f2f6bd871cbc46c588c6b315",
     "id": null,
     "metadata": {},
     "name": "TagsQuery",
     "operationKind": "query",
-    "text": "query TagsQuery {\n  allTags(sort: ID_ASC) {\n    edges {\n      node {\n        name\n        artworksCount\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query TagsQuery {\n  allTags(sort: [UPDATED_AT_DESC]) {\n    edges {\n      node {\n        name\n        artworksCount\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '0bd7d53dcfa703d13289696d0f459e17';
+(node as any).hash = 'c21a329086271c16f01fc0b7bdda5f1c';
 export default node;

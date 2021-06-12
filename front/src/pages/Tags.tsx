@@ -6,7 +6,7 @@ import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
 export const tagsQuery = graphql`
   query TagsQuery {
-    allTags(sort: ID_ASC) {
+    allTags(sort: [UPDATED_AT_DESC]) {
       edges {
         node {
           name
