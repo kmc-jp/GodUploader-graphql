@@ -131,6 +131,38 @@ class Query(graphene.ObjectType):
         return tags
 
 
+class CreateComment(relay.ClientIDMutation):
+    class Input:
+        artwork_id = graphene.ID(required=True)
+        text = graphene.String(required=True)
+
+    comment = graphene.Field(Comment)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        current_user = viewer()
+        if current_user is None:
+            raise Exception('Please login')
+
+        artwork_id = input['artwork_id']
+        artwork = relay.Node.get_node_from_global_id(info, artwork_id, only_type=Artwork)
+        if artwork is None:
+            raise Exception('Artwork not found')
+
+        text = input['text'].strip()
+        if not text:
+            raise Exception('Comment text is required')
+
+        comment = CommentModel(
+            account_id=current_user.id,
+            artwork_id=artwork.id,
+            text=text,
+        )
+        session.add(comment)
+        session.commit()
+
+        return CreateComment(comment=comment)
+
 class LikeArtwork(relay.ClientIDMutation):
     class Input:
         artwork_id = graphene.ID(required=True)
@@ -207,6 +239,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         return UploadArtwork(artwork=artwork)
 
 class Mutation(graphene.ObjectType):
+    create_comment = CreateComment.Field()
     like_artwork = LikeArtwork.Field()
     upload_artwork = UploadArtwork.Field()
 

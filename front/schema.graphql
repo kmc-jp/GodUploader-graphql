@@ -151,6 +151,17 @@ type CommentEdge {
   cursor: String!
 }
 
+input CreateCommentInput {
+  artworkId: ID!
+  text: String!
+  clientMutationId: String
+}
+
+type CreateCommentPayload {
+  comment: Comment
+  clientMutationId: String
+}
+
 """
 The `DateTime` scalar type represents a DateTime
 value as specified by
@@ -224,6 +235,7 @@ type LikeEdge {
 }
 
 type Mutation {
+  createComment(input: CreateCommentInput!): CreateCommentPayload
   likeArtwork(input: LikeArtworkInput!): LikeArtworkPayload
   uploadArtwork(input: UploadArtworkInput!): UploadArtworkPayload
 }
