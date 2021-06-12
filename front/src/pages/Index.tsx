@@ -18,7 +18,9 @@ export const indexQuery = graphql`
         }
       }
     }
-    safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {
+    safeArtworks(first: 8, sort: [CREATED_AT_DESC])
+      @connection(key: "Index_safeArtworks") {
+      __id
       edges {
         node {
           ...ArtworkListItem_artwork
@@ -43,26 +45,34 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
 
   return (
     <div>
-      <div className="card mb-5">
-        <div className="card-header">
-          <h2 className="text-center">最新{artworkCount}件の絵</h2>
-        </div>
-        <div className="card-body">
-          <div className="row row-cols-4">
-            {safeArtworks?.edges.map((edge, i) => {
-              if (!edge) {
-                return null;
-              }
+      {safeArtworks && safeArtworks.edges ? (
+        <div className="card mb-5">
+          <div className="card-header">
+            <h2 className="text-center">最新{artworkCount}件の絵</h2>
+          </div>
+          <div className="card-body">
+            <div className="row row-cols-4">
+              {safeArtworks.edges.map((edge, i) => {
+                if (!edge) {
+                  return null;
+                }
 
-              return (
-                <div key={i} className="col p-2">
-                  <ArtworkListItem artwork={edge.node!} />
-                </div>
-              );
-            })}
+                if (!edge.node) {
+                  return null;
+                }
+
+                return (
+                  <div key={i} className="col p-2">
+                    <ArtworkListItem artwork={edge.node} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="card mb-5"></div> // fallback
+      )}
       <div className="card">
         <div className="card-header">
           <h2 className="text-center">利用者達</h2>
