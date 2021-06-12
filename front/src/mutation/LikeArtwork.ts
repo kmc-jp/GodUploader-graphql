@@ -1,16 +1,23 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Environment, commitMutation } from "react-relay";
-import { LikeArtworkInput, LikeArtworkMutation } from "./__generated__/LikeArtworkMutation.graphql"
+import {
+  LikeArtworkInput,
+  LikeArtworkMutation,
+} from "./__generated__/LikeArtworkMutation.graphql";
 
 export const commitLikeArtworkMutation = (
   environment: Environment,
-  input: LikeArtworkInput
+  input: LikeArtworkInput,
+  connections?: string[],
 ) => {
   return commitMutation<LikeArtworkMutation>(environment, {
     mutation: graphql`
-      mutation LikeArtworkMutation($input: LikeArtworkInput!) {
+      mutation LikeArtworkMutation(
+        $connections: [ID!]!
+        $input: LikeArtworkInput!
+      ) {
         likeArtwork(input: $input) {
-          like {
+          like @prependNode(connections: $connections, edgeTypeName: "LikeEdge") {
             id
             account {
               id
@@ -20,6 +27,6 @@ export const commitLikeArtworkMutation = (
         }
       }
     `,
-    variables: { input },
+    variables: { input, connections: connections || [] },
   });
 };
