@@ -88,13 +88,17 @@ query ArtworkDetailQuery(
   }
 }
 
+fragment ArtworkDetail_like on Like {
+  account {
+    id
+    kmcid
+  }
+}
+
 fragment ArtworkDetail_likes on LikeConnection {
   edges {
     node {
-      account {
-        id
-        kmcid
-      }
+      ...ArtworkDetail_like
       id
     }
   }
@@ -443,12 +447,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4d0dca300f5f6f3f3989d5e8a57b0f69",
+    "cacheID": "2ffdeb1b48aa61a1dfd43e4db2dc4328",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      likes {\n        ...ArtworkDetail_likes\n      }\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkDetail_likes on LikeConnection {\n  edges {\n    node {\n      account {\n        id\n        kmcid\n      }\n      id\n    }\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      title\n      caption\n      createdAt\n      account {\n        kmcid\n        name\n        id\n      }\n      illusts {\n        edges {\n          node {\n            id\n            filename\n          }\n        }\n      }\n      likes {\n        ...ArtworkDetail_likes\n      }\n      tags {\n        edges {\n          node {\n            tag {\n              id\n              name\n            }\n            id\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkDetail_like on Like {\n  account {\n    id\n    kmcid\n  }\n}\n\nfragment ArtworkDetail_likes on LikeConnection {\n  edges {\n    node {\n      ...ArtworkDetail_like\n      id\n    }\n  }\n}\n"
   }
 };
 })();

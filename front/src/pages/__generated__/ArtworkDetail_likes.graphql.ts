@@ -7,10 +7,7 @@ import { FragmentRefs } from "relay-runtime";
 export type ArtworkDetail_likes = {
     readonly edges: ReadonlyArray<{
         readonly node: {
-            readonly account: {
-                readonly id: string;
-                readonly kmcid: string;
-            } | null;
+            readonly " $fragmentRefs": FragmentRefs<"ArtworkDetail_like">;
         } | null;
     } | null>;
     readonly " $refType": "ArtworkDetail_likes";
@@ -46,29 +43,9 @@ const node: ReaderFragment = {
           "plural": false,
           "selections": [
             {
-              "alias": null,
               "args": null,
-              "concreteType": "Account",
-              "kind": "LinkedField",
-              "name": "account",
-              "plural": false,
-              "selections": [
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "id",
-                  "storageKey": null
-                },
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "kmcid",
-                  "storageKey": null
-                }
-              ],
-              "storageKey": null
+              "kind": "FragmentSpread",
+              "name": "ArtworkDetail_like"
             }
           ],
           "storageKey": null
@@ -80,5 +57,5 @@ const node: ReaderFragment = {
   "type": "LikeConnection",
   "abstractKey": null
 };
-(node as any).hash = '0df89427a164f1e44b70e1a9c529d1bf';
+(node as any).hash = '389e4dc7abf2d6c1678a0da6eb82fdd9';
 export default node;

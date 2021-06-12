@@ -1,8 +1,10 @@
-import React from "react";
+import Tooltip from "bootstrap/js/dist/tooltip";
+import React, { useEffect, useRef } from "react";
 import { PreloadedQuery, useFragment, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
+import { ArtworkDetail_like$key } from "./__generated__/ArtworkDetail_like.graphql";
 import { ArtworkDetail_likes$key } from "./__generated__/ArtworkDetail_likes.graphql";
 import { formatDateTime } from "../util";
 
@@ -49,6 +51,45 @@ interface ArtworkDetailProps {
   };
 }
 
+const LikeIcon: React.FC<{ node: ArtworkDetail_like$key }> = ({ node }) => {
+  const like = useFragment(
+    graphql`
+      fragment ArtworkDetail_like on Like {
+        account {
+          id
+          kmcid
+        }
+      }
+    `,
+    node
+  );
+  const ref = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const tooltip = new Tooltip(ref.current);
+    return () => {
+      // いいねアイコンをクリックしてユーザーページに遷移したときにツールチップが消えるようにする
+      tooltip.hide();
+    };
+  });
+
+  return (
+    <Link
+      to={`/user/${like.account?.kmcid}`}
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title={like.account?.kmcid}
+      ref={ref}
+    >
+      <i className="bi bi-heart-fill"></i>
+    </Link>
+  );
+};
+
 const LikeList: React.FC<{ likesKey: ArtworkDetail_likes$key }> = ({
   likesKey,
 }) => {
@@ -57,10 +98,7 @@ const LikeList: React.FC<{ likesKey: ArtworkDetail_likes$key }> = ({
       fragment ArtworkDetail_likes on LikeConnection {
         edges {
           node {
-            account {
-              id
-              kmcid
-            }
+            ...ArtworkDetail_like
           }
         }
       }
@@ -74,18 +112,11 @@ const LikeList: React.FC<{ likesKey: ArtworkDetail_likes$key }> = ({
           return null;
         }
         const node = edge.node;
+        if (!node) {
+          return null;
+        }
 
-        return (
-          <Link
-            key={i}
-            to={`/users/${node?.account?.kmcid}`}
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title={node?.account?.kmcid}
-          >
-            <i className="bi bi-heart-fill"></i>
-          </Link>
-        );
+        return <LikeIcon key={i} node={node} />;
       })}
     </>
   );
