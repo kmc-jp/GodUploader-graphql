@@ -17,7 +17,7 @@ export const commitLikeArtworkMutation = (
         $input: LikeArtworkInput!
       ) {
         likeArtwork(input: $input) {
-          like @prependNode(connections: $connections, edgeTypeName: "LikeEdge") {
+          like @appendNode(connections: $connections, edgeTypeName: "LikeEdge") {
             id
             account {
               id
