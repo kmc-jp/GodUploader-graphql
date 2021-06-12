@@ -22,7 +22,7 @@ interface Props {
   setTagList: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-export const TagsInput: React.VFC<Props> = ({tagList, setTagList}) => {
+export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
   const [preloadedQuery, loadQuery, dispose] =
     useQueryLoader<TagsInputQuery>(tagsInputQuery);
 
@@ -39,29 +39,56 @@ export const TagsInput: React.VFC<Props> = ({tagList, setTagList}) => {
     loadQuery({ prefix });
   });
 
-  const appendTag = useCallback((newTag: string) => {
-    setTagList((oldTagList) => [...oldTagList, newTag]);
-  }, [setTagList]);
+  const appendTag = useCallback(
+    (newTag: string) => {
+      setTagList((oldTagList) => [...oldTagList, newTag]);
+    },
+    [setTagList]
+  );
+
+  const popLastTag = useCallback(() => {
+    const lastTag = tagList[tagList.length - 1];
+    setTagList(tagList.slice(0, tagList.length - 2));
+    return lastTag;
+  }, [tagList, setTagList]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (!ref.current) {
-      return;
+    const handleAppendNewTag = (newTag?: string) => {
+      if (!ref.current) {
+        return;
+      }
+
+      if (!newTag) {
+        return;
+      }
+
+      e.preventDefault();
+
+      appendTag(newTag);
+      dispose();
+      ref.current.value = "";
+    };
+
+    const handleModifyLastTag = () => {
+      if (!ref.current) {
+        return;
+      }
+
+      if (tagList.length === 0) {
+        return;
+      }
+
+      e.preventDefault();
+      const lastTag = popLastTag();
+      ref.current.value = lastTag;
+    };
+
+    if (e.key === "Enter" || e.key === " ") {
+      const newTag = ref.current?.value;
+      handleAppendNewTag(newTag);
+    } else if (e.key === "Backspace" && ref.current?.value === "") {
+      handleModifyLastTag();
     }
-
-    if (e.key !== "Enter") {
-      return;
-    }
-
-    e.preventDefault();
-
-    const newTag = ref.current?.value;
-    if (!newTag) {
-      return;
-    }
-
-    appendTag(newTag);
-    dispose();
-    ref.current.value = "";
   };
 
   return (
