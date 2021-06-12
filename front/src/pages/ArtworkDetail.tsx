@@ -121,7 +121,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
                 const tag = edge?.node?.tag!;
                 return (
                   <li key={tag.id} className="text-center breadcrumb-item">
-                    <Link to={`/tagged_artworks/${tag.name}`}>{tag.name}</Link>
+                    <Link to={`/tagged_artworks/${tag.name}`}>#{tag.name}</Link>
                   </li>
                 );
               })}
