@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@popperjs/core": "^2.9.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^1.21.4",
     "@graphql-codegen/schema-ast": "^1.18.2",
+    "@types/bootstrap": "^5.0.16",
     "@types/react-relay": "^11.0.1",
     "@types/react-router-config": "^5.0.2",
     "@types/relay-runtime": "^11.0.0",
