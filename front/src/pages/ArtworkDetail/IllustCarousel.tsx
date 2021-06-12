@@ -84,7 +84,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
               <img
                 src={`http://localhost:5000/public/illusts/${node.filename}`}
                 alt=""
-                className="mw-100 d-block"
+                className="mw-100 d-block mx-auto"
               />
             </div>
           );
