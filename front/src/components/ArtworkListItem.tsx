@@ -2,6 +2,7 @@ import React from "react";
 import { graphql } from "babel-plugin-relay/macro";
 import { useFragment } from "react-relay/hooks";
 import { Link } from "react-router-dom";
+import { SuspenseImage } from "./SuspenseImage";
 import { ArtworkListItem_artwork$key } from "./__generated__/ArtworkListItem_artwork.graphql";
 
 interface ArtworkListItemProps {
@@ -34,7 +35,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
 
   return (
     <div className="card p-1" style={{height: 320}}>
-      <img
+      <SuspenseImage
         src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
         alt={artwork.title}
         style={{
