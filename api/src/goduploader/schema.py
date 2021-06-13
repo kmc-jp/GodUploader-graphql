@@ -240,9 +240,52 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         return UploadArtwork(artwork=artwork)
 
+
+class DeleteArtwork(graphene.ClientIDMutation):
+    class Input:
+        id = graphene.ID(required=True)
+
+    deleted_artwork_id = graphene.Field(graphene.ID)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        current_user = viewer()
+        if current_user is None:
+            raise Exception('Please login')
+
+        artwork_id = input['id']
+        artwork = relay.Node.get_node_from_global_id(info, artwork_id, only_type=Artwork)
+        if artwork is None:
+            raise Exception('Artwork not found')
+
+        if artwork.account_id != current_user.id:
+            raise Exception('You cannot delete this artwork')
+
+        current_user.artworks_count -= 1
+
+        illusts = IllustModel.filter(IllustModel.artwork_id == artwork_id).all()
+        for illust in illusts:
+            session.delete(illust)
+
+        tag_relations = ArtworkTagRelationModel \
+            .filter(ArtworkTagRelationModel.artwork_id == artwork_id) \
+            .all()
+        tag_ids = [r.tag_id for r in tag_relations]
+        tags = TagModel.filter(TagModel.id.in_(tag_ids))
+        for tag in tags:
+            tag.artworks_count -= 1
+
+        session.delete(artwork)
+
+        session.commit()
+
+        return DeleteArtwork(deleted_artwork_id=artwork_id)
+
+
 class Mutation(graphene.ObjectType):
     create_comment = CreateComment.Field()
     like_artwork = LikeArtwork.Field()
     upload_artwork = UploadArtwork.Field()
+    delete_artwork = DeleteArtwork.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
