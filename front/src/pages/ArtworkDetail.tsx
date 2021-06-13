@@ -59,6 +59,10 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   }
   const createdAt = new Date(artwork.createdAt!);
 
+  const handleDeleteButtonClick = () => {
+    window.confirm("本当に削除しますか？");
+  };
+
   return (
     <div>
       <div className="card">
@@ -91,7 +95,12 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           <ArtworkComment artwork={artwork} />
           {viewer && artwork.account && artwork.account.id === viewer.id && (
             <div className="mt-2 d-flex justify-content-center">
-              <button className="btn btn-danger">この神絵を削除する</button>
+              <button
+                className="btn btn-danger"
+                onClick={handleDeleteButtonClick}
+              >
+                この神絵を削除する
+              </button>
             </div>
           )}
         </div>
