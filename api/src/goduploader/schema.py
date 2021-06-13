@@ -234,6 +234,8 @@ class UploadArtwork(graphene.ClientIDMutation):
             session.add(new_relation)
             tag.artworks_count += 1
 
+        current_user.artworks_count += 1
+
         session.commit()
 
         return UploadArtwork(artwork=artwork)
