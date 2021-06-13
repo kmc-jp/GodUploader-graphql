@@ -10,6 +10,9 @@ import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
+    viewer {
+      id
+    }
     node(id: $id) {
       ... on Artwork {
         id
@@ -17,6 +20,7 @@ export const artworkDetailQuery = graphql`
         caption
         createdAt
         account {
+          id
           kmcid
           name
         }
@@ -45,7 +49,7 @@ interface ArtworkDetailProps {
 }
 
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
-  const { node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
+  const { viewer, node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
     artworkDetailQuery,
     prepared.artworkDetailQuery
   );
@@ -85,6 +89,11 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           <LikeList artwork={artwork} />
           <IllustCarousel artwork={artwork} />
           <ArtworkComment artwork={artwork} />
+          {viewer && artwork.account && artwork.account.id === viewer.id && (
+            <div className="mt-2 d-flex justify-content-center">
+              <button className="btn btn-danger">この神絵を削除する</button>
+            </div>
+          )}
         </div>
       </div>
     </div>
