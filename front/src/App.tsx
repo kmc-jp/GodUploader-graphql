@@ -24,8 +24,9 @@ function App({ route }: RouteConfigComponentProps) {
 
   useEffect(() => {
     const dispose = history.listen((location) => {
-      if (location !== currentLocation)
+      if (location !== currentLocation) {
         setIsLoading(true);
+      }
     });
 
     return () => {
