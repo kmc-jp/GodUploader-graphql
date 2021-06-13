@@ -4,7 +4,7 @@ from graphene import relay
 from graphene_file_upload.scalars import Upload
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 import os.path
-from sqlalchemy.sql.elements import or_, not_
+from sqlalchemy.sql.elements import not_
 import uuid
 from db import session
 from model import (
@@ -91,12 +91,7 @@ class Query(graphene.ObjectType):
     def resolve_safe_artworks(self, info, **args):
         artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
         artworks = artwork_query \
-            .join(ArtworkModel.tags, isouter=True) \
-            .join(ArtworkTagRelationModel.tag, isouter=True) \
-            .filter(or_(
-                TagModel.name == None,
-                not_(TagModel.name.in_(['R-18', 'R-18G'])))
-            )
+            .filter(not_(ArtworkModel.nsfw))
 
         return artworks
 
