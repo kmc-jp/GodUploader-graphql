@@ -105,22 +105,24 @@ const ArtworkList: React.VFC<{ user: any }> = ({ user }) => {
           );
         })}
       </div>
-      <div className="d-flex justify-content-center">
-        <button
-          type="button"
-          className="btn btn-lg btn-secondary w-100"
-          onClick={handleLoadArtworks}
-          disabled={isLoadingPrevious || !hasPrevious}
-        >
-          {isLoadingPrevious ? (
-            <div className="spinner-border text-light" role="status">
-              <span className="visually-hidden">Uploading...</span>
-            </div>
-          ) : (
-            hasPrevious ? "もっと読み込む" : "全ての画像を読み込んだ"
-          )}
-        </button>
-      </div>
+      {hasPrevious && (
+        <div className="d-flex justify-content-center">
+          <button
+            type="button"
+            className="btn btn-lg btn-secondary w-100"
+            onClick={handleLoadArtworks}
+            disabled={isLoadingPrevious || !hasPrevious}
+          >
+            {isLoadingPrevious ? (
+              <div className="spinner-border text-light" role="status">
+                <span className="visually-hidden">Uploading...</span>
+              </div>
+            ) : (
+              "もっと読み込む"
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
