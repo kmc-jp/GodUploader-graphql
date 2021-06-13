@@ -9,8 +9,8 @@ import { TagsInput } from "./UploadArtwork/TagsInput";
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();
-  const titleRef = useRef<HTMLInputElement>(null);
-  const captionRef = useRef<HTMLInputElement>(null);
+  const [title, setTitle] = useState("");
+  const [caption, setCaption] = useState("");
   const filesRef = useRef<HTMLInputElement>(null);
   const [uploadedArtworkId, setUploadedArtworkId] =
     useState<string | null>(null);
@@ -22,8 +22,6 @@ export const UploadArtwork: React.VFC = () => {
     (event: FormEvent) => {
       event.preventDefault();
       setIsUploading(true);
-      const title = titleRef.current!.value;
-      const caption = captionRef.current!.value;
       const files = filesRef.current!.files!;
       const uploadables = makeUploadables(files);
       commitUploadArtworkMutation(
@@ -41,7 +39,7 @@ export const UploadArtwork: React.VFC = () => {
         }
       );
     },
-    [environment, tagList]
+    [caption, environment, tagList, title]
   );
 
   if (uploadedArtworkId) {
@@ -82,7 +80,8 @@ export const UploadArtwork: React.VFC = () => {
               type="text"
               id="title"
               className="form-control"
-              ref={titleRef}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
@@ -94,7 +93,8 @@ export const UploadArtwork: React.VFC = () => {
               type="text"
               id="caption"
               className="form-control"
-              ref={captionRef}
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
             />
           </div>
           <div className="mb-3">
