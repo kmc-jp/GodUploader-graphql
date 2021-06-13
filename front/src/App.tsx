@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { RouteConfigComponentProps, RouteRenderer } from "./routing";
@@ -18,13 +18,16 @@ const LoadingWatcher: React.VFC<{
 
 function App({ route }: RouteConfigComponentProps) {
   const currentLocation = useLocation();
-  const previousLocation = usePrevious(currentLocation);
+  const previousLocation = useRef(currentLocation);
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const dispose = history.listen((location) => {
+    const dispose = history.listen((location, action) => {
       if (location !== currentLocation) {
+        if (action !== 'REPLACE') {
+          previousLocation.current = currentLocation;
+        }
         setIsLoading(true);
       }
     });
@@ -76,7 +79,7 @@ function App({ route }: RouteConfigComponentProps) {
                   <RouteRenderer
                     routes={route && route.routes}
                     switchProps={{
-                      location: previousLocation,
+                      location: previousLocation.current,
                     }}
                   />
                 </Suspense>
