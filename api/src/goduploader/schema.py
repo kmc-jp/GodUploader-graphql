@@ -261,19 +261,15 @@ class DeleteArtwork(graphene.ClientIDMutation):
         if artwork.account_id != current_user.id:
             raise Exception('You cannot delete this artwork')
 
-        current_user.artworks_count -= 1
-
-        illusts = IllustModel.filter(IllustModel.artwork_id == artwork_id).all()
-        for illust in illusts:
-            session.delete(illust)
-
-        tag_relations = ArtworkTagRelationModel \
+        tag_relations = session.query(ArtworkTagRelationModel) \
             .filter(ArtworkTagRelationModel.artwork_id == artwork_id) \
             .all()
         tag_ids = [r.tag_id for r in tag_relations]
-        tags = TagModel.filter(TagModel.id.in_(tag_ids))
+        tags = session.query(TagModel).filter(TagModel.id.in_(tag_ids)).all()
         for tag in tags:
             tag.artworks_count -= 1
+
+        current_user.artworks_count -= 1
 
         session.delete(artwork)
 

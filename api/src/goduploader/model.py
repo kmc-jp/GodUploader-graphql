@@ -47,10 +47,10 @@ class Artwork(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
-    illusts = relationship('Illust', backref='artwork')
-    comments = relationship('Comment', backref='artwork')
-    likes = relationship('Like', backref='artwork')
-    tags = relationship('ArtworkTagRelation', back_populates='artwork')
+    illusts = relationship('Illust', backref='artwork', cascade="all, delete")
+    comments = relationship('Comment', backref='artwork', cascade="all, delete")
+    likes = relationship('Like', backref='artwork', cascade="all, delete")
+    tags = relationship('ArtworkTagRelation', back_populates='artwork', cascade="all, delete")
 
 class Comment(Base):
     __tablename__ = 'comment'
