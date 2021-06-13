@@ -1,12 +1,17 @@
 import React from "react";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
-import { Link } from "react-router-dom";
+import {
+  PreloadedQuery,
+  usePreloadedQuery,
+  useRelayEnvironment,
+} from "react-relay";
+import { Link, useHistory } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 import { formatDateTime } from "../util";
 import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
 import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
 import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
+import { commitDeleteArtworkMutation } from "../mutation/DeleteArtwork";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
@@ -49,6 +54,8 @@ interface ArtworkDetailProps {
 }
 
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
+  const environment = useRelayEnvironment();
+  const history = useHistory();
   const { viewer, node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
     artworkDetailQuery,
     prepared.artworkDetailQuery
@@ -60,7 +67,22 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   const createdAt = new Date(artwork.createdAt!);
 
   const handleDeleteButtonClick = () => {
-    window.confirm("本当に削除しますか？");
+    if (!window.confirm("本当に削除しますか？")) {
+      return;
+    }
+    if (!artwork.id) {
+      return;
+    }
+
+    commitDeleteArtworkMutation(environment, {
+      variables: {
+        input: { id: artwork.id },
+        connections: [],
+      },
+      onCompleted: () => {
+        history.replace("/");
+      },
+    });
   };
 
   return (
