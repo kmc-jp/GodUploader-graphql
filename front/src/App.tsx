@@ -10,6 +10,7 @@ const LoadingWatcher: React.VFC<{
   setIsLoading: (isLoading: boolean) => void;
 }> = ({ setIsLoading }) => {
   useEffect(() => {
+    setIsLoading(true);
     return () => setIsLoading(false);
   });
   return null;
@@ -22,15 +23,21 @@ function App({ route }: RouteConfigComponentProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const dispose = history.listen(() => {
-      setIsLoading(true);
+    const dispose = history.listen((location) => {
+      if (location !== currentLocation)
+        setIsLoading(true);
     });
 
     return () => {
       setIsLoading(false);
       dispose();
     };
-  }, [history]);
+  }, [history, currentLocation]);
+
+  // For non-suspended pages
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   return (
     <div className="App">
@@ -76,7 +83,6 @@ function App({ route }: RouteConfigComponentProps) {
               </>
             }
           >
-            <LoadingWatcher setIsLoading={setIsLoading} />
             <RouteRenderer routes={route && route.routes} />
           </Suspense>
         </ErrorBoundary>
