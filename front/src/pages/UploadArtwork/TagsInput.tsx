@@ -48,7 +48,7 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
 
   const popLastTag = useCallback(() => {
     const lastTag = tagList[tagList.length - 1];
-    setTagList(tagList.slice(0, tagList.length - 2));
+    setTagList(tagList.slice(0, tagList.length - 1));
     return lastTag;
   }, [tagList, setTagList]);
 
