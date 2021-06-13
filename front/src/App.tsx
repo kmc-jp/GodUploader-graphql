@@ -1,12 +1,40 @@
-import React, { Suspense } from "react";
-import { Link } from "react-router-dom";
+import React, { Suspense, useEffect, useState } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { RouteConfigComponentProps, RouteRenderer } from "./routing";
 import { ErrorBoundary } from "./errorBoundary";
+import { LoadingOverlay } from "./components/LoadingOverlay";
+import { usePrevious } from "./hooks/usePrevious";
+
+const LoadingWatcher: React.VFC<{
+  setIsLoading: (isLoading: boolean) => void;
+}> = ({ setIsLoading }) => {
+  useEffect(() => {
+    return () => setIsLoading(false);
+  });
+  return null;
+};
 
 function App({ route }: RouteConfigComponentProps) {
+  const currentLocation = useLocation();
+  const previousLocation = usePrevious(currentLocation);
+  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const dispose = history.listen(() => {
+      setIsLoading(true);
+    });
+
+    return () => {
+      setIsLoading(false);
+      dispose();
+    };
+  }, [history]);
+
   return (
     <div className="App">
+      {isLoading ? <LoadingOverlay /> : null}
       <nav className="navbar navbar-expand-lg navbar-light bg-light mb-3">
         <div className="container">
           <Link className="navbar-brand" to="/">
@@ -33,7 +61,22 @@ function App({ route }: RouteConfigComponentProps) {
       </nav>
       <div className="container">
         <ErrorBoundary>
-          <Suspense fallback={<p>Now loading...</p>}>
+          <Suspense
+            fallback={
+              <>
+                <Suspense fallback={null}>
+                  <RouteRenderer
+                    routes={route && route.routes}
+                    switchProps={{
+                      location: previousLocation,
+                    }}
+                  />
+                </Suspense>
+                <LoadingWatcher setIsLoading={setIsLoading} />
+              </>
+            }
+          >
+            <LoadingWatcher setIsLoading={setIsLoading} />
             <RouteRenderer routes={route && route.routes} />
           </Suspense>
         </ErrorBoundary>

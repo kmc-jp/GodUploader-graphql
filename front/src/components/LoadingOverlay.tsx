@@ -1,16 +1,9 @@
 import React from "react";
+import styles from "./LoadingOverlay.module.css";
 
 export const LoadingOverlay: React.FC = () => {
   return (
-    <div
-      style={{
-        zIndex: 10000,
-        background: "rgba(99, 99, 99, 0.3)",
-        position: "fixed",
-        width: "100%",
-        height: "100%",
-      }}
-    >
+    <div className={styles.Overlay}>
       <div className="position-absolute top-50 start-50 translate-middle">
         <div
           className="spinner-border"

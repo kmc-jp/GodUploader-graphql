@@ -66,10 +66,16 @@ export const renderRoutes = (
 };
 
 interface Props {
-  routes: any;
+  routes: RouteConfig[] | undefined;
+  extraProps?: any;
+  switchProps?: SwitchProps;
 }
 
-export const RouteRenderer: React.FC<Props> = ({ routes }) => {
+export const RouteRenderer: React.FC<Props> = ({
+  routes,
+  extraProps,
+  switchProps,
+}) => {
   const environment = useRelayEnvironment();
-  return renderRoutes(routes, environment);
+  return renderRoutes(routes, environment, extraProps, switchProps);
 };
