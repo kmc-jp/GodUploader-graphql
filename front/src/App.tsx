@@ -4,7 +4,6 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { RouteConfigComponentProps, RouteRenderer } from "./routing";
 import { ErrorBoundary } from "./errorBoundary";
 import { LoadingOverlay } from "./components/LoadingOverlay";
-import { usePrevious } from "./hooks/usePrevious";
 
 const LoadingWatcher: React.VFC<{
   setIsLoading: (isLoading: boolean) => void;
