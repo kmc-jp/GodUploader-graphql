@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { usePrevious } from "../../hooks/usePrevious";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 import { IllustCarousel_illusts$key } from "./__generated__/IllustCarousel_illusts.graphql";
+import { SuspenseImage } from "../../components/SuspenseImage";
 
 interface Props {
   artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;
@@ -81,7 +82,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
               )}
               key={i}
             >
-              <img
+              <SuspenseImage
                 src={`http://localhost:5000/public/illusts/${node.filename}`}
                 alt=""
                 className="mw-100 d-block mx-auto"
