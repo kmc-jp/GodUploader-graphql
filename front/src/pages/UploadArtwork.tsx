@@ -50,6 +50,7 @@ export const UploadArtwork: React.VFC = () => {
         to={{
           pathname: `/artwork/${uploadedArtworkId}`,
         }}
+        push
       />
     );
   }
