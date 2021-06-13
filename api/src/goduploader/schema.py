@@ -18,10 +18,11 @@ from model import (
 )
 from tag import find_or_create_tags, has_nsfw_tag
 from viewer import viewer
-from dataloader import AccountLoader
+from dataloader import AccountLoader, ArtworkIllustsLoader
 from thumbnail import generate_thumbnail
 
 account_loader = AccountLoader()
+artwork_illusts_loader = ArtworkIllustsLoader()
 
 class Account(SQLAlchemyObjectType):
     class Meta:
@@ -31,6 +32,11 @@ class Account(SQLAlchemyObjectType):
 class ArtworkTagRelation(SQLAlchemyObjectType):
     class Meta:
         model = ArtworkTagRelationModel
+        interfaces = (relay.Node,)
+
+class Illust(SQLAlchemyObjectType):
+    class Meta:
+        model = IllustModel
         interfaces = (relay.Node,)
 
 class Artwork(SQLAlchemyObjectType):
@@ -43,14 +49,14 @@ class Artwork(SQLAlchemyObjectType):
     def resolve_account(root, info):
         return account_loader.load(root.account_id)
 
+    illusts = SQLAlchemyConnectionField(Illust.connection, sort=None)
+
+    def resolve_illusts(root, info, **args):
+        return artwork_illusts_loader.load(root.id)
+
 class Comment(SQLAlchemyObjectType):
     class Meta:
         model = CommentModel
-        interfaces = (relay.Node,)
-
-class Illust(SQLAlchemyObjectType):
-    class Meta:
-        model = IllustModel
         interfaces = (relay.Node,)
 
 class Like(SQLAlchemyObjectType):
