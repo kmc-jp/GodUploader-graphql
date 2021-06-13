@@ -76,26 +76,28 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
   const [text, setText] = useState("");
   const [isPosting, setIsPosting] = useState(false);
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
 
-    if (!text) {
-      return;
-    }
+      if (!text) {
+        return;
+      }
 
-    setIsPosting(true);
-    commitCreateCommentMutation(
-      environment,
-      { artworkId: artwork.id!, text },
-      {
+      setIsPosting(true);
+      commitCreateCommentMutation(environment, {
+        variables: {
+          input: { artworkId: artwork.id!, text },
+          connections: [connectionId],
+        },
         onCompleted: () => {
           setIsPosting(false);
         },
-      },
-      [connectionId]
-    );
-    setText("");
-  }, [artwork.id, connectionId, environment, text]);
+      });
+      setText("");
+    },
+    [artwork.id, connectionId, environment, text]
+  );
 
   return (
     <form onSubmit={handleSubmit}>

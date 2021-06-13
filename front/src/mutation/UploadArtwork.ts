@@ -1,11 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Environment, commitMutation } from "react-relay";
-import { UploadableMap } from "relay-runtime";
-import {
-  UploadArtworkInput,
-  UploadArtworkMutation,
-  UploadArtworkMutationResponse,
-} from "./__generated__/UploadArtworkMutation.graphql";
+import { MutationConfig } from "relay-runtime";
+import type { UploadArtworkMutation } from "./__generated__/UploadArtworkMutation.graphql";
 
 type UploadableReturnType = {
   [K in number]: File;
@@ -21,9 +17,7 @@ export const makeUploadables = (files: FileList): UploadableReturnType => {
 
 export const commitUploadArtworkMutation = (
   environment: Environment,
-  input: UploadArtworkInput,
-  uploadables: UploadableMap,
-  onCompleted?: (response: UploadArtworkMutationResponse) => void
+  config: Omit<MutationConfig<UploadArtworkMutation>, "mutation">
 ) => {
   return commitMutation<UploadArtworkMutation>(environment, {
     mutation: graphql`
@@ -35,8 +29,6 @@ export const commitUploadArtworkMutation = (
         }
       }
     `,
-    variables: { input },
-    uploadables,
-    onCompleted,
+    ...config,
   });
 };

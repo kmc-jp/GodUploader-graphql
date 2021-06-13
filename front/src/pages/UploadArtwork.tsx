@@ -24,20 +24,21 @@ export const UploadArtwork: React.VFC = () => {
       setIsUploading(true);
       const files = filesRef.current!.files!;
       const uploadables = makeUploadables(files);
-      commitUploadArtworkMutation(
-        environment,
-        {
-          title,
-          caption,
-          tags: tagList,
-          files: uploadables,
+      commitUploadArtworkMutation(environment, {
+        variables: {
+          input: {
+            title,
+            caption,
+            tags: tagList,
+            files: uploadables,
+          },
         },
         uploadables,
-        (resp) => {
+        onCompleted: (resp) => {
           setIsUploading(false);
           setUploadedArtworkId(resp.uploadArtwork!.artwork!.id);
-        }
-      );
+        },
+      });
     },
     [caption, environment, tagList, title]
   );

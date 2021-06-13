@@ -2,9 +2,7 @@ import React, { useCallback } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 import { Link } from "react-router-dom";
 import { graphql } from "babel-plugin-relay/macro";
-import {
-  ArtworkLikeList_likes$key,
-} from "./__generated__/ArtworkLikeList_likes.graphql";
+import type { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
 import { useTooltip } from "../../hooks/useTooltip";
 import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
@@ -40,9 +38,12 @@ export const LikeList: React.FC<Props> = ({ artwork }) => {
       if (!(likes && likes.__id && artwork && artwork.id)) {
         return;
       }
-      commitLikeArtworkMutation(environment, { artworkId: artwork.id }, [
-        likes.__id,
-      ]);
+      commitLikeArtworkMutation(environment, {
+        variables: {
+          input: { artworkId: artwork.id },
+          connections: [likes.__id],
+        },
+      });
     },
     [artwork, environment, likes]
   );
