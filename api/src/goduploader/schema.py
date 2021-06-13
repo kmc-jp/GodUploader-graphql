@@ -19,6 +19,7 @@ from model import (
 from tag import find_or_create_tags
 from viewer import viewer
 from dataloader import AccountLoader
+from thumbnail import generate_thumbnail
 
 account_loader = AccountLoader()
 
@@ -218,7 +219,10 @@ class UploadArtwork(graphene.ClientIDMutation):
         for buf in request.files.values():
             _, ext = os.path.splitext(buf.filename)
             filename = f'{uuid.uuid4()}{ext}'
-            buf.save(f'./public/illusts/{filename}')
+            illust_path = f'./public/illusts/{filename}'
+            thumbnail_path = f'./public/thumbnail/{filename}'
+            buf.save(illust_path)
+            generate_thumbnail(illust_path, thumbnail_path)
             illust = IllustModel(
                 filename=filename,
             )
