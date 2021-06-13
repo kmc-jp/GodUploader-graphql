@@ -48,13 +48,26 @@ def migrate_comments():
         )
         session.add(new_comment)
 
+def collect_nsfw_folder_ids():
+    folder_ids = from_db.cursor().execute('''
+        select f.id
+        from folders f
+        left join folderstags ft
+        on f.id = ft.folder_id
+        left join tags t on ft.tag_id = t.id
+        where t.name in ('R-18', 'R-18G')
+    ''')
+    return set(row['id'] for row in folder_ids)
+
 def migrate_folders():
     old_folders = from_db.cursor().execute('SELECT * FROM folders')
+    nsfw_folder_ids = collect_nsfw_folder_ids()
     for old_row in old_folders:
         new_artwork = Artwork(
             id=old_row['id'],
             title=old_row['title'],
             account_id=old_row['account_id'],
+            nsfw=old_row['id'] in nsfw_folder_ids,
             caption=old_row['caption'],
             created_at=old_row['created_at'],
             updated_at=old_row['updated_at'],

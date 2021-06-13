@@ -16,7 +16,7 @@ from model import (
     Like as LikeModel,
     Tag as TagModel,
 )
-from tag import find_or_create_tags
+from tag import find_or_create_tags, has_nsfw_tag
 from viewer import viewer
 from dataloader import AccountLoader
 from thumbnail import generate_thumbnail
@@ -212,6 +212,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         artwork = ArtworkModel(
             title=input['title'],
             caption=input['caption'],
+            nsfw=has_nsfw_tag(input['tags']),
         )
         artwork.account = current_user
         session.add(artwork)

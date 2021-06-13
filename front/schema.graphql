@@ -53,6 +53,7 @@ type Artwork implements Node {
   accountId: Int!
   title: String!
   caption: String!
+  nsfw: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
   illusts(before: String, after: String, first: Int, last: Int): IllustConnection
@@ -89,6 +90,8 @@ enum ArtworkSortEnum {
   TITLE_DESC
   CAPTION_ASC
   CAPTION_DESC
+  NSFW_ASC
+  NSFW_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
