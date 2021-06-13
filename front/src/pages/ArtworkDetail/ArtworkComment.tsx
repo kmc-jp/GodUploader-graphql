@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import { commitCreateCommentMutation } from "../../mutation/CreateComment";
@@ -73,18 +73,17 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
 }) => {
   const environment = useRelayEnvironment();
 
+  const [text, setText] = useState("");
   const [isPosting, setIsPosting] = useState(false);
-  const textRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    setIsPosting(true);
 
-    const text = textRef.current?.value;
     if (!text) {
       return;
     }
 
+    setIsPosting(true);
     commitCreateCommentMutation(
       environment,
       { artworkId: artwork.id!, text },
@@ -95,7 +94,8 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
       },
       [connectionId]
     );
-  };
+    setText("");
+  }, [artwork.id, connectionId, environment, text]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -104,7 +104,8 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
           <input
             type="text"
             id="text"
-            ref={textRef}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
             required
             className="form-control"
           />
