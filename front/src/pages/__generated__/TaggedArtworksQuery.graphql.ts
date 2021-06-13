@@ -41,6 +41,7 @@ fragment ArtworkListItem_artwork on Artwork {
   id
   title
   caption
+  nsfw
   illusts(first: 1) {
     edges {
       node {
@@ -181,6 +182,13 @@ return {
                   },
                   {
                     "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "nsfw",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
                     "args": [
                       {
                         "kind": "Literal",
@@ -257,12 +265,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "ec752770de51f7da22c46d90d3f8179e",
+    "cacheID": "e7842f89ac20e06457f120b025813817",
     "id": null,
     "metadata": {},
     "name": "TaggedArtworksQuery",
     "operationKind": "query",
-    "text": "query TaggedArtworksQuery(\n  $tag: String!\n) {\n  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query TaggedArtworksQuery(\n  $tag: String!\n) {\n  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();

@@ -48,6 +48,7 @@ fragment ArtworkListItem_artwork on Artwork {
   id
   title
   caption
+  nsfw
   illusts(first: 1) {
     edges {
       node {
@@ -209,6 +210,13 @@ return {
                       },
                       {
                         "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "nsfw",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
                         "args": [
                           {
                             "kind": "Literal",
@@ -283,12 +291,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "90380db62d1e646650eb52c126c7b675",
+    "cacheID": "c7486e18520dceae71d6a79df449e138",
     "id": null,
     "metadata": {},
     "name": "UserDetailQuery",
     "operationKind": "query",
-    "text": "query UserDetailQuery(\n  $kmcid: String!\n) {\n  accountByKmcid(kmcid: $kmcid) {\n    name\n    artworks {\n      edges {\n        node {\n          ...ArtworkListItem_artwork\n          id\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query UserDetailQuery(\n  $kmcid: String!\n) {\n  accountByKmcid(kmcid: $kmcid) {\n    name\n    artworks {\n      edges {\n        node {\n          ...ArtworkListItem_artwork\n          id\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();

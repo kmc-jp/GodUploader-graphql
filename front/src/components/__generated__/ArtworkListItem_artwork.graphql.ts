@@ -8,6 +8,7 @@ export type ArtworkListItem_artwork = {
     readonly id: string;
     readonly title: string;
     readonly caption: string;
+    readonly nsfw: boolean;
     readonly illusts: {
         readonly edges: ReadonlyArray<{
             readonly node: {
@@ -53,6 +54,13 @@ const node: ReaderFragment = {
       "args": null,
       "kind": "ScalarField",
       "name": "caption",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "nsfw",
       "storageKey": null
     },
     {
@@ -123,5 +131,5 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '262b3d29c56d4c24946944ee7dc3c73a';
+(node as any).hash = '8cf52926cb3d22d11920c78621cead95';
 export default node;

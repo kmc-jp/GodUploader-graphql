@@ -16,6 +16,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
         id
         title
         caption
+        nsfw
         illusts(first: 1) {
           edges {
             node {
@@ -43,6 +44,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
           height: 186,
           objectFit: "contain",
           display: "block",
+          filter: artwork.nsfw ? 'blur(20px)' : undefined,
         }}
         className="card-img-top mx-auto my-0"
       />
