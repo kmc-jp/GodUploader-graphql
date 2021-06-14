@@ -153,7 +153,7 @@ class CreateComment(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        current_user = viewer()
+        current_user = viewer(info.context)
         if current_user is None:
             raise Exception('Please login')
 
@@ -184,7 +184,7 @@ class LikeArtwork(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        current_user = viewer()
+        current_user = viewer(info.context)
         if current_user is None:
             raise Exception('Please login')
 
@@ -214,7 +214,7 @@ class UploadArtwork(graphene.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, files, **input):
-        current_user = viewer()
+        current_user = viewer(info.context)
         if current_user is None:
             raise Exception('Please login')
 
@@ -268,7 +268,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        current_user = viewer()
+        current_user = viewer(info.context)
         if current_user is None:
             raise Exception('Please login')
 
@@ -296,7 +296,7 @@ class DeleteArtwork(graphene.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        current_user = viewer()
+        current_user = viewer(info.context)
         if current_user is None:
             raise Exception('Please login')
 
