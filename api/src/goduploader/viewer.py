@@ -1,9 +1,9 @@
-from flask import request
+from flask import Request
 from goduploader.model import Account
 from goduploader.db import session
 from typing import Optional
 
-def viewer() -> Optional[Account]:
+def viewer(request: Request) -> Optional[Account]:
     kmcid = request.headers.get('X-Forwarded-User')
     if not kmcid:
         return unknown_user()

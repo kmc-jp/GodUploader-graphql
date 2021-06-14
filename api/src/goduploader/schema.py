@@ -88,7 +88,7 @@ class Query(graphene.ObjectType):
     viewer = graphene.Field(Account)
 
     def resolve_viewer(self, info):
-        return viewer()
+        return viewer(info.context)
 
     account_by_kmcid = graphene.Field(Account, kmcid=graphene.NonNull(graphene.String))
 
