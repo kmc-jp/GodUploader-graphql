@@ -3,7 +3,7 @@ from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey, Index, PrimaryKeyConstraint
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
-from db import Base
+from goduploader.db import Base
 
 class Account(Base):
     __tablename__ = 'account'

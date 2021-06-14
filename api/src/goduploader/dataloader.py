@@ -1,8 +1,8 @@
 from collections import defaultdict
 from promise import Promise
 from promise.dataloader import DataLoader
-from db import session
-from model import Account, Illust
+from goduploader.db import session
+from goduploader.model import Account, Illust
 
 class AccountLoader(DataLoader):
     def batch_load_fn(self, keys):

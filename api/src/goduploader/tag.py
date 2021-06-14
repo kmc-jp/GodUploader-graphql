@@ -1,7 +1,7 @@
 from typing import List
 
-from model import ArtworkTagRelation, Tag
-from db import session
+from goduploader.model import ArtworkTagRelation, Tag
+from goduploader.db import session
 
 def has_nsfw_tag(tag_names: List[str]) -> bool:
     return 'R-18' in tag_names or 'R-18G' in tag_names

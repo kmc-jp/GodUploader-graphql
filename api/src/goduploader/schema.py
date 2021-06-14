@@ -6,8 +6,8 @@ from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 import os.path
 from sqlalchemy.sql.elements import not_
 import uuid
-from db import session
-from model import (
+from goduploader.db import session
+from goduploader.model import (
     Account as AccountModel,
     ArtworkTagRelation as ArtworkTagRelationModel,
     Artwork as ArtworkModel,
@@ -16,10 +16,10 @@ from model import (
     Like as LikeModel,
     Tag as TagModel,
 )
-from tag import find_or_create_tags, has_nsfw_tag, update_tag_relation
-from viewer import viewer
-from dataloader import AccountLoader, ArtworkIllustsLoader
-from thumbnail import generate_thumbnail
+from goduploader.tag import find_or_create_tags, has_nsfw_tag, update_tag_relation
+from goduploader.viewer import viewer
+from goduploader.dataloader import AccountLoader, ArtworkIllustsLoader
+from goduploader.thumbnail import generate_thumbnail
 
 account_loader = AccountLoader()
 artwork_illusts_loader = ArtworkIllustsLoader()
@@ -221,10 +221,12 @@ class UploadArtwork(graphene.ClientIDMutation):
         for buf in request.files.values():
             _, ext = os.path.splitext(buf.filename)
             filename = f'{uuid.uuid4()}{ext}'
-            illust_path = f'./public/illusts/{filename}'
-            thumbnail_path = f'./public/thumbnail/{filename}'
+            illust_path = f'../public/illusts/{filename}'
+            thumbnail_path = f'../public/thumbnail/{filename}'
             buf.save(illust_path)
+
             generate_thumbnail(illust_path, thumbnail_path)
+
             illust = IllustModel(
                 filename=filename,
             )

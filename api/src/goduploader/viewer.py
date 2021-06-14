@@ -1,6 +1,6 @@
 from flask import request
-from model import Account
-from db import session
+from goduploader.model import Account
+from goduploader.db import session
 from typing import Optional
 
 def viewer() -> Optional[Account]:

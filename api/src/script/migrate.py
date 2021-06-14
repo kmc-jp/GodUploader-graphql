@@ -1,8 +1,5 @@
-import sys
-sys.path.insert(0, '.')
-
-from model import Account, Artwork, ArtworkTagRelation, Comment, Illust, Like, Tag
-from db import session
+from goduploader.model import Account, Artwork, ArtworkTagRelation, Comment, Illust, Like, Tag
+from goduploader.db import session
 
 from collections import defaultdict
 import sqlite3
