@@ -9,6 +9,20 @@ interface ArtworkListItemProps {
   artwork: ArtworkListItem_artwork$key;
 }
 
+const Spinner: React.VFC = () => (
+  <div style={{ height: 186 }}>
+    <div className="d-flex justify-content-center h-100">
+      <div
+        className="spinner-border"
+        role="status"
+        style={{ width: 80, height: 80 }}
+      >
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+);
+
 export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
   const artwork = useFragment(
     graphql`
@@ -36,7 +50,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
 
   return (
     <div className="card p-1" style={{ height: 320 }}>
-      <Suspense fallback={null /* TODO: show spinner or placeholder image */}>
+      <Suspense fallback={<Spinner />}>
         <SuspenseImage
           src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
           alt={artwork.title}
