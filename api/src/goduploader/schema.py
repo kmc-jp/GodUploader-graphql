@@ -243,14 +243,7 @@ class UploadArtwork(graphene.ClientIDMutation):
             session.add(illust)
             artwork.illusts.append(illust)
 
-        tags = find_or_create_tags(input['tags'])
-        for tag in tags:
-            new_relation = ArtworkTagRelationModel(
-                artwork_id=artwork.id,
-                tag_id=tag.id,
-            )
-            session.add(new_relation)
-            tag.artworks_count += 1
+        update_tag_relation(artwork, input['tags'])
 
         current_user.artworks_count += 1
 

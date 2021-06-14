@@ -54,14 +54,15 @@ type Artwork implements Node {
   title: String!
   caption: String!
   nsfw: Boolean!
+  topIllustId: Int
   createdAt: DateTime!
   updatedAt: DateTime!
-  topIllust: Illust
   illusts(before: String, after: String, first: Int, last: Int): IllustConnection
   comments(before: String, after: String, first: Int, last: Int): CommentConnection
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
   tags(before: String, after: String, first: Int, last: Int): ArtworkTagRelationConnection
   account: Account
+  topIllust: Illust
 }
 
 type ArtworkConnection {
@@ -93,6 +94,8 @@ enum ArtworkSortEnum {
   CAPTION_DESC
   NSFW_ASC
   NSFW_DESC
+  TOP_ILLUST_ID_ASC
+  TOP_ILLUST_ID_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
