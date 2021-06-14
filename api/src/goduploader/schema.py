@@ -9,7 +9,6 @@ import uuid
 from goduploader.db import session
 from goduploader.model import (
     Account as AccountModel,
-    ArtworkTagRelation as ArtworkTagRelationModel,
     Artwork as ArtworkModel,
     Comment as CommentModel,
     Illust as IllustModel,
@@ -27,11 +26,6 @@ illust_loader = IllustLoader()
 class Account(SQLAlchemyObjectType):
     class Meta:
         model = AccountModel
-        interfaces = (relay.Node,)
-
-class ArtworkTagRelation(SQLAlchemyObjectType):
-    class Meta:
-        model = ArtworkTagRelationModel
         interfaces = (relay.Node,)
 
 class Illust(SQLAlchemyObjectType):
@@ -118,8 +112,7 @@ class Query(graphene.ObjectType):
         artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
         artworks = artwork_query \
             .join(ArtworkModel.tags, isouter=True) \
-            .join(ArtworkTagRelationModel.tag, isouter=True) \
-            .filter(TagModel.name == args.get('tag'))
+            .filter(TagModel.name.in_([args.get('tag')]))
 
         return artworks
 
@@ -308,12 +301,7 @@ class DeleteArtwork(graphene.ClientIDMutation):
         if artwork.account_id != current_user.id:
             raise Exception('You cannot delete this artwork')
 
-        tag_relations = session.query(ArtworkTagRelationModel) \
-            .filter(ArtworkTagRelationModel.artwork_id == artwork_id) \
-            .all()
-        tag_ids = [r.tag_id for r in tag_relations]
-        tags = session.query(TagModel).filter(TagModel.id.in_(tag_ids)).all()
-        for tag in tags:
+        for tag in artwork.tags:
             tag.artworks_count -= 1
 
         current_user.artworks_count -= 1

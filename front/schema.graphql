@@ -59,7 +59,7 @@ type Artwork implements Node {
   illusts(before: String, after: String, first: Int, last: Int): IllustConnection
   comments(before: String, after: String, first: Int, last: Int): CommentConnection
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
-  tags(before: String, after: String, first: Int, last: Int): ArtworkTagRelationConnection
+  tags(before: String, after: String, first: Int, last: Int): TagConnection
   account: Account
   topIllust: Illust
 }
@@ -97,35 +97,6 @@ enum ArtworkSortEnum {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
-}
-
-type ArtworkTagRelation implements Node {
-  artworkId: ID!
-  tagId: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  artwork: Artwork
-  tag: Tag
-
-  """The ID of the object."""
-  id: ID!
-}
-
-type ArtworkTagRelationConnection {
-  """Pagination data for this connection."""
-  pageInfo: PageInfo!
-
-  """Contains the nodes in this connection."""
-  edges: [ArtworkTagRelationEdge]!
-}
-
-"""A Relay edge containing a `ArtworkTagRelation` and its cursor."""
-type ArtworkTagRelationEdge {
-  """The item at the end of the edge"""
-  node: ArtworkTagRelation
-
-  """A cursor for use in pagination"""
-  cursor: String!
 }
 
 type Comment implements Node {
@@ -302,7 +273,7 @@ type Tag implements Node {
   artworksCount: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
-  artworks(before: String, after: String, first: Int, last: Int): ArtworkTagRelationConnection
+  artworks(before: String, after: String, first: Int, last: Int): ArtworkConnection
 }
 
 type TagConnection {

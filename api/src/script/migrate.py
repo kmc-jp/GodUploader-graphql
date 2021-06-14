@@ -1,4 +1,4 @@
-from goduploader.model import Account, Artwork, ArtworkTagRelation, Comment, Illust, Like, Tag
+from goduploader.model import Account, Artwork, Comment, Illust, Like, Tag
 from goduploader.db import session
 
 from collections import defaultdict
@@ -13,10 +13,10 @@ def main():
         migrate_accounts()
         migrate_comments()
         migrate_folders()
-        migrate_folderstags()
         migrate_illusts()
         migrate_likes()
         migrate_tags()
+        migrate_folderstags()
 
 def migrate_accounts():
     old_accounts = from_db.cursor().execute('SELECT * FROM accounts')
@@ -73,14 +73,15 @@ def migrate_folders():
 
 def migrate_folderstags():
     old_folderstags = from_db.cursor().execute('SELECT * FROM folderstags')
+
     for old_row in old_folderstags:
-        new_relation = ArtworkTagRelation(
-            artwork_id=old_row['folder_id'],
-            tag_id=old_row['tag_id'],
-            created_at=old_row['created_at'],
-            updated_at=old_row['updated_at'],
-        )
-        session.add(new_relation)
+        artwork = session.query(Artwork).filter_by(id=old_row['folder_id']).first()
+        if not artwork:
+            continue
+
+        tags = session.query(Tag).filter_by(id=old_row['tag_id']).all()
+        for tag in tags:
+            artwork.tags.append(tag)
 
 def migrate_illusts():
     old_illusts = from_db.cursor().execute('SELECT * FROM illusts')

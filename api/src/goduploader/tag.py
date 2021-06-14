@@ -1,6 +1,6 @@
 from typing import List
 
-from goduploader.model import ArtworkTagRelation, Tag
+from goduploader.model import Tag
 from goduploader.db import session
 
 def has_nsfw_tag(tag_names: List[str]) -> bool:
@@ -36,22 +36,13 @@ def find_or_create_tags(tag_names: List[str]) -> List[Tag]:
     return [tag_by_name[name] for name in tag_names]
 
 def update_tag_relation(artwork, new_tag_names):
-    old_tag_relations = session.query(ArtworkTagRelation).filter(ArtworkTagRelation.artwork_id == artwork.id)
-    old_tags = session.query(Tag).filter(Tag.id.in_([tr.tag_id for tr in old_tag_relations]))
-
-    for old_tag_relation in old_tag_relations:
-        session.delete(old_tag_relation)
+    old_tags = artwork.tags
 
     for old_tag in old_tags:
+        artwork.tags.remove(old_tag)
         old_tag.artworks_count -= 1
 
     new_tags = find_or_create_tags(new_tag_names)
     for new_tag in new_tags:
-        new_relation = ArtworkTagRelation()
-        new_relation.artwork = artwork
-        new_relation.tag = new_tag
-        session.add(new_relation)
-
-        artwork.tags.append(new_relation)
-        new_relation.tag = new_tag
+        artwork.tags.append(new_tag)
         new_tag.artworks_count += 1

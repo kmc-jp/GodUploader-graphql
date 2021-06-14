@@ -35,10 +35,8 @@ export const artworkDetailQuery = graphql`
         tags {
           edges {
             node {
-              tag {
-                id
-                name
-              }
+              id
+              name
             }
           }
         }
@@ -103,7 +101,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
             <ul className="breadcrumb px-2 py-2 bg-light">
               <li className="breadcrumb-item">タグ</li>
               {artwork.tags?.edges.map((edge) => {
-                const tag = edge?.node?.tag!;
+                const tag = edge?.node!;
                 return (
                   <li key={tag.id} className="text-center breadcrumb-item">
                     <Link to={`/tagged_artworks/${tag.name}`}>#{tag.name}</Link>

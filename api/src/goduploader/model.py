@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.schema import ForeignKey, Index, PrimaryKeyConstraint
+from sqlalchemy.sql.schema import ForeignKey, Index, PrimaryKeyConstraint, Table
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
 from goduploader.db import Base
 
@@ -23,17 +23,12 @@ class Account(Base):
     comments = relationship('Comment', backref='account')
     likes = relationship('Like', backref='account')
 
-class ArtworkTagRelation(Base):
-    __tablename__ = 'artwork_tag_relation'
-
-    artwork_id = Column(Integer, ForeignKey('artwork.id'), primary_key=True)
-    tag_id = Column(Integer, ForeignKey('tag.id'), primary_key=True)
-
-    created_at = Column(DateTime, nullable=False, default=datetime.now)
-    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
-
-    artwork = relationship('Artwork', back_populates='tags')
-    tag = relationship('Tag', back_populates='artworks')
+artwork_tag_relation = Table(
+    'artwork_tag_relation',
+    Base.metadata,
+    Column('artwork_id', Integer, ForeignKey('artwork.id')),
+    Column('tag_id', Integer, ForeignKey('tag.id')),
+)
 
 class Artwork(Base):
     __tablename__ = 'artwork'
@@ -52,7 +47,7 @@ class Artwork(Base):
     illusts = relationship('Illust', backref='artwork', cascade="all, delete")
     comments = relationship('Comment', backref='artwork', cascade="all, delete")
     likes = relationship('Like', backref='artwork', cascade="all, delete")
-    tags = relationship('ArtworkTagRelation', back_populates='artwork', cascade="all, delete")
+    tags = relationship('Tag', secondary=artwork_tag_relation, back_populates='artworks', cascade="all, delete")
 
 class Comment(Base):
     __tablename__ = 'comment'
@@ -97,4 +92,4 @@ class Tag(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
-    artworks = relationship('ArtworkTagRelation', back_populates='tag')
+    artworks = relationship('Artwork', secondary=artwork_tag_relation, back_populates='tags')
