@@ -59,10 +59,20 @@ class Comment(SQLAlchemyObjectType):
         model = CommentModel
         interfaces = (relay.Node,)
 
+    account = graphene.Field(Account)
+
+    def resolve_account(root, info):
+        return account_loader.load(root.account_id)
+
 class Like(SQLAlchemyObjectType):
     class Meta:
         model = LikeModel
         interfaces = (relay.Node,)
+
+    account = graphene.Field(Account)
+
+    def resolve_account(root, info):
+        return account_loader.load(root.account_id)
 
 class Tag(SQLAlchemyObjectType):
     class Meta:
