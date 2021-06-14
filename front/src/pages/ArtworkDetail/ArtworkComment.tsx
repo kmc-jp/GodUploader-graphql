@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import { commitCreateCommentMutation } from "../../mutation/CreateComment";
