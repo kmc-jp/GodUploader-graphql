@@ -9,12 +9,8 @@ export type ArtworkListItem_artwork = {
     readonly title: string;
     readonly caption: string;
     readonly nsfw: boolean;
-    readonly illusts: {
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly filename: string;
-            } | null;
-        } | null>;
+    readonly topIllust: {
+        readonly filename: string;
     } | null;
     readonly account: {
         readonly name: string;
@@ -65,49 +61,21 @@ const node: ReaderFragment = {
     },
     {
       "alias": null,
-      "args": [
-        {
-          "kind": "Literal",
-          "name": "first",
-          "value": 1
-        }
-      ],
-      "concreteType": "IllustConnection",
+      "args": null,
+      "concreteType": "Illust",
       "kind": "LinkedField",
-      "name": "illusts",
+      "name": "topIllust",
       "plural": false,
       "selections": [
         {
           "alias": null,
           "args": null,
-          "concreteType": "IllustEdge",
-          "kind": "LinkedField",
-          "name": "edges",
-          "plural": true,
-          "selections": [
-            {
-              "alias": null,
-              "args": null,
-              "concreteType": "Illust",
-              "kind": "LinkedField",
-              "name": "node",
-              "plural": false,
-              "selections": [
-                {
-                  "alias": null,
-                  "args": null,
-                  "kind": "ScalarField",
-                  "name": "filename",
-                  "storageKey": null
-                }
-              ],
-              "storageKey": null
-            }
-          ],
+          "kind": "ScalarField",
+          "name": "filename",
           "storageKey": null
         }
       ],
-      "storageKey": "illusts(first:1)"
+      "storageKey": null
     },
     {
       "alias": null,
@@ -131,5 +99,5 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '8cf52926cb3d22d11920c78621cead95';
+(node as any).hash = '8bc35f82950e82690b3e92d04dba7e2e';
 export default node;

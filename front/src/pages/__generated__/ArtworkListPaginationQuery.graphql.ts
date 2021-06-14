@@ -39,13 +39,9 @@ fragment ArtworkListItem_artwork on Artwork {
   title
   caption
   nsfw
-  illusts(first: 1) {
-    edges {
-      node {
-        filename
-        id
-      }
-    }
+  topIllust {
+    filename
+    id
   }
   account {
     name
@@ -228,50 +224,22 @@ return {
                           },
                           {
                             "alias": null,
-                            "args": [
-                              {
-                                "kind": "Literal",
-                                "name": "first",
-                                "value": 1
-                              }
-                            ],
-                            "concreteType": "IllustConnection",
+                            "args": null,
+                            "concreteType": "Illust",
                             "kind": "LinkedField",
-                            "name": "illusts",
+                            "name": "topIllust",
                             "plural": false,
                             "selections": [
                               {
                                 "alias": null,
                                 "args": null,
-                                "concreteType": "IllustEdge",
-                                "kind": "LinkedField",
-                                "name": "edges",
-                                "plural": true,
-                                "selections": [
-                                  {
-                                    "alias": null,
-                                    "args": null,
-                                    "concreteType": "Illust",
-                                    "kind": "LinkedField",
-                                    "name": "node",
-                                    "plural": false,
-                                    "selections": [
-                                      {
-                                        "alias": null,
-                                        "args": null,
-                                        "kind": "ScalarField",
-                                        "name": "filename",
-                                        "storageKey": null
-                                      },
-                                      (v3/*: any*/)
-                                    ],
-                                    "storageKey": null
-                                  }
-                                ],
+                                "kind": "ScalarField",
+                                "name": "filename",
                                 "storageKey": null
-                              }
+                              },
+                              (v3/*: any*/)
                             ],
-                            "storageKey": "illusts(first:1)"
+                            "storageKey": null
                           },
                           {
                             "alias": null,
@@ -353,12 +321,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "86f408c3b9ff22a8efaa0c6c4e9ef9d9",
+    "cacheID": "3589c6d7c217595d205456fa940a88d1",
     "id": null,
     "metadata": {},
     "name": "ArtworkListPaginationQuery",
     "operationKind": "query",
-    "text": "query ArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserDetail_artworks_1G22uz\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UserDetail_artworks_1G22uz on Account {\n  artworks(last: $count, before: $cursor) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
+    "text": "query ArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserDetail_artworks_1G22uz\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    filename\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UserDetail_artworks_1G22uz on Account {\n  artworks(last: $count, before: $cursor) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();

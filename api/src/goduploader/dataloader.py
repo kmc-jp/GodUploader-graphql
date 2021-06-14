@@ -10,6 +10,11 @@ class AccountLoader(DataLoader):
         return Promise.resolve([accounts.get(account_id) for account_id in keys])
 
 
+class IllustLoader(DataLoader):
+    def batch_load_fn(self, keys):
+        illust_by_id = {illust.id: illust for illust in session.query(Illust).filter(Illust.id.in_([k for k in keys]))}
+        return Promise.resolve([illust_by_id.get(illust_id) for illust_id in keys])
+
 class ArtworkIllustsLoader(DataLoader):
     def batch_load_fn(self, keys):
         illusts = session.query(Illust).filter(Illust.artwork_id.in_([k for k in keys]))

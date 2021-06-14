@@ -42,13 +42,9 @@ fragment ArtworkListItem_artwork on Artwork {
   title
   caption
   nsfw
-  illusts(first: 1) {
-    edges {
-      node {
-        filename
-        id
-      }
-    }
+  topIllust {
+    filename
+    id
   }
   account {
     name
@@ -189,50 +185,22 @@ return {
                   },
                   {
                     "alias": null,
-                    "args": [
-                      {
-                        "kind": "Literal",
-                        "name": "first",
-                        "value": 1
-                      }
-                    ],
-                    "concreteType": "IllustConnection",
+                    "args": null,
+                    "concreteType": "Illust",
                     "kind": "LinkedField",
-                    "name": "illusts",
+                    "name": "topIllust",
                     "plural": false,
                     "selections": [
                       {
                         "alias": null,
                         "args": null,
-                        "concreteType": "IllustEdge",
-                        "kind": "LinkedField",
-                        "name": "edges",
-                        "plural": true,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Illust",
-                            "kind": "LinkedField",
-                            "name": "node",
-                            "plural": false,
-                            "selections": [
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "filename",
-                                "storageKey": null
-                              },
-                              (v2/*: any*/)
-                            ],
-                            "storageKey": null
-                          }
-                        ],
+                        "kind": "ScalarField",
+                        "name": "filename",
                         "storageKey": null
-                      }
+                      },
+                      (v2/*: any*/)
                     ],
-                    "storageKey": "illusts(first:1)"
+                    "storageKey": null
                   },
                   {
                     "alias": null,
@@ -265,12 +233,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e7842f89ac20e06457f120b025813817",
+    "cacheID": "75937bbbe7ba2b4e56c20fc5ed7f75d2",
     "id": null,
     "metadata": {},
     "name": "TaggedArtworksQuery",
     "operationKind": "query",
-    "text": "query TaggedArtworksQuery(\n  $tag: String!\n) {\n  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query TaggedArtworksQuery(\n  $tag: String!\n) {\n  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    filename\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();

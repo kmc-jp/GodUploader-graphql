@@ -31,12 +31,8 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
         title
         caption
         nsfw
-        illusts(first: 1) {
-          edges {
-            node {
-              filename
-            }
-          }
+        topIllust {
+          filename
         }
         account {
           name
@@ -45,14 +41,17 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
     `,
     props.artwork
   );
-  const firstIllust = artwork.illusts!.edges![0]!.node!;
+
   const account = artwork.account;
+  if (!artwork.topIllust) {
+    return null;
+  }
 
   return (
     <div className="card p-1" style={{ height: 320 }}>
       <Suspense fallback={<Spinner />}>
         <SuspenseImage
-          src={`http://localhost:5000/public/thumbnail/${firstIllust.filename}`}
+          src={`http://localhost:5000/public/thumbnail/${artwork.topIllust.filename}`}
           alt={artwork.title}
           style={{
             maxWidth: "100%",

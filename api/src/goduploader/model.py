@@ -42,7 +42,9 @@ class Artwork(Base):
     account_id = Column(Integer, ForeignKey('account.id'), nullable=False)
     title = Column(String(255), nullable=False)
     caption = Column(Text, nullable=False)
+
     nsfw = Column(Boolean, nullable=False)
+    top_illust_id = Column(Integer, ForeignKey('artwork.id'))
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)

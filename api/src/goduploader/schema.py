@@ -18,11 +18,11 @@ from goduploader.model import (
 )
 from goduploader.tag import find_or_create_tags, has_nsfw_tag, update_tag_relation
 from goduploader.viewer import viewer
-from goduploader.dataloader import AccountLoader, ArtworkIllustsLoader
+from goduploader.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
 
 account_loader = AccountLoader()
-artwork_illusts_loader = ArtworkIllustsLoader()
+illust_loader = IllustLoader()
 
 class Account(SQLAlchemyObjectType):
     class Meta:
@@ -49,10 +49,10 @@ class Artwork(SQLAlchemyObjectType):
     def resolve_account(root, info):
         return account_loader.load(root.account_id)
 
-    illusts = SQLAlchemyConnectionField(Illust.connection, sort=None)
+    top_illust = graphene.Field(Illust)
 
-    def resolve_illusts(root, info, **args):
-        return artwork_illusts_loader.load(root.id)
+    def resolve_top_illust(root, info):
+        return illust_loader.load(root.top_illust_id)
 
 class Comment(SQLAlchemyObjectType):
     class Meta:
@@ -243,6 +243,10 @@ class UploadArtwork(graphene.ClientIDMutation):
             tag.artworks_count += 1
 
         current_user.artworks_count += 1
+
+        session.commit()
+
+        artwork.top_illust_id = artwork.illusts[0].id
 
         session.commit()
 

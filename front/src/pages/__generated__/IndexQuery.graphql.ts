@@ -65,13 +65,9 @@ fragment ArtworkListItem_artwork on Artwork {
   title
   caption
   nsfw
-  illusts(first: 1) {
-    edges {
-      node {
-        filename
-        id
-      }
-    }
+  topIllust {
+    filename
+    id
   }
   account {
     name
@@ -329,50 +325,22 @@ return {
                   },
                   {
                     "alias": null,
-                    "args": [
-                      {
-                        "kind": "Literal",
-                        "name": "first",
-                        "value": 1
-                      }
-                    ],
-                    "concreteType": "IllustConnection",
+                    "args": null,
+                    "concreteType": "Illust",
                     "kind": "LinkedField",
-                    "name": "illusts",
+                    "name": "topIllust",
                     "plural": false,
                     "selections": [
                       {
                         "alias": null,
                         "args": null,
-                        "concreteType": "IllustEdge",
-                        "kind": "LinkedField",
-                        "name": "edges",
-                        "plural": true,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Illust",
-                            "kind": "LinkedField",
-                            "name": "node",
-                            "plural": false,
-                            "selections": [
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "filename",
-                                "storageKey": null
-                              },
-                              (v0/*: any*/)
-                            ],
-                            "storageKey": null
-                          }
-                        ],
+                        "kind": "ScalarField",
+                        "name": "filename",
                         "storageKey": null
-                      }
+                      },
+                      (v0/*: any*/)
                     ],
-                    "storageKey": "illusts(first:1)"
+                    "storageKey": null
                   },
                   {
                     "alias": null,
@@ -414,7 +382,7 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1dc6c792b22504b98adc4ab58ad8dc7d",
+    "cacheID": "6c41c3aec9f866a1158e2e2a7cc829f9",
     "id": null,
     "metadata": {
       "connection": [
@@ -430,7 +398,7 @@ return {
     },
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  illusts(first: 1) {\n    edges {\n      node {\n        filename\n        id\n      }\n    }\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    filename\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();

@@ -84,6 +84,7 @@ def migrate_folderstags():
 
 def migrate_illusts():
     old_illusts = from_db.cursor().execute('SELECT * FROM illusts')
+    artwork_by_id = {artwork.id: artwork for artwork in session.query(Artwork).all()}
     for old_row in old_illusts:
         new_illust = Illust(
             id=old_row['id'],
@@ -92,6 +93,11 @@ def migrate_illusts():
             created_at=old_row['created_at'],
             updated_at=old_row['updated_at'],
         )
+
+        artwork = artwork_by_id.get(new_illust.artwork_id)
+        if artwork and not artwork.top_illust_id:
+            artwork.top_illust_id = new_illust.id
+
         session.add(new_illust)
 
 def migrate_likes():
