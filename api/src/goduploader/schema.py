@@ -15,7 +15,7 @@ from goduploader.model import (
     Like as LikeModel,
     Tag as TagModel,
 )
-from goduploader.tag import find_or_create_tags, has_nsfw_tag, update_tag_relation
+from goduploader.tag import has_nsfw_tag, update_tag_relation
 from goduploader.viewer import viewer
 from goduploader.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
