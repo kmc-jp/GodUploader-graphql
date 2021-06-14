@@ -253,6 +253,7 @@ type Mutation {
   createComment(input: CreateCommentInput!): CreateCommentPayload
   likeArtwork(input: LikeArtworkInput!): LikeArtworkPayload
   uploadArtwork(input: UploadArtworkInput!): UploadArtworkPayload
+  updateArtwork(input: UpdateArtworkInput!): UpdateArtworkPayload
   deleteArtwork(input: DeleteArtworkInput!): DeleteArtworkPayload
 }
 
@@ -332,6 +333,19 @@ enum TagSortEnum {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+}
+
+input UpdateArtworkInput {
+  id: ID!
+  title: String!
+  caption: String!
+  tags: [String!]!
+  clientMutationId: String
+}
+
+type UpdateArtworkPayload {
+  artwork: Artwork
+  clientMutationId: String
 }
 
 """
