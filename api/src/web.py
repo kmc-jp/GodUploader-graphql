@@ -5,6 +5,7 @@ from flask_cors import CORS
 from goduploader.db import session
 from goduploader.schema import schema
 app = Flask(__name__, static_folder=os.environ.get('PUBLIC_FOLDER', '../public'))
+app.debug = bool(os.environ.get('DEBUG'))
 CORS(app)
 
 app.add_url_rule(
