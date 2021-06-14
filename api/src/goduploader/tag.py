@@ -15,9 +15,6 @@ def find_or_create_tags(tag_names: List[str]) -> List[Tag]:
     found_tag_by_name = {t.name: t for t in found_tags}
     not_found_tag_names = [tn for tn in tag_names if tn not in found_tag_by_name]
 
-    # FIXME
-    session.autocommit = True
-
     # create not-found tags
     created_tags = []
     for new_tag_name in not_found_tag_names:
@@ -27,8 +24,6 @@ def find_or_create_tags(tag_names: List[str]) -> List[Tag]:
         )
         session.add(new_tag)
         created_tags.append(new_tag)
-
-    session.autocommit = False
 
     # merge (preserve order)
     merged_tags = list(found_tags) + created_tags
