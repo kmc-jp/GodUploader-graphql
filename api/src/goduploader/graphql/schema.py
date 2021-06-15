@@ -87,7 +87,7 @@ class Query(graphene.ObjectType):
     account_by_kmcid = graphene.Field(Account, kmcid=graphene.String(required=True))
 
     def resolve_account_by_kmcid(root, info, **args):
-        return Account.get_query(info).filter(AccountModel.kmcid == args['kmcid']).first()
+        return Account.get_query(info).filter_by(kmcid=args['kmcid']).first()
 
     active_accounts = SQLAlchemyConnectionField(Account.connection)
 

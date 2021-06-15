@@ -8,7 +8,7 @@ def viewer(request: Request) -> Optional[Account]:
     if not kmcid:
         return unknown_user()
 
-    account = session.query(Account).filter(Account.kmcid == kmcid).first()
+    account = session.query(Account).filter_by(kmcid=kmcid).first()
     if account:
         return account
 
@@ -19,4 +19,4 @@ def viewer(request: Request) -> Optional[Account]:
     return account
 
 def unknown_user():
-    return session.query(Account).filter(Account.kmcid == 'unknown_user').first()
+    return session.query(Account).filter_by(kmcid='unknown_user').first()
