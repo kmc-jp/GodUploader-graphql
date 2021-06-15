@@ -287,7 +287,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
             raise Exception('Artwork not found')
 
         if artwork.account_id != current_user.id:
-            raise Exception('You cannot delete this artwork')
+            raise Exception('You cannot update this artwork')
 
         artwork.title = input['title']
         artwork.caption = input['caption']
