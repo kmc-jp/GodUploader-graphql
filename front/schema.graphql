@@ -164,6 +164,8 @@ type Illust implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   artwork: Artwork
+  imageUrl: String!
+  thumbnailUrl: String!
 }
 
 type IllustConnection {

@@ -66,7 +66,7 @@ fragment ArtworkListItem_artwork on Artwork {
   caption
   nsfw
   topIllust {
-    filename
+    thumbnailUrl
     id
   }
   account {
@@ -335,7 +335,7 @@ return {
                         "alias": null,
                         "args": null,
                         "kind": "ScalarField",
-                        "name": "filename",
+                        "name": "thumbnailUrl",
                         "storageKey": null
                       },
                       (v0/*: any*/)
@@ -382,7 +382,7 @@ return {
     ]
   },
   "params": {
-    "cacheID": "6c41c3aec9f866a1158e2e2a7cc829f9",
+    "cacheID": "7e30681c5775fc807cc81a3dda148656",
     "id": null,
     "metadata": {
       "connection": [
@@ -398,7 +398,7 @@ return {
     },
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    filename\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();

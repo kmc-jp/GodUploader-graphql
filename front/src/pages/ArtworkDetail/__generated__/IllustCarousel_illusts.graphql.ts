@@ -9,7 +9,7 @@ export type IllustCarousel_illusts = {
         readonly edges: ReadonlyArray<{
             readonly node: {
                 readonly id: string;
-                readonly filename: string;
+                readonly imageUrl: string;
             } | null;
         } | null>;
     } | null;
@@ -64,7 +64,7 @@ const node: ReaderFragment = {
                   "alias": null,
                   "args": null,
                   "kind": "ScalarField",
-                  "name": "filename",
+                  "name": "imageUrl",
                   "storageKey": null
                 }
               ],
@@ -80,5 +80,5 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '9b72e8aa3fb061a00c46a75ee87d886f';
+(node as any).hash = '7b0443155da397b9f7e767773eae75bf';
 export default node;

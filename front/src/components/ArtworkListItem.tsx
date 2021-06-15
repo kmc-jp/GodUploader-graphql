@@ -32,7 +32,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
         caption
         nsfw
         topIllust {
-          filename
+          thumbnailUrl
         }
         account {
           name
@@ -51,7 +51,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
     <div className="card p-1" style={{ height: 320 }}>
       <Suspense fallback={<Spinner />}>
         <SuspenseImage
-          src={`http://localhost:5000/public/thumbnail/${artwork.topIllust.filename}`}
+          src={artwork.topIllust.thumbnailUrl}
           alt={artwork.title}
           style={{
             maxWidth: "100%",

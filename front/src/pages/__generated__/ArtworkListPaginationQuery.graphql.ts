@@ -40,7 +40,7 @@ fragment ArtworkListItem_artwork on Artwork {
   caption
   nsfw
   topIllust {
-    filename
+    thumbnailUrl
     id
   }
   account {
@@ -234,7 +234,7 @@ return {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
-                                "name": "filename",
+                                "name": "thumbnailUrl",
                                 "storageKey": null
                               },
                               (v3/*: any*/)
@@ -321,12 +321,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "3589c6d7c217595d205456fa940a88d1",
+    "cacheID": "9510f6eb53332e8586f5f8abd930056f",
     "id": null,
     "metadata": {},
     "name": "ArtworkListPaginationQuery",
     "operationKind": "query",
-    "text": "query ArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserDetail_artworks_1G22uz\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    filename\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UserDetail_artworks_1G22uz on Account {\n  artworks(last: $count, before: $cursor) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
+    "text": "query ArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserDetail_artworks_1G22uz\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UserDetail_artworks_1G22uz on Account {\n  artworks(last: $count, before: $cursor) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();

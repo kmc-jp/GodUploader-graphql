@@ -20,7 +20,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
           edges {
             node {
               id
-              filename
+              imageUrl
             }
           }
         }
@@ -83,7 +83,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
               key={i}
             >
               <SuspenseImage
-                src={`http://localhost:5000/public/illusts/${node.filename}`}
+                src={node.imageUrl}
                 alt=""
                 className="mw-100 d-block mx-auto"
               />

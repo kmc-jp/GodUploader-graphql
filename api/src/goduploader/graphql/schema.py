@@ -18,7 +18,7 @@ from goduploader.model import (
 from goduploader.tag import has_nsfw_tag, update_tag_relation
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
-from goduploader.config import PUBLIC_FOLDER
+from goduploader.config import BASE_URL
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
@@ -32,6 +32,16 @@ class Illust(SQLAlchemyObjectType):
     class Meta:
         model = IllustModel
         interfaces = (relay.Node,)
+
+    image_url = graphene.Field(graphene.String, required=True)
+
+    def resolve_image_url(root, info):
+        return os.path.join(BASE_URL, 'public/illusts', root.filename)
+
+    thumbnail_url = graphene.Field(graphene.String, required=True)
+
+    def resolve_thumbnail_url(root, info):
+        return os.path.join(BASE_URL, 'public/thumbnail', root.filename)
 
 class Artwork(SQLAlchemyObjectType):
     class Meta:
