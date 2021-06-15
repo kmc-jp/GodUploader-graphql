@@ -22,8 +22,8 @@ app.add_url_rule(
         'graphql',
         schema=schema,
         graphiql=app.debug,
-        methods=['POST'],
     ),
+    methods=['POST'],
 )
 
 @app.teardown_appcontext
