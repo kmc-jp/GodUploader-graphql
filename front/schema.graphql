@@ -258,7 +258,7 @@ type Query {
   """The ID of the object"""
   node(id: ID!): Node
   accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
-  artworks(safeOnly: Boolean!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
+  artworks(safeOnly: Boolean, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
 
   """for compatibility"""
   artworkByFolderId(folderId: Int!): Artwork
