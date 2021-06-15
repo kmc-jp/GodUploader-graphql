@@ -329,11 +329,31 @@ class DeleteArtwork(graphene.ClientIDMutation):
         return DeleteArtwork(deleted_artwork_id=artwork_id)
 
 
+class UpdateAccount(graphene.ClientIDMutation):
+    class Input:
+        name = graphene.String(required=True)
+
+    account = graphene.Field(Account)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        current_user = info.context.user
+        if current_user is None:
+            raise Exception('Please login')
+
+        current_user.name = input['name']
+
+        session.commit()
+
+        return UpdateAccount(account=current_user)
+
+
 class Mutation(graphene.ObjectType):
     create_comment = CreateComment.Field()
     like_artwork = LikeArtwork.Field()
     upload_artwork = UploadArtwork.Field()
     update_artwork = UpdateArtwork.Field()
     delete_artwork = DeleteArtwork.Field()
+    update_account = UpdateAccount.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

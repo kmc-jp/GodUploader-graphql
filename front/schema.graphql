@@ -229,6 +229,7 @@ type Mutation {
   uploadArtwork(input: UploadArtworkInput!): UploadArtworkPayload
   updateArtwork(input: UpdateArtworkInput!): UpdateArtworkPayload
   deleteArtwork(input: DeleteArtworkInput!): DeleteArtworkPayload
+  updateAccount(input: UpdateAccountInput!): UpdateAccountPayload
 }
 
 """An object with an ID"""
@@ -309,6 +310,16 @@ enum TagSortEnum {
   CREATED_AT_DESC
   UPDATED_AT_ASC
   UPDATED_AT_DESC
+}
+
+input UpdateAccountInput {
+  name: String!
+  clientMutationId: String
+}
+
+type UpdateAccountPayload {
+  account: Account
+  clientMutationId: String
 }
 
 input UpdateArtworkInput {
