@@ -81,17 +81,17 @@ class Query(graphene.ObjectType):
 
     viewer = graphene.Field(Account)
 
-    def resolve_viewer(self, info):
+    def resolve_viewer(root, info):
         return viewer(info.context)
 
     account_by_kmcid = graphene.Field(Account, kmcid=graphene.NonNull(graphene.String))
 
-    def resolve_account_by_kmcid(self, info, **args):
+    def resolve_account_by_kmcid(root, info, **args):
         return Account.get_query(info).filter(AccountModel.kmcid == args['kmcid']).first()
 
     active_accounts = SQLAlchemyConnectionField(Account.connection)
 
-    def resolve_active_accounts(self, info, **args):
+    def resolve_active_accounts(root, info, **args):
         account_query = SQLAlchemyConnectionField.get_query(AccountModel, info, **args)
         accounts = account_query \
             .filter(AccountModel.artworks_count > 0)
@@ -99,7 +99,7 @@ class Query(graphene.ObjectType):
 
     safe_artworks = SQLAlchemyConnectionField(Artwork.connection)
 
-    def resolve_safe_artworks(self, info, **args):
+    def resolve_safe_artworks(root, info, **args):
         artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
         artworks = artwork_query \
             .filter(not_(ArtworkModel.nsfw))
@@ -108,7 +108,7 @@ class Query(graphene.ObjectType):
 
     tagged_artworks = SQLAlchemyConnectionField(Artwork.connection, tag=graphene.NonNull(graphene.String))
 
-    def resolve_tagged_artworks(self, info, **args):
+    def resolve_tagged_artworks(root, info, **args):
         artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
         artworks = artwork_query \
             .join(ArtworkModel.tags, isouter=True) \
@@ -118,7 +118,7 @@ class Query(graphene.ObjectType):
 
     all_tags = SQLAlchemyConnectionField(Tag.connection)
 
-    def resolve_all_tags(self, info, **args):
+    def resolve_all_tags(root, info, **args):
         tag_query = SQLAlchemyConnectionField.get_query(TagModel, info, **args)
         tags = tag_query \
             .filter(TagModel.artworks_count > 0)
@@ -127,7 +127,7 @@ class Query(graphene.ObjectType):
 
     tags_by_prefix = SQLAlchemyConnectionField(Tag.connection, prefix=graphene.NonNull(graphene.String))
 
-    def resolve_tags_by_prefix(self, info, **args):
+    def resolve_tags_by_prefix(root, info, **args):
         prefix = args.get('prefix').replace('\\', '\\\\').replace('%', r'\%').replace('_', r'\_')
         tag_query = SQLAlchemyConnectionField.get_query(TagModel, info, **args)
 
