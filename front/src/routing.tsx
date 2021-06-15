@@ -8,7 +8,7 @@ import {
 } from "react-router-config";
 
 export interface RouteConfigComponentProps<
-  Params extends { [K in keyof Params]?: string } = {}
+  Params extends { [K in keyof Params]?: string } = any
 > extends Omit<OriginalRouteConfigComponentProps<Params>, "route"> {
   route?: RouteConfig;
   prepared: any;
@@ -32,7 +32,7 @@ export const renderRoutes = (
   environment: Environment,
   extraProps?: any,
   switchProps?: SwitchProps
-) => {
+): React.ReactElement | null => {
   return routes ? (
     <Switch {...switchProps}>
       {routes.map((route, i) => (
