@@ -17,7 +17,7 @@ from goduploader.model import (
 )
 from goduploader.tag import has_nsfw_tag, update_tag_relation
 from goduploader.viewer import viewer
-from goduploader.dataloader import AccountLoader, IllustLoader
+from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
 
 account_loader = AccountLoader()
