@@ -2,8 +2,7 @@ import pytest
 from graphene.test import Client
 from goduploader.db import engine
 from goduploader.model import Base
-from goduploader.schema import schema
-from tests.util import prepare_fixtures
+from goduploader.graphql.schema import schema
 
 @pytest.fixture(scope='session')
 def client():
