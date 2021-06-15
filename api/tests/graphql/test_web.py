@@ -42,5 +42,4 @@ def test_graphql_can_post(client):
         data=json.dumps({'query': query}),
         headers={'Content-Type': 'application/json'},
     )
-    print(resp.json)
     assert resp.status_code == 200

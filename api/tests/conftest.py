@@ -26,8 +26,6 @@ def client():
     create_account(kmcid='unknown_user', name='unknown_user')
 
     client = Client(schema)
-    print('start')
     yield client
-    print('finish')
 
     Base.metadata.drop_all(engine)
