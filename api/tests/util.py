@@ -37,14 +37,32 @@ def create_artwork(**args):
         args['account'] = create_account()
 
     artwork = Artwork(**args)
-    illust = Illust(filename=fake.file_name(category='image'))
-    artwork.illusts.append(illust)
+
+    illusts = args.pop('illusts', None)
+    if not illusts:
+        illusts = [create_illust(artwork=artwork)]
+
+    for illust in illusts:
+        artwork.illusts.append(illust)
+
     session.add(artwork)
-    session.add(illust)
     session.commit()
 
     args['account'].artworks_count += 1
-    artwork.top_illust_id = illust.id
+    artwork.top_illust_id = illusts[0].id
     session.commit()
 
     return artwork
+
+def create_illust(artwork, filename=None):
+    if not filename:
+        filename = fake.file_name(category='image')
+
+    illust = Illust(
+        artwork=artwork,
+        filename=fake.file_name(category='image'),
+    )
+    session.add(illust)
+    session.commit()
+
+    return illust
