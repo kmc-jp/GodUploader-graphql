@@ -5,10 +5,14 @@ from goduploader.model import Base
 from goduploader.graphql.schema import schema
 from .util import prepare_fixtures
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function', autouse=True)
 def client():
     Base.metadata.create_all(engine)
     prepare_fixtures()
 
     client = Client(schema)
+    print('start')
     yield client
+    print('finish')
+
+    Base.metadata.drop_all(engine)

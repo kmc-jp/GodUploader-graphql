@@ -1,7 +1,5 @@
 import pytest
-from tests.prepare import client
 
-@pytest.mark.usefixtures('client')
 def test_safe_artworks(client):
     query = '''
     {
