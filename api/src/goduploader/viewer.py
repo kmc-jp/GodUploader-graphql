@@ -3,8 +3,7 @@ from goduploader.model import Account
 from goduploader.db import session
 from typing import Optional
 
-def viewer(request: Request) -> Optional[Account]:
-    kmcid = request.headers.get('X-Forwarded-User')
+def viewer(kmcid: Optional[str]) -> Optional[Account]:
     if not kmcid:
         return unknown_user()
 

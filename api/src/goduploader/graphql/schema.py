@@ -16,7 +16,6 @@ from goduploader.model import (
     Tag as TagModel,
 )
 from goduploader.tag import has_nsfw_tag, update_tag_relation
-from goduploader.viewer import viewer
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
 
@@ -82,7 +81,7 @@ class Query(graphene.ObjectType):
     viewer = graphene.Field(Account)
 
     def resolve_viewer(root, info):
-        return viewer(info.context)
+        return info.context.user
 
     account_by_kmcid = graphene.Field(Account, kmcid=graphene.String(required=True))
 
@@ -146,7 +145,7 @@ class CreateComment(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        current_user = viewer(info.context)
+        current_user = info.context.user
         if current_user is None:
             raise Exception('Please login')
 
@@ -177,7 +176,7 @@ class LikeArtwork(relay.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        current_user = viewer(info.context)
+        current_user = info.context.user
         if current_user is None:
             raise Exception('Please login')
 
@@ -207,7 +206,7 @@ class UploadArtwork(graphene.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, files, **input):
-        current_user = viewer(info.context)
+        current_user = info.context.user
         if current_user is None:
             raise Exception('Please login')
 
@@ -261,7 +260,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        current_user = viewer(info.context)
+        current_user = info.context.user
         if current_user is None:
             raise Exception('Please login')
 
@@ -289,7 +288,7 @@ class DeleteArtwork(graphene.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
-        current_user = viewer(info.context)
+        current_user = info.context.user
         if current_user is None:
             raise Exception('Please login')
 
