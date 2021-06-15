@@ -11,6 +11,7 @@ import {
   redirectToMyPageQuery,
   RedirectToMyPage,
 } from "./pages/RedirectToMyPage";
+import { RedirectFolderToArtwork, redirectFolderToArtworkQuery } from "./pages/RedirectFolderToArtwork";
 
 export const routes: RouteConfig[] = [
   {
@@ -68,6 +69,18 @@ export const routes: RouteConfig[] = [
             { fetchPolicy: "store-or-network" }
           ),
         }),
+      },
+      {
+        path: "/illust/:folder_id",
+        component: RedirectFolderToArtwork,
+        prepare: ({ params, environment }) => ({
+          redirectFolderToArtworkQuery: loadQuery(
+            environment,
+            redirectFolderToArtworkQuery,
+            { folderId: params.folder_id },
+            { fetchPolicy: "store-or-network" }
+          )
+        })
       },
       {
         path: "/tags",
