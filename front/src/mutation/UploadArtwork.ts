@@ -21,9 +21,16 @@ export const commitUploadArtworkMutation = (
 ) => {
   return commitMutation<UploadArtworkMutation>(environment, {
     mutation: graphql`
-      mutation UploadArtworkMutation($input: UploadArtworkInput!) {
+      mutation UploadArtworkMutation(
+        $connections: [ID!]!
+        $input: UploadArtworkInput!
+      ) {
         uploadArtwork(input: $input) {
-          artwork {
+          artwork
+            @appendNode(
+              connections: $connections
+              edgeTypeName: "ArtworkEdge"
+            ) {
             id
           }
         }

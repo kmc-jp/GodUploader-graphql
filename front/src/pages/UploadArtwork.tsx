@@ -26,6 +26,7 @@ export const UploadArtwork: React.VFC = () => {
       const uploadables = makeUploadables(files);
       commitUploadArtworkMutation(environment, {
         variables: {
+          connections: [],
           input: {
             title,
             caption,
