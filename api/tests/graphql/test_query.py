@@ -9,7 +9,7 @@ def test_safe_artworks(client):
     )
     query = '''
     {
-        safeArtworks(first: 8) {
+        safeArtworks: artworks(first: 8, safeOnly: true) {
             edges {
                 node {
                     title
