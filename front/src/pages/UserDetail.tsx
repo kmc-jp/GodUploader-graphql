@@ -46,7 +46,9 @@ export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
   );
 };
 
-const ArtworkList: React.VFC<{ user: any }> = ({ user }) => {
+const ArtworkList: React.VFC<{ user: UserDetail_artworks$key }> = ({
+  user,
+}) => {
   const {
     data: { artworks },
     loadPrevious,
