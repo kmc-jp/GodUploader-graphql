@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.schema import ForeignKey, Index, PrimaryKeyConstraint, Table
+from sqlalchemy.sql.schema import ForeignKey, Index, Table
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
 from goduploader.db import Base
 
