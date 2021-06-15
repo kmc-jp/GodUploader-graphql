@@ -98,6 +98,11 @@ class Query(graphene.ObjectType):
 
         return artworks
 
+    artwork_by_folder_id = graphene.Field(Artwork, description="for compatibility", folder_id=graphene.Int(required=True))
+
+    def resolve_artwork_by_folder_id(root, info, **args):
+        return Artwork.get_query(info).filter_by(id=args['folder_id']).first()
+
     viewer = graphene.Field(Account)
 
     def resolve_viewer(root, info):

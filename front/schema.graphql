@@ -259,6 +259,9 @@ type Query {
   node(id: ID!): Node
   accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
   artworks(safeOnly: Boolean!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
+
+  """for compatibility"""
+  artworkByFolderId(folderId: Int!): Artwork
   viewer: Account
   accountByKmcid(kmcid: String!): Account
   activeAccounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
