@@ -1,5 +1,5 @@
 from goduploader.model import Account, Artwork, Comment, Illust, Like, Tag
-from goduploader.db import session
+from goduploader.db import engine, session
 
 from collections import defaultdict
 import sqlite3
@@ -7,6 +7,7 @@ from_db = sqlite3.connect('./from.db', detect_types=sqlite3.PARSE_DECLTYPES | sq
 from_db.row_factory = sqlite3.Row
 
 sqlite3.dbapi2.converters['DATETIME'] = sqlite3.dbapi2.converters['TIMESTAMP']
+engine.echo = True
 
 def main():
     with session.begin():
