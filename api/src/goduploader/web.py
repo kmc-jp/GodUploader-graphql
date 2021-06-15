@@ -22,6 +22,7 @@ app.add_url_rule(
         'graphql',
         schema=schema,
         graphiql=True,
+        methods=['POST'],
     ),
 )
 
