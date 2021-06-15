@@ -39,13 +39,13 @@ export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
         <div className="card-body">
           <div className="row row-cols-4">
             {taggedArtworks?.edges.map((edge, i) => {
-              if (!edge) {
+              if (!(edge && edge.node)) {
                 return null;
               }
 
               return (
                 <div key={i} className="col p-2">
-                  <ArtworkListItem artwork={edge.node!} />
+                  <ArtworkListItem artwork={edge.node} />
                 </div>
               );
             })}

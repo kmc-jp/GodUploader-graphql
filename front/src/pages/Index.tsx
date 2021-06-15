@@ -80,10 +80,10 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
         <div className="card-body">
           <div className="row row-cols-4">
             {activeAccounts?.edges.map((edge, i) => {
-              if (!edge) {
+              if (!(edge && edge.node)) {
                 return null;
               }
-              const node = edge.node!;
+              const node = edge.node;
               return (
                 <div key={i} className="col py-1">
                   <Link

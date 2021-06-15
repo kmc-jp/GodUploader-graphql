@@ -63,6 +63,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   if (!artwork) {
     return <div>作品が見つかりません</div>;
   }
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const createdAt = new Date(artwork.createdAt!);
 
   const handleDeleteButtonClick = () => {
@@ -108,7 +109,11 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
             <ul className="breadcrumb px-2 py-2 bg-light">
               <li className="breadcrumb-item">タグ</li>
               {artwork.tags?.edges.map((edge) => {
-                const tag = edge?.node!;
+                const tag = edge?.node;
+                if (!tag) {
+                  return null;
+                }
+
                 return (
                   <li key={tag.id} className="text-center breadcrumb-item">
                     <Link to={`/tagged_artworks/${tag.name}`}>#{tag.name}</Link>

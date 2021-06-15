@@ -24,8 +24,12 @@ export const UploadArtwork: React.VFC = () => {
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
+      if (!(filesRef.current && filesRef.current.files)) {
+        return;
+      }
+
       setIsUploading(true);
-      const files = filesRef.current!.files!;
+      const files = filesRef.current.files;
       const uploadables = makeUploadables(files);
       commitUploadArtworkMutation(environment, {
         variables: {
@@ -38,9 +42,13 @@ export const UploadArtwork: React.VFC = () => {
           },
         },
         uploadables,
-        onCompleted: (resp) => {
+        onCompleted: (resp, errors) => {
           setIsUploading(false);
-          setUploadedArtworkId(resp.uploadArtwork!.artwork!.id);
+          if (!resp.uploadArtwork?.artwork) {
+            return;
+          }
+
+          setUploadedArtworkId(resp.uploadArtwork.artwork.id);
         },
         updater: (store) => {
           store.invalidateStore();

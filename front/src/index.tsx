@@ -11,6 +11,7 @@ import { RouteRenderer } from "./routing";
 import { routes } from "./routes";
 
 // opt-out Strict mode of React. ref: https://github.com/ReactTraining/react-router/issues/7870
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <RelayEnvironmentProvider environment={RelayEnvironment}>
     <BrowserRouter>

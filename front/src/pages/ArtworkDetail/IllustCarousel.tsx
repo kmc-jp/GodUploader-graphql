@@ -47,7 +47,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
     setIndex((currentIndex) => {
       const newIndex = Math.max(0, currentIndex + 1);
       if (currentIndex !== newIndex) {
-        carouselRef.current!.next();
+        carouselRef.current?.next();
       }
       return newIndex;
     });
@@ -56,7 +56,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
     setIndex((currentIndex) => {
       const newIndex = Math.min(currentIndex - 1, illusts?.edges.length || 0);
       if (currentIndex !== newIndex) {
-        carouselRef.current!.prev();
+        carouselRef.current?.prev();
       }
       return newIndex;
     });

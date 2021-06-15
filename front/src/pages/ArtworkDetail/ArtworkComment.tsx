@@ -87,6 +87,7 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
       setIsPosting(true);
       commitCreateCommentMutation(environment, {
         variables: {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           input: { artworkId: artwork.id!, text },
           connections: [connectionId],
         },

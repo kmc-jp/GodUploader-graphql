@@ -2,7 +2,7 @@ import React, { ImgHTMLAttributes } from "react";
 
 // idea from https://css-tricks.com/pre-caching-image-with-react-suspense/
 const cache = {
-  __data: new Map<string, any>(),
+  __data: new Map<string, boolean | Promise<void>>(),
   read(src: string) {
     if (!this.__data.get(src)) {
       this.__data.set(

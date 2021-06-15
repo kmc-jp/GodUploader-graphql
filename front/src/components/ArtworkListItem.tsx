@@ -72,7 +72,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
             {artwork.title}
           </Link>
         </h3>
-        <p className="card-text text-truncate">{account!.name}</p>
+        {account && <p className="card-text text-truncate">{account.name}</p>}
         <p className="card-text text-truncate">{artwork.caption}</p>
       </div>
     </div>
