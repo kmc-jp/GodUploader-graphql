@@ -84,7 +84,7 @@ class Query(graphene.ObjectType):
     def resolve_viewer(root, info):
         return viewer(info.context)
 
-    account_by_kmcid = graphene.Field(Account, kmcid=graphene.NonNull(graphene.String))
+    account_by_kmcid = graphene.Field(Account, kmcid=graphene.String(required=True))
 
     def resolve_account_by_kmcid(root, info, **args):
         return Account.get_query(info).filter(AccountModel.kmcid == args['kmcid']).first()
@@ -106,7 +106,7 @@ class Query(graphene.ObjectType):
 
         return artworks
 
-    tagged_artworks = SQLAlchemyConnectionField(Artwork.connection, tag=graphene.NonNull(graphene.String))
+    tagged_artworks = SQLAlchemyConnectionField(Artwork.connection, tag=graphene.String(required=True))
 
     def resolve_tagged_artworks(root, info, **args):
         artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
@@ -125,7 +125,7 @@ class Query(graphene.ObjectType):
 
         return tags
 
-    tags_by_prefix = SQLAlchemyConnectionField(Tag.connection, prefix=graphene.NonNull(graphene.String))
+    tags_by_prefix = SQLAlchemyConnectionField(Tag.connection, prefix=graphene.String(required=True))
 
     def resolve_tags_by_prefix(root, info, **args):
         prefix = args.get('prefix').replace('\\', '\\\\').replace('%', r'\%').replace('_', r'\_')
@@ -200,7 +200,7 @@ class UploadArtwork(graphene.ClientIDMutation):
     class Input:
         title = graphene.String(required=True)
         caption = graphene.String(required=True)
-        tags = graphene.NonNull(graphene.List(graphene.NonNull(graphene.String)))
+        tags = graphene.List(graphene.NonNull(graphene.String), required=True)
         files = Upload(required=True)
 
     artwork = graphene.Field(Artwork)
@@ -255,7 +255,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
         id = graphene.ID(required=True)
         title = graphene.String(required=True)
         caption = graphene.String(required=True)
-        tags = graphene.NonNull(graphene.List(graphene.NonNull(graphene.String)))
+        tags = graphene.List(graphene.NonNull(graphene.String), required=True)
 
     artwork = graphene.Field(Artwork)
 
