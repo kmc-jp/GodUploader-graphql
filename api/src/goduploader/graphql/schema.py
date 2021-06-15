@@ -87,7 +87,16 @@ class Tag(SQLAlchemyObjectType):
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
     accounts = SQLAlchemyConnectionField(Account.connection)
-    artworks = SQLAlchemyConnectionField(Artwork.connection)
+
+    artworks = SQLAlchemyConnectionField(Artwork.connection, safe_only=graphene.Boolean(required=True))
+
+    def resolve_artworks(root, info, **args):
+        artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
+        artworks = artwork_query
+        if args['safe_only']:
+            artworks = artworks.filter(not_(ArtworkModel.nsfw))
+
+        return artworks
 
     viewer = graphene.Field(Account)
 
@@ -106,15 +115,6 @@ class Query(graphene.ObjectType):
         accounts = account_query \
             .filter(AccountModel.artworks_count > 0)
         return accounts
-
-    safe_artworks = SQLAlchemyConnectionField(Artwork.connection)
-
-    def resolve_safe_artworks(root, info, **args):
-        artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
-        artworks = artwork_query \
-            .filter(not_(ArtworkModel.nsfw))
-
-        return artworks
 
     tagged_artworks = SQLAlchemyConnectionField(Artwork.connection, tag=graphene.String(required=True))
 

@@ -44,7 +44,7 @@ query IndexQuery {
       }
     }
   }
-  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {
+  safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {
     edges {
       node {
         ...ArtworkListItem_artwork
@@ -150,26 +150,31 @@ v2 = {
 },
 v3 = {
   "kind": "Literal",
+  "name": "safeOnly",
+  "value": true
+},
+v4 = {
+  "kind": "Literal",
   "name": "sort",
   "value": [
     "CREATED_AT_DESC"
   ]
 },
-v4 = {
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v5 = {
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "cursor",
   "storageKey": null
 },
-v6 = {
+v7 = {
   "alias": null,
   "args": null,
   "concreteType": "PageInfo",
@@ -194,7 +199,7 @@ v6 = {
   ],
   "storageKey": null
 },
-v7 = {
+v8 = {
   "kind": "ClientExtension",
   "selections": [
     {
@@ -206,13 +211,14 @@ v7 = {
     }
   ]
 },
-v8 = [
+v9 = [
   {
     "kind": "Literal",
     "name": "first",
     "value": 8
   },
-  (v3/*: any*/)
+  (v3/*: any*/),
+  (v4/*: any*/)
 ];
 return {
   "fragment": {
@@ -225,7 +231,8 @@ return {
       {
         "alias": "safeArtworks",
         "args": [
-          (v3/*: any*/)
+          (v3/*: any*/),
+          (v4/*: any*/)
         ],
         "concreteType": "ArtworkConnection",
         "kind": "LinkedField",
@@ -248,7 +255,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v4/*: any*/),
+                  (v5/*: any*/),
                   {
                     "args": null,
                     "kind": "FragmentSpread",
@@ -257,14 +264,14 @@ return {
                 ],
                 "storageKey": null
               },
-              (v5/*: any*/)
+              (v6/*: any*/)
             ],
             "storageKey": null
           },
-          (v6/*: any*/),
-          (v7/*: any*/)
+          (v7/*: any*/),
+          (v8/*: any*/)
         ],
-        "storageKey": "__Index_safeArtworks_connection(sort:[\"CREATED_AT_DESC\"])"
+        "storageKey": "__Index_safeArtworks_connection(safeOnly:true,sort:[\"CREATED_AT_DESC\"])"
       }
     ],
     "type": "Query",
@@ -278,11 +285,11 @@ return {
     "selections": [
       (v2/*: any*/),
       {
-        "alias": null,
-        "args": (v8/*: any*/),
+        "alias": "safeArtworks",
+        "args": (v9/*: any*/),
         "concreteType": "ArtworkConnection",
         "kind": "LinkedField",
-        "name": "safeArtworks",
+        "name": "artworks",
         "plural": false,
         "selections": [
           {
@@ -355,34 +362,35 @@ return {
                     ],
                     "storageKey": null
                   },
-                  (v4/*: any*/)
+                  (v5/*: any*/)
                 ],
                 "storageKey": null
               },
-              (v5/*: any*/)
+              (v6/*: any*/)
             ],
             "storageKey": null
           },
-          (v6/*: any*/),
-          (v7/*: any*/)
+          (v7/*: any*/),
+          (v8/*: any*/)
         ],
-        "storageKey": "safeArtworks(first:8,sort:[\"CREATED_AT_DESC\"])"
+        "storageKey": "artworks(first:8,safeOnly:true,sort:[\"CREATED_AT_DESC\"])"
       },
       {
-        "alias": null,
-        "args": (v8/*: any*/),
+        "alias": "safeArtworks",
+        "args": (v9/*: any*/),
         "filters": [
-          "sort"
+          "sort",
+          "safeOnly"
         ],
         "handle": "connection",
         "key": "Index_safeArtworks",
         "kind": "LinkedHandle",
-        "name": "safeArtworks"
+        "name": "artworks"
       }
     ]
   },
   "params": {
-    "cacheID": "7e30681c5775fc807cc81a3dda148656",
+    "cacheID": "03df590ce7fe810527078a8bc62b777d",
     "id": null,
     "metadata": {
       "connection": [
@@ -398,9 +406,9 @@ return {
     },
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks(first: 8, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'f5f04e275c8d6e7bb77b2350fb78afa1';
+(node as any).hash = '0d15df74246e9a73e057a8af622afb3c';
 export default node;

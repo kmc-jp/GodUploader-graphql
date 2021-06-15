@@ -258,11 +258,10 @@ type Query {
   """The ID of the object"""
   node(id: ID!): Node
   accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
-  artworks(sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
+  artworks(safeOnly: Boolean!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   viewer: Account
   accountByKmcid(kmcid: String!): Account
   activeAccounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
-  safeArtworks(sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   taggedArtworks(tag: String!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   allTags(sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection
   tagsByPrefix(prefix: String!, sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection

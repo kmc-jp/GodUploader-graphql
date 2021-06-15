@@ -18,7 +18,7 @@ export const indexQuery = graphql`
         }
       }
     }
-    safeArtworks(first: 8, sort: [CREATED_AT_DESC])
+    safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true)
       @connection(key: "Index_safeArtworks") {
       __id
       edges {
