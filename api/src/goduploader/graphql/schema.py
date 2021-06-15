@@ -18,6 +18,7 @@ from goduploader.model import (
 from goduploader.tag import has_nsfw_tag, update_tag_relation
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
+from goduploader.config import PUBLIC_FOLDER
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
@@ -224,8 +225,8 @@ class UploadArtwork(graphene.ClientIDMutation):
         for buf in request.files.values():
             _, ext = os.path.splitext(buf.filename)
             filename = f'{uuid.uuid4()}{ext}'
-            illust_path = f'../public/illusts/{filename}'
-            thumbnail_path = f'../public/thumbnail/{filename}'
+            illust_path = os.path.join(PUBLIC_FOLDER, f'illusts/{filename}')
+            thumbnail_path = os.path.join(PUBLIC_FOLDER, f'thumbnail/{filename}')
             buf.save(illust_path)
 
             generate_thumbnail(illust_path, thumbnail_path)
