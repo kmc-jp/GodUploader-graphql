@@ -17,6 +17,15 @@ export type UpdateArtworkMutationResponse = {
     readonly updateArtwork: {
         readonly artwork: {
             readonly id: string;
+            readonly title: string;
+            readonly caption: string;
+            readonly tags: {
+                readonly edges: ReadonlyArray<{
+                    readonly node: {
+                        readonly name: string;
+                    } | null;
+                } | null>;
+            } | null;
         } | null;
     } | null;
 };
@@ -34,6 +43,16 @@ mutation UpdateArtworkMutation(
   updateArtwork(input: $input) {
     artwork {
       id
+      title
+      caption
+      tags {
+        edges {
+          node {
+            name
+            id
+          }
+        }
+      }
     }
   }
 }
@@ -49,48 +68,106 @@ var v0 = [
 ],
 v1 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "input",
-        "variableName": "input"
-      }
-    ],
-    "concreteType": "UpdateArtworkPayload",
-    "kind": "LinkedField",
-    "name": "updateArtwork",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Artwork",
-        "kind": "LinkedField",
-        "name": "artwork",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "input",
+    "variableName": "input"
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "title",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "caption",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "UpdateArtworkMutation",
-    "selections": (v1/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "UpdateArtworkPayload",
+        "kind": "LinkedField",
+        "name": "updateArtwork",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Artwork",
+            "kind": "LinkedField",
+            "name": "artwork",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "TagConnection",
+                "kind": "LinkedField",
+                "name": "tags",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TagEdge",
+                    "kind": "LinkedField",
+                    "name": "edges",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "Tag",
+                        "kind": "LinkedField",
+                        "name": "node",
+                        "plural": false,
+                        "selections": [
+                          (v5/*: any*/)
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Mutation",
     "abstractKey": null
   },
@@ -99,17 +176,78 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "UpdateArtworkMutation",
-    "selections": (v1/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v1/*: any*/),
+        "concreteType": "UpdateArtworkPayload",
+        "kind": "LinkedField",
+        "name": "updateArtwork",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Artwork",
+            "kind": "LinkedField",
+            "name": "artwork",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/),
+              (v3/*: any*/),
+              (v4/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "TagConnection",
+                "kind": "LinkedField",
+                "name": "tags",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "TagEdge",
+                    "kind": "LinkedField",
+                    "name": "edges",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "Tag",
+                        "kind": "LinkedField",
+                        "name": "node",
+                        "plural": false,
+                        "selections": [
+                          (v5/*: any*/),
+                          (v2/*: any*/)
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "ef58b2beecab4c1538ea200425739fb9",
+    "cacheID": "612df7b175d46805a7d877e9e910c2fd",
     "id": null,
     "metadata": {},
     "name": "UpdateArtworkMutation",
     "operationKind": "mutation",
-    "text": "mutation UpdateArtworkMutation(\n  $input: UpdateArtworkInput!\n) {\n  updateArtwork(input: $input) {\n    artwork {\n      id\n    }\n  }\n}\n"
+    "text": "mutation UpdateArtworkMutation(\n  $input: UpdateArtworkInput!\n) {\n  updateArtwork(input: $input) {\n    artwork {\n      id\n      title\n      caption\n      tags {\n        edges {\n          node {\n            name\n            id\n          }\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '7e9471ed2304a724bfa54fed091907ad';
+(node as any).hash = '2c5e52ea4e7237bb4d73542b36beb01f';
 export default node;

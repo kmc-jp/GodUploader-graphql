@@ -12,6 +12,15 @@ export const commitUpdateArtworkMutation = (
         updateArtwork(input: $input) {
           artwork {
             id
+            title
+            caption
+            tags {
+              edges {
+                node {
+                  name
+                }
+              }
+            }
           }
         }
       }

@@ -1,7 +1,10 @@
+import { Modal } from "bootstrap";
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import { useRelayEnvironment } from "react-relay";
 import { CaptionInput } from "../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";
+import { commitUpdateArtworkMutation } from "../../mutation/UpdateArtwork";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 
 interface Props {
@@ -9,6 +12,7 @@ interface Props {
 }
 
 export const UpdateArtworkModal: React.VFC<Props> = ({ artwork }) => {
+  const environment = useRelayEnvironment();
   const [title, setTitle] = useState(artwork.title || "");
   const [caption, setCaption] = useState(artwork.caption || "");
 
@@ -39,8 +43,32 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artwork }) => {
     el.addEventListener("hidden.bs.modal", resetStates);
     return () => {
       el.removeEventListener("hidden.bs.modal", resetStates);
-    }
+    };
   }, [resetStates]);
+
+  const handleUpdate = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      commitUpdateArtworkMutation(environment, {
+        variables: {
+          input: {
+            id: artwork.id!,
+            title,
+            caption,
+            tags: tagList,
+          },
+        },
+        onCompleted: () => {
+          const modal = Modal.getInstance(ref.current!);
+          modal?.hide();
+        },
+        updater: (store) => {
+          store.invalidateStore();
+        },
+      });
+    },
+    [artwork.id, caption, environment, tagList, title]
+  );
 
   return (
     <>
@@ -52,7 +80,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artwork }) => {
       >
         <div className="modal-dialog">
           <div className="modal-content">
-            <form>
+            <form onSubmit={handleUpdate}>
               <div className="modal-header">
                 <h5 className="modal-title">神絵の情報編集</h5>
                 <button
