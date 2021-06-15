@@ -37,7 +37,7 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
     }
 
     loadQuery({ prefix });
-  });
+  }, 500);
 
   const appendTag = useCallback(
     (newTag: string) => {
