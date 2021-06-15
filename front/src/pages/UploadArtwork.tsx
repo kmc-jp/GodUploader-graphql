@@ -5,7 +5,9 @@ import {
   commitUploadArtworkMutation,
   makeUploadables,
 } from "../mutation/UploadArtwork";
-import { TagsInput } from "./UploadArtwork/TagsInput";
+import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
+import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
+import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();
@@ -78,29 +80,10 @@ export const UploadArtwork: React.VFC = () => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="title" className="form-label">
-              タイトル <span className="text-danger">(必須)</span>
-            </label>
-            <input
-              type="text"
-              id="title"
-              className="form-control"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
+            <TitleInput title={title} setTitle={setTitle} />
           </div>
           <div className="mb-3">
-            <label htmlFor="caption" className="form-label">
-              キャプション
-            </label>
-            <input
-              type="text"
-              id="caption"
-              className="form-control"
-              value={caption}
-              onChange={(e) => setCaption(e.target.value)}
-            />
+            <CaptionInput caption={caption} setCaption={setCaption} />
           </div>
           <div className="mb-3">
             <TagsInput tagList={tagList} setTagList={setTagList} />
