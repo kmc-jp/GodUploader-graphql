@@ -225,15 +225,16 @@ class UploadArtwork(graphene.ClientIDMutation):
         for buf in request.files.values():
             _, ext = os.path.splitext(buf.filename)
             filename = f'{uuid.uuid4()}{ext}'
-            illust_path = os.path.join(PUBLIC_FOLDER, f'illusts/{filename}')
-            thumbnail_path = os.path.join(PUBLIC_FOLDER, f'thumbnail/{filename}')
+            illust = IllustModel(
+                filename=filename,
+            )
+
+            illust_path = illust.image_path('full')
+            thumbnail_path = illust.image_path('thumbnail')
             buf.save(illust_path)
 
             generate_thumbnail(illust_path, thumbnail_path)
 
-            illust = IllustModel(
-                filename=filename,
-            )
             session.add(illust)
             artwork.illusts.append(illust)
 

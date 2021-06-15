@@ -1,4 +1,6 @@
+import os.path
 from datetime import datetime
+from goduploader.config import PUBLIC_FOLDER
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey, Index, Table
@@ -69,6 +71,14 @@ class Illust(Base):
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    def image_path(self, size='full') -> str:
+        if size == 'full':
+            return os.path.join(PUBLIC_FOLDER, 'illusts', self.filename)
+        elif size == 'thumbnail':
+            return os.path.join(PUBLIC_FOLDER, 'thumbnail', self.filename)
+        else:
+            raise ValueError(f'Unknown size: {size}')
 
 class Like(Base):
     __tablename__ = 'like'
