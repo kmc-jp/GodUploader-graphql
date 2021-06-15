@@ -14,8 +14,9 @@ export const UploadArtwork: React.VFC = () => {
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const filesRef = useRef<HTMLInputElement>(null);
-  const [uploadedArtworkId, setUploadedArtworkId] =
-    useState<string | null>(null);
+  const [uploadedArtworkId, setUploadedArtworkId] = useState<string | null>(
+    null
+  );
 
   const [isUploading, setIsUploading] = useState(false);
   const [tagList, setTagList] = useState<string[]>([]);

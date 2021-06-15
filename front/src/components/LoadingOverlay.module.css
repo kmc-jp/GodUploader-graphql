@@ -11,6 +11,6 @@
 
 @keyframes makeVisible {
   to {
-   visibility: visible;
+    visibility: visible;
   }
 }

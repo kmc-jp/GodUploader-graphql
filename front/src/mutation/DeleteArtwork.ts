@@ -4,7 +4,7 @@ import { DeleteArtworkMutation } from "./__generated__/DeleteArtworkMutation.gra
 
 export const commitDeleteArtworkMutation = (
   environment: Environment,
-  config: Omit<MutationConfig<DeleteArtworkMutation>, 'mutation'>
+  config: Omit<MutationConfig<DeleteArtworkMutation>, "mutation">
 ) => {
   return commitMutation<DeleteArtworkMutation>(environment, {
     mutation: graphql`

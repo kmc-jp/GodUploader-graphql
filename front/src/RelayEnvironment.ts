@@ -15,32 +15,31 @@ const fetchRelay: FetchFunction = async (
   const requestVariables = {
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
     },
   };
 
   let body: string | FormData;
   if (uploadables) {
-    const formData = new FormData()
-    formData.append('query', params.text!)
-    formData.append('variables', JSON.stringify(variables))
+    const formData = new FormData();
+    formData.append("query", params.text!);
+    formData.append("variables", JSON.stringify(variables));
 
-    Object.keys(uploadables).forEach(key => {
+    Object.keys(uploadables).forEach((key) => {
       if (Object.prototype.hasOwnProperty.call(uploadables, key)) {
-        formData.append(key, uploadables[key])
+        formData.append(key, uploadables[key]);
       }
-    })
+    });
 
-    body = formData
+    body = formData;
   } else {
-    (requestVariables.headers as any)['Content-Type'] = 'application/json'
+    (requestVariables.headers as any)["Content-Type"] = "application/json";
 
     body = JSON.stringify({
       query: params.text,
-      variables
-    })
+      variables,
+    });
   }
-
 
   const response = await fetch("/api/graphql", {
     ...requestVariables,

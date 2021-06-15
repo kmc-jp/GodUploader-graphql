@@ -19,9 +19,9 @@ interface Props {
 }
 
 export const RedirectToMyPage: React.VFC<Props> = ({ prepared }) => {
-  const {viewer} = usePreloadedQuery(redirectToMyPageQuery, prepared.viewer);
+  const { viewer } = usePreloadedQuery(redirectToMyPageQuery, prepared.viewer);
   if (!viewer) {
-    return <Redirect to="/" />
+    return <Redirect to="/" />;
   }
 
   return <Redirect to={`/user/${viewer.kmcid}`} />;

@@ -12,9 +12,7 @@ import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
 import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
 import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
 import { commitDeleteArtworkMutation } from "../mutation/DeleteArtwork";
-import {
-  UpdateArtworkModal,
-} from "./ArtworkDetail/UpdateArtworkForm";
+import { UpdateArtworkModal } from "./ArtworkDetail/UpdateArtworkForm";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {

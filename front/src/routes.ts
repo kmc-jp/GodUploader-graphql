@@ -11,7 +11,10 @@ import {
   redirectToMyPageQuery,
   RedirectToMyPage,
 } from "./pages/RedirectToMyPage";
-import { RedirectFolderToArtwork, redirectFolderToArtworkQuery } from "./pages/RedirectFolderToArtwork";
+import {
+  RedirectFolderToArtwork,
+  redirectFolderToArtworkQuery,
+} from "./pages/RedirectFolderToArtwork";
 
 export const routes: RouteConfig[] = [
   {
@@ -79,8 +82,8 @@ export const routes: RouteConfig[] = [
             redirectFolderToArtworkQuery,
             { folderId: params.folder_id },
             { fetchPolicy: "store-or-network" }
-          )
-        })
+          ),
+        }),
       },
       {
         path: "/tags",
