@@ -1,4 +1,5 @@
-from goduploader.model import Account, Artwork, Illust
+from goduploader.model import Account, Artwork, Illust, Tag
+from goduploader.tag import update_tag_relation
 from goduploader.viewer import viewer
 from goduploader.db import session
 from faker import Faker
@@ -36,6 +37,14 @@ def create_artwork(**args):
     if 'account' not in args:
         args['account'] = create_account()
 
+    if 'nsfw' not in args:
+        args['nsfw'] = False
+
+    tags = args.pop('tags', [])
+    for idx, tag in enumerate(tags):
+        if isinstance(tag, Tag):
+            tags[idx] = tag.name
+
     artwork = Artwork(**args)
 
     illusts = args.pop('illusts', None)
@@ -44,6 +53,7 @@ def create_artwork(**args):
 
     for illust in illusts:
         artwork.illusts.append(illust)
+    update_tag_relation(artwork, tags)
 
     session.add(artwork)
     session.commit()
