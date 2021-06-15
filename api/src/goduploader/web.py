@@ -20,6 +20,3 @@ app.add_url_rule(
 @app.teardown_appcontext
 def shutdown_sessions(exception=None):
     session.remove()
-
-if __name__ == "__main__":
-    app.run()
