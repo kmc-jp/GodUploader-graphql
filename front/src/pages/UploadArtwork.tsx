@@ -39,6 +39,9 @@ export const UploadArtwork: React.VFC = () => {
           setIsUploading(false);
           setUploadedArtworkId(resp.uploadArtwork!.artwork!.id);
         },
+        updater: (store) => {
+          store.invalidateStore();
+        },
       });
     },
     [caption, environment, tagList, title]

@@ -80,6 +80,9 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
       onCompleted: () => {
         history.replace("/");
       },
+      updater: (store) => {
+        store.invalidateStore();
+      },
     });
   };
 
