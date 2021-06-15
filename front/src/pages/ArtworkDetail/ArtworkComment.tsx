@@ -101,7 +101,7 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="row g-2">
+      <div className="row g-3">
         <div className="col-sm-9">
           <input
             type="text"
@@ -112,7 +112,7 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
             className="form-control"
           />
         </div>
-        <div className="col-sm-2">
+        <div className="col-sm-3">
           <input
             type="submit"
             value="コメントする"
@@ -120,7 +120,7 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
           />
         </div>
         {isPosting && (
-          <div className="col-sm text-center">
+          <div className="col-sm-1 text-center">
             <div className="spinner-border text-primary" role="status">
               <span className="visually-hidden">Uploading...</span>
             </div>
