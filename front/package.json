@@ -37,9 +37,12 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
     ]
   },
+  "prettier": {},
   "proxy": "http://localhost:5000",
   "browserslist": {
     "production": [
@@ -61,8 +64,11 @@
     "@types/react-router-config": "^5.0.2",
     "@types/relay-runtime": "^11.0.0",
     "babel-plugin-relay": "^11.0.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "graphql": "^15.5.0",
     "graphql-cli": "^4.1.0",
+    "prettier": "^2.3.1",
     "relay-compiler": "^11.0.2",
     "relay-compiler-language-typescript": "^14.0.0"
   }
