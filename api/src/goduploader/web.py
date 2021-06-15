@@ -2,14 +2,12 @@ import os
 from goduploader.config import PUBLIC_FOLDER
 from flask import Flask, request
 from flask_graphql import GraphQLView
-from flask_cors import CORS
 from goduploader.db import session
 from goduploader.graphql.schema import schema
 from goduploader.viewer import viewer
 
 app = Flask(__name__, static_folder=PUBLIC_FOLDER)
 app.debug = bool(os.environ.get('DEBUG'))
-CORS(app)
 
 @app.before_request
 def load_user():
