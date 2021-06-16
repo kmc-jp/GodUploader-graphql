@@ -1,12 +1,51 @@
 import { KonvaEventObject } from "konva/lib/Node";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Layer, Line, Stage } from "react-konva";
 import { useMeasure } from "react-use";
+
+type DrawingContextValue = {
+  color: string;
+  backgroundColor: string;
+  setColor: (color: string) => void;
+  setBackgroundColor: (color: string) => void;
+};
+
+const defaultDrawingContextValue = {
+  color: "black",
+  backgroundColor: "white",
+  /* eslint-disable @typescript-eslint/no-empty-function*/
+  setColor: () => {},
+  setBackgroundColor: () => {},
+  /* eslint-enable @typescript-eslint/no-empty-function*/
+};
+
+const DrawingContext = React.createContext<DrawingContextValue>(
+  defaultDrawingContextValue
+);
+
+const DrawingProvider: React.FC = ({ children }) => {
+  const [color, setColor] = useState("#000000");
+  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+
+  return (
+    <DrawingContext.Provider
+      value={{
+        color,
+        backgroundColor,
+        setColor,
+        setBackgroundColor,
+      }}
+    >
+      {children}
+    </DrawingContext.Provider>
+  );
+};
 
 type Point = number[];
 
 type Drawing = {
   tool: "pen";
+  color: string;
   points: Point;
 };
 
@@ -14,6 +53,7 @@ const Canvas: React.VFC<{ width: number; height: number }> = ({
   width,
   height,
 }) => {
+  const { color } = useContext(DrawingContext);
   const [lines, setLines] = useState<Drawing[]>([]);
   const isDrawing = useRef(false);
 
@@ -28,7 +68,7 @@ const Canvas: React.VFC<{ width: number; height: number }> = ({
     }
 
     isDrawing.current = true;
-    setLines([...lines, { tool: "pen", points: [pos.x, pos.y] }]);
+    setLines([...lines, { tool: "pen", color, points: [pos.x, pos.y] }]);
   };
 
   const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
@@ -65,10 +105,43 @@ const Canvas: React.VFC<{ width: number; height: number }> = ({
     >
       <Layer>
         {lines.map((line, i) => (
-          <Line key={i} points={line.points} stroke="black" lineCap="round" />
+          <Line
+            key={i}
+            points={line.points}
+            stroke={line.color}
+            lineCap="round"
+          />
         ))}
       </Layer>
     </Stage>
+  );
+};
+
+const Sidebar: React.VFC = () => {
+  const { color, setColor, backgroundColor, setBackgroundColor } =
+    useContext(DrawingContext);
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <input
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="w-100 h-100"
+          />
+        </div>
+        <div className="col">
+          <input
+            type="color"
+            value={backgroundColor}
+            onChange={(e) => setBackgroundColor(e.target.value)}
+            className="w-100 h-100"
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -83,10 +156,14 @@ export const TegakiDU: React.VFC = () => {
         </div>
         <div className="card-body">
           <div className="row">
-            <div className="col-md-8" style={{ height: 482 }} ref={ref}>
-              <Canvas width={width} height={height} />
-            </div>
-            <div className="col-md-4">iroiro</div>
+            <DrawingProvider>
+              <div className="col-md-8" style={{ height: 482 }} ref={ref}>
+                <Canvas width={width} height={height} />
+              </div>
+              <div className="col-md-4">
+                <Sidebar />
+              </div>
+            </DrawingProvider>
           </div>
         </div>
       </div>
