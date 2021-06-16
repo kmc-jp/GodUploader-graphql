@@ -1,6 +1,6 @@
 import os.path
 from datetime import datetime
-from goduploader.config import PUBLIC_FOLDER
+from goduploader.config import BASE_URL, PUBLIC_FOLDER
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey, Index, Table
@@ -18,6 +18,10 @@ class Account(Base):
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    @property
+    def user_page_url(self):
+        return os.path.join(BASE_URL, 'user', self.kmcid)
 
     index_artworks_count = Index('account_artworks_count', artworks_count)
 
