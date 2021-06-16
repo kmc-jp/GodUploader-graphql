@@ -36,6 +36,7 @@ def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.N
                 'title': artwork.title,
                 'text': text,
                 'image_url': image_url,
+                'fallback': image_url,
             },
         ],
     }
