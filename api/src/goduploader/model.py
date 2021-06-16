@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey, Index, Table
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
 from goduploader.db import Base
+from graphene.relay import Node
 
 class Account(Base):
     __tablename__ = 'account'
@@ -43,6 +44,10 @@ class Artwork(Base):
     account_id = Column(Integer, ForeignKey('account.id'), nullable=False)
     title = Column(String(255), nullable=False)
     caption = Column(Text, nullable=False)
+
+    @property
+    def artwork_url(self):
+        return os.path.join(BASE_URL, 'artwork', Node.to_global_id('Artwork', self.id))
 
     nsfw = Column(Boolean, nullable=False)
     top_illust_id = Column(Integer, ForeignKey('artwork.id'))
