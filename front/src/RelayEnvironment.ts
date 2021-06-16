@@ -6,6 +6,9 @@ import {
   Store,
 } from "relay-runtime";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || "";
+const API_URL = `${BASE_URL}/api/graphql`;
+
 const fetchRelay: FetchFunction = async (
   params,
   variables,
@@ -41,7 +44,7 @@ const fetchRelay: FetchFunction = async (
     });
   }
 
-  const response = await fetch("/api/graphql", {
+  const response = await fetch(API_URL, {
     ...requestVariables,
     body,
   });
