@@ -15,6 +15,7 @@ import {
   RedirectFolderToArtwork,
   redirectFolderToArtworkQuery,
 } from "./pages/RedirectFolderToArtwork";
+import { TegakiDU } from "./pages/TegakiDU";
 
 export const routes: RouteConfig[] = [
   {
@@ -108,6 +109,10 @@ export const routes: RouteConfig[] = [
             { fetchPolicy: "store-or-network" }
           ),
         }),
+      },
+      {
+        path: "/tegaki",
+        component: TegakiDU,
       },
     ],
   },
