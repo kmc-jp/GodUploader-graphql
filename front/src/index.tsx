@@ -14,7 +14,7 @@ import { routes } from "./routes";
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <RelayEnvironmentProvider environment={RelayEnvironment}>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
       <RouteRenderer routes={routes} />
     </BrowserRouter>
   </RelayEnvironmentProvider>
