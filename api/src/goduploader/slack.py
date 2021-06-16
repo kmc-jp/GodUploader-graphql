@@ -3,6 +3,7 @@ from goduploader.gyazo import upload_image
 from enum import Enum
 import requests
 from slack_sdk.web.client import WebClient
+from cacheout import Cache
 
 from goduploader.model import Artwork
 
@@ -42,7 +43,14 @@ def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.N
     resp = requests.post(SLACK_WEBHOOK_URL, data=data)
     resp.raise_for_status()
 
+_cache = Cache(ttl=3600)
+
+CACHE_KEY = 'get_all_public_channels'
+
 def get_all_public_channels():
+    if _cache.has(CACHE_KEY):
+        return _cache.get(CACHE_KEY)
+
     next_cursor = None
     all_channels = []
 
@@ -59,5 +67,7 @@ def get_all_public_channels():
         next_cursor = resp.data['response_metadata']['next_cursor']
         if not next_cursor:
             break
+
+    _cache.set(CACHE_KEY, all_channels)
 
     return all_channels
