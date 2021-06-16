@@ -8,6 +8,7 @@ import {
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
+import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();
@@ -21,12 +22,22 @@ export const UploadArtwork: React.VFC = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [tagList, setTagList] = useState<string[]>([]);
 
+  const [notifySlack, setNotifySlack] = useState(false);
+  const [showThumbnail, setShowThumbnail] = useState(true);
+  const [slackChannel, setSlackChannel] = useState("C039TN7Q1"); // #graphics
+
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
       if (!(filesRef.current && filesRef.current.files)) {
         return;
       }
+
+      const shareOption = notifySlack
+        ? showThumbnail
+          ? "SHARE_TO_SLACK_WITH_IMAGE"
+          : "SHARE_TO_SLACK"
+        : "NONE";
 
       setIsUploading(true);
       const files = filesRef.current.files;
@@ -39,6 +50,7 @@ export const UploadArtwork: React.VFC = () => {
             caption,
             tags: tagList,
             files: uploadables,
+            shareOption,
           },
         },
         uploadables,
@@ -96,6 +108,34 @@ export const UploadArtwork: React.VFC = () => {
           </div>
           <div className="mb-3">
             <TagsInput tagList={tagList} setTagList={setTagList} />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="notify_slack">Slackに通知する</label>
+            <input
+              type="checkbox"
+              id="notify_slack"
+              checked={notifySlack}
+              onChange={(e) => setNotifySlack(e.target.checked)}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="show_thumbnail">
+              サムネイルを表示する (Gyazoに自動的に投稿されます)
+            </label>
+            <input
+              type="checkbox"
+              id="show_thumbnail"
+              disabled={!notifySlack}
+              checked={showThumbnail}
+              onChange={(e) => setShowThumbnail(e.target.checked)}
+            />
+          </div>
+          <div className="mb-3">
+            <SlackChannelInput
+              slackChannel={slackChannel}
+              setSlackChannel={setSlackChannel}
+              disabled={!notifySlack}
+            />
           </div>
           <div>
             <input

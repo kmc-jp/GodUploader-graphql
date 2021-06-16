@@ -3,10 +3,12 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
+export type ShareOption = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
 export type UploadArtworkInput = {
     title: string;
     caption: string;
     tags: Array<string>;
+    shareOption?: ShareOption | null;
     files: unknown;
     clientMutationId?: string | null;
 };
