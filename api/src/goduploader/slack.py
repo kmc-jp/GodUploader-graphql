@@ -14,7 +14,6 @@ class ShareOption(Enum):
     SHARE_TO_SLACK_WITH_IMAGE = 2
 
 def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.NONE, channel_id=None):
-    print(share_option)
     if share_option == ShareOption.NONE:
         return
 
