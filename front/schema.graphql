@@ -269,6 +269,19 @@ type Query {
   taggedArtworks(tag: String!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   allTags(sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection
   tagsByPrefix(prefix: String!, sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection
+  allSlackChannels: [SlackChannel]!
+}
+
+"""An enumeration."""
+enum ShareOption {
+  NONE
+  SHARE_TO_SLACK
+  SHARE_TO_SLACK_WITH_IMAGE
+}
+
+type SlackChannel {
+  id: String!
+  name: String!
 }
 
 type Tag implements Node {
@@ -345,6 +358,7 @@ input UploadArtworkInput {
   title: String!
   caption: String!
   tags: [String!]!
+  shareOption: ShareOption
   files: Upload!
   clientMutationId: String
 }
