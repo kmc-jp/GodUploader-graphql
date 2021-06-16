@@ -1,6 +1,7 @@
 from flask import request
 import graphene
 from graphene import relay
+from graphene.types.objecttype import ObjectType
 from graphene_file_upload.scalars import Upload
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 import os.path
@@ -19,7 +20,7 @@ from goduploader.tag import has_nsfw_tag, update_tag_relation
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
 from goduploader.config import BASE_URL
-from goduploader.slack import ShareOption as ShareOptionEnum, share_to_slack
+from goduploader.slack import ShareOption as ShareOptionEnum, get_all_public_channels, share_to_slack
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
@@ -84,6 +85,10 @@ class Tag(SQLAlchemyObjectType):
     class Meta:
         model = TagModel
         interfaces = (relay.Node,)
+
+class SlackChannel(ObjectType):
+    id = graphene.NonNull(graphene.String)
+    name = graphene.NonNull(graphene.String)
 
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
@@ -151,6 +156,11 @@ class Query(graphene.ObjectType):
             .filter(TagModel.name.ilike(prefix + '%', escape='\\'))
 
         return tags
+
+    all_slack_channels = graphene.NonNull(graphene.List(SlackChannel))
+
+    def resolve_all_slack_channels(root, info):
+        return get_all_public_channels()
 
 
 class CreateComment(relay.ClientIDMutation):

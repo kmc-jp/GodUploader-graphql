@@ -47,7 +47,7 @@ def get_all_public_channels():
     all_channels = []
 
     for i in range(10):
-        resp = api.conversations_list(cursor=next_cursor, exclude_archived='true', limit=1000, types='public_channel')
+        resp = api.conversations_list(cursor=next_cursor, exclude_archived=True, limit=1000, types='public_channel')
         if not resp.data['ok']:
             break
 
@@ -57,5 +57,7 @@ def get_all_public_channels():
 
         all_channels += channels
         next_cursor = resp.data['response_metadata']['next_cursor']
+        if not next_cursor:
+            break
 
     return all_channels
