@@ -68,7 +68,15 @@ export const UploadArtwork: React.VFC = () => {
         },
       });
     },
-    [caption, environment, tagList, title]
+    [
+      caption,
+      environment,
+      notifySlack,
+      showThumbnail,
+      slackChannel,
+      tagList,
+      title,
+    ]
   );
 
   if (uploadedArtworkId) {
