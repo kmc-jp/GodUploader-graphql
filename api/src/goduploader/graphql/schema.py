@@ -253,7 +253,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         artwork.account = current_user
         session.add(artwork)
 
-        share_option = ShareOptionEnum(input.get('share_option', 0))
+        share_option = UploadArtworkShareOption.get(input.get('share_option', 0))
 
         for buf in request.files.values():
             _, ext = os.path.splitext(buf.filename)

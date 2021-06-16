@@ -1,7 +1,6 @@
-from goduploader.config import SLACK_TOKEN, SLACK_WEBHOOK_URL
+from goduploader.config import SLACK_TOKEN
 from goduploader.gyazo import upload_image
 from enum import Enum
-import requests
 from slack_sdk.web.client import WebClient
 from cacheout import Cache
 
@@ -15,12 +14,13 @@ class ShareOption(Enum):
     SHARE_TO_SLACK_WITH_IMAGE = 2
 
 def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.NONE, channel_id=None):
+    print(share_option)
     if share_option == ShareOption.NONE:
         return
 
     image_url = None
     if share_option == ShareOption.SHARE_TO_SLACK_WITH_IMAGE:
-        uploaded_image = upload_image(artwork.account, image_path)
+        uploaded_image = upload_image(artwork, image_path)
         image_url = uploaded_image.url
 
     tag_names = ','.join([t.name for t in artwork.tags])
@@ -30,7 +30,6 @@ def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.N
     data = {
         'username': 'GodIllustUploader (graphql)',
         'icon_emoji': ':godicon:',
-        'channel': channel_id,
         'text': f'{artwork.account.name}が新たな絵をアップロードなさいました！',
         'attachments': [
             {
@@ -40,8 +39,7 @@ def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.N
             },
         ],
     }
-    resp = requests.post(SLACK_WEBHOOK_URL, data=data)
-    resp.raise_for_status()
+    api.chat_postMessage(channel=channel_id, **data)
 
 _cache = Cache(ttl=3600)
 
