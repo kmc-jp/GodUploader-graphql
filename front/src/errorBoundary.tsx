@@ -4,8 +4,8 @@ interface State {
   error?: any;
 }
 
-export class ErrorBoundary extends React.Component<{}, State> {
-  constructor(props: {}) {
+export class ErrorBoundary extends React.Component<any, State> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
