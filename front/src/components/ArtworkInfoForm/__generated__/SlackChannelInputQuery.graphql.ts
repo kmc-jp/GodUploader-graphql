@@ -3,22 +3,22 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
-export type SlackChannelListQueryVariables = {};
-export type SlackChannelListQueryResponse = {
+export type SlackChannelInputQueryVariables = {};
+export type SlackChannelInputQueryResponse = {
     readonly allSlackChannels: ReadonlyArray<{
         readonly id: string;
         readonly name: string;
     } | null>;
 };
-export type SlackChannelListQuery = {
-    readonly response: SlackChannelListQueryResponse;
-    readonly variables: SlackChannelListQueryVariables;
+export type SlackChannelInputQuery = {
+    readonly response: SlackChannelInputQueryResponse;
+    readonly variables: SlackChannelInputQueryVariables;
 };
 
 
 
 /*
-query SlackChannelListQuery {
+query SlackChannelInputQuery {
   allSlackChannels {
     id
     name
@@ -59,7 +59,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "SlackChannelListQuery",
+    "name": "SlackChannelInputQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -68,18 +68,18 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "SlackChannelListQuery",
+    "name": "SlackChannelInputQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "ef5a933d8603249d8f24b658cbda1da4",
+    "cacheID": "9ed28239a1042837f996bedfcff0c247",
     "id": null,
     "metadata": {},
-    "name": "SlackChannelListQuery",
+    "name": "SlackChannelInputQuery",
     "operationKind": "query",
-    "text": "query SlackChannelListQuery {\n  allSlackChannels {\n    id\n    name\n  }\n}\n"
+    "text": "query SlackChannelInputQuery {\n  allSlackChannels {\n    id\n    name\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '6a707d6c55c4aa814cc3940eba20e002';
+(node as any).hash = '5a637c9f1771b836829179b7784ef074';
 export default node;

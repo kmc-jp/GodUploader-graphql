@@ -231,6 +231,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         caption = graphene.String(required=True)
         tags = graphene.List(graphene.NonNull(graphene.String), required=True)
         share_option = UploadArtworkShareOption()
+        channel_id = graphene.String()
         files = Upload(required=True)
 
     artwork = graphene.Field(Artwork)
@@ -279,7 +280,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         top_illust = artwork.illusts[0]
         artwork.top_illust_id = top_illust.id
 
-        share_to_slack(artwork, share_option)
+        share_to_slack(artwork, top_illust.image_path('thumbnail'), share_option, input['channel_id'])
 
         session.commit()
 

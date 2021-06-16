@@ -9,6 +9,7 @@ export type UploadArtworkInput = {
     caption: string;
     tags: Array<string>;
     shareOption?: ShareOption | null;
+    channelId?: string | null;
     files: unknown;
     clientMutationId?: string | null;
 };

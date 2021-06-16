@@ -51,6 +51,7 @@ export const UploadArtwork: React.VFC = () => {
             tags: tagList,
             files: uploadables,
             shareOption,
+            channelId: slackChannel,
           },
         },
         uploadables,

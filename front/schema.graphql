@@ -359,6 +359,7 @@ input UploadArtworkInput {
   caption: String!
   tags: [String!]!
   shareOption: ShareOption
+  channelId: String
   files: Upload!
   clientMutationId: String
 }

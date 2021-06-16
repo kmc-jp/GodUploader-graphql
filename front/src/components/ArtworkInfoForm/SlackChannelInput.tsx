@@ -1,10 +1,10 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React, { Suspense } from "react";
 import { useLazyLoadQuery } from "react-relay";
-import { SlackChannelListQuery } from "./__generated__/SlackChannelListQuery.graphql";
+import { SlackChannelInputQuery } from "./__generated__/SlackChannelInputQuery.graphql";
 
-const slackChannelListQuery = graphql`
-  query SlackChannelListQuery {
+const slackChannelInputQuery = graphql`
+  query SlackChannelInputQuery {
     allSlackChannels {
       id
       name
@@ -46,8 +46,8 @@ export const SlackChannelInput: React.VFC<Props> = ({
 };
 
 const ChannelSuggestion: React.VFC = () => {
-  const { allSlackChannels } = useLazyLoadQuery<SlackChannelListQuery>(
-    slackChannelListQuery,
+  const { allSlackChannels } = useLazyLoadQuery<SlackChannelInputQuery>(
+    slackChannelInputQuery,
     {}
   );
 
