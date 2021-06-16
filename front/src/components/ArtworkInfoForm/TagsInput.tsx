@@ -1,12 +1,11 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React, { Suspense, useCallback, useRef } from "react";
-import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
-import { useDebouncedCallback } from "use-debounce";
+import { useLazyLoadQuery } from "react-relay";
 import { TagsInputQuery } from "./__generated__/TagsInputQuery.graphql";
 
 const tagsInputQuery = graphql`
-  query TagsInputQuery($prefix: String!) {
-    tagsByPrefix(prefix: $prefix) {
+  query TagsInputQuery {
+    allTags {
       edges {
         node {
           name
@@ -23,21 +22,7 @@ interface Props {
 }
 
 export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
-  const [preloadedQuery, loadQuery, dispose] =
-    useQueryLoader<TagsInputQuery>(tagsInputQuery);
-
   const ref = useRef<HTMLInputElement>(null);
-
-  const handleChange = useDebouncedCallback<
-    React.ChangeEventHandler<HTMLInputElement>
-  >((e) => {
-    const prefix = e.target.value;
-    if (prefix === "") {
-      return;
-    }
-
-    loadQuery({ prefix });
-  }, 500);
 
   const appendTag = useCallback(
     (newTag: string) => {
@@ -65,7 +50,6 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
       e.preventDefault();
 
       appendTag(newTag);
-      dispose();
       ref.current.value = "";
     };
 
@@ -102,17 +86,14 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
             id="tags"
             list="tagSuggestionList"
             className="form-control"
-            onChange={handleChange}
             onKeyDown={handleKeyDown}
             ref={ref}
           />
         </div>
       </div>
-      {preloadedQuery && (
-        <Suspense fallback={null}>
-          <TagSuggestion preloadedQuery={preloadedQuery} />
-        </Suspense>
-      )}
+      <Suspense fallback={null}>
+        <TagSuggestion />
+      </Suspense>
     </>
   );
 };
@@ -143,17 +124,15 @@ const TagList: React.VFC<Props> = ({ tagList, setTagList }) => {
   );
 };
 
-const TagSuggestion: React.VFC<{
-  preloadedQuery: PreloadedQuery<TagsInputQuery>;
-}> = ({ preloadedQuery }) => {
-  const { tagsByPrefix } = usePreloadedQuery(tagsInputQuery, preloadedQuery);
-  if (!(tagsByPrefix && tagsByPrefix.edges)) {
+const TagSuggestion: React.VFC = () => {
+  const { allTags } = useLazyLoadQuery<TagsInputQuery>(tagsInputQuery, {});
+  if (!(allTags && allTags.edges)) {
     return null;
   }
 
   return (
     <datalist id="tagSuggestionList">
-      {tagsByPrefix.edges.map((edge, i) => {
+      {allTags.edges.map((edge, i) => {
         const node = edge?.node;
         if (!node) {
           return null;

@@ -3,11 +3,9 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
-export type TagsInputQueryVariables = {
-    prefix: string;
-};
+export type TagsInputQueryVariables = {};
 export type TagsInputQueryResponse = {
-    readonly tagsByPrefix: {
+    readonly allTags: {
         readonly edges: ReadonlyArray<{
             readonly node: {
                 readonly name: string;
@@ -24,10 +22,8 @@ export type TagsInputQuery = {
 
 
 /*
-query TagsInputQuery(
-  $prefix: String!
-) {
-  tagsByPrefix(prefix: $prefix) {
+query TagsInputQuery {
+  allTags {
     edges {
       node {
         name
@@ -40,28 +36,14 @@ query TagsInputQuery(
 */
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "prefix"
-  }
-],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "prefix",
-    "variableName": "prefix"
-  }
-],
-v2 = {
+var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v3 = {
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -70,17 +52,17 @@ v3 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "TagsInputQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": null,
         "concreteType": "TagConnection",
         "kind": "LinkedField",
-        "name": "tagsByPrefix",
+        "name": "allTags",
         "plural": false,
         "selections": [
           {
@@ -99,8 +81,8 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v2/*: any*/),
-                  (v3/*: any*/)
+                  (v0/*: any*/),
+                  (v1/*: any*/)
                 ],
                 "storageKey": null
               }
@@ -116,16 +98,16 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Operation",
     "name": "TagsInputQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": null,
         "concreteType": "TagConnection",
         "kind": "LinkedField",
-        "name": "tagsByPrefix",
+        "name": "allTags",
         "plural": false,
         "selections": [
           {
@@ -144,8 +126,8 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v2/*: any*/),
-                  (v3/*: any*/),
+                  (v0/*: any*/),
+                  (v1/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -165,14 +147,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "34e5525568410ff96dd9fd6bc34f43c5",
+    "cacheID": "0cd128606c84984607d085506ce0d0a9",
     "id": null,
     "metadata": {},
     "name": "TagsInputQuery",
     "operationKind": "query",
-    "text": "query TagsInputQuery(\n  $prefix: String!\n) {\n  tagsByPrefix(prefix: $prefix) {\n    edges {\n      node {\n        name\n        artworksCount\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query TagsInputQuery {\n  allTags {\n    edges {\n      node {\n        name\n        artworksCount\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'c6d5bdb8b65a3dd15cdc4f4dfae582dc';
+(node as any).hash = 'd91113a880564a2abc668636f514efae';
 export default node;
