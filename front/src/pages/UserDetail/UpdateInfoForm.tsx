@@ -105,7 +105,7 @@ export const UpdateAccountModal: React.VFC<Props> = ({ account }) => {
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center mb-2">
         <button
           className="btn btn-primary"
           data-bs-toggle="modal"
