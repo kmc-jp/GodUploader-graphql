@@ -9,10 +9,16 @@ import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginationQuery.graphql";
 import { ArtworkListItem } from "../components/ArtworkListItem";
+import { UpdateAccountModal } from "./UserDetail/UpdateInfoForm";
 
 export const userDetailQuery = graphql`
   query UserDetailQuery($kmcid: String!) {
+    viewer {
+      id
+    }
     accountByKmcid(kmcid: $kmcid) {
+      id
+      kmcid
       name
       ...UserDetail_artworks
     }
@@ -26,7 +32,7 @@ interface UserDetailProps {
 }
 
 export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
-  const { accountByKmcid: user } = usePreloadedQuery(
+  const { viewer, accountByKmcid: user } = usePreloadedQuery(
     userDetailQuery,
     prepared.userDetailQuery
   );
@@ -38,7 +44,8 @@ export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
     <div>
       <div className="card">
         <div className="card-header">
-          <h2 className="text-center">{user.name}の作品置場</h2>
+          <h2 className="text-center mb-4">{user.name}の作品置場</h2>
+          {user.id === viewer?.id && <UpdateAccountModal account={user} />}
         </div>
         <ArtworkList user={user} />
       </div>

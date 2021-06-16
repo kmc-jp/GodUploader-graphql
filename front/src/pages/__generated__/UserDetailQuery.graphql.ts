@@ -8,7 +8,12 @@ export type UserDetailQueryVariables = {
     kmcid: string;
 };
 export type UserDetailQueryResponse = {
+    readonly viewer: {
+        readonly id: string;
+    } | null;
     readonly accountByKmcid: {
+        readonly id: string;
+        readonly kmcid: string;
         readonly name: string;
         readonly " $fragmentRefs": FragmentRefs<"UserDetail_artworks">;
     } | null;
@@ -24,10 +29,14 @@ export type UserDetailQuery = {
 query UserDetailQuery(
   $kmcid: String!
 ) {
+  viewer {
+    id
+  }
   accountByKmcid(kmcid: $kmcid) {
+    id
+    kmcid
     name
     ...UserDetail_artworks
-    id
   }
 }
 
@@ -73,34 +82,53 @@ var v0 = [
     "name": "kmcid"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v2 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Account",
+  "kind": "LinkedField",
+  "name": "viewer",
+  "plural": false,
+  "selections": [
+    (v1/*: any*/)
+  ],
+  "storageKey": null
+},
+v3 = [
   {
     "kind": "Variable",
     "name": "kmcid",
     "variableName": "kmcid"
   }
 ],
-v2 = {
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "kmcid",
+  "storageKey": null
+},
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v3 = [
+v6 = [
   {
     "kind": "Literal",
     "name": "last",
     "value": 40
   }
-],
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-};
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -108,15 +136,18 @@ return {
     "metadata": null,
     "name": "UserDetailQuery",
     "selections": [
+      (v2/*: any*/),
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v3/*: any*/),
         "concreteType": "Account",
         "kind": "LinkedField",
         "name": "accountByKmcid",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
+          (v1/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -135,18 +166,21 @@ return {
     "kind": "Operation",
     "name": "UserDetailQuery",
     "selections": [
+      (v2/*: any*/),
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v3/*: any*/),
         "concreteType": "Account",
         "kind": "LinkedField",
         "name": "accountByKmcid",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
+          (v1/*: any*/),
+          (v4/*: any*/),
+          (v5/*: any*/),
           {
             "alias": null,
-            "args": (v3/*: any*/),
+            "args": (v6/*: any*/),
             "concreteType": "ArtworkConnection",
             "kind": "LinkedField",
             "name": "artworks",
@@ -168,7 +202,7 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      (v4/*: any*/),
+                      (v1/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -205,7 +239,7 @@ return {
                             "name": "thumbnailUrl",
                             "storageKey": null
                           },
-                          (v4/*: any*/)
+                          (v1/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -217,8 +251,8 @@ return {
                         "name": "account",
                         "plural": false,
                         "selections": [
-                          (v2/*: any*/),
-                          (v4/*: any*/)
+                          (v5/*: any*/),
+                          (v1/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -272,28 +306,27 @@ return {
           },
           {
             "alias": null,
-            "args": (v3/*: any*/),
+            "args": (v6/*: any*/),
             "filters": null,
             "handle": "connection",
             "key": "UserDetail_artworks",
             "kind": "LinkedHandle",
             "name": "artworks"
-          },
-          (v4/*: any*/)
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "76de264395974d3107581d4c827f71c1",
+    "cacheID": "179969cbe284b2510b98bfc73072590b",
     "id": null,
     "metadata": {},
     "name": "UserDetailQuery",
     "operationKind": "query",
-    "text": "query UserDetailQuery(\n  $kmcid: String!\n) {\n  accountByKmcid(kmcid: $kmcid) {\n    name\n    ...UserDetail_artworks\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UserDetail_artworks on Account {\n  artworks(last: 40) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
+    "text": "query UserDetailQuery(\n  $kmcid: String!\n) {\n  viewer {\n    id\n  }\n  accountByKmcid(kmcid: $kmcid) {\n    id\n    kmcid\n    name\n    ...UserDetail_artworks\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UserDetail_artworks on Account {\n  artworks(last: 40) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();
-(node as any).hash = '302abcb03323240457a2d797ad75cda6';
+(node as any).hash = 'defef5c49c66f004ff6cc8cb7851e098';
 export default node;
