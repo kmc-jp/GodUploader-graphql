@@ -11,6 +11,8 @@ SQLAlchemy = "^1.4.14"
 graphene-sqlalchemy = "^2.3.0"
 Flask-GraphQL = "^2.0.1"
 graphene-file-upload = "^1.3.0"
+python-gyazo = "^2.1.0"
+requests = "^2.25.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

@@ -19,6 +19,7 @@ from goduploader.tag import has_nsfw_tag, update_tag_relation
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
 from goduploader.config import BASE_URL
+from goduploader.slack import ShareOption as ShareOptionEnum, share_to_slack
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
@@ -211,11 +212,15 @@ class LikeArtwork(relay.ClientIDMutation):
 
         return LikeArtwork(like=like)
 
+UploadArtworkShareOption = graphene.Enum.from_enum(ShareOptionEnum)
+
 class UploadArtwork(graphene.ClientIDMutation):
+
     class Input:
         title = graphene.String(required=True)
         caption = graphene.String(required=True)
         tags = graphene.List(graphene.NonNull(graphene.String), required=True)
+        share_option = UploadArtworkShareOption()
         files = Upload(required=True)
 
     artwork = graphene.Field(Artwork)
@@ -236,6 +241,8 @@ class UploadArtwork(graphene.ClientIDMutation):
         )
         artwork.account = current_user
         session.add(artwork)
+
+        share_option = input.get('share_option', UploadArtworkShareOption.NONE)
 
         for buf in request.files.values():
             _, ext = os.path.splitext(buf.filename)
@@ -259,7 +266,10 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         session.commit()
 
-        artwork.top_illust_id = artwork.illusts[0].id
+        top_illust = artwork.illusts[0]
+        artwork.top_illust_id = top_illust.id
+
+        share_to_slack(current_user, top_illust.image_path('thumbnail'), share_option)
 
         session.commit()
 
