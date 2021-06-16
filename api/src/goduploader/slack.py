@@ -1,9 +1,12 @@
-from goduploader.config import SLACK_WEBHOOK_URL
+from goduploader.config import SLACK_TOKEN, SLACK_WEBHOOK_URL
 from goduploader.gyazo import upload_image
 from enum import Enum
 import requests
+from slack_sdk.web.client import WebClient
 
 from goduploader.model import Artwork
+
+api = WebClient(token=SLACK_TOKEN)
 
 class ShareOption(Enum):
     NONE = 0
@@ -38,3 +41,21 @@ def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.N
     }
     resp = requests.post(SLACK_WEBHOOK_URL, data=data)
     resp.raise_for_status()
+
+def get_all_public_channels():
+    next_cursor = None
+    all_channels = []
+
+    for i in range(10):
+        resp = api.conversations_list(cursor=next_cursor, exclude_archived='true', limit=1000, types='public_channel')
+        if not resp.data['ok']:
+            break
+
+        channels = resp.data['channels']
+        if not channels:
+            break
+
+        all_channels += channels
+        next_cursor = resp.data['response_metadata']['next_cursor']
+
+    return all_channels
