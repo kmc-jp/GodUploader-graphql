@@ -42,7 +42,10 @@
       "react-app/jest",
       "plugin:@typescript-eslint/recommended",
       "plugin:prettier/recommended"
-    ]
+    ],
+    "rules": {
+      "prettier/prettier": "warn"
+    }
   },
   "prettier": {},
   "proxy": "http://localhost:5000",
