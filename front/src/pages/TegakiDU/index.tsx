@@ -1,9 +1,9 @@
 import React from "react";
 import { useMeasure } from "react-use";
-import { DrawingProvider } from "./TegakiDU/contexts/DrawingContext";
-import { ColorSuggestion } from "./TegakiDU/components/ColorSuggestion";
-import { Sidebar } from "./TegakiDU/components/Sidebar";
-import { Canvas } from "./TegakiDU/components/Canvas";
+import { DrawingProvider } from "./contexts/DrawingContext";
+import { ColorSuggestion } from "./components/ColorSuggestion";
+import { Sidebar } from "./components/Sidebar";
+import { Canvas } from "./components/Canvas";
 
 export const TegakiDU: React.VFC = () => {
   const [ref, { width, height }] = useMeasure<HTMLDivElement>();
