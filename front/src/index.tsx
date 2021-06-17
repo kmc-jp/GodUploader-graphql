@@ -7,15 +7,14 @@ import RelayEnvironment from "./RelayEnvironment";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import { RouteRenderer } from "./routing";
-import { routes } from "./routes";
+import { App } from "./App";
 
 // opt-out Strict mode of React. ref: https://github.com/ReactTraining/react-router/issues/7870
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <RelayEnvironmentProvider environment={RelayEnvironment}>
     <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
-      <RouteRenderer routes={routes} />
+      <App />
     </BrowserRouter>
   </RelayEnvironmentProvider>
 );

@@ -1,7 +1,8 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 
-import { RouteConfigComponentProps, RouteRenderer } from "./routing";
+import { routes } from "./routes";
+import { RouteRenderer } from "./routing";
 import { ErrorBoundary } from "./errorBoundary";
 import { LoadingOverlay } from "./components/LoadingOverlay";
 
@@ -15,7 +16,7 @@ const LoadingWatcher: React.VFC<{
   return null;
 };
 
-function App({ route }: RouteConfigComponentProps) {
+export const App: React.VFC = () => {
   const currentLocation = useLocation();
   const previousLocation = useRef(currentLocation);
   const history = useHistory();
@@ -89,7 +90,7 @@ function App({ route }: RouteConfigComponentProps) {
               <>
                 <Suspense fallback={null}>
                   <RouteRenderer
-                    routes={route && route.routes}
+                    routes={routes}
                     switchProps={{
                       location: previousLocation.current,
                     }}
@@ -99,12 +100,10 @@ function App({ route }: RouteConfigComponentProps) {
               </>
             }
           >
-            <RouteRenderer routes={route && route.routes} />
+            <RouteRenderer routes={routes} />
           </Suspense>
         </ErrorBoundary>
       </div>
     </div>
   );
-}
-
-export default App;
+};
