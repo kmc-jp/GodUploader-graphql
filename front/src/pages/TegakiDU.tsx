@@ -6,16 +6,20 @@ import { useMeasure } from "react-use";
 type DrawingContextValue = {
   color: string;
   backgroundColor: string;
+  strokeWidth: number;
   setColor: (color: string) => void;
   setBackgroundColor: (color: string) => void;
+  setStrokeWidth: (width: number) => void;
 };
 
 const defaultDrawingContextValue = {
   color: "black",
   backgroundColor: "white",
+  strokeWidth: 2,
   /* eslint-disable @typescript-eslint/no-empty-function*/
   setColor: () => {},
   setBackgroundColor: () => {},
+  setStrokeWidth: () => {},
   /* eslint-enable @typescript-eslint/no-empty-function*/
 };
 
@@ -26,14 +30,17 @@ const DrawingContext = React.createContext<DrawingContextValue>(
 const DrawingProvider: React.FC = ({ children }) => {
   const [color, setColor] = useState("#000000");
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+  const [strokeWidth, setStrokeWidth] = useState(2);
 
   return (
     <DrawingContext.Provider
       value={{
         color,
         backgroundColor,
+        strokeWidth,
         setColor,
         setBackgroundColor,
+        setStrokeWidth,
       }}
     >
       {children}
@@ -45,6 +52,7 @@ type Point = number[];
 
 type Drawing = {
   tool: "pen";
+  strokeWidth: number;
   color: string;
   points: Point;
 };
@@ -53,7 +61,7 @@ const Canvas: React.VFC<{ width: number; height: number }> = ({
   width,
   height,
 }) => {
-  const { color } = useContext(DrawingContext);
+  const { color, strokeWidth } = useContext(DrawingContext);
   const [lines, setLines] = useState<Drawing[]>([]);
   const isDrawing = useRef(false);
 
@@ -68,7 +76,10 @@ const Canvas: React.VFC<{ width: number; height: number }> = ({
     }
 
     isDrawing.current = true;
-    setLines([...lines, { tool: "pen", color, points: [pos.x, pos.y] }]);
+    setLines([
+      ...lines,
+      { tool: "pen", color, strokeWidth, points: [pos.x, pos.y] },
+    ]);
   };
 
   const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
@@ -109,6 +120,7 @@ const Canvas: React.VFC<{ width: number; height: number }> = ({
             key={i}
             points={line.points}
             stroke={line.color}
+            strokeWidth={line.strokeWidth}
             lineCap="round"
           />
         ))}
@@ -118,12 +130,31 @@ const Canvas: React.VFC<{ width: number; height: number }> = ({
 };
 
 const Sidebar: React.VFC = () => {
-  const { color, setColor, backgroundColor, setBackgroundColor } =
-    useContext(DrawingContext);
+  const {
+    color,
+    backgroundColor,
+    strokeWidth,
+    setColor,
+    setBackgroundColor,
+    setStrokeWidth,
+  } = useContext(DrawingContext);
 
   return (
-    <div className="container">
+    <div className="container h-100">
       <div className="row">
+        <div className="col-sm-10">
+          <input
+            type="range"
+            value={strokeWidth}
+            onChange={(e) => setStrokeWidth(Number(e.target.value))}
+            min={1}
+            max={20}
+            className="w-100"
+          />
+        </div>
+        <div className="col-sm-2">{strokeWidth}</div>
+      </div>
+      <div className="row" style={{ height: "15%" }}>
         <div className="col">
           <input
             type="color"
