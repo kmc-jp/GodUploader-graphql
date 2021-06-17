@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { DrawingContext } from "./DrawingContext";
+import { DrawingContext } from "../contexts/DrawingContext";
 
 export const Sidebar: React.VFC = () => {
   const {

@@ -1,7 +1,7 @@
 import { KonvaEventObject } from "konva/lib/Node";
 import React, { useContext, useRef, useState } from "react";
 import { Layer, Line, Stage } from "react-konva";
-import { DrawingContext } from "./DrawingContext";
+import { DrawingContext } from "../contexts/DrawingContext";
 
 type Point = number[];
 
