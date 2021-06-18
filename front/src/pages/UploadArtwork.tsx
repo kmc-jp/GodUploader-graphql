@@ -49,7 +49,7 @@ export const UploadArtwork: React.VFC = () => {
             title,
             caption,
             tags: tagList,
-            files: uploadables,
+            files: Array.from(files, (_, i) => null),
             shareOption,
             channelId: slackChannel,
           },

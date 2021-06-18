@@ -1,4 +1,3 @@
-from flask import request
 import graphene
 from graphene import relay
 from graphene.types.objecttype import ObjectType
@@ -232,7 +231,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         tags = graphene.List(graphene.NonNull(graphene.String), required=True)
         share_option = UploadArtworkShareOption()
         channel_id = graphene.String()
-        files = Upload(required=True)
+        files = graphene.List(graphene.NonNull(Upload), required=True)
 
     artwork = graphene.Field(Artwork)
 
@@ -255,7 +254,7 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         share_option = UploadArtworkShareOption.get(input.get('share_option', 0))
 
-        for buf in request.files.values():
+        for buf in files:
             _, ext = os.path.splitext(buf.filename)
             filename = f'{uuid.uuid4()}{ext}'
             illust = IllustModel(

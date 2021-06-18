@@ -360,7 +360,7 @@ input UploadArtworkInput {
   tags: [String!]!
   shareOption: ShareOption
   channelId: String
-  files: Upload!
+  files: [Upload!]!
   clientMutationId: String
 }
 
