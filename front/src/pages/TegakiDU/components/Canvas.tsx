@@ -61,15 +61,9 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
       }
 
       if (e.key === "z") {
-        const undoValue = undo();
-        if (undoValue) {
-          setPaints(undoValue);
-        }
+        undo();
       } else if (e.key === "y") {
-        const redoValue = redo();
-        if (redoValue) {
-          setPaints(redoValue);
-        }
+        redo();
       }
     };
 

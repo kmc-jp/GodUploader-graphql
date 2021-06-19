@@ -6,6 +6,8 @@ type UseUndoableStackReturnValue<T = any> = {
   append: (value: T) => void;
   undo: UndoRedoHandler<T>;
   redo: UndoRedoHandler<T>;
+  undoable: boolean;
+  redoable: boolean;
 };
 
 export const useUndoableStack = <T = any>(
@@ -14,13 +16,16 @@ export const useUndoableStack = <T = any>(
   const [undoStack, setUndoStack] = useState<T[]>([initialValue]);
   const [redoStack, setRedoStack] = useState<T[]>([]);
 
+  const undoable = undoStack.length >= 2;
+  const redoable = redoStack.length > 0;
+
   const append = useCallback((value: T) => {
     setUndoStack((stack) => [...stack, value]);
     setRedoStack([]);
   }, []);
 
   const undo = useCallback<UndoRedoHandler<T>>(() => {
-    if (undoStack.length < 2) {
+    if (!undoable) {
       return null;
     }
 
@@ -30,10 +35,10 @@ export const useUndoableStack = <T = any>(
     setRedoStack([...redoStack, redoValue]);
 
     return undoValue;
-  }, [redoStack, undoStack]);
+  }, [redoStack, undoStack, undoable]);
 
   const redo = useCallback<UndoRedoHandler<T>>(() => {
-    if (redoStack.length === 0) {
+    if (!redoable) {
       return null;
     }
 
@@ -42,7 +47,7 @@ export const useUndoableStack = <T = any>(
     setRedoStack(redoStack.slice(0, redoStack.length - 1));
 
     return redoValue;
-  }, [redoStack, undoStack]);
+  }, [redoStack, redoable, undoStack]);
 
-  return { append, undo, redo };
+  return { append, undo, redo, undoable, redoable };
 };
