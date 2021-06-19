@@ -85,7 +85,7 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
-      <Layer>
+      <Layer width={width} height={height}>
         {paints.map((line, i) => (
           <Line
             key={i}
