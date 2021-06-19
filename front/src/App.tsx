@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
 import { routes } from "./routes";
 import { RouteRenderer } from "./routing";
@@ -65,24 +65,36 @@ export const App: React.VFC = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link to="/artwork/new" className="nav-link">
+                <NavLink
+                  to="/artwork/new"
+                  className="nav-link"
+                  activeClassName="active"
+                >
                   アップロード
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link to="/my" className="nav-link">
+                <NavLink to="/my" className="nav-link" activeClassName="active">
                   マイページ
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link to="/tags" className="nav-link">
+                <NavLink
+                  to="/tags"
+                  className="nav-link"
+                  activeClassName="active"
+                >
                   タグ検索
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link to="/tegaki" className="nav-link">
+                <NavLink
+                  to="/tegaki"
+                  className="nav-link"
+                  activeClassName="active"
+                >
                   tegaki_du
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </div>
