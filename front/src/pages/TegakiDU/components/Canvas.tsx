@@ -1,24 +1,17 @@
 import { KonvaEventObject } from "konva/lib/Node";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Layer, Line, Stage } from "react-konva";
 import { DrawingContext } from "../contexts/DrawingContext";
-
-type Point = number[];
-
-type Drawing = {
-  tool: "pen";
-  strokeWidth: number;
-  color: string;
-  points: Point;
-};
+import { PaintStackContext } from "../contexts/PaintStackContext";
 
 export const Canvas: React.VFC<{ width: number; height: number }> = ({
   width,
   height,
 }) => {
   const { color, strokeWidth } = useContext(DrawingContext);
-  const [lines, setLines] = useState<Drawing[]>([]);
   const isDrawing = useRef(false);
+  const { paints, setPaints, append, undo, redo } =
+    useContext(PaintStackContext);
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const stage = e.target.getStage();
@@ -31,8 +24,8 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     }
 
     isDrawing.current = true;
-    setLines([
-      ...lines,
+    setPaints([
+      ...paints,
       { tool: "pen", color, strokeWidth, points: [pos.x, pos.y] },
     ]);
   };
@@ -50,15 +43,41 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
       return;
     }
 
-    const lastLine = lines[lines.length - 1];
+    const lastLine = paints[paints.length - 1];
     lastLine.points = lastLine.points.concat([point.x, point.y]);
-    lines.splice(lines.length - 1, 1, lastLine);
-    setLines(lines.concat());
+    paints.splice(paints.length - 1, 1, lastLine);
+    setPaints(paints.concat());
   };
 
   const handleMouseUp = () => {
+    append(paints);
     isDrawing.current = false;
   };
+
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (!e.ctrlKey) {
+        return;
+      }
+
+      if (e.key === "z") {
+        const undoValue = undo();
+        if (undoValue) {
+          setPaints(undoValue);
+        }
+      } else if (e.key === "y") {
+        const redoValue = redo();
+        if (redoValue) {
+          setPaints(redoValue);
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeydown);
+    return () => {
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  }, [redo, setPaints, undo]);
 
   return (
     <Stage
@@ -70,7 +89,7 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
       onMouseUp={handleMouseUp}
     >
       <Layer>
-        {lines.map((line, i) => (
+        {paints.map((line, i) => (
           <Line
             key={i}
             points={line.points}

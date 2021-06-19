@@ -4,6 +4,7 @@ import { DrawingProvider } from "./contexts/DrawingContext";
 import { ColorSuggestion } from "./components/ColorSuggestion";
 import { Sidebar } from "./components/Sidebar";
 import { Canvas } from "./components/Canvas";
+import { PaintStackContextProvider } from "./contexts/PaintStackContext";
 
 export const TegakiDU: React.VFC = () => {
   const [ref, { width, height }] = useMeasure<HTMLDivElement>();
@@ -16,14 +17,16 @@ export const TegakiDU: React.VFC = () => {
         </div>
         <div className="card-body">
           <div className="row">
-            <DrawingProvider>
-              <div className="col-md-8" style={{ height: 482 }} ref={ref}>
-                <Canvas width={width} height={height} />
-              </div>
-              <div className="col-md-4">
-                <Sidebar />
-              </div>
-            </DrawingProvider>
+            <PaintStackContextProvider>
+              <DrawingProvider>
+                <div className="col-md-8" style={{ height: 482 }} ref={ref}>
+                  <Canvas width={width} height={height} />
+                </div>
+                <div className="col-md-4">
+                  <Sidebar />
+                </div>
+              </DrawingProvider>
+            </PaintStackContextProvider>
           </div>
           <ColorSuggestion />
         </div>
