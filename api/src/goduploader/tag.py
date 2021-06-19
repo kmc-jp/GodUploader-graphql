@@ -3,8 +3,10 @@ from typing import List
 from goduploader.model import Tag
 from goduploader.db import session
 
+
 def has_nsfw_tag(tag_names: List[str]) -> bool:
-    return 'R-18' in tag_names or 'R-18G' in tag_names
+    return "R-18" in tag_names or "R-18G" in tag_names
+
 
 def find_or_create_tags(tag_names: List[str]) -> List[Tag]:
     if not tag_names:
@@ -29,6 +31,7 @@ def find_or_create_tags(tag_names: List[str]) -> List[Tag]:
     merged_tags = list(found_tags) + created_tags
     tag_by_name = {tag.name: tag for tag in merged_tags}
     return [tag_by_name[name] for name in tag_names]
+
 
 def update_tag_relation(artwork, new_tag_names):
     old_tags = artwork.tags

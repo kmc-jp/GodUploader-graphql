@@ -8,12 +8,16 @@ from goduploader.model import Artwork
 
 api = WebClient(token=SLACK_TOKEN)
 
+
 class ShareOption(Enum):
     NONE = 0
     SHARE_TO_SLACK = 1
     SHARE_TO_SLACK_WITH_IMAGE = 2
 
-def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.NONE, channel_id=None):
+
+def share_to_slack(
+    artwork: Artwork, image_path: str, share_option=ShareOption.NONE, channel_id=None
+):
     if share_option == ShareOption.NONE:
         return
 
@@ -22,28 +26,30 @@ def share_to_slack(artwork: Artwork, image_path: str, share_option=ShareOption.N
         uploaded_image = upload_image(artwork, image_path)
         image_url = uploaded_image.url
 
-    tag_names = ','.join([t.name for t in artwork.tags])
+    tag_names = ",".join([t.name for t in artwork.tags])
 
-    text = f'{artwork.caption}\nタグ:{tag_names}\nURI:{artwork.artwork_url}'
+    text = f"{artwork.caption}\nタグ:{tag_names}\nURI:{artwork.artwork_url}"
 
     data = {
-        'username': 'GodIllustUploader (graphql)',
-        'icon_emoji': ':godicon:',
-        'text': f'{artwork.account.name}が新たな絵をアップロードなさいました！',
-        'attachments': [
+        "username": "GodIllustUploader (graphql)",
+        "icon_emoji": ":godicon:",
+        "text": f"{artwork.account.name}が新たな絵をアップロードなさいました！",
+        "attachments": [
             {
-                'title': artwork.title,
-                'text': text,
-                'image_url': image_url,
-                'fallback': image_url,
+                "title": artwork.title,
+                "text": text,
+                "image_url": image_url,
+                "fallback": image_url,
             },
         ],
     }
     api.chat_postMessage(channel=channel_id, **data)
 
+
 _cache = Cache(ttl=3600)
 
-CACHE_KEY = 'get_all_public_channels'
+CACHE_KEY = "get_all_public_channels"
+
 
 def get_all_public_channels():
     if _cache.has(CACHE_KEY):
@@ -53,16 +59,21 @@ def get_all_public_channels():
     all_channels = []
 
     for i in range(10):
-        resp = api.conversations_list(cursor=next_cursor, exclude_archived=True, limit=1000, types='public_channel')
-        if not resp.data['ok']:
+        resp = api.conversations_list(
+            cursor=next_cursor,
+            exclude_archived=True,
+            limit=1000,
+            types="public_channel",
+        )
+        if not resp.data["ok"]:
             break
 
-        channels = resp.data['channels']
+        channels = resp.data["channels"]
         if not channels:
             break
 
         all_channels += channels
-        next_cursor = resp.data['response_metadata']['next_cursor']
+        next_cursor = resp.data["response_metadata"]["next_cursor"]
         if not next_cursor:
             break
 

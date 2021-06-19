@@ -3,6 +3,7 @@ from goduploader.model import Account
 from goduploader.db import session
 from typing import Optional
 
+
 def viewer(kmcid: Optional[str]) -> Optional[Account]:
     if not kmcid:
         return unknown_user()
@@ -17,5 +18,6 @@ def viewer(kmcid: Optional[str]) -> Optional[Account]:
 
     return account
 
+
 def unknown_user():
-    return session.query(Account).filter_by(kmcid='unknown_user').first()
+    return session.query(Account).filter_by(kmcid="unknown_user").first()

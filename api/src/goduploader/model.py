@@ -8,8 +8,9 @@ from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
 from goduploader.db import Base
 from graphene.relay import Node
 
+
 class Account(Base):
-    __tablename__ = 'account'
+    __tablename__ = "account"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     kmcid = Column(String, unique=True, nullable=False)
@@ -18,97 +19,122 @@ class Account(Base):
     last_logged_in = Column(DateTime, nullable=False, default=datetime.now)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
-    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+    updated_at = Column(
+        DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
+    )
 
     @property
     def user_page_url(self):
-        return os.path.join(BASE_URL, 'user', self.kmcid)
+        return os.path.join(BASE_URL, "user", self.kmcid)
 
-    index_artworks_count = Index('account_artworks_count', artworks_count)
+    index_artworks_count = Index("account_artworks_count", artworks_count)
 
-    artworks = relationship('Artwork', backref='account')
-    comments = relationship('Comment', backref='account')
-    likes = relationship('Like', backref='account')
+    artworks = relationship("Artwork", backref="account")
+    comments = relationship("Comment", backref="account")
+    likes = relationship("Like", backref="account")
+
 
 artwork_tag_relation = Table(
-    'artwork_tag_relation',
+    "artwork_tag_relation",
     Base.metadata,
-    Column('artwork_id', Integer, ForeignKey('artwork.id')),
-    Column('tag_id', Integer, ForeignKey('tag.id')),
+    Column("artwork_id", Integer, ForeignKey("artwork.id")),
+    Column("tag_id", Integer, ForeignKey("tag.id")),
 )
 
+
 class Artwork(Base):
-    __tablename__ = 'artwork'
+    __tablename__ = "artwork"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(Integer, ForeignKey('account.id'), nullable=False)
+    account_id = Column(Integer, ForeignKey("account.id"), nullable=False)
     title = Column(String(255), nullable=False)
     caption = Column(Text, nullable=False)
 
     @property
     def artwork_url(self):
-        return os.path.join(BASE_URL, 'artwork', Node.to_global_id('Artwork', self.id))
+        return os.path.join(BASE_URL, "artwork", Node.to_global_id("Artwork", self.id))
 
     nsfw = Column(Boolean, nullable=False)
-    top_illust_id = Column(Integer, ForeignKey('artwork.id'))
+    top_illust_id = Column(Integer, ForeignKey("artwork.id"))
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
-    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+    updated_at = Column(
+        DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
+    )
 
-    illusts = relationship('Illust', backref='artwork', cascade="all, delete")
-    comments = relationship('Comment', backref='artwork', cascade="all, delete")
-    likes = relationship('Like', backref='artwork', cascade="all, delete")
-    tags = relationship('Tag', secondary=artwork_tag_relation, back_populates='artworks', cascade="all, delete")
+    illusts = relationship("Illust", backref="artwork", cascade="all, delete")
+    comments = relationship("Comment", backref="artwork", cascade="all, delete")
+    likes = relationship("Like", backref="artwork", cascade="all, delete")
+    tags = relationship(
+        "Tag",
+        secondary=artwork_tag_relation,
+        back_populates="artworks",
+        cascade="all, delete",
+    )
+
 
 class Comment(Base):
-    __tablename__ = 'comment'
+    __tablename__ = "comment"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     text = Column(Text, nullable=False)
-    account_id = Column(Integer, ForeignKey('account.id'), nullable=False)
-    artwork_id = Column(Integer, ForeignKey('artwork.id'), nullable=False)
+    account_id = Column(Integer, ForeignKey("account.id"), nullable=False)
+    artwork_id = Column(Integer, ForeignKey("artwork.id"), nullable=False)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
-    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+    updated_at = Column(
+        DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
+    )
+
 
 class Illust(Base):
-    __tablename__ = 'illust'
+    __tablename__ = "illust"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    artwork_id = Column(Integer, ForeignKey('artwork.id'), nullable=False)
+    artwork_id = Column(Integer, ForeignKey("artwork.id"), nullable=False)
     filename = Column(String, nullable=False)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
-    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+    updated_at = Column(
+        DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
+    )
 
-    def image_path(self, size='full') -> str:
-        if size == 'full':
-            return os.path.join(PUBLIC_FOLDER, 'illusts', self.filename)
-        elif size == 'thumbnail':
-            return os.path.join(PUBLIC_FOLDER, 'thumbnail', self.filename)
+    def image_path(self, size="full") -> str:
+        if size == "full":
+            return os.path.join(PUBLIC_FOLDER, "illusts", self.filename)
+        elif size == "thumbnail":
+            return os.path.join(PUBLIC_FOLDER, "thumbnail", self.filename)
         else:
-            raise ValueError(f'Unknown size: {size}')
+            raise ValueError(f"Unknown size: {size}")
+
 
 class Like(Base):
-    __tablename__ = 'like'
+    __tablename__ = "like"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(Integer, ForeignKey('account.id'), nullable=False)
-    artwork_id = Column(Integer, ForeignKey('artwork.id'), nullable=False)
+    account_id = Column(Integer, ForeignKey("account.id"), nullable=False)
+    artwork_id = Column(Integer, ForeignKey("artwork.id"), nullable=False)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
-    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+    updated_at = Column(
+        DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
+    )
+
 
 class Tag(Base):
-    __tablename__ = 'tag'
+    __tablename__ = "tag"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(255), nullable=False, unique=True)
     artworks_count = Column(Integer, nullable=False, default=0)
 
-    index_artworks_count = Index('tag_artworks_count', artworks_count)
+    index_artworks_count = Index("tag_artworks_count", artworks_count)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
-    updated_at = Column(DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
+    updated_at = Column(
+        DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
+    )
 
-    artworks = relationship('Artwork', secondary=artwork_tag_relation, back_populates='tags')
+    artworks = relationship(
+        "Artwork", secondary=artwork_tag_relation, back_populates="tags"
+    )
