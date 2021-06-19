@@ -10,7 +10,7 @@ export type UploadArtworkInput = {
     tags: Array<string>;
     shareOption?: ShareOption | null;
     channelId?: string | null;
-    files: Array<unknown>;
+    files: Array<null>;
     clientMutationId?: string | null;
 };
 export type UploadArtworkMutationVariables = {

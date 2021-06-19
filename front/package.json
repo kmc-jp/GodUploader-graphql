@@ -34,7 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "codegen": "graphql-codegen",
-    "relay-compiler": "relay-compiler --schema ./schema.graphql --src ./src --language typescript --customScalars.DateTime=string"
+    "relay-compiler": "relay-compiler --schema ./schema.graphql --src ./src --language typescript --customScalars.DateTime=string --customScalars.Upload=null"
   },
   "eslintConfig": {
     "extends": [
