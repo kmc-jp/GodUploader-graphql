@@ -1,12 +1,16 @@
 import os
-from goduploader.config import PUBLIC_FOLDER
 from flask import Flask, request
 from goduploader.db import session
 from goduploader.graphql.schema import schema
 from goduploader.viewer import viewer
 from graphene_file_upload.flask import FileUploadGraphQLView
 
-app = Flask(__name__, static_folder=PUBLIC_FOLDER)
+app = Flask(
+    __name__,
+    static_folder=os.environ.get(
+        "PUBLIC_FOLDER", os.path.join(os.path.dirname(__file__), "../../public")
+    ),
+)
 app.debug = bool(os.environ.get("DEBUG"))
 
 

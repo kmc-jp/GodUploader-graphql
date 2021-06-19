@@ -18,7 +18,6 @@ from goduploader.model import (
 from goduploader.tag import has_nsfw_tag, update_tag_relation
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.thumbnail import generate_thumbnail
-from goduploader.config import BASE_URL
 from goduploader.slack import (
     ShareOption as ShareOptionEnum,
     get_all_public_channels,
@@ -43,12 +42,12 @@ class Illust(SQLAlchemyObjectType):
     image_url = graphene.Field(graphene.String, required=True)
 
     def resolve_image_url(root, info):
-        return os.path.join(BASE_URL, "public/illusts", root.filename)
+        return root.image_url
 
     thumbnail_url = graphene.Field(graphene.String, required=True)
 
     def resolve_thumbnail_url(root, info):
-        return os.path.join(BASE_URL, "public/thumbnail", root.filename)
+        return root.thumbnail_url
 
 
 class Artwork(SQLAlchemyObjectType):

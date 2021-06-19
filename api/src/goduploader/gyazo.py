@@ -1,8 +1,8 @@
-from goduploader.config import GYAZO_ACCESS_TOKEN
+import os
 from goduploader.model import Artwork
 from gyazo import Api
 
-client = Api(access_token=GYAZO_ACCESS_TOKEN)
+client = Api(access_token=os.environ.get("GYAZO_ACCESS_TOKEN"))
 
 
 def upload_image(artwork: Artwork, filepath: str):

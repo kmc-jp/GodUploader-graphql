@@ -1,6 +1,5 @@
 import os.path
 from datetime import datetime
-from goduploader.config import BASE_URL, PUBLIC_FOLDER
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey, Index, Table
@@ -25,7 +24,8 @@ class Account(Base):
 
     @property
     def user_page_url(self):
-        return os.path.join(BASE_URL, "user", self.kmcid)
+        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
+        return os.path.join(base_url, "user", self.kmcid)
 
     index_artworks_count = Index("account_artworks_count", artworks_count)
 
@@ -52,7 +52,8 @@ class Artwork(Base):
 
     @property
     def artwork_url(self):
-        return os.path.join(BASE_URL, "artwork", Node.to_global_id("Artwork", self.id))
+        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
+        return os.path.join(base_url, "artwork", Node.to_global_id("Artwork", self.id))
 
     nsfw = Column(Boolean, nullable=False)
     top_illust_id = Column(Integer, ForeignKey("artwork.id"))
@@ -99,11 +100,25 @@ class Illust(Base):
         DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
     )
 
+    @property
+    def image_url(self):
+        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
+        return os.path.join(base_url, "public/illusts", self.filename)
+
+    @property
+    def thumbnail_url(self):
+        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
+        return os.path.join(base_url, "public/thumbnail", self.filename)
+
     def image_path(self, size="full") -> str:
+        public_folder = os.environ.get(
+            "PUBLIC_FOLDER", os.path.join(os.path.dirname(__file__), "../../public")
+        )
+
         if size == "full":
-            return os.path.join(PUBLIC_FOLDER, "illusts", self.filename)
+            return os.path.join(public_folder, "illusts", self.filename)
         elif size == "thumbnail":
-            return os.path.join(PUBLIC_FOLDER, "thumbnail", self.filename)
+            return os.path.join(public_folder, "thumbnail", self.filename)
         else:
             raise ValueError(f"Unknown size: {size}")
 

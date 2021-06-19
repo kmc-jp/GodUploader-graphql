@@ -1,4 +1,4 @@
-from goduploader.config import SLACK_TOKEN
+import os
 from goduploader.gyazo import upload_image
 from enum import Enum
 from slack_sdk.web.client import WebClient
@@ -6,7 +6,7 @@ from cacheout import Cache
 
 from goduploader.model import Artwork
 
-api = WebClient(token=SLACK_TOKEN)
+api = WebClient(token=os.environ.get("SLACK_TOKEN"))
 
 
 class ShareOption(Enum):
