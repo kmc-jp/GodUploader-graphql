@@ -311,7 +311,7 @@ class UploadArtwork(graphene.ClientIDMutation):
             artwork,
             top_illust.image_path("thumbnail"),
             share_option,
-            input["channel_id"],
+            input.get("channel_id"),
         )
 
         session.commit()
