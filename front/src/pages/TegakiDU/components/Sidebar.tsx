@@ -11,7 +11,21 @@ export const Sidebar: React.VFC = () => {
     setBackgroundColor,
     setStrokeWidth,
   } = useContext(DrawingContext);
-  const { undo, redo, undoable, redoable } = useContext(PaintStackContext);
+  const { setPaints, append, undo, redo, undoable, redoable } =
+    useContext(PaintStackContext);
+
+  const handleDeleteAll = () => {
+    if (
+      !window.confirm(
+        "本当に全て消してしまいますか？ (現在の背景色で塗りつぶします。)"
+      )
+    ) {
+      return;
+    }
+
+    setPaints([{ tool: "fill", color: backgroundColor }]);
+    append([{ tool: "fill", color: backgroundColor }]);
+  };
 
   return (
     <div className="container h-100">
@@ -36,21 +50,23 @@ export const Sidebar: React.VFC = () => {
           </div>
         </div>
       </div>
-      <div className="row mb-2" style={{ height: "15%" }}>
+      <div className="row mb-2">
         <div className="col">
+          ペンの色
           <input
             type="color"
             value={color}
             onChange={(e) => setColor(e.target.value)}
-            className="w-100 h-100"
+            className="w-100"
           />
         </div>
         <div className="col">
+          背景色
           <input
             type="color"
             value={backgroundColor}
             onChange={(e) => setBackgroundColor(e.target.value)}
-            className="w-100 h-100"
+            className="w-100"
           />
         </div>
       </div>
@@ -71,6 +87,11 @@ export const Sidebar: React.VFC = () => {
             onClick={redo}
           >
             やり直す
+          </button>
+        </div>
+        <div className="mt-2">
+          <button className="btn btn-danger w-100" onClick={handleDeleteAll}>
+            全て消す
           </button>
         </div>
       </div>

@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Circle, Layer, Line, Stage } from "react-konva";
+import { Circle, Layer, Line, Rect, Stage } from "react-konva";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
 
@@ -56,6 +56,10 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     }
 
     const lastLine = paints[paints.length - 1];
+    if (!(lastLine && lastLine.tool === "pen")) {
+      return;
+    }
+
     lastLine.points = lastLine.points.concat([point.x, point.y]);
     paints.splice(paints.length - 1, 1, lastLine);
     setPaints(paints.concat());
@@ -106,21 +110,37 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
         onMouseLeave={handleMouseLeave}
       >
         <Layer>
+          {paints.map((paint, i) => {
+            if (paint.tool === "pen") {
+              return (
+                <Line
+                  key={i}
+                  points={paint.points}
+                  stroke={paint.color}
+                  strokeWidth={paint.strokeWidth}
+                  lineCap="round"
+                />
+              );
+            } else if (paint.tool === "fill") {
+              return (
+                <Rect
+                  key={i}
+                  fill={paint.color}
+                  x={0}
+                  y={0}
+                  width={width}
+                  height={height}
+                />
+              );
+            }
+            return null;
+          })}
           <Circle
             radius={strokeWidth}
             x={mouseX}
             y={mouseY}
             fill={color}
           ></Circle>
-          {paints.map((line, i) => (
-            <Line
-              key={i}
-              points={line.points}
-              stroke={line.color}
-              strokeWidth={line.strokeWidth}
-              lineCap="round"
-            />
-          ))}
         </Layer>
       </Stage>
     </div>

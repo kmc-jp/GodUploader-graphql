@@ -3,12 +3,17 @@ import { useUndoableStack } from "../hooks/useUndoableStack";
 
 type Point = number[];
 
-type Drawing = {
-  tool: "pen";
-  strokeWidth: number;
-  color: string;
-  points: Point;
-};
+type Drawing =
+  | {
+      tool: "pen";
+      strokeWidth: number;
+      color: string;
+      points: Point;
+    }
+  | {
+      tool: "fill";
+      color: string;
+    };
 
 type PaintStackContextValue = {
   paints: Drawing[];
