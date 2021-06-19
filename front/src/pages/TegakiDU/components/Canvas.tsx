@@ -1,6 +1,12 @@
 import { KonvaEventObject } from "konva/lib/Node";
-import React, { useCallback, useContext, useEffect, useRef } from "react";
-import { Layer, Line, Stage } from "react-konva";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Circle, Layer, Line, Stage } from "react-konva";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
 
@@ -12,6 +18,10 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   const isDrawing = useRef(false);
   const { paints, setPaints, append, undo, redo } =
     useContext(PaintStackContext);
+
+  const [mouseX, setMouseX] = useState(0);
+  const [mouseY, setMouseY] = useState(0);
+  const ref = useRef<typeof Stage>();
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const stage = e.target.getStage();
@@ -31,6 +41,19 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   };
 
   const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
+    if (
+      0 <= e.evt.offsetX &&
+      e.evt.offsetX <= width &&
+      0 <= e.evt.offsetY &&
+      e.evt.offsetY <= height
+    ) {
+      setMouseX(e.evt.offsetX);
+      setMouseY(e.evt.offsetY);
+    } else {
+      // hide cursor
+      setMouseX(-9999);
+      setMouseY(-9999);
+    }
     if (!isDrawing.current) {
       return;
     }
@@ -81,11 +104,18 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
       width={width}
       height={height}
       className="border border-dark"
+      style={{ width: "inherit" }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
       <Layer width={width} height={height}>
+        <Circle
+          radius={strokeWidth}
+          x={mouseX}
+          y={mouseY}
+          fill={color}
+        ></Circle>
         {paints.map((line, i) => (
           <Line
             key={i}
