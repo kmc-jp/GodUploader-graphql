@@ -16,7 +16,7 @@ export const TegakiDU: React.VFC = () => {
           <h2 className="text-center">TEGAKI Draw and Upload</h2>
         </div>
         <div className="card-body">
-          <div className="row">
+          <div className="row mb-3">
             <PaintStackContextProvider>
               <DrawingProvider>
                 <div className="col-md-8" style={{ height: 482 }} ref={ref}>
