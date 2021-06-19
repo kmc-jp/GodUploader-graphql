@@ -9,6 +9,9 @@ from goduploader.model import Base
 from goduploader.graphql.schema import schema
 
 
+os.environ["TESTING"] = "1"
+
+
 def prepare_temporary_public_dir():
     public = Path(tempfile.mkdtemp())
     illusts_dir = public / "illusts"

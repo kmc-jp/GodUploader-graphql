@@ -6,6 +6,9 @@ client = Api(access_token=os.environ.get("GYAZO_ACCESS_TOKEN"))
 
 
 def upload_image(artwork: Artwork, filepath: str):
+    if os.environ.get("TESTING"):
+        return
+
     with open(filepath, "rb") as f:
         image = client.upload_image(
             f,
