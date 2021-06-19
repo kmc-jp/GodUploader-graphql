@@ -19,9 +19,8 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   const { paints, setPaints, append, undo, redo } =
     useContext(PaintStackContext);
 
-  const [mouseX, setMouseX] = useState(0);
-  const [mouseY, setMouseY] = useState(0);
-  const ref = useRef<typeof Stage>();
+  const [mouseX, setMouseX] = useState(-999999);
+  const [mouseY, setMouseY] = useState(-999999);
 
   const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
     const stage = e.target.getStage();
@@ -41,19 +40,9 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   };
 
   const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
-    if (
-      0 <= e.evt.offsetX &&
-      e.evt.offsetX <= width &&
-      0 <= e.evt.offsetY &&
-      e.evt.offsetY <= height
-    ) {
-      setMouseX(e.evt.offsetX);
-      setMouseY(e.evt.offsetY);
-    } else {
-      // hide cursor
-      setMouseX(-9999);
-      setMouseY(-9999);
-    }
+    setMouseX(e.evt.offsetX);
+    setMouseY(e.evt.offsetY);
+
     if (!isDrawing.current) {
       return;
     }
@@ -99,33 +88,41 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     };
   }, [handleKeydown]);
 
+  const handleMouseLeave = (e: KonvaEventObject<MouseEvent>) => {
+    // hide cursor
+    setMouseX(-999999);
+    setMouseY(-999999);
+  };
+
   return (
-    <Stage
-      width={width}
-      height={height}
-      className="border border-dark"
-      style={{ width: "inherit" }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    >
-      <Layer width={width} height={height}>
-        <Circle
-          radius={strokeWidth}
-          x={mouseX}
-          y={mouseY}
-          fill={color}
-        ></Circle>
-        {paints.map((line, i) => (
-          <Line
-            key={i}
-            points={line.points}
-            stroke={line.color}
-            strokeWidth={line.strokeWidth}
-            lineCap="round"
-          />
-        ))}
-      </Layer>
-    </Stage>
+    <div style={{ width: "inherit" }}>
+      <Stage
+        width={width}
+        height={height}
+        className="border border-dark"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Layer>
+          <Circle
+            radius={strokeWidth}
+            x={mouseX}
+            y={mouseY}
+            fill={color}
+          ></Circle>
+          {paints.map((line, i) => (
+            <Line
+              key={i}
+              points={line.points}
+              stroke={line.color}
+              strokeWidth={line.strokeWidth}
+              lineCap="round"
+            />
+          ))}
+        </Layer>
+      </Stage>
+    </div>
   );
 };
