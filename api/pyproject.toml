@@ -21,6 +21,7 @@ pytest = "^5.2"
 pytest-dotenv = "^0.5.2"
 PyYAML = "^5.4.1"
 Faker = "^8.8.0"
+black = "^21.6b0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
