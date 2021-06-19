@@ -11,12 +11,17 @@ def test_update_artwork_can_owner_only(client):
     artwork = create_artwork(account=account_1)
 
     mutation = """
-    mutation UpdateArtworkTestMutation ($id: ID!) {
+    mutation UpdateArtworkTestMutation (
+        $id: ID!,
+        $title: String!,
+        $caption: String!,
+        $tags: [String!]!
+    ) {
         updateArtwork(input: {
             id: $id,
-            title: "new title",
-            caption: "new caption",
-            tags: ["new tag"],
+            title: $title,
+            caption: $caption,
+            tags: $tags,
         }) {
             artwork {
                 id
@@ -26,7 +31,12 @@ def test_update_artwork_can_owner_only(client):
     """
     result = client.execute(
         mutation,
-        variable_values={"id": Node.to_global_id("Artwork", artwork.id)},
+        variable_values={
+            "id": Node.to_global_id("Artwork", artwork.id),
+            "title": "new title",
+            "caption": "new caption",
+            "tags": ["tag"],
+        },
         context_value=mock_context(kmcid=account_2.kmcid),
     )
     assert result["errors"][0]["message"] == "You cannot update this artwork"
