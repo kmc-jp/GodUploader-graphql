@@ -1,5 +1,5 @@
 import { KonvaEventObject } from "konva/lib/Node";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import { Layer, Line, Stage } from "react-konva";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
@@ -54,8 +54,8 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     isDrawing.current = false;
   };
 
-  useEffect(() => {
-    const handleKeydown = (e: KeyboardEvent) => {
+  const handleKeydown = useCallback(
+    (e: KeyboardEvent) => {
       if (!e.ctrlKey) {
         return;
       }
@@ -65,13 +65,16 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
       } else if (e.key === "y") {
         redo();
       }
-    };
+    },
+    [redo, undo]
+  );
 
+  useEffect(() => {
     document.addEventListener("keydown", handleKeydown);
     return () => {
       document.removeEventListener("keydown", handleKeydown);
     };
-  }, [redo, setPaints, undo]);
+  }, [handleKeydown]);
 
   return (
     <Stage
