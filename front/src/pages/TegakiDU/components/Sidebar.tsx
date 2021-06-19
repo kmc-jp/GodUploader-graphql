@@ -17,16 +17,24 @@ export const Sidebar: React.VFC = () => {
     <div className="container h-100">
       <div className="row">
         <div className="col-sm-10">
-          <input
-            type="range"
-            value={strokeWidth}
-            onChange={(e) => setStrokeWidth(Number(e.target.value))}
-            min={1}
-            max={20}
-            className="w-100"
-          />
+          <div className="row mb-2">
+            <div className="col-sm-2">
+              <label htmlFor="stroke_width">太さ</label>
+            </div>
+            <div className="col">
+              <input
+                type="range"
+                id="stroke_width"
+                value={strokeWidth}
+                onChange={(e) => setStrokeWidth(Number(e.target.value))}
+                min={1}
+                max={20}
+                className="w-100"
+              />
+            </div>
+            <div className="col-sm-2">{strokeWidth}</div>
+          </div>
         </div>
-        <div className="col-sm-2">{strokeWidth}</div>
       </div>
       <div className="row mb-2" style={{ height: "15%" }}>
         <div className="col">
