@@ -6,20 +6,23 @@ from faker import Faker
 
 fake = Faker()
 
+
 class MockContext:
     def __init__(self, user):
         self.user = user
+
 
 def mock_context(kmcid=None):
     user = viewer(kmcid)
     return MockContext(user)
 
-def create_account(**args):
-    if 'kmcid' not in args:
-        args['kmcid'] = fake.user_name()
 
-    if 'name' not in args:
-        args['name'] = fake.name()
+def create_account(**args):
+    if "kmcid" not in args:
+        args["kmcid"] = fake.user_name()
+
+    if "name" not in args:
+        args["name"] = fake.name()
 
     account = Account(**args)
     session.add(account)
@@ -27,27 +30,28 @@ def create_account(**args):
 
     return account
 
+
 def create_artwork(**args):
-    if 'title' not in args:
-        args['title'] = fake.text(max_nb_chars=32)
+    if "title" not in args:
+        args["title"] = fake.text(max_nb_chars=32)
 
-    if 'caption' not in args:
-        args['caption'] = fake.text(max_nb_chars=200)
+    if "caption" not in args:
+        args["caption"] = fake.text(max_nb_chars=200)
 
-    if 'account' not in args:
-        args['account'] = create_account()
+    if "account" not in args:
+        args["account"] = create_account()
 
-    if 'nsfw' not in args:
-        args['nsfw'] = False
+    if "nsfw" not in args:
+        args["nsfw"] = False
 
-    tags = args.pop('tags', [])
+    tags = args.pop("tags", [])
     for idx, tag in enumerate(tags):
         if isinstance(tag, Tag):
             tags[idx] = tag.name
 
     artwork = Artwork(**args)
 
-    illusts = args.pop('illusts', None)
+    illusts = args.pop("illusts", None)
     if not illusts:
         illusts = [create_illust(artwork=artwork)]
 
@@ -58,19 +62,20 @@ def create_artwork(**args):
     session.add(artwork)
     session.commit()
 
-    args['account'].artworks_count += 1
+    args["account"].artworks_count += 1
     artwork.top_illust_id = illusts[0].id
     session.commit()
 
     return artwork
 
+
 def create_illust(artwork, filename=None):
     if not filename:
-        filename = fake.file_name(category='image')
+        filename = fake.file_name(category="image")
 
     illust = Illust(
         artwork=artwork,
-        filename=fake.file_name(category='image'),
+        filename=fake.file_name(category="image"),
     )
     session.add(illust)
     session.commit()

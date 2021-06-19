@@ -8,22 +8,25 @@ from goduploader.db import engine, session
 from goduploader.model import Base
 from goduploader.graphql.schema import schema
 
+
 def prepare_temporary_public_dir():
     public = Path(tempfile.mkdtemp())
-    illusts_dir = public / 'illusts'
+    illusts_dir = public / "illusts"
     illusts_dir.mkdir()
-    thumbnail_dir = public / 'thumbnail'
+    thumbnail_dir = public / "thumbnail"
     thumbnail_dir.mkdir()
-    os.environ['PUBLIC_FOLDER'] = str(public)
+    os.environ["PUBLIC_FOLDER"] = str(public)
+
 
 prepare_temporary_public_dir()
 
-@pytest.fixture(scope='function', autouse=True)
+
+@pytest.fixture(scope="function", autouse=True)
 def client():
     Base.metadata.create_all(engine)
 
     # prepare unknown_user
-    create_account(kmcid='unknown_user', name='unknown_user')
+    create_account(kmcid="unknown_user", name="unknown_user")
 
     client = Client(schema)
     yield client
