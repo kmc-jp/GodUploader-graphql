@@ -79,6 +79,11 @@ export const App: React.VFC = () => {
                   タグ検索
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/tegaki" className="nav-link">
+                  tegaki_du
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
