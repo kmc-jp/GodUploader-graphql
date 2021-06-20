@@ -12,9 +12,9 @@ def viewer(kmcid: Optional[str]) -> Optional[Account]:
     if account:
         return account
 
-    with session.begin():
-        account = Account(kmcid=kmcid, name=kmcid)
-        session.new(account)
+    account = Account(kmcid=kmcid, name=kmcid)
+    session.new(account)
+    session.commit()
 
     return account
 
