@@ -33,28 +33,28 @@ export const Tags: React.VFC<Props> = ({ prepared }) => {
           <h2 className="text-center">タグまとめ</h2>
         </div>
         <div className="card-body">
-          <div className="row row-cols-4">
+          <div className="d-flex flex-wrap justify-content-between">
             {allTags?.edges.map((edge, i) => {
               if (!(edge && edge.node)) {
                 return null;
               }
               const node = edge.node;
               return (
-                <div key={i} className="col py-1">
+                <div key={i} className="py-1">
                   <Link
                     to={`/tagged_artworks/${node.name}`}
                     type="button"
-                    className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between"
+                    className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between flex-fill"
                   >
-                    {node.name}
-                    <span className="badge rounded-pill bg-secondary">
+                    <div className="me-auto">#{node.name}</div>
+                    <div className="badge rounded-pill bg-secondary">
                       {node.artworksCount}
-                    </span>
+                    </div>
                   </Link>
                 </div>
               );
             })}
-          </div>{" "}
+          </div>
         </div>
       </div>
     </div>
