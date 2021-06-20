@@ -11,9 +11,8 @@ export const ColorSuggestion: React.VFC = () => {
       {colorsGrid.map((colors, i) => (
         <div key={i} className="d-flex justify-content-around">
           {colors.map((color, j) => (
-            <div>
+            <div key={j}>
               <div
-                key={j}
                 className="p-2 d-inline-block border border-dark"
                 style={{ width: 64, height: 64, backgroundColor: color }}
               ></div>
