@@ -37,7 +37,7 @@ export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
           <h2 className="text-center">タグ"{tag}"の絵たち</h2>
         </div>
         <div className="card-body">
-          <div className="row row-cols-4">
+          <div className="row row-cols-1 row-cols-lg-4">
             {taggedArtworks?.edges.map((edge, i) => {
               if (!(edge && edge.node)) {
                 return null;

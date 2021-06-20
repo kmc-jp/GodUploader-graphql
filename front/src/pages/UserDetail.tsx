@@ -101,7 +101,7 @@ const ArtworkList: React.VFC<{ user: UserDetail_artworks$key }> = ({
 
   return (
     <div className="card-body">
-      <div className="row row-cols-4">
+      <div className="row row-cols-1 row-cols-lg-4">
         {reversedEdges.map((edge, i) => {
           if (!(edge && edge.node)) {
             return null;

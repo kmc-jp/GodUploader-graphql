@@ -51,7 +51,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
             <h2 className="text-center">最新{artworkCount}件の絵</h2>
           </div>
           <div className="card-body">
-            <div className="row row-cols-4">
+            <div className="row row-cols-1 row-cols-lg-4">
               {safeArtworks.edges.map((edge, i) => {
                 if (!edge) {
                   return null;
@@ -78,7 +78,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
           <h2 className="text-center">利用者達</h2>
         </div>
         <div className="card-body">
-          <div className="row row-cols-4">
+          <div className="row row-cols-2 row-cols-lg-4">
             {activeAccounts?.edges.map((edge, i) => {
               if (!(edge && edge.node)) {
                 return null;
