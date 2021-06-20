@@ -98,7 +98,7 @@ const LikeIcon: React.FC<{
 
   return (
     <Link
-      to={`/user/${like.account.kmcid}`}
+      to={`/users/${like.account.kmcid}`}
       data-bs-toggle="tooltip"
       data-bs-placement="top"
       title={like.account.kmcid}

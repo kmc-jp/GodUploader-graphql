@@ -95,7 +95,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           <h2>{artwork.title}</h2>
           <p>{artwork.caption}</p>
           <p>
-            <Link to={`/user/${artwork.account?.kmcid}`}>
+            <Link to={`/users/${artwork.account?.kmcid}`}>
               {artwork.account?.name}
             </Link>
           </p>

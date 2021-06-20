@@ -31,7 +31,7 @@ export const routes: RouteConfig[] = [
     }),
   },
   {
-    path: "/user/:kmcid",
+    path: "/users/:kmcid",
     component: UserDetail,
     prepare: ({ params, environment }) => ({
       userDetailQuery: loadQuery(

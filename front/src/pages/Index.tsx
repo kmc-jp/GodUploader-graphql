@@ -87,7 +87,7 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
               return (
                 <div key={i} className="col py-1">
                   <Link
-                    to={`/user/${node.kmcid}`}
+                    to={`/users/${node.kmcid}`}
                     type="button"
                     className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between"
                   >

@@ -24,5 +24,5 @@ export const RedirectToMyPage: React.VFC<Props> = ({ prepared }) => {
     return <Redirect to="/" />;
   }
 
-  return <Redirect to={`/user/${viewer.kmcid}`} />;
+  return <Redirect to={`/users/${viewer.kmcid}`} />;
 };

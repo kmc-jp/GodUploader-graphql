@@ -25,7 +25,7 @@ class Account(Base):
     @property
     def user_page_url(self):
         base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return os.path.join(base_url, "user", self.kmcid)
+        return os.path.join(base_url, "users", self.kmcid)
 
     index_artworks_count = Index("account_artworks_count", artworks_count)
 
