@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
+import { UploadArtworkModal } from "./UploadArtworkModal";
 
 export const Sidebar: React.VFC = () => {
   const {
@@ -29,6 +30,7 @@ export const Sidebar: React.VFC = () => {
   };
 
   const [isSerializing, setIsSerializing] = useState(false);
+  const [serializedBlob, setSerializedBlob] = useState<Blob>();
   const handleDownload = async () => {
     setIsSerializing(true);
 
@@ -42,8 +44,21 @@ export const Sidebar: React.VFC = () => {
     window.open(dataURL);
   };
 
+  const handleUpload = async () => {
+    setIsSerializing(true);
+
+    const blob = await toBlob();
+    setIsSerializing(false);
+    if (!blob) {
+      return;
+    }
+
+    setSerializedBlob(blob);
+  };
+
   return (
     <div className="container h-100">
+      <UploadArtworkModal blob={serializedBlob} />
       <div className="row">
         <div className="col-sm-10">
           <div className="row mb-2">
@@ -111,7 +126,9 @@ export const Sidebar: React.VFC = () => {
         </div>
         <div className="d-flex justify-content-around">
           <div className="col-sm-8">
-            <button className="btn btn-success w-100">アップロード</button>
+            <button className="btn btn-success w-100" onClick={handleUpload}>
+              アップロード
+            </button>
           </div>
           <div className="col-sm-4">
             <button className="btn btn-primary w-100" onClick={handleDownload}>
