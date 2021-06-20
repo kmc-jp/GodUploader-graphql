@@ -23,53 +23,59 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   const [mouseX, setMouseX] = useState(-999999);
   const [mouseY, setMouseY] = useState(-999999);
 
-  const handleMouseDown = (e: KonvaEventObject<MouseEvent>) => {
-    const stage = e.target.getStage();
-    if (!stage) {
-      return;
-    }
-    const pos = stage.getPointerPosition();
-    if (!pos) {
-      return;
-    }
+  const handleMouseDown = useCallback(
+    (e: KonvaEventObject<MouseEvent>) => {
+      const stage = e.target.getStage();
+      if (!stage) {
+        return;
+      }
+      const pos = stage.getPointerPosition();
+      if (!pos) {
+        return;
+      }
 
-    isDrawing.current = true;
-    setPaints([
-      ...paints,
-      { tool: "pen", color, strokeWidth, points: [pos.x, pos.y] },
-    ]);
-  };
+      isDrawing.current = true;
+      setPaints([
+        ...paints,
+        { tool: "pen", color, strokeWidth, points: [pos.x, pos.y] },
+      ]);
+    },
+    [color, paints, setPaints, strokeWidth]
+  );
 
-  const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
-    setMouseX(e.evt.offsetX);
-    setMouseY(e.evt.offsetY);
+  const handleMouseMove = useCallback(
+    (e: KonvaEventObject<MouseEvent>) => {
+      setMouseX(e.evt.offsetX);
+      setMouseY(e.evt.offsetY);
 
-    if (!isDrawing.current) {
-      return;
-    }
-    const stage = e.target.getStage();
-    if (!stage) {
-      return;
-    }
-    const point = stage.getPointerPosition();
-    if (!point) {
-      return;
-    }
+      if (!isDrawing.current) {
+        return;
+      }
+      const stage = e.target.getStage();
+      if (!stage) {
+        return;
+      }
+      const point = stage.getPointerPosition();
+      if (!point) {
+        return;
+      }
 
-    const lastLine = paints[paints.length - 1];
-    if (!(lastLine && lastLine.tool === "pen")) {
-      return;
-    }
+      const lastLine = paints[paints.length - 1];
+      if (!(lastLine && lastLine.tool === "pen")) {
+        return;
+      }
 
-    lastLine.points = lastLine.points.concat([point.x, point.y]);
-    paints.splice(paints.length - 1, 1, lastLine);
-    setPaints(paints.concat());
-  };
+      lastLine.points = lastLine.points.concat([point.x, point.y]);
+      paints.splice(paints.length - 1, 1, lastLine);
+      setPaints(paints.concat());
+    },
+    [paints, setPaints]
+  );
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     append(paints);
     isDrawing.current = false;
-  };
+  }, [append, paints]);
 
   const handleKeydown = useCallback(
     (e: KeyboardEvent) => {
@@ -93,11 +99,11 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     };
   }, [handleKeydown]);
 
-  const handleMouseLeave = (e: KonvaEventObject<MouseEvent>) => {
+  const handleMouseLeave = useCallback(() => {
     // hide cursor
     setMouseX(-999999);
     setMouseY(-999999);
-  };
+  }, []);
 
   return (
     <div style={{ width: "inherit" }}>

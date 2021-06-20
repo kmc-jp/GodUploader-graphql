@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
 import { UploadArtworkModal } from "./UploadArtworkModal";
@@ -16,7 +16,7 @@ export const Sidebar: React.VFC = () => {
   const { setPaints, append, undo, redo, undoable, redoable } =
     useContext(PaintStackContext);
 
-  const handleDeleteAll = () => {
+  const handleDeleteAll = useCallback(() => {
     if (
       !window.confirm(
         "本当に全て消してしまいますか？ (現在の背景色で塗りつぶします。)"
@@ -27,11 +27,11 @@ export const Sidebar: React.VFC = () => {
 
     setPaints([{ tool: "fill", color: backgroundColor }]);
     append([{ tool: "fill", color: backgroundColor }]);
-  };
+  }, [append, backgroundColor, setPaints]);
 
   const [isSerializing, setIsSerializing] = useState(false);
   const [serializedBlob, setSerializedBlob] = useState<Blob>();
-  const handleDownload = async () => {
+  const handleDownload = useCallback(async () => {
     setIsSerializing(true);
 
     const blob = await toBlob();
@@ -42,9 +42,9 @@ export const Sidebar: React.VFC = () => {
 
     const dataURL = URL.createObjectURL(blob);
     window.open(dataURL);
-  };
+  }, [toBlob]);
 
-  const handleUpload = async () => {
+  const handleUpload = useCallback(async () => {
     setIsSerializing(true);
 
     const blob = await toBlob();
@@ -54,7 +54,7 @@ export const Sidebar: React.VFC = () => {
     }
 
     setSerializedBlob(blob);
-  };
+  }, [toBlob]);
 
   return (
     <div className="container h-100">
