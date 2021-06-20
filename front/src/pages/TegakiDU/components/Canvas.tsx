@@ -78,6 +78,10 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
 
   const handleKeydown = useCallback(
     (e: KeyboardEvent) => {
+      if (isDrawing.current) {
+        return;
+      }
+
       if (!e.ctrlKey) {
         return;
       }
