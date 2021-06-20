@@ -15,6 +15,7 @@ python-gyazo = "^2.1.0"
 requests = "^2.25.1"
 slack-sdk = "^3.7.0"
 cacheout = "^0.13.1"
+python-dotenv = "^0.17.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
