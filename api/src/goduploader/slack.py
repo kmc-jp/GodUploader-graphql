@@ -6,8 +6,6 @@ from cacheout import Cache
 
 from goduploader.model import Artwork
 
-api = WebClient(token=os.environ.get("SLACK_TOKEN"))
-
 
 class ShareOption(Enum):
     NONE = 0
@@ -46,6 +44,8 @@ def share_to_slack(
             },
         ],
     }
+
+    api = WebClient(token=os.environ.get("SLACK_TOKEN"))
     api.chat_postMessage(channel=channel_id, **data)
 
 
@@ -60,6 +60,8 @@ def get_all_public_channels():
 
     next_cursor = None
     all_channels = []
+
+    api = WebClient(token=os.environ.get("SLACK_TOKEN"))
 
     for i in range(10):
         resp = api.conversations_list(
