@@ -4,10 +4,12 @@ import { ColorSuggestion } from "./components/ColorSuggestion";
 import { Sidebar } from "./components/Sidebar";
 import { Canvas } from "./components/Canvas";
 import { PaintStackContextProvider } from "./contexts/PaintStackContext";
+import { UploadArtworkModal } from "./components/UploadArtworkModal";
 
 export const TegakiDU: React.VFC = () => {
   return (
     <div>
+      <UploadArtworkModal />
       <div className="card">
         <div className="card-header">
           <h2 className="text-center">TEGAKI Draw and Upload</h2>

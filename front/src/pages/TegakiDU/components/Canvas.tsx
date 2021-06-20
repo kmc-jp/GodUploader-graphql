@@ -1,4 +1,5 @@
 import { KonvaEventObject } from "konva/lib/Node";
+import Konva from "konva";
 import React, {
   useCallback,
   useContext,
@@ -14,7 +15,7 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   width,
   height,
 }) => {
-  const { color, strokeWidth } = useContext(DrawingContext);
+  const { color, strokeWidth, stageRef } = useContext(DrawingContext);
   const isDrawing = useRef(false);
   const { paints, setPaints, append, undo, redo } =
     useContext(PaintStackContext);
@@ -104,6 +105,7 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
         width={width}
         height={height}
         className="border border-dark"
+        ref={stageRef}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

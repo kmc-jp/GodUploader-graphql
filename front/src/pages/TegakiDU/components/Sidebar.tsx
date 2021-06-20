@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
 
@@ -10,6 +10,7 @@ export const Sidebar: React.VFC = () => {
     setColor,
     setBackgroundColor,
     setStrokeWidth,
+    toBlob,
   } = useContext(DrawingContext);
   const { setPaints, append, undo, redo, undoable, redoable } =
     useContext(PaintStackContext);
@@ -25,6 +26,20 @@ export const Sidebar: React.VFC = () => {
 
     setPaints([{ tool: "fill", color: backgroundColor }]);
     append([{ tool: "fill", color: backgroundColor }]);
+  };
+
+  const [isSerializing, setIsSerializing] = useState(false);
+  const handleDownload = async () => {
+    setIsSerializing(true);
+
+    const blob = await toBlob();
+    setIsSerializing(false);
+    if (!blob) {
+      return;
+    }
+
+    const dataURL = URL.createObjectURL(blob);
+    window.open(dataURL);
   };
 
   return (
@@ -89,11 +104,22 @@ export const Sidebar: React.VFC = () => {
             やり直す
           </button>
         </div>
-        <div className="mt-2">
+        <div className="my-2">
           <button className="btn btn-danger w-100" onClick={handleDeleteAll}>
             全て消す
           </button>
         </div>
+        <div className="d-flex justify-content-around">
+          <div className="col-sm-8">
+            <button className="btn btn-success w-100">アップロード</button>
+          </div>
+          <div className="col-sm-4">
+            <button className="btn btn-primary w-100" onClick={handleDownload}>
+              DL
+            </button>
+          </div>
+        </div>
+        {isSerializing && <div>シリアライズ中……</div>}
       </div>
     </div>
   );
