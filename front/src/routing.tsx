@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Environment, useRelayEnvironment } from "react-relay";
 import { SwitchProps } from "react-router";

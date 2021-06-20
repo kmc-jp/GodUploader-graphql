@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 
 type UndoRedoHandler<T> = () => T | null;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UseUndoableStackReturnValue<T = any> = {
   append: (value: T) => void;
   undo: UndoRedoHandler<T>;
@@ -10,6 +11,7 @@ type UseUndoableStackReturnValue<T = any> = {
   redoable: boolean;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useUndoableStack = <T = any>(
   initialValue: T
 ): UseUndoableStackReturnValue<T> => {

@@ -41,6 +41,7 @@ const fetchRelay: FetchFunction = async (
 
     body = formData;
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (requestVariables.headers as any)["Content-Type"] = "application/json";
 
     body = JSON.stringify({

@@ -1,5 +1,4 @@
 import { KonvaEventObject } from "konva/lib/Node";
-import Konva from "konva";
 import React, {
   useCallback,
   useContext,
