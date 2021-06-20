@@ -1,3 +1,7 @@
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+
 import os
 from flask import Flask, request
 from goduploader.db import session
