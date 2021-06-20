@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import { Circle, Layer, Line, Rect, Stage } from "react-konva";
+import { Prompt } from "react-router-dom";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
 
@@ -110,6 +111,10 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
 
   return (
     <div style={{ width: "inherit" }}>
+      <Prompt
+        when={paints.length > 0}
+        message="このページを離れると絵は破棄されます。"
+      />
       <Stage
         width={width}
         height={height}
