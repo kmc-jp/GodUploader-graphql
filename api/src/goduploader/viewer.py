@@ -13,7 +13,7 @@ def viewer(kmcid: Optional[str]) -> Optional[Account]:
         return account
 
     account = Account(kmcid=kmcid, name=kmcid)
-    session.new(account)
+    session.add(account)
     session.commit()
 
     return account
