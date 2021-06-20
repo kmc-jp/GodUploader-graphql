@@ -1,6 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
-import React, { Suspense } from "react";
-import { useLazyLoadQuery } from "react-relay";
+import React, { useEffect, Suspense } from "react";
+import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
 import { SlackChannelInputQuery } from "./__generated__/SlackChannelInputQuery.graphql";
 
 const slackChannelInputQuery = graphql`
@@ -23,6 +23,14 @@ export const SlackChannelInput: React.VFC<Props> = ({
   setSlackChannel,
   disabled,
 }) => {
+  const [queryRef, loadQuery] = useQueryLoader<SlackChannelInputQuery>(
+    slackChannelInputQuery
+  );
+
+  useEffect(() => {
+    loadQuery({});
+  }, [loadQuery]);
+
   return (
     <>
       <label htmlFor="channel_id">投稿先のチャンネル(迷惑厳禁！)</label>
@@ -36,7 +44,9 @@ export const SlackChannelInput: React.VFC<Props> = ({
             onChange={(e) => setSlackChannel(e.target.value)}
           >
             <Suspense fallback={null}>
-              <ChannelSuggestion />
+              {!disabled && queryRef && (
+                <ChannelSuggestion queryRef={queryRef} />
+              )}
             </Suspense>
           </select>
         </div>
@@ -45,10 +55,12 @@ export const SlackChannelInput: React.VFC<Props> = ({
   );
 };
 
-const ChannelSuggestion: React.VFC = () => {
-  const { allSlackChannels } = useLazyLoadQuery<SlackChannelInputQuery>(
+const ChannelSuggestion: React.VFC<{
+  queryRef: PreloadedQuery<SlackChannelInputQuery>;
+}> = ({ queryRef }) => {
+  const { allSlackChannels } = usePreloadedQuery<SlackChannelInputQuery>(
     slackChannelInputQuery,
-    {}
+    queryRef
   );
 
   const sortedChannels = allSlackChannels
