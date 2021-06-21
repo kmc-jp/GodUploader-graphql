@@ -80,7 +80,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artwork }) => {
         aria-hidden="true"
         ref={ref}
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <form onSubmit={handleUpdate}>
               <div className="modal-header">
