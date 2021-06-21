@@ -13,4 +13,4 @@ api: api/install
 api/install:
 	cd api && poetry install
 
-.PHONY: all front front/install front/build api/install
+.PHONY: all front front/install front/build api api/install
