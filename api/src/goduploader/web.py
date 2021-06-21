@@ -24,6 +24,11 @@ def load_user():
     request.user = viewer(kmcid)
 
 
+@app.route("/api/ping")
+def ping():
+    return {"ok": "true"}
+
+
 app.add_url_rule(
     "/api/graphql",
     view_func=FileUploadGraphQLView.as_view(
