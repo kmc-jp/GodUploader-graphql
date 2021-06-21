@@ -11,9 +11,12 @@ front/install:
 front/build:
 	cd front && yarn build
 
-api: api/install
+api: api/install api/restart
 
 api/install:
 	cd api && poetry install
+
+api/restart:
+	touch api/tmp/restart.txt
 
 .PHONY: all sync front front/install front/build api api/install
