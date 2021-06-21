@@ -3,7 +3,7 @@ all: front api
 front: front/install front/build
 
 front/install:
-	cd front && yarn install --frozen-lockfile
+	cd front && yarn install --frozen-lockfile --cache-folder /tmp/yarn-cache
 
 front/build:
 	cd front && yarn build
