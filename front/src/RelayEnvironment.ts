@@ -54,6 +54,12 @@ const fetchRelay: FetchFunction = async (
     ...requestVariables,
     body,
   });
+
+  // force refresh
+  if (response.status === 302) {
+    window.location.reload();
+  }
+
   return await response.json();
 };
 
