@@ -1,4 +1,7 @@
-all: front api
+all: sync front api
+
+sync:
+	git pull
 
 front: front/install front/build
 
@@ -13,4 +16,4 @@ api: api/install
 api/install:
 	cd api && poetry install
 
-.PHONY: all front front/install front/build api api/install
+.PHONY: all sync front front/install front/build api api/install
