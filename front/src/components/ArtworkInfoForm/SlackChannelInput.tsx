@@ -1,6 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React, { useEffect, Suspense } from "react";
 import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
+
 import { SlackChannelInputQuery } from "./__generated__/SlackChannelInputQuery.graphql";
 
 const slackChannelInputQuery = graphql`

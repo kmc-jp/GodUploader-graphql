@@ -1,13 +1,14 @@
-import React, { FormEvent, useCallback, useRef, useState } from "react";
 import { Modal } from "bootstrap";
+import React, { FormEvent, useCallback, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useRelayEnvironment } from "react-relay";
 import { Redirect } from "react-router";
-import { commitUploadArtworkMutation } from "../../../mutation/UploadArtwork";
-import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
+
 import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
-import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { SlackChannelInput } from "../../../components/ArtworkInfoForm/SlackChannelInput";
-import { useEffect } from "react";
+import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
+import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
+import { commitUploadArtworkMutation } from "../../../mutation/UploadArtwork";
 
 interface Props {
   blob?: Blob;

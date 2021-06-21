@@ -1,14 +1,15 @@
 import React, { FormEvent, useCallback, useRef, useState } from "react";
 import { useRelayEnvironment } from "react-relay";
 import { Redirect } from "react-router";
+
+import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
+import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
+import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
+import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
 import {
   commitUploadArtworkMutation,
   makeUploadables,
 } from "../mutation/UploadArtwork";
-import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
-import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
-import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
-import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();

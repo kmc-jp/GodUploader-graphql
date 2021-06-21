@@ -1,7 +1,8 @@
-import React, { Suspense } from "react";
 import { graphql } from "babel-plugin-relay/macro";
+import React, { Suspense } from "react";
 import { useFragment } from "react-relay/hooks";
 import { Link } from "react-router-dom";
+
 import { SuspenseImage } from "./SuspenseImage";
 import { ArtworkListItem_artwork$key } from "./__generated__/ArtworkListItem_artwork.graphql";
 

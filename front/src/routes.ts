@@ -1,20 +1,21 @@
 import { loadQuery } from "react-relay";
-import { Index, indexQuery } from "./pages/Index";
+
 import { ArtworkDetail, artworkDetailQuery } from "./pages/ArtworkDetail";
-import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
-import { Tags, tagsQuery } from "./pages/Tags";
-import { UserDetail, userDetailQuery } from "./pages/UserDetail";
-import { RouteConfig } from "./routing";
-import { UploadArtwork } from "./pages/UploadArtwork";
-import {
-  redirectToMyPageQuery,
-  RedirectToMyPage,
-} from "./pages/RedirectToMyPage";
+import { Index, indexQuery } from "./pages/Index";
 import {
   RedirectFolderToArtwork,
   redirectFolderToArtworkQuery,
 } from "./pages/RedirectFolderToArtwork";
+import {
+  redirectToMyPageQuery,
+  RedirectToMyPage,
+} from "./pages/RedirectToMyPage";
+import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
+import { Tags, tagsQuery } from "./pages/Tags";
 import { TegakiDU } from "./pages/TegakiDU";
+import { UploadArtwork } from "./pages/UploadArtwork";
+import { UserDetail, userDetailQuery } from "./pages/UserDetail";
+import { RouteConfig } from "./routing";
 
 export const routes: RouteConfig[] = [
   {

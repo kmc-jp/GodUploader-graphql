@@ -1,11 +1,12 @@
+import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 import { Link } from "react-router-dom";
-import { graphql } from "babel-plugin-relay/macro";
-import type { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
+
 import { useTooltip } from "../../hooks/useTooltip";
 import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
+import type { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
 
 interface Props {
   artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;

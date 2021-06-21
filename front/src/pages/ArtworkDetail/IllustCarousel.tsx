@@ -1,12 +1,13 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Carousel } from "bootstrap";
+import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFragment } from "react-relay";
-import clsx from "clsx";
+
+import { SuspenseImage } from "../../components/SuspenseImage";
 import { usePrevious } from "../../hooks/usePrevious";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 import { IllustCarousel_illusts$key } from "./__generated__/IllustCarousel_illusts.graphql";
-import { SuspenseImage } from "../../components/SuspenseImage";
 
 interface Props {
   artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;

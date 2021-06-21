@@ -1,10 +1,10 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
+import { LoadingOverlay } from "./components/LoadingOverlay";
+import { ErrorBoundary } from "./errorBoundary";
 import { routes } from "./routes";
 import { RouteRenderer } from "./routing";
-import { ErrorBoundary } from "./errorBoundary";
-import { LoadingOverlay } from "./components/LoadingOverlay";
 
 const LoadingWatcher: React.VFC<{
   setIsLoading: (isLoading: boolean) => void;

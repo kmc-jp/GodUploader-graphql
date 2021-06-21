@@ -2,11 +2,11 @@
 import React from "react";
 import { Environment, useRelayEnvironment } from "react-relay";
 import { SwitchProps } from "react-router";
-import { Route, Switch } from "react-router-dom";
 import {
   RouteConfig as OriginalRouteConfig,
   RouteConfigComponentProps as OriginalRouteConfigComponentProps,
 } from "react-router-config";
+import { Route, Switch } from "react-router-dom";
 
 export interface RouteConfigComponentProps<
   Params extends { [K in keyof Params]?: string } = any

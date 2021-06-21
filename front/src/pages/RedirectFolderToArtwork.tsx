@@ -1,8 +1,9 @@
-import React from "react";
 import { graphql } from "babel-plugin-relay/macro";
+import React from "react";
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
-import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";
 import { Redirect } from "react-router-dom";
+
+import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";
 
 export const redirectFolderToArtworkQuery = graphql`
   query RedirectFolderToArtworkQuery($folderId: Int!) {

@@ -1,10 +1,10 @@
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 
-import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 import { ArtworkListItem } from "../components/ArtworkListItem";
+import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
 export const indexQuery = graphql`
   query IndexQuery {

@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "./LoadingOverlay.module.css";
 
 export const LoadingOverlay: React.FC = () => {

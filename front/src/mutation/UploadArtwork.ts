@@ -1,6 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Environment, commitMutation } from "react-relay";
 import { MutationConfig } from "relay-runtime";
+
 import type { UploadArtworkMutation } from "./__generated__/UploadArtworkMutation.graphql";
 
 type UploadableReturnType = {

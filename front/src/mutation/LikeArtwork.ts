@@ -1,6 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Environment, commitMutation } from "react-relay";
 import type { MutationConfig } from "relay-runtime";
+
 import type { LikeArtworkMutation } from "./__generated__/LikeArtworkMutation.graphql";
 
 export const commitLikeArtworkMutation = (

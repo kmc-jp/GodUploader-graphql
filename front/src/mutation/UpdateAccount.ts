@@ -1,5 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { commitMutation, Environment, MutationConfig } from "relay-runtime";
+
 import { UpdateAccountMutation } from "./__generated__/UpdateAccountMutation.graphql";
 
 export const commitUpdateAccountMutation = (

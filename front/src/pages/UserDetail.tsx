@@ -1,15 +1,16 @@
-import React, { useCallback } from "react";
 import { graphql } from "babel-plugin-relay/macro";
+import React, { useCallback } from "react";
 import {
   PreloadedQuery,
   usePaginationFragment,
   usePreloadedQuery,
 } from "react-relay";
-import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
-import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
-import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginationQuery.graphql";
+
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateAccountModal } from "./UserDetail/UpdateInfoForm";
+import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginationQuery.graphql";
+import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
+import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 
 export const userDetailQuery = graphql`
   query UserDetailQuery($kmcid: String!) {

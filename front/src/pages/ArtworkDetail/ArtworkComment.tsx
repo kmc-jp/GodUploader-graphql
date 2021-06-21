@@ -1,9 +1,10 @@
+import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback, useState } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
-import { graphql } from "babel-plugin-relay/macro";
+
 import { commitCreateCommentMutation } from "../../mutation/CreateComment";
-import { ArtworkComment_comments$key } from "./__generated__/ArtworkComment_comments.graphql";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
+import { ArtworkComment_comments$key } from "./__generated__/ArtworkComment_comments.graphql";
 
 interface Props {
   artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;

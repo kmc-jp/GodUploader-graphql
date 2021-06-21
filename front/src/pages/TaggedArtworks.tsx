@@ -1,9 +1,10 @@
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { useParams } from "react-router-dom";
+
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
-import { useParams } from "react-router-dom";
 
 export const taggedArtworksQuery = graphql`
   query TaggedArtworksQuery($tag: String!) {

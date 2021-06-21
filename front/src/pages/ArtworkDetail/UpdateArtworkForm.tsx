@@ -1,6 +1,7 @@
 import { Modal } from "bootstrap";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useRelayEnvironment } from "react-relay";
+
 import { CaptionInput } from "../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";

@@ -1,5 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { commitMutation, Environment, MutationConfig } from "relay-runtime";
+
 import { DeleteArtworkMutation } from "./__generated__/DeleteArtworkMutation.graphql";
 
 export const commitDeleteArtworkMutation = (

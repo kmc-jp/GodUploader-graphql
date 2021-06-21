@@ -1,3 +1,4 @@
+import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
 import {
   PreloadedQuery,
@@ -5,15 +6,15 @@ import {
   useRelayEnvironment,
 } from "react-relay";
 import { Link, useHistory } from "react-router-dom";
-import { graphql } from "babel-plugin-relay/macro";
-import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
-import { formatDateTime } from "../util";
-import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
-import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
-import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
-import { commitDeleteArtworkMutation } from "../mutation/DeleteArtwork";
-import { UpdateArtworkModal } from "./ArtworkDetail/UpdateArtworkForm";
 import reactStringReplace from "react-string-replace";
+
+import { commitDeleteArtworkMutation } from "../mutation/DeleteArtwork";
+import { formatDateTime } from "../util";
+import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
+import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
+import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
+import { UpdateArtworkModal } from "./ArtworkDetail/UpdateArtworkForm";
+import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
@@ -114,23 +115,26 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           )}
         </div>
         <div className="card-body">
-          <div className="row">
-            <ul className="breadcrumb px-2 py-2 bg-light">
-              <li className="breadcrumb-item">タグ</li>
-              {artwork.tags?.edges.map((edge) => {
-                const tag = edge?.node;
-                if (!tag) {
-                  return null;
-                }
+          {artwork.tags?.edges && artwork.tags.edges.length > 0 && (
+            <div className="row">
+              <ul className="breadcrumb px-2 py-2 bg-light">
+                {artwork.tags.edges.map((edge) => {
+                  const tag = edge?.node;
+                  if (!tag) {
+                    return null;
+                  }
 
-                return (
-                  <li key={tag.id} className="text-center breadcrumb-item">
-                    <Link to={`/tagged_artworks/${tag.name}`}>#{tag.name}</Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+                  return (
+                    <li key={tag.id} className="text-center breadcrumb-item">
+                      <Link to={`/tagged_artworks/${tag.name}`}>
+                        #{tag.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
           <LikeList artwork={artwork} />
           <IllustCarousel artwork={artwork} />
           <ArtworkComment artwork={artwork} />

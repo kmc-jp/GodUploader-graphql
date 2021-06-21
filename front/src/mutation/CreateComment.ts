@@ -1,6 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Environment, commitMutation } from "react-relay";
 import type { MutationConfig } from "relay-runtime";
+
 import type { CreateCommentMutation } from "./__generated__/CreateCommentMutation.graphql";
 
 export const commitCreateCommentMutation = (

@@ -2,6 +2,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
+
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
 export const tagsQuery = graphql`

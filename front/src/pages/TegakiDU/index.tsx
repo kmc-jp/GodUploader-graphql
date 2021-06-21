@@ -1,8 +1,9 @@
 import React from "react";
-import { DrawingProvider } from "./contexts/DrawingContext";
+
+import { Canvas } from "./components/Canvas";
 import { ColorSuggestion } from "./components/ColorSuggestion";
 import { Sidebar } from "./components/Sidebar";
-import { Canvas } from "./components/Canvas";
+import { DrawingProvider } from "./contexts/DrawingContext";
 import { PaintStackContextProvider } from "./contexts/PaintStackContext";
 
 export const TegakiDU: React.VFC = () => {
