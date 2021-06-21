@@ -13,6 +13,7 @@ import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
 import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
 import { commitDeleteArtworkMutation } from "../mutation/DeleteArtwork";
 import { UpdateArtworkModal } from "./ArtworkDetail/UpdateArtworkForm";
+import reactStringReplace from "react-string-replace";
 
 export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
@@ -51,6 +52,14 @@ interface ArtworkDetailProps {
     artworkDetailQuery: PreloadedQuery<ArtworkDetailQuery>;
   };
 }
+
+const autolink = (caption: string) => {
+  return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
+    <a key={match + i} href={match}>
+      {match}
+    </a>
+  ));
+};
 
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   const environment = useRelayEnvironment();
@@ -93,7 +102,7 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
       <div className="card">
         <div className="card-header text-center">
           <h2>{artwork.title}</h2>
-          <p>{artwork.caption}</p>
+          <p>{artwork.caption && autolink(artwork.caption)}</p>
           <p>
             <Link to={`/users/${artwork.account?.kmcid}`}>
               {artwork.account?.name}
