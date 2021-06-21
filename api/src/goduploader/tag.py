@@ -5,7 +5,8 @@ from goduploader.db import session
 
 
 def has_nsfw_tag(tag_names: List[str]) -> bool:
-    return "R-18" in tag_names or "R-18G" in tag_names
+    tag_names_casei = [t.lower() for t in tag_names]
+    return "r-18" in tag_names_casei or "r-18g" in tag_names_casei
 
 
 def find_or_create_tags(tag_names: List[str]) -> List[Tag]:
