@@ -49,7 +49,10 @@
       "@typescript-eslint/explicit-module-boundary-types": "off"
     }
   },
-  "prettier": {},
+  "prettier": {
+    "importOrder": ["^[./]"],
+    "importOrderSeparation": true
+  },
   "proxy": "http://localhost:5000",
   "browserslist": {
     "production": [
@@ -67,6 +70,7 @@
     "@graphql-codegen/cli": "^1.21.4",
     "@graphql-codegen/schema-ast": "^1.18.2",
     "@testing-library/react-hooks": "^7.0.0",
+    "@trivago/prettier-plugin-sort-imports": "^2.0.2",
     "@types/bootstrap": "^5.0.16",
     "@types/react-relay": "^11.0.1",
     "@types/react-router-config": "^5.0.2",
