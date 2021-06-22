@@ -37,8 +37,7 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
       return;
     }
 
-    const modal = new Modal(ref.current);
-    return () => modal.dispose();
+    new Modal(ref.current);
   }, []);
 
   useEffect(() => {
@@ -94,6 +93,10 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
         },
         uploadables,
         onCompleted: (resp, errors) => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const modal = Modal.getInstance(ref.current!);
+          modal?.hide();
+
           setIsUploading(false);
           if (!resp.uploadArtwork?.artwork) {
             return;
