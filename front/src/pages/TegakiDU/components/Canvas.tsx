@@ -12,6 +12,8 @@ import { Prompt } from "react-router-dom";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
 
+const isTouchDevice = () => navigator.maxTouchPoints > 0;
+
 export const Canvas: React.VFC<{ width: number; height: number }> = ({
   width,
   height,
@@ -25,8 +27,8 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   const [mouseX, setMouseX] = useState(-999999);
   const [mouseY, setMouseY] = useState(-999999);
 
-  const handleMouseDown = useCallback(
-    (e: KonvaEventObject<MouseEvent>) => {
+  const handleTouchStart = useCallback(
+    (e: KonvaEventObject<Event>) => {
       const stage = e.target.getStage();
       if (!stage) {
         return;
@@ -45,11 +47,8 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     [color, paints, setPaints, strokeWidth]
   );
 
-  const handleMouseMove = useCallback(
-    (e: KonvaEventObject<MouseEvent>) => {
-      setMouseX(e.evt.offsetX);
-      setMouseY(e.evt.offsetY);
-
+  const addPoints = useCallback(
+    (e: KonvaEventObject<Event>) => {
       if (!isDrawing.current) {
         return;
       }
@@ -74,7 +73,28 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     [paints, setPaints]
   );
 
-  const handleMouseUp = useCallback(() => {
+  const handleTouchMove = useCallback(
+    (e: KonvaEventObject<TouchEvent>) => {
+      // avoid swipe scroll
+      e.evt.preventDefault();
+
+      setMouseX(e.evt.touches[0].clientX);
+      setMouseY(e.evt.touches[0].clientY);
+      addPoints(e);
+    },
+    [addPoints]
+  );
+
+  const handleMouseMove = useCallback(
+    (e: KonvaEventObject<MouseEvent>) => {
+      setMouseX(e.evt.offsetX);
+      setMouseY(e.evt.offsetY);
+      addPoints(e);
+    },
+    [addPoints]
+  );
+
+  const handleTouchEnd = useCallback(() => {
     append(paints);
     isDrawing.current = false;
   }, [append, paints]);
@@ -122,9 +142,12 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
         height={height}
         className="border border-dark"
         ref={stageRef}
-        onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleTouchStart}
         onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
+        onMouseUp={handleTouchEnd}
         onMouseLeave={handleMouseLeave}
       >
         <Layer>
@@ -153,12 +176,9 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
             }
             return null;
           })}
-          <Circle
-            radius={strokeWidth}
-            x={mouseX}
-            y={mouseY}
-            fill={color}
-          ></Circle>
+          {!isTouchDevice() && (
+            <Circle radius={strokeWidth} x={mouseX} y={mouseY} fill={color} />
+          )}
         </Layer>
       </Stage>
     </div>
