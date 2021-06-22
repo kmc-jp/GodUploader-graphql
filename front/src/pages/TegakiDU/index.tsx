@@ -1,4 +1,5 @@
 import React from "react";
+import { useMeasure } from "react-use";
 
 import { Canvas } from "./components/Canvas";
 import { ColorSuggestion } from "./components/ColorSuggestion";
@@ -7,6 +8,8 @@ import { DrawingProvider } from "./contexts/DrawingContext";
 import { PaintStackContextProvider } from "./contexts/PaintStackContext";
 
 export const TegakiDU: React.VFC = () => {
+  const [ref, { width, height }] = useMeasure<HTMLDivElement>();
+
   return (
     <div>
       <div className="card">
@@ -17,8 +20,8 @@ export const TegakiDU: React.VFC = () => {
           <div className="row mb-3 d-flex justify-content-center">
             <PaintStackContextProvider>
               <DrawingProvider>
-                <div className="col-md-8" style={{ width: 642, height: 482 }}>
-                  <Canvas width={640} height={480} />
+                <div className="col-md-7" style={{ height: 482 }} ref={ref}>
+                  <Canvas width={width - 2} height={height - 2} />
                 </div>
                 <div className="col-md-5">
                   <Sidebar />

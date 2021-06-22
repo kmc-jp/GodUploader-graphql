@@ -132,7 +132,7 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   }, []);
 
   return (
-    <div style={{ width: "inherit" }}>
+    <div className="mw-100">
       <Prompt
         when={paints.length > 0 && !isPosting}
         message="このページを離れると絵は破棄されます。"
