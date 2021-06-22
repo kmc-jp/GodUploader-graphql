@@ -156,6 +156,7 @@ def migrate_tags():
     for old_row in old_tags:
         new_tag = Tag(
             id=old_row["id"],
+            canonical_name=Tag.canonicalize(old_row["name"]),
             name=old_row["name"],
             artworks_count=tag_id_to_count[old_row["id"]],
             created_at=old_row["created_at"],

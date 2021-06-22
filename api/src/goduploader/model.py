@@ -140,7 +140,14 @@ class Tag(Base):
     __tablename__ = "tag"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(255), nullable=False, unique=True)
+    # 正規化した (小文字に統一した) タグ名
+    canonical_name = Column(
+        String(255, collation="nocase"),
+        nullable=False,
+        unique=True,
+    )
+    # 表示されるタグ名
+    name = Column(String(255), nullable=False)
     artworks_count = Column(Integer, nullable=False, default=0)
 
     index_artworks_count = Index("tag_artworks_count", artworks_count)
@@ -153,3 +160,7 @@ class Tag(Base):
     artworks = relationship(
         "Artwork", secondary=artwork_tag_relation, back_populates="tags"
     )
+
+    @classmethod
+    def canonicalize(cls, name: str) -> str:
+        return name.strip().lower()
