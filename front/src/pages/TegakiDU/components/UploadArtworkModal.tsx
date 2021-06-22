@@ -1,5 +1,6 @@
 import { Modal } from "bootstrap";
 import React, { FormEvent, useCallback, useRef, useState } from "react";
+import { useContext } from "react";
 import { useEffect } from "react";
 import { useRelayEnvironment } from "react-relay";
 import { useHistory } from "react-router-dom";
@@ -9,6 +10,7 @@ import { SlackChannelInput } from "../../../components/ArtworkInfoForm/SlackChan
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
 import { commitUploadArtworkMutation } from "../../../mutation/UploadArtwork";
+import { DrawingContext } from "../contexts/DrawingContext";
 
 interface Props {
   blob?: Blob;
@@ -17,6 +19,7 @@ interface Props {
 export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
   const history = useHistory();
   const environment = useRelayEnvironment();
+  const { setIsPosting } = useContext(DrawingContext);
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
 
@@ -39,11 +42,12 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
   }, []);
 
   useEffect(() => {
-    if (!ref.current) {
+    const el = ref.current;
+    if (!el) {
       return;
     }
 
-    const modal = Modal.getInstance(ref.current);
+    const modal = Modal.getInstance(el);
     if (!modal) {
       return;
     }
@@ -51,7 +55,16 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
     if (blob) {
       modal.show();
     }
-  }, [blob]);
+
+    const hideModal = () => {
+      setIsPosting(false);
+    };
+
+    el.addEventListener("hidden.bs.modal", hideModal);
+    return () => {
+      el.removeEventListener("hidden.bs.modal", hideModal);
+    };
+  }, [blob, setIsPosting]);
 
   const handleSubmit = useCallback(
     (event: FormEvent) => {
