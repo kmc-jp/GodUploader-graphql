@@ -84,14 +84,10 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
       <label htmlFor="tags">タグ</label>
       <div className="row g-2">
         <TagList tagList={tagList} setTagList={setTagList} />
-        <div className="input-group col-lg">
-          <span className="input-group-text" id="tag_icon">
-            #
-          </span>
+        <div className="col-lg">
           <input
             type="text"
             id="tags"
-            aria-describedby="tag_icon"
             list="tagSuggestionList"
             className="form-control"
             onKeyDown={handleKeyDown}
@@ -125,7 +121,7 @@ const TagList: React.VFC<Props> = ({ tagList, setTagList }) => {
             aria-label="Close"
             onClick={() => removeTag(tag)}
           ></button>
-          #{tag}
+          {tag}
         </li>
       ))}
     </ul>
