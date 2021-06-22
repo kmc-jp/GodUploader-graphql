@@ -2,7 +2,7 @@ import { Modal } from "bootstrap";
 import React, { FormEvent, useCallback, useRef, useState } from "react";
 import { useEffect } from "react";
 import { useRelayEnvironment } from "react-relay";
-import { Redirect } from "react-router";
+import { useHistory } from "react-router-dom";
 
 import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../../../components/ArtworkInfoForm/SlackChannelInput";
@@ -15,12 +15,10 @@ interface Props {
 }
 
 export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
+  const history = useHistory();
   const environment = useRelayEnvironment();
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
-  const [uploadedArtworkId, setUploadedArtworkId] = useState<string | null>(
-    null
-  );
 
   const [isUploading, setIsUploading] = useState(false);
   const [tagList, setTagList] = useState<string[]>(["tegaki_du"]);
@@ -88,7 +86,7 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
             return;
           }
 
-          setUploadedArtworkId(resp.uploadArtwork.artwork.id);
+          history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
         },
         updater: (store) => {
           store.invalidateStore();
@@ -99,6 +97,7 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
       blob,
       caption,
       environment,
+      history,
       notifySlack,
       showThumbnail,
       slackChannel,
@@ -106,17 +105,6 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
       title,
     ]
   );
-
-  if (uploadedArtworkId) {
-    return (
-      <Redirect
-        to={{
-          pathname: `/artwork/${uploadedArtworkId}`,
-        }}
-        push
-      />
-    );
-  }
 
   return (
     <>

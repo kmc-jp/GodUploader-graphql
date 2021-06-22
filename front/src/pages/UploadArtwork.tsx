@@ -1,6 +1,6 @@
 import React, { FormEvent, useCallback, useRef, useState } from "react";
 import { useRelayEnvironment } from "react-relay";
-import { Redirect } from "react-router";
+import { useHistory } from "react-router-dom";
 
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
@@ -13,12 +13,10 @@ import {
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const filesRef = useRef<HTMLInputElement>(null);
-  const [uploadedArtworkId, setUploadedArtworkId] = useState<string | null>(
-    null
-  );
 
   const [isUploading, setIsUploading] = useState(false);
   const [tagList, setTagList] = useState<string[]>([]);
@@ -62,7 +60,7 @@ export const UploadArtwork: React.VFC = () => {
             return;
           }
 
-          setUploadedArtworkId(resp.uploadArtwork.artwork.id);
+          history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
         },
         updater: (store) => {
           store.invalidateStore();
@@ -72,6 +70,7 @@ export const UploadArtwork: React.VFC = () => {
     [
       caption,
       environment,
+      history,
       notifySlack,
       showThumbnail,
       slackChannel,
@@ -79,17 +78,6 @@ export const UploadArtwork: React.VFC = () => {
       title,
     ]
   );
-
-  if (uploadedArtworkId) {
-    return (
-      <Redirect
-        to={{
-          pathname: `/artwork/${uploadedArtworkId}`,
-        }}
-        push
-      />
-    );
-  }
 
   return (
     <div className="card">
