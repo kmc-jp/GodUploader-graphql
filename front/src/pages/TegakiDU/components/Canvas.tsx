@@ -16,7 +16,8 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   width,
   height,
 }) => {
-  const { color, strokeWidth, stageRef } = useContext(DrawingContext);
+  const { color, strokeWidth, stageRef, isPosting } =
+    useContext(DrawingContext);
   const isDrawing = useRef(false);
   const { paints, setPaints, append, undo, redo } =
     useContext(PaintStackContext);
@@ -113,7 +114,7 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
   return (
     <div style={{ width: "inherit" }}>
       <Prompt
-        when={paints.length > 0}
+        when={paints.length > 0 && !isPosting}
         message="このページを離れると絵は破棄されます。"
       />
       <Stage

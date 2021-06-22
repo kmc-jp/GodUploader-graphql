@@ -13,6 +13,7 @@ export const Sidebar: React.VFC = () => {
     setBackgroundColor,
     setStrokeWidth,
     toBlob,
+    setIsPosting,
   } = useContext(DrawingContext);
   const { setPaints, append, undo, redo, undoable, redoable } =
     useContext(PaintStackContext);
@@ -54,8 +55,9 @@ export const Sidebar: React.VFC = () => {
       return;
     }
 
+    setIsPosting(true);
     setSerializedBlob(blob);
-  }, [toBlob]);
+  }, [setIsPosting, toBlob]);
 
   return (
     <div className="container h-100">

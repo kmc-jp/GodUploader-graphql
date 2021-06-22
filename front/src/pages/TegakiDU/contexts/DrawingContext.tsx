@@ -6,9 +6,11 @@ type DrawingContextValue = {
   backgroundColor: string;
   strokeWidth: number;
   stageRef: React.Ref<Konva.Stage>;
+  isPosting: boolean;
   setColor: (color: string) => void;
   setBackgroundColor: (color: string) => void;
   setStrokeWidth: (width: number) => void;
+  setIsPosting: (isPosing: boolean) => void;
   toBlob: () => Promise<Blob | null>;
 };
 
@@ -17,10 +19,12 @@ const defaultDrawingContextValue = {
   backgroundColor: "white",
   strokeWidth: 2,
   stageRef: null,
+  isPosting: false,
   /* eslint-disable @typescript-eslint/no-empty-function*/
   setColor: () => {},
   setBackgroundColor: () => {},
   setStrokeWidth: () => {},
+  setIsPosting: () => {},
   toBlob: async () => null,
   /* eslint-enable @typescript-eslint/no-empty-function*/
 };
@@ -34,6 +38,7 @@ export const DrawingProvider: React.FC = ({ children }) => {
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const [strokeWidth, setStrokeWidth] = useState(2);
   const stageRef = useRef<Konva.Stage>(null);
+  const [isPosting, setIsPosting] = useState(false);
   const toBlob = useCallback(async () => {
     if (!stageRef.current) {
       return null;
@@ -54,10 +59,12 @@ export const DrawingProvider: React.FC = ({ children }) => {
         backgroundColor,
         strokeWidth,
         stageRef,
+        isPosting,
         setColor,
         setBackgroundColor,
         setStrokeWidth,
         toBlob,
+        setIsPosting,
       }}
     >
       {children}
