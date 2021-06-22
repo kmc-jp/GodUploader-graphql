@@ -39,6 +39,9 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
   }, [tagList, setTagList]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (!ref.current) {
+      return;
+    }
     const handleAppendNewTag = (newTag?: string) => {
       if (!ref.current) {
         return;
@@ -69,7 +72,7 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
     };
 
     if (e.key === "Enter" || e.key === " ") {
-      const newTag = ref.current?.value;
+      const newTag = ref.current.value.trim();
       handleAppendNewTag(newTag);
     } else if (e.key === "Backspace" && ref.current?.value === "") {
       handleModifyLastTag();
