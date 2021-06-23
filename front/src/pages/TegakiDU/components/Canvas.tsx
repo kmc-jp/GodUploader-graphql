@@ -78,8 +78,6 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
       // avoid swipe scroll
       e.evt.preventDefault();
 
-      setMouseX(e.evt.touches[0].clientX);
-      setMouseY(e.evt.touches[0].clientY);
       addPoints(e);
     },
     [addPoints]
