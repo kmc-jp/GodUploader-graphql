@@ -1,5 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback } from "react";
+import InfiniteScroll from "react-infinite-scroller";
 import {
   PreloadedQuery,
   usePaginationFragment,
@@ -102,37 +103,31 @@ const ArtworkList: React.VFC<{ user: UserDetail_artworks$key }> = ({
 
   return (
     <div className="card-body">
-      <div className="row row-cols-1 row-cols-lg-4">
-        {reversedEdges.map((edge, i) => {
-          if (!(edge && edge.node)) {
-            return null;
-          }
-
-          return (
-            <div key={i} className="col p-2">
-              <ArtworkListItem artwork={edge.node} />
+      <InfiniteScroll
+        loadMore={handleLoadArtworks}
+        hasMore={hasPrevious && !isLoadingPrevious}
+        loader={
+          <div key={0} className="d-flex justify-content-center">
+            <div className="spinner-border text-light" role="status">
+              <span className="visually-hidden">Uploading...</span>
             </div>
-          );
-        })}
-      </div>
-      {hasPrevious && (
-        <div className="d-flex justify-content-center">
-          <button
-            type="button"
-            className="btn btn-lg btn-secondary w-100"
-            onClick={handleLoadArtworks}
-            disabled={isLoadingPrevious || !hasPrevious}
-          >
-            {isLoadingPrevious ? (
-              <div className="spinner-border text-light" role="status">
-                <span className="visually-hidden">Uploading...</span>
+          </div>
+        }
+      >
+        <div className="row row-cols-1 row-cols-lg-4">
+          {reversedEdges.map((edge, i) => {
+            if (!(edge && edge.node)) {
+              return null;
+            }
+
+            return (
+              <div key={i} className="col p-2">
+                <ArtworkListItem artwork={edge.node} />
               </div>
-            ) : (
-              "もっと読み込む"
-            )}
-          </button>
+            );
+          })}
         </div>
-      )}
+      </InfiniteScroll>
     </div>
   );
 };
