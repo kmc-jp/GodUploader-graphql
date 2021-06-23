@@ -200,7 +200,7 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
                       "アップロードする"
                     )}
                   </button>
-                </div>{" "}
+                </div>
               </div>
             </form>
           </div>
