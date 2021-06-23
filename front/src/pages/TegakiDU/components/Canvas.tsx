@@ -14,6 +14,16 @@ import { PaintStackContext } from "../contexts/PaintStackContext";
 
 const isTouchDevice = () => navigator.maxTouchPoints > 0;
 
+const isMac = () => navigator.userAgent.includes("Mac OS");
+
+const modifierKeyPressed = (e: KeyboardEvent) => {
+  if (isMac()) {
+    return e.metaKey;
+  } else {
+    return e.ctrlKey;
+  }
+};
+
 export const Canvas: React.VFC<{ width: number; height: number }> = ({
   width,
   height,
@@ -126,7 +136,7 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
         return;
       }
 
-      if (!e.ctrlKey) {
+      if (!modifierKeyPressed(e)) {
         return;
       }
 
