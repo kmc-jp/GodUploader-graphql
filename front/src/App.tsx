@@ -1,8 +1,8 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { LoadingOverlay } from "./components/LoadingOverlay";
-import { ErrorBoundary } from "./errorBoundary";
 import { routes } from "./routes";
 import { RouteRenderer } from "./routing";
 
