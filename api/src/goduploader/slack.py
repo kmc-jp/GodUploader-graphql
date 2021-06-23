@@ -32,7 +32,7 @@ def share_to_slack(
     text = f"{artwork.caption}\nタグ:{tag_names}\nURI:{artwork.artwork_url}"
 
     data = {
-        "username": "GodIllustUploader (graphql)",
+        "username": "GodIllustUploader",
         "icon_emoji": ":godicon:",
         "text": f"{artwork.account.name}が新たな絵をアップロードなさいました！",
         "attachments": [
