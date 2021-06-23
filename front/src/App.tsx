@@ -49,7 +49,8 @@ export const App: React.VFC = () => {
       <nav className="navbar navbar-expand-xl navbar-light bg-light mb-3">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            KMC画像アップローダー God Illust Uploader
+            <span className="d-none d-md-inline">KMC画像アップローダー </span>
+            God Illust Uploader
           </Link>
           <button
             className="navbar-toggler"
