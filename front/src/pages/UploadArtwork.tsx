@@ -136,19 +136,26 @@ export const UploadArtwork: React.VFC = () => {
             />
           </div>
           <div>
-            <input
+            <button
               type="submit"
               className="btn btn-primary form-control"
-              value="アップロードする"
-            />
+              disabled={isUploading}
+            >
+              {isUploading ? (
+                <div className="d-flex align-items-center justify-content-center">
+                  <div>
+                    <span
+                      className="spinner-border text-light"
+                      role="status"
+                    ></span>
+                  </div>
+                  <div>アップロード中……</div>
+                </div>
+              ) : (
+                "アップロードする"
+              )}
+            </button>
           </div>
-          {isUploading && (
-            <div className="mt-3 d-flex justify-content-center">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Uploading...</span>
-              </div>
-            </div>
-          )}
         </form>
       </div>
     </div>
