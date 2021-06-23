@@ -16,7 +16,7 @@ import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
 import { UpdateArtworkModal } from "./ArtworkDetail/UpdateArtworkForm";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 
-export const artworkDetailQuery = graphql`
+const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
     viewer {
       id

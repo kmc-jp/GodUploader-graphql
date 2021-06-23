@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
-export const indexQuery = graphql`
+const indexQuery = graphql`
   query IndexQuery {
     activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
       edges {

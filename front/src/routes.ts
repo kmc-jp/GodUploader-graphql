@@ -1,20 +1,21 @@
 import { loadQuery } from "react-relay";
 
-import { ArtworkDetail, artworkDetailQuery } from "./pages/ArtworkDetail";
-import { Index, indexQuery } from "./pages/Index";
-import {
-  RedirectFolderToArtwork,
-  redirectFolderToArtworkQuery,
-} from "./pages/RedirectFolderToArtwork";
-import {
-  redirectToMyPageQuery,
-  RedirectToMyPage,
-} from "./pages/RedirectToMyPage";
-import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
-import { Tags, tagsQuery } from "./pages/Tags";
+import { ArtworkDetail } from "./pages/ArtworkDetail";
+import { Index } from "./pages/Index";
+import { RedirectFolderToArtwork } from "./pages/RedirectFolderToArtwork";
+import { RedirectToMyPage } from "./pages/RedirectToMyPage";
+import { TaggedArtworks } from "./pages/TaggedArtworks";
+import { Tags } from "./pages/Tags";
 import { TegakiDU } from "./pages/TegakiDU";
 import { UploadArtwork } from "./pages/UploadArtwork";
-import { UserDetail, userDetailQuery } from "./pages/UserDetail";
+import { UserDetail } from "./pages/UserDetail";
+import ArtworkDetailQuery from "./pages/__generated__/ArtworkDetailQuery.graphql";
+import IndexQuery from "./pages/__generated__/IndexQuery.graphql";
+import RedirectFolderToArtworkQuery from "./pages/__generated__/RedirectFolderToArtworkQuery.graphql";
+import RedirectToMyPageQuery from "./pages/__generated__/RedirectToMyPageQuery.graphql";
+import TaggedArtworksQuery from "./pages/__generated__/TaggedArtworksQuery.graphql";
+import TagsQuery from "./pages/__generated__/TagsQuery.graphql";
+import UserDetailQuery from "./pages/__generated__/UserDetailQuery.graphql";
 import { RouteConfig } from "./routing";
 
 export const routes: RouteConfig[] = [
@@ -25,7 +26,7 @@ export const routes: RouteConfig[] = [
     prepare: ({ environment }) => ({
       indexQuery: loadQuery(
         environment,
-        indexQuery,
+        IndexQuery,
         {},
         { fetchPolicy: "store-or-network" }
       ),
@@ -37,7 +38,7 @@ export const routes: RouteConfig[] = [
     prepare: ({ params, environment }) => ({
       userDetailQuery: loadQuery(
         environment,
-        userDetailQuery,
+        UserDetailQuery,
         { kmcid: params.kmcid },
         { fetchPolicy: "store-or-network" }
       ),
@@ -49,7 +50,7 @@ export const routes: RouteConfig[] = [
     prepare: ({ environment }) => ({
       viewer: loadQuery(
         environment,
-        redirectToMyPageQuery,
+        RedirectToMyPageQuery,
         {},
         { fetchPolicy: "store-or-network" }
       ),
@@ -65,7 +66,7 @@ export const routes: RouteConfig[] = [
     prepare: ({ params, environment }) => ({
       artworkDetailQuery: loadQuery(
         environment,
-        artworkDetailQuery,
+        ArtworkDetailQuery,
         { id: params.id },
         { fetchPolicy: "store-or-network" }
       ),
@@ -77,7 +78,7 @@ export const routes: RouteConfig[] = [
     prepare: ({ params, environment }) => ({
       redirectFolderToArtworkQuery: loadQuery(
         environment,
-        redirectFolderToArtworkQuery,
+        RedirectFolderToArtworkQuery,
         { folderId: params.folder_id },
         { fetchPolicy: "store-or-network" }
       ),
@@ -89,7 +90,7 @@ export const routes: RouteConfig[] = [
     prepare: ({ environment }) => ({
       tagsQuery: loadQuery(
         environment,
-        tagsQuery,
+        TagsQuery,
         {},
         { fetchPolicy: "store-or-network" }
       ),
@@ -101,7 +102,7 @@ export const routes: RouteConfig[] = [
     prepare: ({ params, environment }) => ({
       taggedArtworksQuery: loadQuery(
         environment,
-        taggedArtworksQuery,
+        TaggedArtworksQuery,
         { tag: params.tag },
         { fetchPolicy: "store-or-network" }
       ),

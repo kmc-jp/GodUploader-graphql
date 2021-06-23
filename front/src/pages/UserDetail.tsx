@@ -12,7 +12,7 @@ import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginatio
 import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 
-export const userDetailQuery = graphql`
+const userDetailQuery = graphql`
   query UserDetailQuery($kmcid: String!) {
     viewer {
       id

@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 
 import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";
 
-export const redirectFolderToArtworkQuery = graphql`
+const redirectFolderToArtworkQuery = graphql`
   query RedirectFolderToArtworkQuery($folderId: Int!) {
     artworkByFolderId(folderId: $folderId) {
       id

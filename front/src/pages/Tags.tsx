@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
-export const tagsQuery = graphql`
+const tagsQuery = graphql`
   query TagsQuery {
     allTags(sort: [UPDATED_AT_DESC]) {
       edges {

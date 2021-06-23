@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 import type { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
 
-export const redirectToMyPageQuery = graphql`
+const redirectToMyPageQuery = graphql`
   query RedirectToMyPageQuery {
     viewer {
       kmcid
