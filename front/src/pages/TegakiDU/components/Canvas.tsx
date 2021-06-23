@@ -198,7 +198,12 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
             return null;
           })}
           {!isTouchDevice() && (
-            <Circle radius={strokeWidth} x={mouseX} y={mouseY} fill={color} />
+            <Circle
+              radius={strokeWidth / 2}
+              x={mouseX}
+              y={mouseY}
+              fill={color}
+            />
           )}
         </Layer>
       </Stage>
