@@ -92,10 +92,33 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     [addPoints]
   );
 
-  const handleTouchEnd = useCallback(() => {
-    append(paints);
-    isDrawing.current = false;
-  }, [append, paints]);
+  const handleTouchEnd = useCallback(
+    (e: KonvaEventObject<Event>) => {
+      if (!isDrawing.current) {
+        return;
+      }
+
+      const lastLine = paints[paints.length - 1];
+      if (!(lastLine && lastLine.tool === "pen")) {
+        return;
+      }
+      const stage = e.target.getStage();
+      if (!stage) {
+        return;
+      }
+      const point = stage.getPointerPosition();
+      if (!point) {
+        return;
+      }
+
+      lastLine.points = lastLine.points.concat([point.x, point.y]);
+      paints.splice(paints.length - 1, 1, lastLine);
+      setPaints(paints.concat());
+      append(paints);
+      isDrawing.current = false;
+    },
+    [append, paints, setPaints]
+  );
 
   const handleKeydown = useCallback(
     (e: KeyboardEvent) => {
