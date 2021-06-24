@@ -15,12 +15,7 @@ const fetchRelay: FetchFunction = async (
   cacheConfig,
   uploadables?
 ) => {
-  const requestVariables = {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-  };
+  const headers = new Headers({ Accept: "application/json" });
 
   let body: string | FormData;
   if (uploadables) {
@@ -42,7 +37,7 @@ const fetchRelay: FetchFunction = async (
     body = formData;
   } else {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (requestVariables.headers as any)["Content-Type"] = "application/json";
+    headers.append("Content-Type", "application/json");
 
     body = JSON.stringify({
       query: params.text,
@@ -51,7 +46,8 @@ const fetchRelay: FetchFunction = async (
   }
 
   const response = await fetch(API_URL, {
-    ...requestVariables,
+    method: "POST",
+    headers,
     body,
   });
 
