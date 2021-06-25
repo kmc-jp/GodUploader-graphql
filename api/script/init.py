@@ -17,5 +17,5 @@ run(["rsync", "-auvz", f"{base}/god.db", "./from.db"])
 run(["rsync", "-auvz", f"{base}/public/illusts/", "public/illusts/"])
 run(["rsync", "-auvz", f"{base}/public/thumbnail/", "public/thumbnail/"])
 
-run(["poetry", "run", "python", "script/create_schema.py"])
+run(["poetry", "run", "alembic", "upgrade", "head"])
 run(["poetry", "run", "python", "script/migrate.py"])
