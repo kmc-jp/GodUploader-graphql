@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.schema import ForeignKey, Index, Table
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
 from graphene.relay import Node
@@ -147,6 +148,12 @@ class Tag(Base):
     __tablename__ = "tag"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+
+    # タグの編集が許可されているかどうか
+    edit_freezed = Column(
+        Boolean, default=False, server_default=text("FALSE"), nullable=False
+    )
+
     # 正規化した (小文字に統一した) タグ名
     canonical_name = Column(
         String(255, collation="nocase"),
