@@ -22,6 +22,7 @@ const fetchRelay: FetchFunction = async (
     const formData = new FormData();
     formData.append(
       "operations",
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       JSON.stringify({ query: params.text!, variables })
     );
 
