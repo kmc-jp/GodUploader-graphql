@@ -6,7 +6,7 @@ front/install:
 	cd front && yarn install --frozen-lockfile --cache-folder /tmp/yarn-cache
 
 front/build:
-	cd front && yarn build
+	cd front && env DISABLE_ESLINT_PLUGIN=true yarn build
 
 front/deploy:
 	rsync -auv --delete front/build/ front/_app/
