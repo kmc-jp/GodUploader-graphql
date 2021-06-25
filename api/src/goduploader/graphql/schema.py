@@ -4,7 +4,6 @@ from graphene.types.objecttype import ObjectType
 from graphene_file_upload.scalars import Upload
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 import os.path
-from sqlalchemy.sql.elements import not_
 import uuid
 from goduploader.db import session
 from goduploader.model import (
@@ -111,8 +110,8 @@ class Query(graphene.ObjectType):
     def resolve_artworks(root, info, **args):
         artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
         artworks = artwork_query
-        if args["safe_only"]:
-            artworks = artworks.filter(not_(ArtworkModel.nsfw))
+        if args.get("safe_only"):
+            artworks = artworks.filter(ArtworkModel.nsfw == False)
 
         return artworks
 
