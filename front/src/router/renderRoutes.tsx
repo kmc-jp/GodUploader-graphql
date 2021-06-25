@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { Environment, useRelayEnvironment } from "react-relay";
+import { Environment } from "react-relay";
 import { SwitchProps } from "react-router";
 import {
   RouteConfig as OriginalRouteConfig,
@@ -8,13 +7,16 @@ import {
 } from "react-router-config";
 import { Route, Switch } from "react-router-dom";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export interface RouteConfigComponentProps<
-  Params extends { [K in keyof Params]?: string } = any
+  Params extends {
+    [K in keyof Params]?: string;
+  } = any
 > extends Omit<OriginalRouteConfigComponentProps<Params>, "route"> {
   route?: RouteConfig;
   prepared: any;
 }
-
 interface PrepareArguments {
   params: Record<string, any>;
   environment: Environment;
@@ -64,19 +66,4 @@ export const renderRoutes = (
       ))}
     </Switch>
   ) : null;
-};
-
-interface Props {
-  routes: RouteConfig[] | undefined;
-  extraProps?: any;
-  switchProps?: SwitchProps;
-}
-
-export const RouteRenderer: React.FC<Props> = ({
-  routes,
-  extraProps,
-  switchProps,
-}) => {
-  const environment = useRelayEnvironment();
-  return renderRoutes(routes, environment, extraProps, switchProps);
 };

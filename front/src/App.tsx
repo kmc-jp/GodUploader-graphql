@@ -3,8 +3,8 @@ import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { LoadingOverlay } from "./components/LoadingOverlay";
+import { RouteRenderer } from "./router/RouteRenderer";
 import { routes } from "./routes";
-import { RouteRenderer } from "./routing";
 
 const LoadingWatcher: React.VFC<{
   setIsLoading: (isLoading: boolean) => void;

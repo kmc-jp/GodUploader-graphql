@@ -16,7 +16,7 @@ import RedirectToMyPageQuery from "./pages/__generated__/RedirectToMyPageQuery.g
 import TaggedArtworksQuery from "./pages/__generated__/TaggedArtworksQuery.graphql";
 import TagsQuery from "./pages/__generated__/TagsQuery.graphql";
 import UserDetailQuery from "./pages/__generated__/UserDetailQuery.graphql";
-import { RouteConfig } from "./routing";
+import { RouteConfig } from "./router/renderRoutes";
 
 export const routes: RouteConfig[] = [
   {
