@@ -61,3 +61,26 @@ def test_update_tag_change_canonical_name(client):
     updated_tag = session.query(Tag).filter_by(id=tag.id).first()
     assert updated_tag.name == "バーチャルYouTuber"
     assert updated_tag.canonical_name == "バーチャルyoutuber"
+
+
+def test_update_tag_duplicate_name(client):
+    tag = create_tag(name="Vtuber")
+    assert tag.canonical_name == "vtuber"
+
+    tag2 = create_tag(name="バーチャルYouTuber")
+
+    result = client.execute(
+        UPDATE_TAG_QUERY,
+        variable_values={
+            "id": Node.to_global_id("Tag", tag.id),
+            "name": "バーチャルYouTuber",
+        },
+        context_value=mock_context(),
+    )
+
+    assert "errors" in result
+    assert result["errors"][0]["message"] == "Tag バーチャルYouTuber already exists"
+
+    updated_tag = session.query(Tag).filter_by(id=tag.id).first()
+    assert updated_tag.name == "Vtuber"
+    assert updated_tag.canonical_name == "vtuber"

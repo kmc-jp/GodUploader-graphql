@@ -22,6 +22,7 @@ from goduploader.slack import (
     get_all_public_channels,
     share_to_slack,
 )
+import sqlalchemy
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
@@ -428,7 +429,12 @@ class UpdateTag(graphene.ClientIDMutation):
         tag.name = new_name
         tag.canonical_name = TagModel.canonicalize(new_name)
 
-        session.commit()
+        try:
+            session.commit()
+        except sqlalchemy.exc.IntegrityError:
+            # UNIQUE constraint failed
+            session.rollback()
+            raise Exception(f"Tag {new_name} already exists")
 
         return UpdateTag(tag=tag)
 
