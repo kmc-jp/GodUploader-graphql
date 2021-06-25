@@ -56,12 +56,12 @@ type Artwork implements Node {
   nsfw: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
+  topIllust: Illust
   illusts(before: String, after: String, first: Int, last: Int): IllustConnection
   comments(before: String, after: String, first: Int, last: Int): CommentConnection
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
   tags(before: String, after: String, first: Int, last: Int): TagConnection
   account: Account
-  topIllust: Illust
 }
 
 type ArtworkConnection {
@@ -287,6 +287,7 @@ type SlackChannel {
 type Tag implements Node {
   """The ID of the object."""
   id: ID!
+  canonicalName: String!
   name: String!
   artworksCount: Int!
   createdAt: DateTime!
@@ -315,6 +316,8 @@ type TagEdge {
 enum TagSortEnum {
   ID_ASC
   ID_DESC
+  CANONICAL_NAME_ASC
+  CANONICAL_NAME_DESC
   NAME_ASC
   NAME_DESC
   ARTWORKS_COUNT_ASC

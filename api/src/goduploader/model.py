@@ -63,6 +63,11 @@ class Artwork(Base):
         DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
     )
 
+    top_illust = relationship(
+        "Illust",
+        primaryjoin="Artwork.top_illust_id == Illust.id",
+        foreign_keys=top_illust_id,
+    )
     illusts = relationship("Illust", backref="artwork", cascade="all, delete")
     comments = relationship("Comment", backref="artwork", cascade="all, delete")
     likes = relationship("Like", backref="artwork", cascade="all, delete")
