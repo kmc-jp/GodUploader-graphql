@@ -1,8 +1,10 @@
 from dotenv import load_dotenv, find_dotenv
+from flask.wrappers import Response
 
 load_dotenv(find_dotenv())
 
 import os
+import time
 from flask import Flask, request
 from goduploader.db import session
 from goduploader.graphql.schema import schema
@@ -17,6 +19,8 @@ app = Flask(
 )
 app.debug = bool(os.environ.get("DEBUG"))
 
+RELOADED_AT = int(time.time())
+
 
 @app.before_request
 def load_user():
@@ -27,6 +31,12 @@ def load_user():
 @app.route("/api/ping")
 def ping():
     return {"ok": "true"}
+
+
+@app.after_request
+def add_x_revision_header(response: Response):
+    response.headers.add("X-Revision", RELOADED_AT)
+    return response
 
 
 app.add_url_rule(
