@@ -345,6 +345,8 @@ class UpdateArtwork(graphene.ClientIDMutation):
 
         artwork.title = input["title"]
         artwork.caption = input["caption"]
+        artwork.nsfw = has_nsfw_tag(input["tags"])
+
         update_tag_relation(artwork, input["tags"])
 
         session.commit()
