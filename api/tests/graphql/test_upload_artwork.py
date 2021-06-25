@@ -1,6 +1,8 @@
 from goduploader.db import session
-from goduploader.model import Account, Tag
+from goduploader.model import Account, Artwork, Tag
 from pathlib import Path
+
+from graphene.relay.node import Node
 from tests.util import create_account, mock_context
 from werkzeug.datastructures import FileStorage
 
@@ -56,3 +58,11 @@ def test_upload_artwork(client):
 
     tag = session.query(Tag).filter_by(name="tag").first()
     assert tag.artworks_count == 1
+
+    _, uploaded_artwork_id = Node.from_global_id(
+        result["data"]["uploadArtwork"]["artwork"]["id"]
+    )
+    uploaded_artwork = session.query(Artwork).filter_by(id=uploaded_artwork_id).first()
+    assert uploaded_artwork
+    assert uploaded_artwork.top_illust
+    assert uploaded_artwork.top_illust_id
