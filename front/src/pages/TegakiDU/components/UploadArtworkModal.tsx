@@ -104,9 +104,6 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
 
           history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
         },
-        updater: (store) => {
-          store.invalidateStore();
-        },
       });
     },
     [

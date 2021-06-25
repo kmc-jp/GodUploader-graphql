@@ -28,7 +28,7 @@ export const routes: RouteConfig[] = [
         environment,
         IndexQuery,
         {},
-        { fetchPolicy: "store-or-network" }
+        { fetchPolicy: "store-and-network" }
       ),
     }),
   },
@@ -40,7 +40,7 @@ export const routes: RouteConfig[] = [
         environment,
         UserDetailQuery,
         { kmcid: params.kmcid },
-        { fetchPolicy: "store-or-network" }
+        { fetchPolicy: "store-and-network" }
       ),
     }),
   },
@@ -92,7 +92,7 @@ export const routes: RouteConfig[] = [
         environment,
         TagsQuery,
         {},
-        { fetchPolicy: "store-or-network" }
+        { fetchPolicy: "store-and-network" }
       ),
     }),
   },
@@ -104,7 +104,7 @@ export const routes: RouteConfig[] = [
         environment,
         TaggedArtworksQuery,
         { tag: params.tag },
-        { fetchPolicy: "store-or-network" }
+        { fetchPolicy: "store-and-network" }
       ),
     }),
   },

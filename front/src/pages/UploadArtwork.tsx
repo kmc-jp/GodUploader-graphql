@@ -62,9 +62,6 @@ export const UploadArtwork: React.VFC = () => {
 
           history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
         },
-        updater: (store) => {
-          store.invalidateStore();
-        },
       });
     },
     [

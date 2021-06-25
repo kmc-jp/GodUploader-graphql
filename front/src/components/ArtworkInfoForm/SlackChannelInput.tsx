@@ -29,7 +29,7 @@ export const SlackChannelInput: React.VFC<Props> = ({
   );
 
   useEffect(() => {
-    loadQuery({});
+    loadQuery({}, { fetchPolicy: "store-and-network" });
   }, [loadQuery]);
 
   return (

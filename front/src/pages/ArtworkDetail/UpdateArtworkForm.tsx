@@ -65,9 +65,6 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artwork }) => {
           const modal = Modal.getInstance(ref.current!);
           modal?.hide();
         },
-        updater: (store) => {
-          store.invalidateStore();
-        },
       });
     },
     [artwork.id, caption, environment, tagList, title]
