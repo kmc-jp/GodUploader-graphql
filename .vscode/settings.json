@@ -4,14 +4,11 @@
 
     "[python]": {
       "editor.formatOnSave": true,
-      "editor.formatOnPaste": true,
     },
     "[typescript]": {
       "editor.formatOnSave": true,
-      "editor.formatOnPaste": true,
     },
     "[typescriptreact]": {
       "editor.formatOnSave": true,
-      "editor.formatOnPaste": true,
     },
 }
