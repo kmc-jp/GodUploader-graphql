@@ -230,6 +230,7 @@ type Mutation {
   updateArtwork(input: UpdateArtworkInput!): UpdateArtworkPayload
   deleteArtwork(input: DeleteArtworkInput!): DeleteArtworkPayload
   updateAccount(input: UpdateAccountInput!): UpdateAccountPayload
+  updateTag(input: UpdateTagInput!): UpdateTagPayload
 }
 
 """An object with an ID"""
@@ -348,6 +349,17 @@ input UpdateArtworkInput {
 
 type UpdateArtworkPayload {
   artwork: Artwork
+  clientMutationId: String
+}
+
+input UpdateTagInput {
+  id: ID!
+  name: String!
+  clientMutationId: String
+}
+
+type UpdateTagPayload {
+  tag: Tag
   clientMutationId: String
 }
 

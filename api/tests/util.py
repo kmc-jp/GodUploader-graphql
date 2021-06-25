@@ -81,3 +81,16 @@ def create_illust(artwork, filename=None):
     session.commit()
 
     return illust
+
+
+def create_tag(name=None):
+    if not name:
+        name = fake.name()
+
+    canonical_name = Tag.canonicalize(name)
+    tag = Tag(canonical_name=canonical_name, name=name)
+
+    session.add(tag)
+    session.commit()
+
+    return tag

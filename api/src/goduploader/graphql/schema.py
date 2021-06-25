@@ -404,6 +404,35 @@ class UpdateAccount(graphene.ClientIDMutation):
         return UpdateAccount(account=current_user)
 
 
+class UpdateTag(graphene.ClientIDMutation):
+    class Input:
+        id = graphene.ID(required=True)
+        name = graphene.String(required=True)
+
+    tag = graphene.Field(Tag)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        current_user = info.context.user
+        if current_user is None:
+            raise Exception("Please login")
+
+        tag: TagModel = relay.Node.get_node_from_global_id(
+            info, input["id"], only_type=Tag
+        )
+        if not tag:
+            raise Exception("Tag not found")
+
+        new_name = input["name"]
+
+        tag.name = new_name
+        tag.canonical_name = TagModel.canonicalize(new_name)
+
+        session.commit()
+
+        return UpdateTag(tag=tag)
+
+
 class Mutation(graphene.ObjectType):
     create_comment = CreateComment.Field()
     like_artwork = LikeArtwork.Field()
@@ -411,6 +440,7 @@ class Mutation(graphene.ObjectType):
     update_artwork = UpdateArtwork.Field()
     delete_artwork = DeleteArtwork.Field()
     update_account = UpdateAccount.Field()
+    update_tag = UpdateTag.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
