@@ -71,7 +71,7 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
       ref.current.value = lastTag;
     };
 
-    if (e.key === "Enter" || e.key === " ") {
+    if (e.key === "Enter") {
       const newTag = ref.current.value.trim();
       handleAppendNewTag(newTag);
     } else if (e.key === "Backspace" && ref.current?.value === "") {
