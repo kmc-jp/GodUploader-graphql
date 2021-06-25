@@ -1,11 +1,13 @@
 import os.path
 from datetime import datetime
 from sqlalchemy import Column
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey, Index, Table
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
-from goduploader.db import Base
 from graphene.relay import Node
+
+Base = declarative_base()
 
 
 class Account(Base):
