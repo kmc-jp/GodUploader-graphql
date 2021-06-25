@@ -301,10 +301,10 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         current_user.artworks_count += 1
 
-        session.commit()
-
         top_illust = artwork.illusts[0]
-        artwork.top_illust_id = top_illust.id
+        artwork.top_illust = top_illust
+
+        session.commit()
 
         share_to_slack(
             artwork,
@@ -312,8 +312,6 @@ class UploadArtwork(graphene.ClientIDMutation):
             share_option,
             input.get("channel_id"),
         )
-
-        session.commit()
 
         return UploadArtwork(artwork=artwork)
 
