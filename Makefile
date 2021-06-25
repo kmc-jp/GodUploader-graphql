@@ -1,7 +1,4 @@
-all: sync front api
-
-sync:
-	git pull
+all: front api
 
 front: front/install front/build front/deploy
 
@@ -22,4 +19,4 @@ api/install:
 api/restart:
 	touch api/tmp/restart.txt
 
-.PHONY: all sync front front/install front/build api api/install
+.PHONY: all front front/install front/build api api/install
