@@ -8,7 +8,7 @@ import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
 import {
   commitUploadArtworkMutation,
-  makeUploadables,
+  makeUploadablesFromFileList,
 } from "../mutation/UploadArtwork";
 
 export const UploadArtwork: React.VFC = () => {
@@ -40,7 +40,10 @@ export const UploadArtwork: React.VFC = () => {
 
       setIsUploading(true);
       const files = filesRef.current.files;
-      const uploadables = makeUploadables(files);
+      const uploadables = makeUploadablesFromFileList(
+        "variables.input.files",
+        files
+      );
       commitUploadArtworkMutation(environment, {
         variables: {
           connections: [],

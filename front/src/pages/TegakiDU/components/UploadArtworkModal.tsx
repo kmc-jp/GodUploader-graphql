@@ -9,7 +9,10 @@ import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../../../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
-import { commitUploadArtworkMutation } from "../../../mutation/UploadArtwork";
+import {
+  commitUploadArtworkMutation,
+  makeUploadablesFromBlob,
+} from "../../../mutation/UploadArtwork";
 import { DrawingContext } from "../contexts/DrawingContext";
 
 interface Props {
@@ -78,7 +81,10 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
         return;
       }
       setIsUploading(true);
-      const uploadables = { 0: blob };
+      const uploadables = makeUploadablesFromBlob(
+        "variables.input.files",
+        blob
+      );
       commitUploadArtworkMutation(environment, {
         variables: {
           connections: [],

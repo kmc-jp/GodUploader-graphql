@@ -29,7 +29,7 @@ const fetchRelay: FetchFunction = async (
     Object.keys(uploadables).forEach((key) => {
       if (Object.prototype.hasOwnProperty.call(uploadables, key)) {
         formData.append(key, uploadables[key]);
-        map[key] = [`variables.input.files.${key}`];
+        map[key] = [key];
       }
     });
     formData.append("map", JSON.stringify(map));
