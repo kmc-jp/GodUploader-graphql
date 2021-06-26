@@ -70,6 +70,7 @@ class Artwork(Base):
         "Illust",
         primaryjoin="Artwork.top_illust_id == Illust.id",
         foreign_keys=top_illust_id,
+        post_update=True,
     )
     illusts = relationship("Illust", backref="artwork", cascade="all, delete")
     comments = relationship("Comment", backref="artwork", cascade="all, delete")
