@@ -110,7 +110,7 @@ export const UpdateTagModal: React.VFC<UpdateTagModalProps> = ({ tagKey }) => {
                 className="form-control"
                 required
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value.trim())}
               />
             </div>
             <div className="modal-footer">
