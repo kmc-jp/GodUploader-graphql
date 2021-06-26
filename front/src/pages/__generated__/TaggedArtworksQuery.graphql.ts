@@ -8,6 +8,10 @@ export type TaggedArtworksQueryVariables = {
     tag: string;
 };
 export type TaggedArtworksQueryResponse = {
+    readonly tagByName: {
+        readonly editFreezed: boolean;
+        readonly " $fragmentRefs": FragmentRefs<"UpdateTagModal_tag">;
+    } | null;
     readonly taggedArtworks: {
         readonly edges: ReadonlyArray<{
             readonly node: {
@@ -27,6 +31,11 @@ export type TaggedArtworksQuery = {
 query TaggedArtworksQuery(
   $tag: String!
 ) {
+  tagByName(name: $tag) {
+    ...UpdateTagModal_tag
+    editFreezed
+    id
+  }
   taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {
     edges {
       node {
@@ -51,6 +60,12 @@ fragment ArtworkListItem_artwork on Artwork {
     id
   }
 }
+
+fragment UpdateTagModal_tag on Tag {
+  id
+  name
+  canonicalName
+}
 */
 
 const node: ConcreteRequest = (function(){
@@ -62,6 +77,20 @@ var v0 = [
   }
 ],
 v1 = [
+  {
+    "kind": "Variable",
+    "name": "name",
+    "variableName": "tag"
+  }
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "editFreezed",
+  "storageKey": null
+},
+v3 = [
   {
     "kind": "Literal",
     "name": "sort",
@@ -75,11 +104,18 @@ v1 = [
     "variableName": "tag"
   }
 ],
-v2 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
   "storageKey": null
 };
 return {
@@ -92,6 +128,23 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
+        "concreteType": "Tag",
+        "kind": "LinkedField",
+        "name": "tagByName",
+        "plural": false,
+        "selections": [
+          (v2/*: any*/),
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "UpdateTagModal_tag"
+          }
+        ],
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": (v3/*: any*/),
         "concreteType": "ArtworkConnection",
         "kind": "LinkedField",
         "name": "taggedArtworks",
@@ -140,6 +193,27 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
+        "concreteType": "Tag",
+        "kind": "LinkedField",
+        "name": "tagByName",
+        "plural": false,
+        "selections": [
+          (v4/*: any*/),
+          (v5/*: any*/),
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "canonicalName",
+            "storageKey": null
+          },
+          (v2/*: any*/)
+        ],
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": (v3/*: any*/),
         "concreteType": "ArtworkConnection",
         "kind": "LinkedField",
         "name": "taggedArtworks",
@@ -161,7 +235,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v2/*: any*/),
+                  (v4/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -198,7 +272,7 @@ return {
                         "name": "thumbnailUrl",
                         "storageKey": null
                       },
-                      (v2/*: any*/)
+                      (v4/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -210,14 +284,8 @@ return {
                     "name": "account",
                     "plural": false,
                     "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "name",
-                        "storageKey": null
-                      },
-                      (v2/*: any*/)
+                      (v5/*: any*/),
+                      (v4/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -233,14 +301,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "506cc19bbbcbd99e07ed6d463e52b62c",
+    "cacheID": "16b47ea429d83bed5d42d503302f946e",
     "id": null,
     "metadata": {},
     "name": "TaggedArtworksQuery",
     "operationKind": "query",
-    "text": "query TaggedArtworksQuery(\n  $tag: String!\n) {\n  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query TaggedArtworksQuery(\n  $tag: String!\n) {\n  tagByName(name: $tag) {\n    ...UpdateTagModal_tag\n    editFreezed\n    id\n  }\n  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UpdateTagModal_tag on Tag {\n  id\n  name\n  canonicalName\n}\n"
   }
 };
 })();
-(node as any).hash = '8bc306a81935135a303273e5cfbe4680';
+(node as any).hash = '6bc50170ae2689f15ab98960198b8d70';
 export default node;
