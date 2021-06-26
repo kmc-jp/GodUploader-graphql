@@ -79,7 +79,7 @@ def test_update_tag_duplicate_name(client):
     )
 
     assert "errors" in result
-    assert result["errors"][0]["message"] == "Tag バーチャルYouTuber already exists"
+    assert result["errors"][0]["message"] == "タグ バーチャルYouTuber が既にあります"
 
     updated_tag = session.query(Tag).filter_by(id=tag.id).first()
     assert updated_tag.name == "Vtuber"
@@ -101,7 +101,7 @@ def test_update_tag_freezed(client):
     )
 
     assert "errors" in result
-    assert result["errors"][0]["message"] == "You can't edit tag R-18"
+    assert result["errors"][0]["message"] == "タグ R-18 は編集できません"
 
     updated_tag = session.query(Tag).filter_by(id=tag.id).first()
     assert updated_tag.name == "R-18"

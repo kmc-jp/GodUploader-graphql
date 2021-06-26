@@ -431,10 +431,10 @@ class UpdateTag(graphene.ClientIDMutation):
             info, input["id"], only_type=Tag
         )
         if not tag:
-            raise Exception("Tag not found")
+            raise Exception("タグがありません")
 
         if tag.edit_freezed:
-            raise Exception(f"You can't edit tag {tag.name}")
+            raise Exception(f"タグ {tag.name} は編集できません")
 
         new_name = input["name"]
 
@@ -446,7 +446,7 @@ class UpdateTag(graphene.ClientIDMutation):
         except sqlalchemy.exc.IntegrityError:
             # UNIQUE constraint failed
             session.rollback()
-            raise Exception(f"Tag {new_name} already exists")
+            raise Exception(f"タグ {new_name} が既にあります")
 
         return UpdateTag(tag=tag)
 
