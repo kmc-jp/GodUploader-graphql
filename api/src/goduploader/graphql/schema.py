@@ -424,6 +424,9 @@ class UpdateTag(graphene.ClientIDMutation):
         if not tag:
             raise Exception("Tag not found")
 
+        if tag.edit_freezed:
+            raise Exception(f"You can't edit tag {tag.name}")
+
         new_name = input["name"]
 
         tag.name = new_name

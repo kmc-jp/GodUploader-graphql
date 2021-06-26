@@ -84,3 +84,25 @@ def test_update_tag_duplicate_name(client):
     updated_tag = session.query(Tag).filter_by(id=tag.id).first()
     assert updated_tag.name == "Vtuber"
     assert updated_tag.canonical_name == "vtuber"
+
+
+def test_update_tag_freezed(client):
+    tag = create_tag(name="R-18")
+    tag.edit_freezed = True
+    session.commit()
+
+    result = client.execute(
+        UPDATE_TAG_QUERY,
+        variable_values={
+            "id": Node.to_global_id("Tag", tag.id),
+            "name": "SUPER_R-18",
+        },
+        context_value=mock_context(),
+    )
+
+    assert "errors" in result
+    assert result["errors"][0]["message"] == "You can't edit tag R-18"
+
+    updated_tag = session.query(Tag).filter_by(id=tag.id).first()
+    assert updated_tag.name == "R-18"
+    assert updated_tag.canonical_name == "r-18"
