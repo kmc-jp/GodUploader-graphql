@@ -1,17 +1,13 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
-import {
-  PreloadedQuery,
-  usePreloadedQuery,
-  useRelayEnvironment,
-} from "react-relay";
-import { Link, useHistory } from "react-router-dom";
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { Link } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
-import { commitDeleteArtworkMutation } from "../mutation/DeleteArtwork";
 import { formatDateTime } from "../util";
 import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
 import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
+import { DeleteArtworkButton } from "./ArtworkDetail/DeleteArtworkButton";
 import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
 import { UpdateArtworkModal } from "./ArtworkDetail/UpdateArtworkForm";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
@@ -63,8 +59,6 @@ const autolink = (caption: string) => {
 };
 
 export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
-  const environment = useRelayEnvironment();
-  const history = useHistory();
   const { viewer, node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
     artworkDetailQuery,
     prepared.artworkDetailQuery
@@ -75,25 +69,6 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const createdAt = new Date(artwork.createdAt!);
-
-  const handleDeleteButtonClick = () => {
-    if (!window.confirm("本当に削除しますか？")) {
-      return;
-    }
-    if (!artwork.id) {
-      return;
-    }
-
-    commitDeleteArtworkMutation(environment, {
-      variables: {
-        input: { id: artwork.id },
-        connections: [],
-      },
-      onCompleted: () => {
-        history.replace("/");
-      },
-    });
-  };
 
   return (
     <div>
@@ -135,16 +110,14 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           <LikeList artwork={artwork} />
           <IllustCarousel artwork={artwork} />
           <ArtworkComment artwork={artwork} />
-          {viewer && artwork.account && artwork.account.id === viewer.id && (
-            <div className="mt-2 d-flex justify-content-center">
-              <button
-                className="btn btn-danger"
-                onClick={handleDeleteButtonClick}
-              >
-                この神絵を削除する
-              </button>
-            </div>
-          )}
+          {viewer &&
+            artwork.account &&
+            artwork.id &&
+            artwork.account.id === viewer.id && (
+              <div className="mt-2 d-flex justify-content-center">
+                <DeleteArtworkButton artworkId={artwork.id} />
+              </div>
+            )}
         </div>
       </div>
     </div>
