@@ -140,6 +140,15 @@ class Query(graphene.ObjectType):
         accounts = account_query.filter(AccountModel.artworks_count > 0)
         return accounts
 
+    tag_by_name = graphene.Field(Tag, name=graphene.String(required=True))
+
+    def resolve_tag_by_name(root, info, **args):
+        return (
+            Tag.get_query(info)
+            .filter_by(canonical_name=TagModel.canonicalize(args["name"]))
+            .first()
+        )
+
     tagged_artworks = SQLAlchemyConnectionField(
         Artwork.connection, tag=graphene.String(required=True)
     )

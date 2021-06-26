@@ -267,6 +267,7 @@ type Query {
   viewer: Account
   accountByKmcid(kmcid: String!): Account
   activeAccounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
+  tagByName(name: String!): Tag
   taggedArtworks(tag: String!, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
   allTags(sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection
   tagsByPrefix(prefix: String!, sort: [TagSortEnum], before: String, after: String, first: Int, last: Int): TagConnection
@@ -288,6 +289,7 @@ type SlackChannel {
 type Tag implements Node {
   """The ID of the object."""
   id: ID!
+  editFreezed: Boolean!
   canonicalName: String!
   name: String!
   artworksCount: Int!
@@ -317,6 +319,8 @@ type TagEdge {
 enum TagSortEnum {
   ID_ASC
   ID_DESC
+  EDIT_FREEZED_ASC
+  EDIT_FREEZED_DESC
   CANONICAL_NAME_ASC
   CANONICAL_NAME_DESC
   NAME_ASC
