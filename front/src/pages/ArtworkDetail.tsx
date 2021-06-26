@@ -56,7 +56,7 @@ interface ArtworkDetailProps {
 
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
-    <a key={match + i} href={match}>
+    <a key={match + i} href={match} rel="noopener noreferrer">
       {match}
     </a>
   ));
