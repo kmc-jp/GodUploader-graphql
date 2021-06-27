@@ -27,9 +27,12 @@ def share_to_slack(
         uploaded_image = upload_image(artwork, image_path)
         image_url = uploaded_image.url
 
-    tag_names = ",".join([t.name for t in artwork.tags])
-
-    text = f"{artwork.caption}\nタグ:{tag_names}\nURI:{artwork.artwork_url}"
+    text = f"<{artwork.artwork_url}|*{artwork.title}*>"
+    if artwork.caption:
+        text += f"\n{artwork.caption}"
+    if len(artwork.tags) > 0:
+        tag_links = " ".join([f"<{t.artworks_url}|#{t.name}>" for t in artwork.tags])
+        text += f"\n{tag_links}"
 
     data = {
         "username": "GodIllustUploader",
@@ -37,10 +40,21 @@ def share_to_slack(
         "text": f"{artwork.account.name}が新たな絵をアップロードなさいました！",
         "attachments": [
             {
-                "title": artwork.title,
-                "text": text,
-                "image_url": image_url,
-                "fallback": image_url,
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": text,
+                        },
+                    },
+                    {
+                        "type": "image",
+                        "image_url": image_url,
+                        "alt_text": artwork.title,
+                    },
+                ],
+                "fallback": artwork.artwork_url,
             },
         ],
     }
