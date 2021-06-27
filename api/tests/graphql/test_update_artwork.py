@@ -1,4 +1,4 @@
-from goduploader.model import Artwork
+from goduploader.model import Artwork, Tag
 from tests.util import create_account, create_artwork, mock_context
 from goduploader.db import session
 from graphene.relay import Node
@@ -66,3 +66,29 @@ def test_update_artwork_nsfw(client):
 
     after_artwork = session.query(Artwork).filter_by(id=artwork.id).first()
     assert after_artwork.nsfw
+
+
+def test_update_artwork_tag(client):
+    account = create_account()
+
+    artwork = create_artwork(account=account, tags=["tag_1"])
+
+    tag_1 = session.query(Tag).filter_by(name="tag_1").first()
+    assert tag_1.artworks_count == 1
+
+    client.execute(
+        UPDATE_ARTWORK_QUERY,
+        variable_values={
+            "id": Node.to_global_id("Artwork", artwork.id),
+            "title": "new title",
+            "caption": "new caption",
+            "tags": ["tag_2"],
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+
+    tag_1 = session.query(Tag).filter_by(name="tag_1").first()
+    assert tag_1.artworks_count == 0
+
+    tag_2 = session.query(Tag).filter_by(name="tag_2").first()
+    assert tag_2.artworks_count == 1
