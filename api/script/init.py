@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 import subprocess
 
@@ -10,7 +11,9 @@ local_db_path.unlink(missing_ok=True)
 
 
 def run(args):
-    subprocess.run(args, cwd=cwd)
+    result = subprocess.run(args, cwd=cwd)
+    if result.returncode != 0:
+        sys.exit(result.returncode)
 
 
 run(["rsync", "-auvz", f"{base}/api/god.db", "./god.db"])
