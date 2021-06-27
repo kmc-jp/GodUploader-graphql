@@ -176,6 +176,11 @@ class Tag(Base):
         "Artwork", secondary=artwork_tag_relation, back_populates="tags"
     )
 
+    @property
+    def artworks_url(self):
+        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
+        return os.path.join(base_url, "tagged_artworks", self.name)
+
     @classmethod
     def canonicalize(cls, name: str) -> str:
         """
