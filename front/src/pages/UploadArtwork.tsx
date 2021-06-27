@@ -1,6 +1,7 @@
 import React, { FormEvent, useCallback, useRef, useState } from "react";
 import { useRelayEnvironment } from "react-relay";
 import { useHistory } from "react-router-dom";
+import { PayloadError } from "relay-runtime";
 
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
@@ -24,6 +25,8 @@ export const UploadArtwork: React.VFC = () => {
   const [notifySlack, setNotifySlack] = useState(false);
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [slackChannel, setSlackChannel] = useState("C039TN7Q1"); // #graphics
+
+  const [errors, setErrors] = useState<PayloadError[] | null | undefined>(null);
 
   const handleSubmit = useCallback(
     (event: FormEvent) => {
@@ -59,6 +62,11 @@ export const UploadArtwork: React.VFC = () => {
         uploadables,
         onCompleted: (resp, errors) => {
           setIsUploading(false);
+          if (errors) {
+            setErrors(errors.slice());
+            return;
+          }
+
           if (!resp.uploadArtwork?.artwork) {
             return;
           }
@@ -156,6 +164,12 @@ export const UploadArtwork: React.VFC = () => {
               )}
             </button>
           </div>
+          {errors &&
+            errors.map((error, i) => (
+              <div key={i} className="alert alert-danger" role="alert">
+                {error.message}
+              </div>
+            ))}
         </form>
       </div>
     </div>
