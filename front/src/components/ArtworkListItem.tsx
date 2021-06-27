@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import { useFragment } from "react-relay/hooks";
 import { Link } from "react-router-dom";
 
+import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
 import { SuspenseImage } from "./SuspenseImage";
 import { ArtworkListItem_artwork$key } from "./__generated__/ArtworkListItem_artwork.graphql";
 
@@ -52,14 +53,17 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
     <div className="card p-1" style={{ height: 320 }}>
       <Suspense fallback={<Spinner />}>
         <SuspenseImage
-          src={artwork.topIllust.thumbnailUrl}
+          src={
+            artwork.nsfw
+              ? CensoredThumbnailImage
+              : artwork.topIllust.thumbnailUrl
+          }
           alt={artwork.title}
           style={{
             maxWidth: "100%",
             height: 186,
             objectFit: "contain",
             display: "block",
-            filter: artwork.nsfw ? "blur(20px)" : undefined,
           }}
           className="card-img-top mx-auto my-0"
         />
