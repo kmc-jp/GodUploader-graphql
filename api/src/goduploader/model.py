@@ -79,7 +79,6 @@ class Artwork(Base):
         "Tag",
         secondary=artwork_tag_relation,
         back_populates="artworks",
-        cascade="all, delete",
     )
 
 
