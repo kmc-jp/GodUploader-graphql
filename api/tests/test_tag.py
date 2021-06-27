@@ -1,5 +1,7 @@
+from goduploader.model import Tag
 from goduploader.tag import find_or_create_tags
 from goduploader.db import session
+import pytest
 
 
 def test_find_or_create_tags():
@@ -22,3 +24,16 @@ def test_find_or_create_tags():
 
     assert created_tags[1].name == "BBB"
     assert created_tags[1].canonical_name == "bbb"
+
+
+@pytest.mark.parametrize(
+    "tag_name, expected",
+    [
+        ("ABC", "abc"),
+        ("  Abc      ", "abc"),
+        ("日本語を含む ", "日本語を含む"),
+        ("🍣🍺", "🍣🍺"),
+    ],
+)
+def test_canonicalize(tag_name, expected):
+    assert Tag.canonicalize(tag_name) == expected
