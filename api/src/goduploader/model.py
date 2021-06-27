@@ -1,4 +1,5 @@
 import os.path
+import unicodedata
 from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy.ext.declarative import declarative_base
@@ -177,4 +178,10 @@ class Tag(Base):
 
     @classmethod
     def canonicalize(cls, name: str) -> str:
-        return name.strip().lower()
+        """
+        タグ名の正規化を行う
+        1. 与えられたタグ名 name をNFKC正規化する
+        2. 前後の空白文字を取り除く
+        3. 小文字化する
+        """
+        return unicodedata.normalize("NFKC", name).strip().lower()

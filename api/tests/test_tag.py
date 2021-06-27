@@ -33,6 +33,9 @@ def test_find_or_create_tags():
         ("  Abc      ", "abc"),
         ("日本語を含む ", "日本語を含む"),
         ("🍣🍺", "🍣🍺"),
+        ("　　　全角　スペース　　", "全角 スペース"),
+        ("㍿ボーダー商事", "株式会社ボーダー商事"),
+        ("ＡＢＣＤＥＦＧ", "abcdefg"),
     ],
 )
 def test_canonicalize(tag_name, expected):
