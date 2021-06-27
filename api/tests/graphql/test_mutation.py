@@ -1,5 +1,5 @@
 from goduploader.model import Account
-from tests.util import create_account, create_artwork, mock_context
+from tests.util import create_account, mock_context
 from goduploader.db import session
 
 
