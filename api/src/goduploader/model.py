@@ -1,5 +1,6 @@
 import os.path
 import unicodedata
+from urllib.parse import urljoin
 from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy.ext.declarative import declarative_base
@@ -29,7 +30,7 @@ class Account(Base):
     @property
     def user_page_url(self):
         base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return os.path.join(base_url, "users", self.kmcid)
+        return urljoin(base_url, f"users/{self.kmcid}")
 
     index_artworks_count = Index("account_artworks_count", artworks_count)
 
@@ -57,7 +58,7 @@ class Artwork(Base):
     @property
     def artwork_url(self):
         base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return os.path.join(base_url, "artwork", Node.to_global_id("Artwork", self.id))
+        return urljoin(base_url, f"artwork/{Node.to_global_id('Artwork', self.id)}")
 
     nsfw = Column(Boolean, nullable=False)
     top_illust_id = Column(Integer, ForeignKey("artwork.id"))
@@ -112,12 +113,12 @@ class Illust(Base):
     @property
     def image_url(self):
         base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return os.path.join(base_url, "public/illusts", self.filename)
+        return urljoin(base_url, f"public/illusts/{self.filename}")
 
     @property
     def thumbnail_url(self):
         base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return os.path.join(base_url, "public/thumbnail", self.filename)
+        return urljoin(base_url, f"public/thumbnail/{self.filename}")
 
     def image_path(self, size="full") -> str:
         public_folder = os.environ.get(
@@ -179,7 +180,7 @@ class Tag(Base):
     @property
     def artworks_url(self):
         base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return os.path.join(base_url, "tagged_artworks", self.name)
+        return urljoin(base_url, f"tagged_artworks/{self.name}")
 
     @classmethod
     def canonicalize(cls, name: str) -> str:
