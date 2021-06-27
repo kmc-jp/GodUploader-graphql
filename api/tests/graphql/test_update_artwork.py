@@ -3,6 +3,26 @@ from tests.util import create_account, create_artwork, mock_context
 from goduploader.db import session
 from graphene.relay import Node
 
+UPDATE_ARTWORK_QUERY = """
+mutation UpdateArtworkTestMutation (
+    $id: ID!,
+    $title: String!,
+    $caption: String!,
+    $tags: [String!]!
+) {
+    updateArtwork(input: {
+        id: $id,
+        title: $title,
+        caption: $caption,
+        tags: $tags,
+    }) {
+        artwork {
+            id
+        }
+    }
+}
+"""
+
 
 def test_update_artwork_can_owner_only(client):
     account_1 = create_account()
@@ -10,27 +30,8 @@ def test_update_artwork_can_owner_only(client):
 
     artwork = create_artwork(account=account_1)
 
-    mutation = """
-    mutation UpdateArtworkTestMutation (
-        $id: ID!,
-        $title: String!,
-        $caption: String!,
-        $tags: [String!]!
-    ) {
-        updateArtwork(input: {
-            id: $id,
-            title: $title,
-            caption: $caption,
-            tags: $tags,
-        }) {
-            artwork {
-                id
-            }
-        }
-    }
-    """
     result = client.execute(
-        mutation,
+        UPDATE_ARTWORK_QUERY,
         variable_values={
             "id": Node.to_global_id("Artwork", artwork.id),
             "title": "new title",
@@ -52,27 +53,8 @@ def test_update_artwork_nsfw(client):
     artwork = create_artwork(account=account)
     assert not artwork.nsfw
 
-    mutation = """
-    mutation UpdateArtworkTestMutation (
-        $id: ID!,
-        $title: String!,
-        $caption: String!,
-        $tags: [String!]!
-    ) {
-        updateArtwork(input: {
-            id: $id,
-            title: $title,
-            caption: $caption,
-            tags: $tags,
-        }) {
-            artwork {
-                id
-            }
-        }
-    }
-    """
     client.execute(
-        mutation,
+        UPDATE_ARTWORK_QUERY,
         variable_values={
             "id": Node.to_global_id("Artwork", artwork.id),
             "title": "new title",
