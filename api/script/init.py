@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 import subprocess
 
@@ -10,12 +11,13 @@ local_db_path.unlink(missing_ok=True)
 
 
 def run(args):
-    subprocess.run(args, cwd=cwd)
+    result = subprocess.run(args, cwd=cwd)
+    if result.returncode != 0:
+        sys.exit(result.returncode)
 
 
-run(["rsync", "-auvz", f"{base}/god.db", "./from.db"])
-run(["rsync", "-auvz", f"{base}/public/illusts/", "public/illusts/"])
-run(["rsync", "-auvz", f"{base}/public/thumbnail/", "public/thumbnail/"])
+run(["rsync", "-auvz", f"{base}/api/god.db", "./god.db"])
+run(["rsync", "-auvz", f"{base}/api/public/illusts/", "public/illusts/"])
+run(["rsync", "-auvz", f"{base}/api/public/thumbnail/", "public/thumbnail/"])
 
 run(["poetry", "run", "alembic", "upgrade", "head"])
-run(["poetry", "run", "python", "script/migrate.py"])
