@@ -58,7 +58,7 @@ const autolink = (caption: string) => {
   ));
 };
 
-export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
+const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
   const { viewer, node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
     artworkDetailQuery,
     prepared.artworkDetailQuery
@@ -123,3 +123,5 @@ export const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
     </div>
   );
 };
+
+export default ArtworkDetail;

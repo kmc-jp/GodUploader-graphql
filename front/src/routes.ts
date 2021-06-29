@@ -1,7 +1,6 @@
 import { lazy } from "react";
 import { loadQuery } from "react-relay";
 
-import { ArtworkDetail } from "./pages/ArtworkDetail";
 import { Index } from "./pages/Index";
 import { RedirectFolderToArtwork } from "./pages/RedirectFolderToArtwork";
 import { RedirectToMyPage } from "./pages/RedirectToMyPage";
@@ -62,7 +61,10 @@ export const routes: RouteConfig[] = [
   },
   {
     path: "/artwork/:id",
-    component: ArtworkDetail,
+    component: lazy(
+      () =>
+        import(/* webpackChunkName: 'ArtworkDetail' */ "./pages/ArtworkDetail")
+    ),
     prepare: ({ params, environment }) => ({
       artworkDetailQuery: loadQuery(
         environment,
