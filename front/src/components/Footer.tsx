@@ -5,12 +5,27 @@ export const Footer: React.VFC = () => {
     ? new Date(Number(process.env.REACT_APP_BUILT_AT) * 1000)
     : null;
 
+  const revision = process.env.REACT_APP_REVISION;
+
   return (
     <div className="footer mt-3 py-3 bg-light">
       <div className="container">
         <div className="text-muted">
           Goduploader-graphql
           {builtAt && ` (built at ${builtAt.toLocaleString()})`}
+          {revision && (
+            <>
+              {" "}
+              revision{" "}
+              <a
+                href={`https://github.com/kmc-jp/GodUploader-graphql/commit/${revision}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {revision}
+              </a>
+            </>
+          )}
         </div>
       </div>
     </div>
