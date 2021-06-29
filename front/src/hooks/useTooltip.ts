@@ -1,4 +1,4 @@
-import Tooltip from "bootstrap/js/dist/tooltip";
+import { Tooltip } from "bootstrap";
 import { useEffect, useRef } from "react";
 
 export const useTooltip = <TElement extends string | Element>() => {
