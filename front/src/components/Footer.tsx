@@ -8,7 +8,7 @@ export const Footer: React.VFC = () => {
   const revision = process.env.REACT_APP_REVISION;
 
   return (
-    <footer className="mt-3 py-3 bg-light">
+    <footer className="mt-3 py-3">
       <div className="container">
         <div className="text-muted">
           Goduploader-graphql
