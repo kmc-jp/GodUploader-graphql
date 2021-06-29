@@ -44,34 +44,6 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
         if (!ref.current) {
           return;
         }
-        const handleAppendNewTag = (newTag?: string) => {
-          if (!ref.current) {
-            return;
-          }
-
-          if (!newTag) {
-            return;
-          }
-
-          e.preventDefault();
-
-          appendTag(newTag);
-          ref.current.value = "";
-        };
-
-        const handleModifyLastTag = () => {
-          if (!ref.current) {
-            return;
-          }
-
-          if (tagList.length === 0) {
-            return;
-          }
-
-          e.preventDefault();
-          const lastTag = popLastTag();
-          ref.current.value = lastTag;
-        };
 
         // IMEの変換中はタグを追加しない
         if (e.nativeEvent.isComposing) {
@@ -80,9 +52,22 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
 
         if (e.key === "Enter") {
           const newTag = ref.current.value.trim();
-          handleAppendNewTag(newTag);
+          if (!newTag) {
+            return;
+          }
+
+          e.preventDefault();
+
+          appendTag(newTag);
+          ref.current.value = "";
         } else if (e.key === "Backspace" && ref.current?.value === "") {
-          handleModifyLastTag();
+          if (tagList.length === 0) {
+            return;
+          }
+
+          e.preventDefault();
+          const lastTag = popLastTag();
+          ref.current.value = lastTag;
         }
       },
       [appendTag, popLastTag, tagList.length]
