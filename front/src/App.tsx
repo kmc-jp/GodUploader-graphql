@@ -122,6 +122,17 @@ export const App: React.VFC = () => {
           </Suspense>
         </ErrorBoundary>
       </div>
+      <div className="footer mt-3 py-3 bg-light">
+        <div className="container">
+          <div className="text-muted">
+            Goduploader-graphql
+            {process.env.REACT_APP_BUILT_AT &&
+              ` (built at ${new Date(
+                Number(process.env.REACT_APP_BUILT_AT) * 1000
+              ).toLocaleString()})`}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
