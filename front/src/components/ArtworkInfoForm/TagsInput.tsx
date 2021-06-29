@@ -38,51 +38,55 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
     return lastTag;
   }, [tagList, setTagList]);
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (!ref.current) {
-      return;
-    }
-    const handleAppendNewTag = (newTag?: string) => {
-      if (!ref.current) {
-        return;
-      }
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
+    useCallback(
+      (e) => {
+        if (!ref.current) {
+          return;
+        }
+        const handleAppendNewTag = (newTag?: string) => {
+          if (!ref.current) {
+            return;
+          }
 
-      if (!newTag) {
-        return;
-      }
+          if (!newTag) {
+            return;
+          }
 
-      e.preventDefault();
+          e.preventDefault();
 
-      appendTag(newTag);
-      ref.current.value = "";
-    };
+          appendTag(newTag);
+          ref.current.value = "";
+        };
 
-    const handleModifyLastTag = () => {
-      if (!ref.current) {
-        return;
-      }
+        const handleModifyLastTag = () => {
+          if (!ref.current) {
+            return;
+          }
 
-      if (tagList.length === 0) {
-        return;
-      }
+          if (tagList.length === 0) {
+            return;
+          }
 
-      e.preventDefault();
-      const lastTag = popLastTag();
-      ref.current.value = lastTag;
-    };
+          e.preventDefault();
+          const lastTag = popLastTag();
+          ref.current.value = lastTag;
+        };
 
-    // IMEの変換中はタグを追加しない
-    if (e.nativeEvent.isComposing) {
-      return;
-    }
+        // IMEの変換中はタグを追加しない
+        if (e.nativeEvent.isComposing) {
+          return;
+        }
 
-    if (e.key === "Enter") {
-      const newTag = ref.current.value.trim();
-      handleAppendNewTag(newTag);
-    } else if (e.key === "Backspace" && ref.current?.value === "") {
-      handleModifyLastTag();
-    }
-  };
+        if (e.key === "Enter") {
+          const newTag = ref.current.value.trim();
+          handleAppendNewTag(newTag);
+        } else if (e.key === "Backspace" && ref.current?.value === "") {
+          handleModifyLastTag();
+        }
+      },
+      [appendTag, popLastTag, tagList.length]
+    );
 
   return (
     <>
