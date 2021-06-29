@@ -1,5 +1,5 @@
 import { graphql } from "babel-plugin-relay/macro";
-import React, { Suspense, useCallback, useRef } from "react";
+import React, { Suspense, useCallback, useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
 
 import { TagsInputQuery } from "./__generated__/TagsInputQuery.graphql";
@@ -23,8 +23,6 @@ interface Props {
 }
 
 export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
-  const ref = useRef<HTMLInputElement>(null);
-
   const appendTag = useCallback(
     (newTag: string) => {
       setTagList((oldTagList) => [...oldTagList, newTag]);
@@ -38,20 +36,18 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
     return lastTag;
   }, [tagList, setTagList]);
 
+  const [currentInput, setCurrentInput] = useState("");
+
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
-        if (!ref.current) {
-          return;
-        }
-
         // IMEの変換中はタグを追加しない
         if (e.nativeEvent.isComposing) {
           return;
         }
 
         if (e.key === "Enter") {
-          const newTag = ref.current.value.trim();
+          const newTag = currentInput.trim();
           if (!newTag) {
             return;
           }
@@ -59,18 +55,18 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
           e.preventDefault();
 
           appendTag(newTag);
-          ref.current.value = "";
-        } else if (e.key === "Backspace" && ref.current?.value === "") {
+          setCurrentInput("");
+        } else if (e.key === "Backspace" && currentInput === "") {
           if (tagList.length === 0) {
             return;
           }
 
           e.preventDefault();
           const lastTag = popLastTag();
-          ref.current.value = lastTag;
+          setCurrentInput(lastTag);
         }
       },
-      [appendTag, popLastTag, tagList.length]
+      [appendTag, currentInput, popLastTag, tagList.length]
     );
 
   return (
@@ -85,7 +81,8 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
             list="tagSuggestionList"
             className="form-control"
             onKeyDown={handleKeyDown}
-            ref={ref}
+            value={currentInput}
+            onChange={(e) => setCurrentInput(e.target.value)}
           />
         </div>
       </div>
