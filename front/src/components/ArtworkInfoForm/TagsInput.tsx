@@ -71,6 +71,11 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
       ref.current.value = lastTag;
     };
 
+    // IMEの変換中はタグを追加しない
+    if (e.nativeEvent.isComposing) {
+      return;
+    }
+
     if (e.key === "Enter") {
       const newTag = ref.current.value.trim();
       handleAppendNewTag(newTag);
