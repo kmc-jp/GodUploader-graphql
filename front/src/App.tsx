@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { Footer } from "./components/Footer";
 import { LoadingOverlay } from "./components/LoadingOverlay";
 import { RouteRenderer } from "./router/RouteRenderer";
 import { routes } from "./routes";
@@ -122,17 +123,7 @@ export const App: React.VFC = () => {
           </Suspense>
         </ErrorBoundary>
       </div>
-      <div className="footer mt-3 py-3 bg-light">
-        <div className="container">
-          <div className="text-muted">
-            Goduploader-graphql
-            {process.env.REACT_APP_BUILT_AT &&
-              ` (built at ${new Date(
-                Number(process.env.REACT_APP_BUILT_AT) * 1000
-              ).toLocaleString()})`}
-          </div>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 };
