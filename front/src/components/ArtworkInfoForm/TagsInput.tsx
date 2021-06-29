@@ -1,5 +1,5 @@
 import { graphql } from "babel-plugin-relay/macro";
-import React, { Suspense, useCallback, useState } from "react";
+import React, { Suspense, useCallback, useRef, useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
 
 import { TagsInputQuery } from "./__generated__/TagsInputQuery.graphql";
@@ -16,6 +16,11 @@ const tagsInputQuery = graphql`
     }
   }
 `;
+
+// XXX: Safari/x.x.x だけだと他のブラウザを巻き込む。Version/y.y.y も見ることでSafariであることを確定されている
+const isSafari = () =>
+  navigator.userAgent.includes("Safari/") &&
+  navigator.userAgent.includes("Version/");
 
 interface Props {
   tagList: string[];
@@ -38,11 +43,22 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
 
   const [currentInput, setCurrentInput] = useState("");
 
+  // Mac Safari 14.1.1 (16611.2.7.1.4) では、IMEの入力をEnterで確定すると、
+  // compositionend -> keydown(Enter, isComposing = false) の順にイベントが発火するので、
+  // IMEの入力確定でタグが入力されてしまう
+  // (ChromeやFirefoxではcompositionend -> keyup(Enter) の順)
+  // Safariではcompositionendイベントの直後のkeydownイベントを間引くことで回避する
+  const isCompositionFinishedJustBefore = useRef(true);
+
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
         // IMEの変換中はタグを追加しない
-        if (e.nativeEvent.isComposing) {
+        if (
+          (isSafari() && isCompositionFinishedJustBefore.current) ||
+          e.nativeEvent.isComposing
+        ) {
+          isCompositionFinishedJustBefore.current = false;
           return;
         }
 
@@ -80,6 +96,12 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
             id="tags"
             list="tagSuggestionList"
             className="form-control"
+            onCompositionStart={() =>
+              (isCompositionFinishedJustBefore.current = false)
+            }
+            onCompositionEnd={() =>
+              (isCompositionFinishedJustBefore.current = true)
+            }
             onKeyDown={handleKeyDown}
             value={currentInput}
             onChange={(e) => setCurrentInput(e.target.value)}
