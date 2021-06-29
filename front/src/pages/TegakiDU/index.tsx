@@ -7,7 +7,7 @@ import { Sidebar } from "./components/Sidebar";
 import { DrawingProvider } from "./contexts/DrawingContext";
 import { PaintStackContextProvider } from "./contexts/PaintStackContext";
 
-export const TegakiDU: React.VFC = () => {
+const TegakiDU: React.VFC = () => {
   const [ref, { width, height }] = useMeasure<HTMLDivElement>();
 
   return (
@@ -35,3 +35,5 @@ export const TegakiDU: React.VFC = () => {
     </div>
   );
 };
+
+export default TegakiDU;

@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { loadQuery } from "react-relay";
 
 import { ArtworkDetail } from "./pages/ArtworkDetail";
@@ -6,7 +7,6 @@ import { RedirectFolderToArtwork } from "./pages/RedirectFolderToArtwork";
 import { RedirectToMyPage } from "./pages/RedirectToMyPage";
 import { TaggedArtworks } from "./pages/TaggedArtworks";
 import { Tags } from "./pages/Tags";
-import { TegakiDU } from "./pages/TegakiDU";
 import { UploadArtwork } from "./pages/UploadArtwork";
 import { UserDetail } from "./pages/UserDetail";
 import ArtworkDetailQuery from "./pages/__generated__/ArtworkDetailQuery.graphql";
@@ -110,6 +110,6 @@ export const routes: RouteConfig[] = [
   },
   {
     path: "/tegaki",
-    component: TegakiDU,
+    component: lazy(() => import("./pages/TegakiDU")),
   },
 ];
