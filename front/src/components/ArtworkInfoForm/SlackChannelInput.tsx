@@ -38,7 +38,7 @@ export const SlackChannelInput: React.VFC<Props> = ({
       <div className="row g-2">
         <div className="col-lg">
           <select
-            id="tags"
+            id="channel_id"
             className="form-select"
             value={slackChannel}
             disabled={disabled}
