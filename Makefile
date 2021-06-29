@@ -9,7 +9,7 @@ front/build:
 	cd front && env DISABLE_ESLINT_PLUGIN=true yarn build
 
 front/deploy:
-	rsync -auv --delete front/build/ front/_app/
+	rsync -auv --delete-after front/build/ front/_app/
 
 api: api/install api/restart
 
