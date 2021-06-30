@@ -345,7 +345,7 @@ class UploadArtwork(graphene.ClientIDMutation):
             ext = imghdr.what(buf.filename, content)
             if ext not in {"gif", "png", "jpeg"}:
                 raise Exception(
-                    f"アップロードできるのはGIF, PNG, JPEG形式の画像のみです。{ext} 形式のファイルはアップロードできません"
+                    f"アップロードできるのはGIF, PNG, JPEG形式の画像のみです。{ext or '対応していない'}形式のファイルはアップロードできません"
                 )
 
             _, ext = os.path.splitext(buf.filename)
