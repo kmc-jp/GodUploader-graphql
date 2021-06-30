@@ -103,6 +103,26 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           {artwork.account && viewer && artwork.account.id === viewer.id && (
             <UpdateArtworkModal artworkKey={artwork} />
           )}
+          <nav aria-label="前後の作品">
+            <ul className="pagination justify-content-center">
+              {next && (
+                <li className="page-item">
+                  <Link className="page-link" to={`/artwork/${next.id}`}>
+                    <span aria-hidden="true">&laquo; </span>
+                    {next.title}
+                  </Link>
+                </li>
+              )}
+              {previous && (
+                <li className="page-item">
+                  <Link className="page-link" to={`/artwork/${previous.id}`}>
+                    {previous.title}
+                    <span aria-hidden="true">&raquo; </span>
+                  </Link>
+                </li>
+              )}
+            </ul>
+          </nav>
         </div>
         <div className="card-body">
           {artwork.tags?.edges && artwork.tags.edges.length > 0 && (
@@ -133,28 +153,6 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               <DeleteArtworkButton artworkId={artwork.id} />
             </div>
           )}
-        </div>
-        <div className="card-footer">
-          <nav aria-label="前後の作品">
-            <ul className="pagination justify-content-center">
-              {next && (
-                <li className="page-item">
-                  <Link className="page-link" to={`/artwork/${next.id}`}>
-                    <span aria-hidden="true">&laquo; </span>
-                    {next.title}
-                  </Link>
-                </li>
-              )}
-              {previous && (
-                <li className="page-item">
-                  <Link className="page-link" to={`/artwork/${previous.id}`}>
-                    {previous.title}
-                    <span aria-hidden="true">&raquo; </span>
-                  </Link>
-                </li>
-              )}
-            </ul>
-          </nav>
         </div>
       </div>
     </div>
