@@ -1,4 +1,5 @@
 import { graphql } from "babel-plugin-relay/macro";
+import clsx from "clsx";
 import React from "react";
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
@@ -104,7 +105,14 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
             <UpdateArtworkModal artworkKey={artwork} />
           )}
           <nav aria-label="前後の作品">
-            <ul className="pagination justify-content-center">
+            <ul
+              className={clsx(
+                "pagination",
+                previous && next && "justify-content-between",
+                previous && !next && "justify-content-end",
+                !previous && next && "justify-content-start"
+              )}
+            >
               {next && (
                 <li className="page-item">
                   <Link className="page-link" to={`/artwork/${next.id}`}>
