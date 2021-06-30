@@ -17,7 +17,9 @@ export class ErrorBoundary extends React.Component<any, State> {
 
   render() {
     if (this.state.error) {
-      return <p>Something went wrong.</p>;
+      return (
+        <pre className="alert alert-danger">{this.state.error.toString()}</pre>
+      );
     }
 
     return this.props.children;
