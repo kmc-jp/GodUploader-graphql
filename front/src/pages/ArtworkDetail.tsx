@@ -5,6 +5,7 @@ import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
+import { SuspenseImage } from "../components/SuspenseImage";
 import { formatDateTime } from "../util";
 import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
 import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
@@ -108,6 +109,7 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
             <ul
               className={clsx(
                 "pagination",
+                "align-items-stretch",
                 previous && next && "justify-content-between",
                 previous && !next && "justify-content-end",
                 !previous && next && "justify-content-start"
@@ -115,7 +117,13 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
             >
               {next && (
                 <li className="page-item">
-                  <Link className="page-link" to={`/artwork/${next.id}`}>
+                  <Link className="page-link h-100" to={`/artwork/${next.id}`}>
+                    <div className="d-none d-sm-block">
+                      <SuspenseImage
+                        src={next.topIllust?.thumbnailUrl}
+                        style={{ maxWidth: 186 }}
+                      />
+                    </div>
                     <span aria-hidden="true">&laquo; </span>
                     {next.title}
                   </Link>
@@ -123,7 +131,16 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               )}
               {previous && (
                 <li className="page-item">
-                  <Link className="page-link" to={`/artwork/${previous.id}`}>
+                  <Link
+                    className="page-link h-100"
+                    to={`/artwork/${previous.id}`}
+                  >
+                    <div className="d-none d-sm-block">
+                      <SuspenseImage
+                        src={previous.topIllust?.thumbnailUrl}
+                        style={{ maxWidth: 186 }}
+                      />
+                    </div>
                     {previous.title}
                     <span aria-hidden="true">&raquo; </span>
                   </Link>
