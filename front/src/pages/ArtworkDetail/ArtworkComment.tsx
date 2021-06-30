@@ -3,17 +3,17 @@ import React, { useCallback, useState } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
 import { commitCreateCommentMutation } from "../../mutation/CreateComment";
-import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 import { ArtworkComment_comments$key } from "./__generated__/ArtworkComment_comments.graphql";
 
 interface Props {
-  artwork: ArtworkDetailQueryResponse["artwork"] & { __typename: "Artwork" };
+  artwork: ArtworkComment_comments$key;
 }
 
 export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
-  const { comments } = useFragment<ArtworkComment_comments$key>(
+  const { artworkId, comments } = useFragment<ArtworkComment_comments$key>(
     graphql`
       fragment ArtworkComment_comments on Artwork {
+        artworkId: id
         comments(last: 1000000) @connection(key: "ArtworkComment_comments") {
           __id
           edges {
@@ -62,14 +62,14 @@ export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
         })}
       </ul>
       <div className="mt-2">
-        <CommentForm artwork={artwork} connectionId={comments.__id} />
+        <CommentForm artworkId={artworkId} connectionId={comments.__id} />
       </div>
     </div>
   );
 };
 
-const CommentForm: React.VFC<Props & { connectionId: string }> = ({
-  artwork,
+const CommentForm: React.VFC<{ artworkId: string; connectionId: string }> = ({
+  artworkId,
   connectionId,
 }) => {
   const environment = useRelayEnvironment();
@@ -89,7 +89,7 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
       commitCreateCommentMutation(environment, {
         variables: {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          input: { artworkId: artwork.id!, text },
+          input: { artworkId, text },
           connections: [connectionId],
         },
         onCompleted: () => {
@@ -98,7 +98,7 @@ const CommentForm: React.VFC<Props & { connectionId: string }> = ({
       });
       setText("");
     },
-    [artwork.id, connectionId, environment, text]
+    [artworkId, connectionId, environment, text]
   );
 
   return (

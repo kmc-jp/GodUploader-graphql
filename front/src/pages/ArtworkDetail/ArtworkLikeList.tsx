@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 
 import { useTooltip } from "../../hooks/useTooltip";
 import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
-import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 import type { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
 
 interface Props {
-  artwork: ArtworkDetailQueryResponse["artwork"] & { __typename: "Artwork" };
+  artwork: ArtworkLikeList_likes$key;
 }
 
 export const LikeList: React.FC<Props> = ({ artwork }) => {
-  const { likes } = useFragment<ArtworkLikeList_likes$key>(
+  const { artworkId, likes } = useFragment<ArtworkLikeList_likes$key>(
     graphql`
       fragment ArtworkLikeList_likes on Artwork {
+        artworkId: id
         likes(first: 10000000) @connection(key: "ArtworkDetail_likes") {
           __id
           edges {
@@ -36,17 +36,17 @@ export const LikeList: React.FC<Props> = ({ artwork }) => {
   const handleClickLikeButton = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
-      if (!(likes && likes.__id && artwork && artwork.id)) {
+      if (!(likes && likes.__id)) {
         return;
       }
       commitLikeArtworkMutation(environment, {
         variables: {
-          input: { artworkId: artwork.id },
+          input: { artworkId },
           connections: [likes.__id],
         },
       });
     },
-    [artwork, environment, likes]
+    [artworkId, environment, likes]
   );
 
   const buttonRef = useTooltip<HTMLButtonElement>();

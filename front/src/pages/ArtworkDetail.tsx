@@ -17,9 +17,22 @@ const artworkDetailQuery = graphql`
     viewer {
       id
     }
-    artwork: node(id: $id) {
-      __typename
-      ... on Artwork {
+    artworkWithBidirectional(id: $id) {
+      previous {
+        id
+        title
+        topIllust {
+          thumbnailUrl
+        }
+      }
+      next {
+        id
+        title
+        topIllust {
+          thumbnailUrl
+        }
+      }
+      current {
         id
         title
         caption
@@ -29,6 +42,7 @@ const artworkDetailQuery = graphql`
           kmcid
           name
         }
+        ...UpdateArtworkForm_artwork
         ...IllustCarousel_illusts
         ...ArtworkLikeList_likes
         ...ArtworkComment_comments
@@ -60,14 +74,17 @@ const autolink = (caption: string) => {
 };
 
 const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
-  const { viewer, artwork } = usePreloadedQuery<ArtworkDetailQuery>(
-    artworkDetailQuery,
-    prepared.artworkDetailQuery
-  );
+  const { viewer, artworkWithBidirectional } =
+    usePreloadedQuery<ArtworkDetailQuery>(
+      artworkDetailQuery,
+      prepared.artworkDetailQuery
+    );
 
-  if (!(artwork && artwork.__typename === "Artwork")) {
+  if (!(artworkWithBidirectional && artworkWithBidirectional.current)) {
     return <div>作品が見つかりません</div>;
   }
+
+  const { previous, next, current: artwork } = artworkWithBidirectional;
 
   const createdAt = new Date(artwork.createdAt);
 
@@ -83,8 +100,18 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
             </Link>
           </p>
           <p>{formatDateTime(createdAt)}</p>
+          {previous && (
+            <div>
+              <Link to={`/artwork/${previous.id}`}>{previous.title}</Link>
+            </div>
+          )}
+          {next && (
+            <div>
+              <Link to={`/artwork/${next.id}`}>{next.title}</Link>
+            </div>
+          )}
           {artwork.account && viewer && artwork.account.id === viewer.id && (
-            <UpdateArtworkModal artwork={artwork} />
+            <UpdateArtworkModal artworkKey={artwork} />
           )}
         </div>
         <div className="card-body">

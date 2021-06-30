@@ -1,20 +1,36 @@
+import { graphql } from "babel-plugin-relay/macro";
 import { Modal } from "bootstrap";
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { useRelayEnvironment } from "react-relay";
+import { useFragment, useRelayEnvironment } from "react-relay";
 
 import { CaptionInput } from "../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";
 import { commitUpdateArtworkMutation } from "../../mutation/UpdateArtwork";
-import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
+import { UpdateArtworkForm_artwork$key } from "./__generated__/UpdateArtworkForm_artwork.graphql";
 
 interface Props {
-  artwork: NonNullable<ArtworkDetailQueryResponse["artwork"]> & {
-    __typename: "Artwork";
-  };
+  artworkKey: UpdateArtworkForm_artwork$key;
 }
 
-export const UpdateArtworkModal: React.VFC<Props> = ({ artwork }) => {
+export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
+  const artwork = useFragment<UpdateArtworkForm_artwork$key>(
+    graphql`
+      fragment UpdateArtworkForm_artwork on Artwork {
+        id
+        title
+        caption
+        tags {
+          edges {
+            node {
+              name
+            }
+          }
+        }
+      }
+    `,
+    artworkKey
+  );
   const environment = useRelayEnvironment();
   const [title, setTitle] = useState(artwork.title || "");
   const [caption, setCaption] = useState(artwork.caption || "");
