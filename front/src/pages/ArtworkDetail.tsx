@@ -133,6 +133,11 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
                     </div>
                     <span aria-hidden="true">&laquo; </span>
                     {next.title}
+                    {next.nsfw && (
+                      <div className="d-block d-sm-none text-danger">
+                        (NSFW)
+                      </div>
+                    )}
                   </Link>
                 </li>
               )}
@@ -154,6 +159,11 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
                     </div>
                     {previous.title}
                     <span aria-hidden="true"> &raquo;</span>
+                    {previous.nsfw && (
+                      <div className="d-block d-sm-none text-danger">
+                        (NSFW)
+                      </div>
+                    )}
                   </Link>
                 </li>
               )}
