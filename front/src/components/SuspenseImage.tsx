@@ -3,12 +3,15 @@ import React, { ImgHTMLAttributes } from "react";
 // idea from https://css-tricks.com/pre-caching-image-with-react-suspense/
 const cache = {
   __data: new Map<string, boolean | Promise<void>>(),
-  read(src: string) {
+  read(src: string, timeout?: number) {
     if (!this.__data.get(src)) {
       this.__data.set(
         src,
         new Promise((resolve) => {
           const img = new Image();
+          if (timeout) {
+            window.setTimeout(resolve, timeout);
+          }
           img.onload = () => {
             this.__data.set(src, true);
             resolve(this.__data.get(src));
@@ -26,14 +29,22 @@ const cache = {
   },
 };
 
+interface SuspenseImageProps {
+  timeout?: number;
+}
+
 export const SuspenseImage: React.VFC<
-  React.DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
-> = ({ src, ...rest }) => {
+  React.DetailedHTMLProps<
+    ImgHTMLAttributes<HTMLImageElement>,
+    HTMLImageElement
+  > &
+    SuspenseImageProps
+> = ({ src, timeout, ...rest }) => {
   if (!src) {
     return null;
   }
 
-  cache.read(src);
+  cache.read(src, timeout || 2000);
   // eslint-disable-next-line jsx-a11y/alt-text
   return <img src={src} {...rest} />;
 };
