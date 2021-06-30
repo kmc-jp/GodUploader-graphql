@@ -17,7 +17,8 @@ const artworkDetailQuery = graphql`
     viewer {
       id
     }
-    node(id: $id) {
+    artwork: node(id: $id) {
+      __typename
       ... on Artwork {
         id
         title
@@ -59,30 +60,30 @@ const autolink = (caption: string) => {
 };
 
 const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
-  const { viewer, node: artwork } = usePreloadedQuery<ArtworkDetailQuery>(
+  const { viewer, artwork } = usePreloadedQuery<ArtworkDetailQuery>(
     artworkDetailQuery,
     prepared.artworkDetailQuery
   );
 
-  if (!artwork) {
+  if (!(artwork && artwork.__typename === "Artwork")) {
     return <div>作品が見つかりません</div>;
   }
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const createdAt = new Date(artwork.createdAt!);
+
+  const createdAt = new Date(artwork.createdAt);
 
   return (
     <div>
       <div className="card">
         <div className="card-header text-center">
           <h2>{artwork.title}</h2>
-          <p>{artwork.caption && autolink(artwork.caption)}</p>
+          <p>{autolink(artwork.caption)}</p>
           <p>
             <Link to={`/users/${artwork.account?.kmcid}`}>
               {artwork.account?.name}
             </Link>
           </p>
           <p>{formatDateTime(createdAt)}</p>
-          {artwork.account?.id === viewer?.id && (
+          {artwork.account && viewer && artwork.account.id === viewer.id && (
             <UpdateArtworkModal artwork={artwork} />
           )}
         </div>
@@ -110,14 +111,11 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           <LikeList artwork={artwork} />
           <IllustCarousel artwork={artwork} />
           <ArtworkComment artwork={artwork} />
-          {viewer &&
-            artwork.account &&
-            artwork.id &&
-            artwork.account.id === viewer.id && (
-              <div className="mt-2 d-flex justify-content-center">
-                <DeleteArtworkButton artworkId={artwork.id} />
-              </div>
-            )}
+          {viewer && artwork.account && artwork.account.id === viewer.id && (
+            <div className="mt-2 d-flex justify-content-center">
+              <DeleteArtworkButton artworkId={artwork.id} />
+            </div>
+          )}
         </div>
       </div>
     </div>

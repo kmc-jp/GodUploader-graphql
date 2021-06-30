@@ -11,17 +11,18 @@ export type ArtworkDetailQueryResponse = {
     readonly viewer: {
         readonly id: string;
     } | null;
-    readonly node: {
-        readonly id?: string;
-        readonly title?: string;
-        readonly caption?: string;
-        readonly createdAt?: string;
-        readonly account?: {
+    readonly artwork: ({
+        readonly __typename: "Artwork";
+        readonly id: string;
+        readonly title: string;
+        readonly caption: string;
+        readonly createdAt: string;
+        readonly account: {
             readonly id: string;
             readonly kmcid: string;
             readonly name: string;
         } | null;
-        readonly tags?: {
+        readonly tags: {
             readonly edges: ReadonlyArray<{
                 readonly node: {
                     readonly id: string;
@@ -30,7 +31,11 @@ export type ArtworkDetailQueryResponse = {
             } | null>;
         } | null;
         readonly " $fragmentRefs": FragmentRefs<"IllustCarousel_illusts" | "ArtworkLikeList_likes" | "ArtworkComment_comments">;
-    } | null;
+    } | {
+        /*This will never be '%other', but we need some
+        value in case none of the concrete values match.*/
+        readonly __typename: "%other";
+    }) | null;
 };
 export type ArtworkDetailQuery = {
     readonly response: ArtworkDetailQueryResponse;
@@ -46,7 +51,7 @@ query ArtworkDetailQuery(
   viewer {
     id
   }
-  node(id: $id) {
+  artwork: node(id: $id) {
     __typename
     ... on Artwork {
       id
@@ -166,38 +171,45 @@ v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "title",
+  "name": "__typename",
   "storageKey": null
 },
 v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "caption",
+  "name": "title",
   "storageKey": null
 },
 v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "createdAt",
+  "name": "caption",
   "storageKey": null
 },
 v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "kmcid",
+  "name": "createdAt",
   "storageKey": null
 },
 v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "kmcid",
   "storageKey": null
 },
 v9 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v10 = {
   "alias": null,
   "args": null,
   "concreteType": "Account",
@@ -206,12 +218,12 @@ v9 = {
   "plural": false,
   "selections": [
     (v1/*: any*/),
-    (v7/*: any*/),
-    (v8/*: any*/)
+    (v8/*: any*/),
+    (v9/*: any*/)
   ],
   "storageKey": null
 },
-v10 = {
+v11 = {
   "alias": null,
   "args": null,
   "concreteType": "TagConnection",
@@ -236,7 +248,7 @@ v10 = {
           "plural": false,
           "selections": [
             (v1/*: any*/),
-            (v8/*: any*/)
+            (v9/*: any*/)
           ],
           "storageKey": null
         }
@@ -244,13 +256,6 @@ v10 = {
       "storageKey": null
     }
   ],
-  "storageKey": null
-},
-v11 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "__typename",
   "storageKey": null
 },
 v12 = [
@@ -295,22 +300,23 @@ return {
     "selections": [
       (v2/*: any*/),
       {
-        "alias": null,
+        "alias": "artwork",
         "args": (v3/*: any*/),
         "concreteType": null,
         "kind": "LinkedField",
         "name": "node",
         "plural": false,
         "selections": [
+          (v4/*: any*/),
           {
             "kind": "InlineFragment",
             "selections": [
               (v1/*: any*/),
-              (v4/*: any*/),
               (v5/*: any*/),
               (v6/*: any*/),
-              (v9/*: any*/),
+              (v7/*: any*/),
               (v10/*: any*/),
+              (v11/*: any*/),
               {
                 "args": null,
                 "kind": "FragmentSpread",
@@ -345,22 +351,22 @@ return {
     "selections": [
       (v2/*: any*/),
       {
-        "alias": null,
+        "alias": "artwork",
         "args": (v3/*: any*/),
         "concreteType": null,
         "kind": "LinkedField",
         "name": "node",
         "plural": false,
         "selections": [
-          (v11/*: any*/),
+          (v4/*: any*/),
           (v1/*: any*/),
           {
             "kind": "InlineFragment",
             "selections": [
-              (v4/*: any*/),
               (v5/*: any*/),
               (v6/*: any*/),
-              (v9/*: any*/),
+              (v7/*: any*/),
+              (v10/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -435,12 +441,12 @@ return {
                             "plural": false,
                             "selections": [
                               (v1/*: any*/),
-                              (v7/*: any*/)
+                              (v8/*: any*/)
                             ],
                             "storageKey": null
                           },
                           (v1/*: any*/),
-                          (v11/*: any*/)
+                          (v4/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -517,7 +523,7 @@ return {
                             "name": "text",
                             "storageKey": null
                           },
-                          (v6/*: any*/),
+                          (v7/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -526,13 +532,13 @@ return {
                             "name": "account",
                             "plural": false,
                             "selections": [
-                              (v7/*: any*/),
+                              (v8/*: any*/),
                               (v1/*: any*/)
                             ],
                             "storageKey": null
                           },
                           (v1/*: any*/),
-                          (v11/*: any*/)
+                          (v4/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -578,7 +584,7 @@ return {
                 "kind": "LinkedHandle",
                 "name": "comments"
               },
-              (v10/*: any*/)
+              (v11/*: any*/)
             ],
             "type": "Artwork",
             "abstractKey": null
@@ -589,14 +595,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c20cfe54321b8bdacfcf1a6834e493cf",
+    "cacheID": "287ecada46d02f4cef938a6868ae1c12",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  node(id: $id) {\n    __typename\n    ... on Artwork {\n      id\n      title\n      caption\n      createdAt\n      account {\n        id\n        kmcid\n        name\n      }\n      ...IllustCarousel_illusts\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment IllustCarousel_illusts on Artwork {\n  illusts {\n    edges {\n      node {\n        id\n        imageUrl\n      }\n    }\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  artwork: node(id: $id) {\n    __typename\n    ... on Artwork {\n      id\n      title\n      caption\n      createdAt\n      account {\n        id\n        kmcid\n        name\n      }\n      ...IllustCarousel_illusts\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment IllustCarousel_illusts on Artwork {\n  illusts {\n    edges {\n      node {\n        id\n        imageUrl\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '39d726fa448384583c87a7125a47c982';
+(node as any).hash = '293b917991f6defd06ae595540181048';
 export default node;
