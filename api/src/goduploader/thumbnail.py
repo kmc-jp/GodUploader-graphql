@@ -18,13 +18,13 @@ def _is_animated_gif(illust_path):
 
 
 def _generate_normal_thumbnail(illust_path, thumbnail_path):
-    return subprocess.run(
+    subprocess.run(
         ["convert", "-resize", f"x{THUMBNAIL_HEIGHT}", illust_path, thumbnail_path]
-    )
+    ).check_returncode()
 
 
 def _generate_animated_thumbnail(illust_path, thumbnail_path):
-    return subprocess.run(
+    subprocess.run(
         [
             "convert",
             illust_path,
@@ -35,4 +35,4 @@ def _generate_animated_thumbnail(illust_path, thumbnail_path):
             "optimize",
             thumbnail_path,
         ]
-    )
+    ).check_returncode()
