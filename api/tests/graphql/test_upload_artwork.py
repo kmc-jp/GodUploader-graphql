@@ -1,8 +1,9 @@
 from goduploader.db import session
-from goduploader.model import Account, Artwork, Tag
+from goduploader.model import Account, Artwork, Illust, Tag
 from pathlib import Path
 
 from graphene.relay.node import Node
+import pytest
 from tests.util import create_account, mock_context
 from werkzeug.datastructures import FileStorage
 
@@ -34,12 +35,14 @@ def test_upload_artwork(client):
     account = create_account()
     assert account.artworks_count == 0
 
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
     result = client.execute(
         UPLOAD_ARTWORK_QUERY,
         variable_values={
             "files": [
                 FileStorage(
-                    stream=open(Path(__file__).parent.parent / "data" / "me.png", "rb"),
+                    stream=open(upload_src, "rb"),
                     filename="me.png",
                     content_type="image/png",
                 )
@@ -66,3 +69,41 @@ def test_upload_artwork(client):
     assert uploaded_artwork
     assert uploaded_artwork.top_illust
     assert uploaded_artwork.top_illust_id
+
+    uploaded_dst = Path(uploaded_artwork.top_illust.image_path("full"))
+    assert (
+        uploaded_dst.read_bytes() == upload_src.read_bytes()
+    ), "file uploaded correctly"
+
+
+@pytest.mark.parametrize(
+    "source_file, can_upload",
+    [
+        ("me.png", True),
+        ("me.jpg", True),
+        ("me.gif", True),
+        ("hello.txt", False),
+    ],
+)
+def test_upload_artwork_filetype(client, source_file: str, can_upload: bool):
+    account = create_account()
+    assert account.artworks_count == 0
+
+    upload_src = Path(__file__).parent.parent / "data" / source_file
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename=source_file,
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert ("errors" not in result) == can_upload

@@ -1,8 +1,10 @@
+from typing import List
 import graphene
 from graphene import relay
 from graphene.types.objecttype import ObjectType
 from graphene_file_upload.scalars import Upload
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
+import imghdr
 import os.path
 import uuid
 from goduploader.db import session
@@ -24,6 +26,7 @@ from goduploader.slack import (
 )
 import sqlalchemy
 from sqlalchemy.sql.expression import and_, desc
+from werkzeug.datastructures import FileStorage
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
@@ -319,7 +322,7 @@ class UploadArtwork(graphene.ClientIDMutation):
     artwork = graphene.Field(Artwork)
 
     @classmethod
-    def mutate_and_get_payload(cls, root, info, files, **input):
+    def mutate_and_get_payload(cls, root, info, files: List[FileStorage], **input):
         current_user = info.context.user
         if current_user is None:
             raise Exception("Please login")
@@ -338,6 +341,13 @@ class UploadArtwork(graphene.ClientIDMutation):
         share_option = UploadArtworkShareOption.get(input.get("share_option", 0))
 
         for buf in files:
+            content = buf.stream.read()
+            ext = imghdr.what(buf.filename, content)
+            if ext not in {"gif", "png", "jpeg"}:
+                raise Exception(
+                    f"アップロードできるのはGIF, PNG, JPEG形式の画像のみです。{ext} 形式のファイルはアップロードできません"
+                )
+
             _, ext = os.path.splitext(buf.filename)
             filename = f"{uuid.uuid4()}{ext}"
             illust = IllustModel(
@@ -346,7 +356,8 @@ class UploadArtwork(graphene.ClientIDMutation):
 
             illust_path = illust.image_path("full")
             thumbnail_path = illust.image_path("thumbnail")
-            buf.save(illust_path)
+            with open(illust_path, "wb") as dst:
+                dst.write(content)
 
             generate_thumbnail(illust_path, thumbnail_path)
 

@@ -94,7 +94,8 @@ export const UploadArtwork: React.VFC = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="file" className="form-label">
-              アップロードする画像 <span className="text-danger">(必須)</span>
+              アップロードする画像{" "}
+              <span className="text-danger">(GIF/JPEG/PNG形式, 必須)</span>
             </label>
             <input
               type="file"
@@ -102,7 +103,7 @@ export const UploadArtwork: React.VFC = () => {
               id="file"
               ref={filesRef}
               multiple
-              accept="image/*"
+              accept="image/gif,image/png,image/jpeg"
               required
             />
           </div>
