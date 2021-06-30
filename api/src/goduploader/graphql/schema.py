@@ -23,6 +23,7 @@ from goduploader.slack import (
     share_to_slack,
 )
 import sqlalchemy
+from sqlalchemy.sql.expression import desc
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
@@ -100,6 +101,12 @@ class SlackChannel(ObjectType):
     name = graphene.NonNull(graphene.String)
 
 
+class ArtworkWithBidirectionalPayload(ObjectType):
+    previous = graphene.Field(Artwork)
+    current = graphene.Field(Artwork)
+    next = graphene.Field(Artwork)
+
+
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
     accounts = SQLAlchemyConnectionField(Account.connection)
@@ -122,6 +129,28 @@ class Query(graphene.ObjectType):
 
     def resolve_artwork_by_folder_id(root, info, **args):
         return Artwork.get_query(info).filter_by(id=args["folder_id"]).first()
+
+    artwork_with_bidirectional = graphene.Field(ArtworkWithBidirectionalPayload, id=graphene.ID(required=True))
+
+    def resolve_artwork_with_bidirectional(root, info, id):
+        current = relay.Node.get_node_from_global_id(info, id, only_type=Artwork)
+        if not current:
+            return ArtworkWithBidirectionalPayload(previous=None, current=None, next=None)
+
+        previous = (
+            session.query(ArtworkModel)
+            .filter(ArtworkModel.id < current.id)
+            .order_by(desc(ArtworkModel.id))
+            .first()
+        )
+        next = (
+            session.query(ArtworkModel)
+            .filter(ArtworkModel.id > current.id)
+            .order_by(ArtworkModel.id)
+            .first()
+        )
+
+        return ArtworkWithBidirectionalPayload(previous=previous, current=current, next=next)
 
     viewer = graphene.Field(Account)
 
