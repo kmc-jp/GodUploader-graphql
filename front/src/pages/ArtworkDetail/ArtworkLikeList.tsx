@@ -9,7 +9,7 @@ import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.
 import type { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
 
 interface Props {
-  artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;
+  artwork: ArtworkDetailQueryResponse["artwork"] & { __typename: "Artwork" };
 }
 
 export const LikeList: React.FC<Props> = ({ artwork }) => {

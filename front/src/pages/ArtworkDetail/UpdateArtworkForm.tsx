@@ -9,7 +9,9 @@ import { commitUpdateArtworkMutation } from "../../mutation/UpdateArtwork";
 import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 
 interface Props {
-  artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;
+  artwork: NonNullable<ArtworkDetailQueryResponse["artwork"]> & {
+    __typename: "Artwork";
+  };
 }
 
 export const UpdateArtworkModal: React.VFC<Props> = ({ artwork }) => {

@@ -6,11 +6,10 @@ import { useFragment } from "react-relay";
 
 import { SuspenseImage } from "../../components/SuspenseImage";
 import { usePrevious } from "../../hooks/usePrevious";
-import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.graphql";
 import { IllustCarousel_illusts$key } from "./__generated__/IllustCarousel_illusts.graphql";
 
 interface Props {
-  artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;
+  artwork: IllustCarousel_illusts$key;
 }
 
 export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {

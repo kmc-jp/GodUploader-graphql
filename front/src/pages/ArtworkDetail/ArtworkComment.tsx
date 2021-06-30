@@ -7,7 +7,7 @@ import { ArtworkDetailQueryResponse } from "../__generated__/ArtworkDetailQuery.
 import { ArtworkComment_comments$key } from "./__generated__/ArtworkComment_comments.graphql";
 
 interface Props {
-  artwork: NonNullable<ArtworkDetailQueryResponse["node"]>;
+  artwork: ArtworkDetailQueryResponse["artwork"] & { __typename: "Artwork" };
 }
 
 export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
