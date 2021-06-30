@@ -167,7 +167,7 @@ export const UploadArtwork: React.VFC = () => {
           </div>
           {errors &&
             errors.map((error, i) => (
-              <div key={i} className="alert alert-danger" role="alert">
+              <div key={i} className="alert alert-danger mt-3" role="alert">
                 {error.message}
               </div>
             ))}
