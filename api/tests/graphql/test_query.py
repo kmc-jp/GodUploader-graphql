@@ -1,5 +1,5 @@
 from graphene.relay.node import Node
-from tests.util import create_artwork
+from tests.util import create_account, create_artwork
 
 
 def test_safe_artworks(client):
@@ -62,10 +62,11 @@ def test_tagged_artworks(client):
 
 
 def test_artwork_with_bidirectional(client):
+    account = create_account()
     artworks = [
-        create_artwork(),
-        create_artwork(),
-        create_artwork(),
+        create_artwork(account=account),
+        create_artwork(account=account),
+        create_artwork(account=account),
     ]
 
     query = """
@@ -90,10 +91,11 @@ def test_artwork_with_bidirectional(client):
 
 
 def test_artwork_with_bidirectional_previous_not_found(client):
+    account = create_account()
     artworks = [
-        create_artwork(),
-        create_artwork(),
-        create_artwork(),
+        create_artwork(account=account),
+        create_artwork(account=account),
+        create_artwork(account=account),
     ]
 
     query = """
@@ -117,11 +119,44 @@ def test_artwork_with_bidirectional_previous_not_found(client):
     }
 
 
-def test_artwork_with_bidirectional_next_not_found(client):
+def test_artwork_with_bidirectional_mine_only(client):
+    account_1 = create_account()
+    account_2 = create_account()
     artworks = [
-        create_artwork(),
-        create_artwork(),
-        create_artwork(),
+        create_artwork(account=account_1),
+        create_artwork(account=account_2),
+        create_artwork(account=account_1),
+        create_artwork(account=account_2),
+        create_artwork(account=account_1),
+    ]
+
+    query = """
+    query ArtworkWithBidirectionalTestQuery($id: ID!) {
+        artworkWithBidirectional(id: $id) {
+            previous { id }
+            current { id }
+            next { id }
+        }
+    }
+    """
+    result = client.execute(
+        query, variable_values={"id": Node.to_global_id("Artwork", artworks[2].id)}
+    )
+    assert "data" in result
+    assert "artworkWithBidirectional" in result["data"]
+    assert result["data"]["artworkWithBidirectional"] == {
+        "previous": {"id": Node.to_global_id("Artwork", artworks[0].id)},
+        "current": {"id": Node.to_global_id("Artwork", artworks[2].id)},
+        "next": {"id": Node.to_global_id("Artwork", artworks[4].id)},
+    }
+
+
+def test_artwork_with_bidirectional_next_not_found(client):
+    account = create_account()
+    artworks = [
+        create_artwork(account=account),
+        create_artwork(account=account),
+        create_artwork(account=account),
     ]
 
     query = """
