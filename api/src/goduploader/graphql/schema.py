@@ -348,8 +348,7 @@ class UploadArtwork(graphene.ClientIDMutation):
                     f"アップロードできるのはGIF, PNG, JPEG形式の画像のみです。{ext or '対応していない'}形式のファイルはアップロードできません"
                 )
 
-            _, ext = os.path.splitext(buf.filename)
-            filename = f"{uuid.uuid4()}{ext}"
+            filename = f"{uuid.uuid4()}.{ext}"
             illust = IllustModel(
                 filename=filename,
             )
