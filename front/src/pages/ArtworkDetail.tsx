@@ -137,18 +137,18 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
         <div className="card-footer">
           <nav aria-label="前後の作品">
             <ul className="pagination justify-content-center">
-              {previous && (
-                <li className="page-item">
-                  <Link className="page-link" to={`/artwork/${previous.id}`}>
-                    <span aria-hidden="true">&laquo; </span>
-                    {previous.title}
-                  </Link>
-                </li>
-              )}
               {next && (
                 <li className="page-item">
                   <Link className="page-link" to={`/artwork/${next.id}`}>
+                    <span aria-hidden="true">&laquo; </span>
                     {next.title}
+                  </Link>
+                </li>
+              )}
+              {previous && (
+                <li className="page-item">
+                  <Link className="page-link" to={`/artwork/${previous.id}`}>
+                    {previous.title}
                     <span aria-hidden="true">&raquo; </span>
                   </Link>
                 </li>
