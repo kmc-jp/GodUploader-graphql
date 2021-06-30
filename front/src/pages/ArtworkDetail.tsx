@@ -5,6 +5,7 @@ import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
+import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
 import { SuspenseImage } from "../components/SuspenseImage";
 import { formatDateTime } from "../util";
 import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
@@ -23,6 +24,7 @@ const artworkDetailQuery = graphql`
       previous {
         id
         title
+        nsfw
         topIllust {
           thumbnailUrl
         }
@@ -30,6 +32,7 @@ const artworkDetailQuery = graphql`
       next {
         id
         title
+        nsfw
         topIllust {
           thumbnailUrl
         }
@@ -120,7 +123,11 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
                   <Link className="page-link h-100" to={`/artwork/${next.id}`}>
                     <div className="d-none d-sm-block">
                       <SuspenseImage
-                        src={next.topIllust?.thumbnailUrl}
+                        src={
+                          next.nsfw
+                            ? CensoredThumbnailImage
+                            : next.topIllust?.thumbnailUrl
+                        }
                         style={{ maxWidth: 186 }}
                       />
                     </div>
@@ -137,12 +144,16 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
                   >
                     <div className="d-none d-sm-block">
                       <SuspenseImage
-                        src={previous.topIllust?.thumbnailUrl}
+                        src={
+                          previous.nsfw
+                            ? CensoredThumbnailImage
+                            : previous.topIllust?.thumbnailUrl
+                        }
                         style={{ maxWidth: 186 }}
                       />
                     </div>
                     {previous.title}
-                    <span aria-hidden="true">&raquo; </span>
+                    <span aria-hidden="true"> &raquo;</span>
                   </Link>
                 </li>
               )}
