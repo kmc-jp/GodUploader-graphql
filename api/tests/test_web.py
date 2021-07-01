@@ -101,6 +101,8 @@ def test_mutation_referer_check_ok(referer):
     [
         None,
         "http://example.com/",
+        "http://localhost:3000",
+        "http://localhost:3000/",
         "http://localhost:3000/test2/",
         "http://localhost:3000/evil/",
     ],
