@@ -7,7 +7,7 @@ from urllib.parse import quote
 from goduploader.web import app
 
 
-def test_graphql_get_not_allowed_no_content_type(client):
+def test_graphql_get_not_allowed_no_content_type():
     client = app.test_client()
     query = quote(
         """
@@ -23,7 +23,7 @@ def test_graphql_get_not_allowed_no_content_type(client):
     assert resp.json is None
 
 
-def test_graphql_get_not_allowed_content_type(client):
+def test_graphql_get_not_allowed_content_type():
     client = app.test_client()
     query = quote(
         """
@@ -43,7 +43,7 @@ def test_graphql_get_not_allowed_content_type(client):
     assert resp.json is None
 
 
-def test_graphql_can_post(client):
+def test_graphql_can_post():
     client = app.test_client()
     query = """
     {
@@ -80,9 +80,7 @@ def test_mutation_referer_check_ok(referer):
         }
     }
     """
-    headers = {"Content-Type": "application/json"}
-    if referer:
-        headers["Referer"] = referer
+    headers = {"Content-Type": "application/json", "Referer": referer}
 
     resp = client.post(
         f"/api/graphql",
