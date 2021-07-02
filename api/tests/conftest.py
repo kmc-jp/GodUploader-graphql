@@ -1,15 +1,15 @@
-import os
 import tempfile
 from pathlib import Path
 
 import pytest
+from goduploader.config import app_config
 from goduploader.db import engine, session
 from goduploader.graphql.schema import schema
 from goduploader.model import Base
 from graphene.test import Client
 from tests.util import create_account
 
-os.environ["TESTING"] = "1"
+app_config.testing = True
 
 
 def prepare_temporary_public_dir():
@@ -18,7 +18,7 @@ def prepare_temporary_public_dir():
     illusts_dir.mkdir()
     thumbnail_dir = public / "thumbnail"
     thumbnail_dir.mkdir()
-    os.environ["PUBLIC_FOLDER"] = str(public)
+    app_config.public_folder = str(public)
 
 
 prepare_temporary_public_dir()
