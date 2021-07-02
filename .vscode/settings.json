@@ -4,6 +4,9 @@
 
     "[python]": {
       "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+      },
     },
     "[typescript]": {
       "editor.formatOnSave": true,
