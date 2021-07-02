@@ -1,30 +1,26 @@
+import imghdr
+import os.path
+import uuid
 from typing import List
+
 import graphene
+import sqlalchemy
+from goduploader.db import session
+from goduploader.graphql.dataloader import AccountLoader, IllustLoader
+from goduploader.model import Account as AccountModel
+from goduploader.model import Artwork as ArtworkModel
+from goduploader.model import Comment as CommentModel
+from goduploader.model import Illust as IllustModel
+from goduploader.model import Like as LikeModel
+from goduploader.model import Tag as TagModel
+from goduploader.slack import ShareOption as ShareOptionEnum
+from goduploader.slack import get_all_public_channels, share_to_slack
+from goduploader.tag import has_nsfw_tag, update_tag_relation
+from goduploader.thumbnail import generate_thumbnail
 from graphene import relay
 from graphene.types.objecttype import ObjectType
 from graphene_file_upload.scalars import Upload
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
-import imghdr
-import os.path
-import uuid
-from goduploader.db import session
-from goduploader.model import (
-    Account as AccountModel,
-    Artwork as ArtworkModel,
-    Comment as CommentModel,
-    Illust as IllustModel,
-    Like as LikeModel,
-    Tag as TagModel,
-)
-from goduploader.tag import has_nsfw_tag, update_tag_relation
-from goduploader.graphql.dataloader import AccountLoader, IllustLoader
-from goduploader.thumbnail import generate_thumbnail
-from goduploader.slack import (
-    ShareOption as ShareOptionEnum,
-    get_all_public_channels,
-    share_to_slack,
-)
-import sqlalchemy
 from sqlalchemy.sql.expression import and_, desc
 from werkzeug.datastructures import FileStorage
 

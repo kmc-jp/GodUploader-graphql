@@ -1,7 +1,7 @@
 from typing import List
 
-from goduploader.model import Tag
 from goduploader.db import session
+from goduploader.model import Tag
 
 
 def has_nsfw_tag(tag_names: List[str]) -> bool:

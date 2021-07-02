@@ -1,7 +1,7 @@
-from goduploader.model import Artwork, Tag
-from tests.util import create_account, create_artwork, mock_context
 from goduploader.db import session
+from goduploader.model import Artwork, Tag
 from graphene.relay import Node
+from tests.util import create_account, create_artwork, mock_context
 
 UPDATE_ARTWORK_QUERY = """
 mutation UpdateArtworkTestMutation (

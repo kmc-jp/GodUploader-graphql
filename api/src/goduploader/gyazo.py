@@ -1,4 +1,5 @@
 import os
+
 from goduploader.model import Artwork
 from gyazo import Api
 

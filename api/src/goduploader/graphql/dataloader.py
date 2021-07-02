@@ -1,8 +1,9 @@
 from collections import defaultdict
-from promise import Promise
-from promise.dataloader import DataLoader
+
 from goduploader.db import session
 from goduploader.model import Account, Illust
+from promise import Promise
+from promise.dataloader import DataLoader
 
 
 class AccountLoader(DataLoader):

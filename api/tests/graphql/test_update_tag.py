@@ -3,7 +3,6 @@ from goduploader.model import Tag
 from graphene.relay.node import Node
 from tests.util import create_tag, mock_context
 
-
 UPDATE_TAG_QUERY = """
     mutation UpdateTagTestMutation (
         $id: ID!,

@@ -1,8 +1,8 @@
-from goduploader.model import Account, Artwork, Comment, Illust, Like, Tag
-from goduploader.db import engine, session
-
-from collections import defaultdict
 import sqlite3
+from collections import defaultdict
+
+from goduploader.db import engine, session
+from goduploader.model import Account, Artwork, Comment, Illust, Like, Tag
 
 from_db = sqlite3.connect(
     "./from.db", detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES

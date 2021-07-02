@@ -1,14 +1,15 @@
 import os.path
 import unicodedata
-from urllib.parse import urljoin
 from datetime import datetime
+from urllib.parse import urljoin
+
+from graphene.relay import Node
 from sqlalchemy import Column
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.schema import ForeignKey, Index, Table
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
-from graphene.relay import Node
 
 Base = declarative_base()
 

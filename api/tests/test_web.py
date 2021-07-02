@@ -1,10 +1,11 @@
+import json
 import os
+from urllib.parse import quote
+
+import pytest
+from goduploader.web import app
 from graphene.relay.node import Node
 from tests.util import create_artwork
-import json
-import pytest
-from urllib.parse import quote
-from goduploader.web import app
 
 
 def test_graphql_get_not_allowed_no_content_type():

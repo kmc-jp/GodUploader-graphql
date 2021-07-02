@@ -1,13 +1,13 @@
 import os
-from pathlib import Path
 import tempfile
-import pytest
-from tests.util import create_account
-from graphene.test import Client
-from goduploader.db import engine, session
-from goduploader.model import Base
-from goduploader.graphql.schema import schema
+from pathlib import Path
 
+import pytest
+from goduploader.db import engine, session
+from goduploader.graphql.schema import schema
+from goduploader.model import Base
+from graphene.test import Client
+from tests.util import create_account
 
 os.environ["TESTING"] = "1"
 

@@ -1,7 +1,7 @@
+import pytest
+from goduploader.db import session
 from goduploader.model import Tag
 from goduploader.tag import find_or_create_tags
-from goduploader.db import session
-import pytest
 
 
 def test_find_or_create_tags():

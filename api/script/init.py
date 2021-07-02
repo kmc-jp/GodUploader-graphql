@@ -1,7 +1,7 @@
 import os
+import subprocess
 import sys
 from pathlib import Path
-import subprocess
 
 base = os.environ["BASE"]
 

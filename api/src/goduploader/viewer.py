@@ -1,7 +1,8 @@
-from flask import Request
-from goduploader.model import Account
-from goduploader.db import session
 from typing import Optional
+
+from flask import Request
+from goduploader.db import session
+from goduploader.model import Account
 
 
 def viewer(kmcid: Optional[str]) -> Optional[Account]:

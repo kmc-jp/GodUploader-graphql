@@ -1,6 +1,6 @@
+from goduploader.db import session
 from goduploader.model import Account
 from tests.util import create_account, mock_context
-from goduploader.db import session
 
 
 def test_update_account(client):

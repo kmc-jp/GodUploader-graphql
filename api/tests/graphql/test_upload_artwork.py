@@ -1,12 +1,11 @@
-from goduploader.db import session
-from goduploader.model import Account, Artwork, Illust, Tag
 from pathlib import Path
 
-from graphene.relay.node import Node
 import pytest
+from goduploader.db import session
+from goduploader.model import Account, Artwork, Illust, Tag
+from graphene.relay.node import Node
 from tests.util import create_account, mock_context
 from werkzeug.datastructures import FileStorage
-
 
 UPLOAD_ARTWORK_QUERY = """
     mutation UploadArtworkTestMutation (

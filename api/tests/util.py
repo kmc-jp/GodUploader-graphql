@@ -1,8 +1,8 @@
+from faker import Faker
+from goduploader.db import session
 from goduploader.model import Account, Artwork, Illust, Tag
 from goduploader.tag import update_tag_relation
 from goduploader.viewer import viewer
-from goduploader.db import session
-from faker import Faker
 
 fake = Faker()
 

@@ -1,8 +1,7 @@
-from goduploader.model import Account, Artwork, Tag
-from tests.util import create_account, create_artwork, mock_context
 from goduploader.db import session
+from goduploader.model import Account, Artwork, Tag
 from graphene.relay import Node
-
+from tests.util import create_account, create_artwork, mock_context
 
 DELETE_ARTWORK_QUERY = """
 mutation DeleteArtworkTestMutation ($id: ID!) {
