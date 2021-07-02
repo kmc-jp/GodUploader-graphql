@@ -1,6 +1,6 @@
-import os.path
 import unicodedata
 from datetime import datetime
+from pathlib import Path
 from urllib.parse import urljoin
 
 from goduploader.config import app_config
@@ -122,9 +122,9 @@ class Illust(Base):
 
     def image_path(self, size="full") -> str:
         if size == "full":
-            return os.path.join(app_config.public_folder, "illusts", self.filename)
+            return str(Path(app_config.public_folder) / "illusts" / self.filename)
         elif size == "thumbnail":
-            return os.path.join(app_config.public_folder, "thumbnail", self.filename)
+            return str(Path(app_config.public_folder) / "thumbnail" / self.filename)
         else:
             raise ValueError(f"Unknown size: {size}")
 
