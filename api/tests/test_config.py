@@ -1,10 +1,10 @@
 import os
 
-from goduploader.config import ConfigFromEnvironmentVariableBase
+from goduploader.config import ConfigFromEnvironmentVariableMeta
 
 
 def test_ConfigFromEnvironmentVariableBase():
-    class MyConfig(metaclass=ConfigFromEnvironmentVariableBase):
+    class MyConfig(metaclass=ConfigFromEnvironmentVariableMeta):
         foo = ""
         bar = False
         baz = 10

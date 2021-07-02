@@ -23,7 +23,7 @@ def _create_getter(env_var_name, default_value, var_type="str"):
     return getter
 
 
-class ConfigFromEnvironmentVariableBase(type):
+class ConfigFromEnvironmentVariableMeta(type):
     def __new__(cls, classname, bases, dic):
         variables: List[str] = [k for k in dic if VARIABLE_PATTERN.match(k)]
         new_dic = {}
@@ -38,7 +38,7 @@ class ConfigFromEnvironmentVariableBase(type):
         return type.__new__(cls, classname, bases, new_dic)
 
 
-class AppConfig(metaclass=ConfigFromEnvironmentVariableBase):
+class AppConfig(metaclass=ConfigFromEnvironmentVariableMeta):
     base_url = "http://localhost:3000/"
     debug = False
     db_url = "sqlite:///god.db"
