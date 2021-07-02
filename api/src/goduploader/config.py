@@ -11,10 +11,7 @@ def _create_getter(env_var_name, default_value, var_type="str"):
     @property
     def getter(self):
         if var_type == "bool":
-            if env_var_name in os.environ:
-                return bool_from_env_var(os.environ[env_var_name])
-            else:
-                return default_value
+            return bool_from_env_var(os.environ.get(env_var_name, ""))
         elif var_type == "int":
             return int(os.environ.get(env_var_name, default_value))
         else:
