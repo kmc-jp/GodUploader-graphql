@@ -214,23 +214,6 @@ class Query(graphene.ObjectType):
 
         return tags
 
-    tags_by_prefix = SQLAlchemyConnectionField(
-        Tag.connection, prefix=graphene.String(required=True)
-    )
-
-    def resolve_tags_by_prefix(root, info, **args):
-        prefix = (
-            args.get("prefix")
-            .replace("\\", "\\\\")
-            .replace("%", r"\%")
-            .replace("_", r"\_")
-        )
-        tag_query = SQLAlchemyConnectionField.get_query(TagModel, info, **args)
-
-        tags = tag_query.filter(TagModel.name.ilike(prefix + "%", escape="\\"))
-
-        return tags
-
     all_slack_channels = graphene.NonNull(graphene.List(SlackChannel))
 
     def resolve_all_slack_channels(root, info):
