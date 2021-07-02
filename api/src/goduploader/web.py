@@ -1,6 +1,7 @@
 import graphene
 from dotenv import find_dotenv, load_dotenv
 from flask.wrappers import Request, Response
+from goduploader.util import bool_from_env_var
 
 load_dotenv(find_dotenv())
 
@@ -19,7 +20,7 @@ app = Flask(
         "PUBLIC_FOLDER", os.path.join(os.path.dirname(__file__), "../../public")
     ),
 )
-app.debug = bool(os.environ.get("DEBUG"))
+app.debug = bool_from_env_var(os.environ.get("DEBUG"))
 
 RELOADED_AT = int(time.time())
 
