@@ -6,7 +6,6 @@ load_dotenv(find_dotenv())
 
 import os
 import time
-import urllib.parse
 
 from flask import Flask, request
 from goduploader.db import session

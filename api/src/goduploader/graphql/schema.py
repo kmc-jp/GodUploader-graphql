@@ -1,5 +1,4 @@
 import imghdr
-import os.path
 import uuid
 from typing import List
 

@@ -1,6 +1,5 @@
 from typing import Optional
 
-from flask import Request
 from goduploader.db import session
 from goduploader.model import Account
 
