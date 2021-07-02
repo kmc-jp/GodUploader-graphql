@@ -14,16 +14,16 @@ def test_ConfigFromEnvironmentVariableBase():
     myconfig = MyConfig()
     assert myconfig.foo == "aaa"
 
-    os.environ["FOO"] = "bbb"
+    myconfig.foo = "bbb"
     assert myconfig.foo == "bbb"
 
     assert not myconfig.bar
 
-    os.environ["BAR"] = "1"
+    myconfig.bar = True
     assert myconfig.bar
     assert isinstance(myconfig.bar, bool)
 
     assert myconfig.baz == 10
 
-    os.environ["BAZ"] = "20"
+    myconfig.baz = 20
     assert myconfig.baz == 20
