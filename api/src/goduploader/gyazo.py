@@ -1,13 +1,12 @@
-import os
-
+from goduploader.config import app_config
 from goduploader.model import Artwork
 from gyazo import Api
 
-client = Api(access_token=os.environ.get("GYAZO_ACCESS_TOKEN"))
+client = Api(access_token=app_config.gyazo_access_token)
 
 
 def upload_image(artwork: Artwork, filepath: str):
-    if os.environ.get("TESTING"):
+    if app_config.testing:
         return
 
     with open(filepath, "rb") as f:

@@ -36,3 +36,17 @@ class ConfigFromEnvironmentVariableBase(type):
             new_dic[variable] = _create_getter(env_var_name, default_value, var_type)
 
         return type.__new__(cls, classname, bases, new_dic)
+
+
+class AppConfig(metaclass=ConfigFromEnvironmentVariableBase):
+    base_url = "http://localhost:3000/"
+    debug = False
+    db_url = "sqlite:///god.db"
+    gyazo_access_token = ""
+    public_folder = os.path.join(os.path.dirname(__file__), "../../public")
+    slack_token = ""
+
+    testing = False
+
+
+app_config = AppConfig()

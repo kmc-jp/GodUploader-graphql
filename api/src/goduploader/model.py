@@ -3,6 +3,7 @@ import unicodedata
 from datetime import datetime
 from urllib.parse import urljoin
 
+from goduploader.config import app_config
 from graphene.relay import Node
 from sqlalchemy import Column
 from sqlalchemy.ext.declarative import declarative_base
@@ -30,8 +31,7 @@ class Account(Base):
 
     @property
     def user_page_url(self):
-        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return urljoin(base_url, f"users/{self.kmcid}")
+        return urljoin(app_config.base_url, f"users/{self.kmcid}")
 
     index_artworks_count = Index("account_artworks_count", artworks_count)
 
@@ -58,8 +58,9 @@ class Artwork(Base):
 
     @property
     def artwork_url(self):
-        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return urljoin(base_url, f"artwork/{Node.to_global_id('Artwork', self.id)}")
+        return urljoin(
+            app_config.base_url, f"artwork/{Node.to_global_id('Artwork', self.id)}"
+        )
 
     nsfw = Column(Boolean, nullable=False)
     top_illust_id = Column(Integer, ForeignKey("artwork.id"))
@@ -113,23 +114,17 @@ class Illust(Base):
 
     @property
     def image_url(self):
-        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return urljoin(base_url, f"public/illusts/{self.filename}")
+        return urljoin(app_config.base_url, f"public/illusts/{self.filename}")
 
     @property
     def thumbnail_url(self):
-        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return urljoin(base_url, f"public/thumbnail/{self.filename}")
+        return urljoin(app_config.base_url, f"public/thumbnail/{self.filename}")
 
     def image_path(self, size="full") -> str:
-        public_folder = os.environ.get(
-            "PUBLIC_FOLDER", os.path.join(os.path.dirname(__file__), "../../public")
-        )
-
         if size == "full":
-            return os.path.join(public_folder, "illusts", self.filename)
+            return os.path.join(app_config.public_folder, "illusts", self.filename)
         elif size == "thumbnail":
-            return os.path.join(public_folder, "thumbnail", self.filename)
+            return os.path.join(app_config.public_folder, "thumbnail", self.filename)
         else:
             raise ValueError(f"Unknown size: {size}")
 
@@ -180,8 +175,7 @@ class Tag(Base):
 
     @property
     def artworks_url(self):
-        base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-        return urljoin(base_url, f"tagged_artworks/{self.name}")
+        return urljoin(app_config.base_url, f"tagged_artworks/{self.name}")
 
     @classmethod
     def canonicalize(cls, name: str) -> str:

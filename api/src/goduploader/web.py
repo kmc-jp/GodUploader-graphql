@@ -1,11 +1,10 @@
 import graphene
 from dotenv import find_dotenv, load_dotenv
 from flask.wrappers import Request, Response
-from goduploader.util import bool_from_env_var
+from goduploader.config import app_config
 
 load_dotenv(find_dotenv())
 
-import os
 import time
 
 from flask import Flask, request
@@ -16,11 +15,9 @@ from graphene_file_upload.flask import FileUploadGraphQLView
 
 app = Flask(
     __name__,
-    static_folder=os.environ.get(
-        "PUBLIC_FOLDER", os.path.join(os.path.dirname(__file__), "../../public")
-    ),
+    static_folder=app_config.public_folder,
 )
-app.debug = bool_from_env_var(os.environ.get("DEBUG"))
+app.debug = app_config.debug
 
 RELOADED_AT = int(time.time())
 
@@ -49,11 +46,9 @@ def check_referer_for_mutation_middleware(
     if info.operation.operation == "query":
         return next(root, info, **args)
 
-    base_url = os.environ.get("BASE_URL", "http://localhost:3000/")
-
     req: Request = info.context
     referer = req.headers.get("Referer", "")
-    if not referer.startswith(base_url):
+    if not referer.startswith(app_config.base_url):
         raise Exception(f"Referer check failed ({referer})")
 
     return next(root, info, **args)

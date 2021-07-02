@@ -1,7 +1,7 @@
-import os
 from enum import Enum
 
 from cacheout import Cache
+from goduploader.config import app_config
 from goduploader.gyazo import upload_image
 from goduploader.model import Artwork
 from slack_sdk.web.client import WebClient
@@ -16,7 +16,7 @@ class ShareOption(Enum):
 def share_to_slack(
     artwork: Artwork, image_path: str, share_option=ShareOption.NONE, channel_id=None
 ):
-    if os.environ.get("TESTING"):
+    if app_config.testing:
         return
 
     if share_option == ShareOption.NONE:
@@ -59,7 +59,7 @@ def share_to_slack(
         ],
     }
 
-    api = WebClient(token=os.environ.get("SLACK_TOKEN"))
+    api = WebClient(token=app_config.slack_token)
     api.chat_postMessage(channel=channel_id, **data)
 
 
@@ -75,7 +75,7 @@ def get_all_public_channels():
     next_cursor = None
     all_channels = []
 
-    api = WebClient(token=os.environ.get("SLACK_TOKEN"))
+    api = WebClient(token=app_config.slack_token)
 
     for i in range(10):
         resp = api.conversations_list(
