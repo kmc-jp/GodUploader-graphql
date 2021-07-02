@@ -108,6 +108,38 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           {artwork.account && viewer && artwork.account.id === viewer.id && (
             <UpdateArtworkModal artworkKey={artwork} />
           )}
+        </div>
+        <div className="card-body">
+          {artwork.tags?.edges && artwork.tags.edges.length > 0 && (
+            <div className="row">
+              <ul className="breadcrumb px-2 py-2 bg-light">
+                {artwork.tags.edges.map((edge) => {
+                  const tag = edge?.node;
+                  if (!tag) {
+                    return null;
+                  }
+
+                  return (
+                    <li key={tag.id} className="text-center breadcrumb-item">
+                      <Link to={`/tagged_artworks/${tag.name}`}>
+                        #{tag.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+          <LikeList artwork={artwork} />
+          <IllustCarousel artwork={artwork} />
+          <ArtworkComment artwork={artwork} />
+          {viewer && artwork.account && artwork.account.id === viewer.id && (
+            <div className="mt-2 d-flex justify-content-center">
+              <DeleteArtworkButton artworkId={artwork.id} />
+            </div>
+          )}
+        </div>
+        <div className="card-footer">
           <nav aria-label="前後の作品">
             <ul
               className={clsx(
@@ -169,36 +201,6 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
               )}
             </ul>
           </nav>
-        </div>
-        <div className="card-body">
-          {artwork.tags?.edges && artwork.tags.edges.length > 0 && (
-            <div className="row">
-              <ul className="breadcrumb px-2 py-2 bg-light">
-                {artwork.tags.edges.map((edge) => {
-                  const tag = edge?.node;
-                  if (!tag) {
-                    return null;
-                  }
-
-                  return (
-                    <li key={tag.id} className="text-center breadcrumb-item">
-                      <Link to={`/tagged_artworks/${tag.name}`}>
-                        #{tag.name}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          )}
-          <LikeList artwork={artwork} />
-          <IllustCarousel artwork={artwork} />
-          <ArtworkComment artwork={artwork} />
-          {viewer && artwork.account && artwork.account.id === viewer.id && (
-            <div className="mt-2 d-flex justify-content-center">
-              <DeleteArtworkButton artworkId={artwork.id} />
-            </div>
-          )}
         </div>
       </div>
     </div>
