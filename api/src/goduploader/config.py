@@ -1,6 +1,5 @@
 import os
 import re
-from contextlib import contextmanager
 from typing import List
 
 from goduploader.util import bool_from_env_var
