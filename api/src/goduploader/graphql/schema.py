@@ -222,8 +222,8 @@ class Query(graphene.ObjectType):
 
 class CreateComment(relay.ClientIDMutation):
     class Input:
-        artwork_id = graphene.ID(required=True)
-        text = graphene.String(required=True)
+        artwork_id = graphene.ID(description="コメントをする対象の作品ID", required=True)
+        text = graphene.String(description="コメントの本文", required=True)
 
     comment = graphene.Field(Comment)
 
@@ -257,7 +257,7 @@ class CreateComment(relay.ClientIDMutation):
 
 class LikeArtwork(relay.ClientIDMutation):
     class Input:
-        artwork_id = graphene.ID(required=True)
+        artwork_id = graphene.ID(description="「いいね」をする対象の作品ID", required=True)
 
     like = graphene.Field(Like)
 
@@ -290,12 +290,18 @@ UploadArtworkShareOption = graphene.Enum.from_enum(ShareOptionEnum)
 
 class UploadArtwork(graphene.ClientIDMutation):
     class Input:
-        title = graphene.String(required=True)
-        caption = graphene.String(required=True)
-        tags = graphene.List(graphene.NonNull(graphene.String), required=True)
-        share_option = UploadArtworkShareOption()
-        channel_id = graphene.String()
-        files = graphene.List(graphene.NonNull(Upload), required=True)
+        title = graphene.String(description="作品のタイトル", required=True)
+        caption = graphene.String(description="作品の説明文", required=True)
+        tags = graphene.List(
+            graphene.NonNull(graphene.String), description="作品に付けるタグ", required=True
+        )
+        share_option = UploadArtworkShareOption(description="作品をSlackにシェアするかどうか")
+        channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID")
+        files = graphene.List(
+            graphene.NonNull(Upload),
+            description="アップロードする画像 (GIF/PNG/JPEG形式)",
+            required=True,
+        )
 
     artwork = graphene.Field(Artwork)
 
@@ -362,10 +368,12 @@ class UploadArtwork(graphene.ClientIDMutation):
 
 class UpdateArtwork(graphene.ClientIDMutation):
     class Input:
-        id = graphene.ID(required=True)
-        title = graphene.String(required=True)
-        caption = graphene.String(required=True)
-        tags = graphene.List(graphene.NonNull(graphene.String), required=True)
+        id = graphene.ID(description="更新対象の作品のID", required=True)
+        title = graphene.String(description="更新後のタイトル", required=True)
+        caption = graphene.String(description="更新後の説明文", required=True)
+        tags = graphene.List(
+            graphene.NonNull(graphene.String), description="更新後のタグ", required=True
+        )
 
     artwork = graphene.Field(Artwork)
 
@@ -398,7 +406,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
 
 class DeleteArtwork(graphene.ClientIDMutation):
     class Input:
-        id = graphene.ID(required=True)
+        id = graphene.ID(description="削除対象の作品のID", required=True)
 
     deleted_artwork_id = graphene.Field(graphene.ID)
 
@@ -432,7 +440,7 @@ class DeleteArtwork(graphene.ClientIDMutation):
 
 class UpdateAccount(graphene.ClientIDMutation):
     class Input:
-        name = graphene.String(required=True)
+        name = graphene.String(desciption="更新後の表示名", required=True)
 
     account = graphene.Field(Account)
 
@@ -451,8 +459,8 @@ class UpdateAccount(graphene.ClientIDMutation):
 
 class UpdateTag(graphene.ClientIDMutation):
     class Input:
-        id = graphene.ID(required=True)
-        name = graphene.String(required=True)
+        id = graphene.ID(description="更新対象のタグのID", required=True)
+        name = graphene.String(description="更新後のタグの表記", required=True)
 
     tag = graphene.Field(Tag)
 
@@ -487,13 +495,13 @@ class UpdateTag(graphene.ClientIDMutation):
 
 
 class Mutation(graphene.ObjectType):
-    create_comment = CreateComment.Field()
-    like_artwork = LikeArtwork.Field()
-    upload_artwork = UploadArtwork.Field()
-    update_artwork = UpdateArtwork.Field()
-    delete_artwork = DeleteArtwork.Field()
-    update_account = UpdateAccount.Field()
-    update_tag = UpdateTag.Field()
+    create_comment = CreateComment.Field(description="作品にコメントする")
+    like_artwork = LikeArtwork.Field(description="作品に「いいね」をする")
+    upload_artwork = UploadArtwork.Field(description="作品をアップロードする")
+    update_artwork = UpdateArtwork.Field(description="作品の情報を更新する")
+    delete_artwork = DeleteArtwork.Field(description="作品を削除する")
+    update_account = UpdateAccount.Field(description="ユーザー情報を更新する")
+    update_tag = UpdateTag.Field(description="タグの情報を更新する")
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

@@ -135,7 +135,10 @@ type CommentEdge {
 }
 
 input CreateCommentInput {
+  """コメントをする対象の作品ID"""
   artworkId: ID!
+
+  """コメントの本文"""
   text: String!
   clientMutationId: String
 }
@@ -153,6 +156,7 @@ value as specified by
 scalar DateTime
 
 input DeleteArtworkInput {
+  """削除対象の作品のID"""
   id: ID!
   clientMutationId: String
 }
@@ -203,6 +207,7 @@ type Like implements Node {
 }
 
 input LikeArtworkInput {
+  """「いいね」をする対象の作品ID"""
   artworkId: ID!
   clientMutationId: String
 }
@@ -230,12 +235,25 @@ type LikeEdge {
 }
 
 type Mutation {
+  """作品にコメントする"""
   createComment(input: CreateCommentInput!): CreateCommentPayload
+
+  """作品に「いいね」をする"""
   likeArtwork(input: LikeArtworkInput!): LikeArtworkPayload
+
+  """作品をアップロードする"""
   uploadArtwork(input: UploadArtworkInput!): UploadArtworkPayload
+
+  """作品の情報を更新する"""
   updateArtwork(input: UpdateArtworkInput!): UpdateArtworkPayload
+
+  """作品を削除する"""
   deleteArtwork(input: DeleteArtworkInput!): DeleteArtworkPayload
+
+  """ユーザー情報を更新する"""
   updateAccount(input: UpdateAccountInput!): UpdateAccountPayload
+
+  """タグの情報を更新する"""
   updateTag(input: UpdateTagInput!): UpdateTagPayload
 }
 
@@ -350,9 +368,16 @@ type UpdateAccountPayload {
 }
 
 input UpdateArtworkInput {
+  """更新対象の作品のID"""
   id: ID!
+
+  """更新後のタイトル"""
   title: String!
+
+  """更新後の説明文"""
   caption: String!
+
+  """更新後のタグ"""
   tags: [String!]!
   clientMutationId: String
 }
@@ -363,7 +388,10 @@ type UpdateArtworkPayload {
 }
 
 input UpdateTagInput {
+  """更新対象のタグのID"""
   id: ID!
+
+  """更新後のタグの表記"""
   name: String!
   clientMutationId: String
 }
@@ -380,11 +408,22 @@ that will be handled by the multipart request spec
 scalar Upload
 
 input UploadArtworkInput {
+  """作品のタイトル"""
   title: String!
+
+  """作品の説明文"""
   caption: String!
+
+  """作品に付けるタグ"""
   tags: [String!]!
+
+  """作品をSlackにシェアするかどうか"""
   shareOption: ShareOption
+
+  """投稿したことを共有するSlackチャンネルのID"""
   channelId: String
+
+  """アップロードする画像 (GIF/PNG/JPEG形式)"""
   files: [Upload!]!
   clientMutationId: String
 }
