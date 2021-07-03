@@ -46,6 +46,10 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
       pause: true,
       wrap: false,
     });
+
+    return () => {
+      carouselRef.current?.dispose();
+    };
   });
 
   const handleNext = useCallback(() => {
@@ -66,6 +70,10 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
       return newIndex;
     });
   }, [illusts]);
+
+  if (!(illusts && illusts.edges)) {
+    return null;
+  }
 
   return (
     <div className="carousel slide" ref={carouselElementRef}>
@@ -99,7 +107,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
       <button
         className="carousel-control-prev"
         type="button"
-        disabled={index === 0}
+        disabled={index <= 0}
         onClick={handlePrevious}
       >
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -108,7 +116,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
       <button
         className="carousel-control-next"
         type="button"
-        disabled={index === illusts?.edges.length}
+        disabled={index >= illusts.edges.length - 1}
         onClick={handleNext}
       >
         <span className="carousel-control-next-icon" aria-hidden="true"></span>
