@@ -52,6 +52,7 @@ class AppConfig(ConfigFromEnvironmentVariable):
     base_url = "http://localhost:3000/"
     debug = False
     db_url = "sqlite:///god.db"
+    db_echo = False
     gyazo_access_token = ""
     public_folder = os.path.join(os.path.dirname(__file__), "../../public")
     slack_token = ""
