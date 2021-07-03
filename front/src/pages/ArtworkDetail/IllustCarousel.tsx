@@ -104,24 +104,32 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
           );
         })}
       </div>
-      <button
-        className="carousel-control-prev"
-        type="button"
-        disabled={index <= 0}
-        onClick={handlePrevious}
-      >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        className="carousel-control-next"
-        type="button"
-        disabled={index >= illusts.edges.length - 1}
-        onClick={handleNext}
-      >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
+      {index > 0 && (
+        <button
+          className="carousel-control-prev"
+          type="button"
+          onClick={handlePrevious}
+        >
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+      )}
+      {index < illusts.edges.length - 1 && (
+        <button
+          className="carousel-control-next"
+          type="button"
+          onClick={handleNext}
+        >
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      )}
     </div>
   );
 };
