@@ -34,6 +34,11 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
   const carouselRef = useRef<Carousel | null>(null);
 
   useEffect(() => {
+    // reset carousel index
+    setIndex(0);
+  }, [illusts]);
+
+  useEffect(() => {
     if (!carouselElementRef.current) {
       return;
     }
