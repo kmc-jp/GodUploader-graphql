@@ -116,4 +116,10 @@ export const routes: RouteConfig[] = [
       () => import(/* webpackChunkName: 'TegakiDU' */ "./pages/TegakiDU")
     ),
   },
+  {
+    path: "*",
+    component: lazy(
+      () => import(/* webpackChunkName: 'NotFound' */ "./pages/NotFound")
+    ),
+  },
 ];
