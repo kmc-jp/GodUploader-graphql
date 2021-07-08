@@ -44,7 +44,9 @@ const fetchRelay: FetchFunction = async (
     });
   }
 
-  const response = await fetch(API_URL, {
+  const requestUrl = `${API_URL}?opname=${params.name}`;
+
+  const response = await fetch(requestUrl, {
     method: "POST",
     headers,
     body,
