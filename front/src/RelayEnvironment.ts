@@ -3,11 +3,28 @@ import {
   FetchFunction,
   Network,
   RecordSource,
+  RequestParameters,
   Store,
+  Variables,
 } from "relay-runtime";
 
 const BASENAME = process.env.REACT_APP_BASENAME || "";
 const API_URL = `${BASENAME}/api/graphql`;
+
+const buildRequestUrl = (params: RequestParameters, variables: Variables) => {
+  let requestUrl = `${API_URL}?_trace_opname=${params.name}`;
+  if (params.operationKind === "query") {
+    Object.entries(variables).forEach(([k, v]) => {
+      requestUrl += `&_trace_variables.${k}=`;
+      if (typeof v === "object") {
+        requestUrl += encodeURI(JSON.stringify(v));
+      } else {
+        requestUrl += encodeURI(v);
+      }
+    });
+  }
+  return requestUrl;
+};
 
 const fetchRelay: FetchFunction = async (
   params,
@@ -44,7 +61,7 @@ const fetchRelay: FetchFunction = async (
     });
   }
 
-  const requestUrl = `${API_URL}?_trace_opname=${params.name}`;
+  const requestUrl = buildRequestUrl(params, variables);
 
   const response = await fetch(requestUrl, {
     method: "POST",
