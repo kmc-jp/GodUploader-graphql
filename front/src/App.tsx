@@ -39,6 +39,16 @@ export const App: React.VFC = () => {
     };
   }, [history, currentLocation]);
 
+  useEffect(
+    () =>
+      history.listen((_, action) => {
+        if (action === "PUSH") {
+          window.scrollTo(0, 0);
+        }
+      }),
+    [history]
+  );
+
   // For non-suspended pages
   useEffect(() => {
     setIsLoading(false);
