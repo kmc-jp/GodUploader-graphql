@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -56,6 +57,9 @@ export const App: React.VFC = () => {
 
   return (
     <div className="App">
+      <Helmet>
+        <title>God Illust Uploader</title>
+      </Helmet>
       {isLoading ? <LoadingOverlay /> : null}
       <nav className="navbar navbar-expand-xl navbar-light bg-light mb-3">
         <div className="container">

@@ -1,6 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
 import React from "react";
+import { Helmet } from "react-helmet";
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
@@ -95,6 +96,11 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
 
   return (
     <div>
+      <Helmet>
+        <title>
+          {`${artwork.title} - ${artwork.account?.name}のイラスト - God Illust Uploader`}
+        </title>
+      </Helmet>
       <div className="card">
         <div className="card-header text-center">
           <h2>{artwork.title}</h2>
