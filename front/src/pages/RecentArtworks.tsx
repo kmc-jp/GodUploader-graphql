@@ -3,7 +3,7 @@ import React from "react";
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
-import { RecentArtworksQuery } from "./__generated__/RecentArtworksQuery.graphql";
+import type { RecentArtworksQuery } from "./__generated__/RecentArtworksQuery.graphql";
 
 interface RecentArtworksProps {
   prepared: {
