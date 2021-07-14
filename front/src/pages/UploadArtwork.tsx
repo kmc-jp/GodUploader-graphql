@@ -1,4 +1,10 @@
-import React, { FormEvent, useCallback, useRef, useState } from "react";
+import React, {
+  FormEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useRelayEnvironment } from "react-relay";
 import { useHistory } from "react-router-dom";
 import { PayloadError } from "relay-runtime";
@@ -7,10 +13,7 @@ import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
-import {
-  commitUploadArtworkMutation,
-  makeUploadablesFromFileList,
-} from "../mutation/UploadArtwork";
+import { commitUploadArtworkMutation } from "../mutation/UploadArtwork";
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();
@@ -18,10 +21,10 @@ export const UploadArtwork: React.VFC = () => {
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const filesRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState<string[]>([]);
 
   const [isUploading, setIsUploading] = useState(false);
   const [tagList, setTagList] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
 
   const [notifySlack, setNotifySlack] = useState(false);
   const [showThumbnail, setShowThumbnail] = useState(true);
@@ -32,9 +35,6 @@ export const UploadArtwork: React.VFC = () => {
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
-      if (!(filesRef.current && filesRef.current.files)) {
-        return;
-      }
 
       const shareOption = notifySlack
         ? showThumbnail
@@ -43,10 +43,8 @@ export const UploadArtwork: React.VFC = () => {
         : "NONE";
 
       setIsUploading(true);
-      const files = filesRef.current.files;
-      const uploadables = makeUploadablesFromFileList(
-        "variables.input.files",
-        files
+      const uploadables = Object.fromEntries<File>(
+        Array.from(files, (file, i) => [`variables.input.files.${i}`, file])
       );
       commitUploadArtworkMutation(environment, {
         variables: {
@@ -79,6 +77,7 @@ export const UploadArtwork: React.VFC = () => {
     [
       caption,
       environment,
+      files,
       history,
       notifySlack,
       showThumbnail,
@@ -95,12 +94,17 @@ export const UploadArtwork: React.VFC = () => {
         return;
       }
 
-      const newImages = [];
+      const newFiles = [];
       for (let i = 0; i < files.length; i++) {
-        newImages.push(URL.createObjectURL(files[i]));
+        newFiles.push(files[i]);
       }
-      setImages(newImages);
+      setFiles(newFiles);
     }, []);
+
+  const images = useMemo(
+    () => files.map((file) => URL.createObjectURL(file)),
+    [files]
+  );
 
   return (
     <div className="card">
