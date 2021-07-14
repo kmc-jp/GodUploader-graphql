@@ -53,7 +53,7 @@ export const routes: RouteConfig[] = [
         environment,
         RedirectToMyPageQuery,
         {},
-        { fetchPolicy: "store-or-network" }
+        { fetchPolicy: "store-and-network" }
       ),
     }),
   },
@@ -84,7 +84,7 @@ export const routes: RouteConfig[] = [
         environment,
         ArtworkDetailQuery,
         { id: params.id },
-        { fetchPolicy: "store-or-network" }
+        { fetchPolicy: "store-and-network" }
       ),
     }),
   },
@@ -96,7 +96,7 @@ export const routes: RouteConfig[] = [
         environment,
         RedirectFolderToArtworkQuery,
         { folderId: params.folder_id },
-        { fetchPolicy: "store-or-network" }
+        { fetchPolicy: "store-and-network" }
       ),
     }),
   },
