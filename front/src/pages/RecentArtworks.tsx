@@ -30,7 +30,12 @@ const ArtworkList: React.VFC<{ queryRef: RecentArtworks_artworks$key }> = ({
         safeOnly: { type: "Boolean", defaultValue: true }
       )
       @refetchable(queryName: "RecentArtworkListPaginationQuery") {
-        artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {
+        artworks(
+          first: $count
+          after: $cursor
+          sort: [CREATED_AT_DESC]
+          safeOnly: $safeOnly
+        ) @connection(key: "RecentArtworks_artworks") {
           edges {
             node {
               ...ArtworkListItem_artwork

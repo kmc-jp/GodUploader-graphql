@@ -21,6 +21,8 @@ export type RecentArtworkListPaginationQuery = {
 
 /*
 query RecentArtworkListPaginationQuery(
+  $count: Int = 40
+  $cursor: String
   $safeOnly: Boolean = true
 ) {
   ...RecentArtworks_artworks_1MgKj9
@@ -42,12 +44,18 @@ fragment ArtworkListItem_artwork on Artwork {
 }
 
 fragment RecentArtworks_artworks_1MgKj9 on Query {
-  artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {
+  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {
     edges {
       node {
         ...ArtworkListItem_artwork
         id
+        __typename
       }
+      cursor
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
     }
   }
 }
@@ -76,7 +84,27 @@ v1 = {
   "name": "safeOnly",
   "variableName": "safeOnly"
 },
-v2 = {
+v2 = [
+  {
+    "kind": "Variable",
+    "name": "after",
+    "variableName": "cursor"
+  },
+  {
+    "kind": "Variable",
+    "name": "first",
+    "variableName": "count"
+  },
+  (v1/*: any*/),
+  {
+    "kind": "Literal",
+    "name": "sort",
+    "value": [
+      "CREATED_AT_DESC"
+    ]
+  }
+],
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -119,21 +147,7 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": [
-          {
-            "kind": "Literal",
-            "name": "first",
-            "value": 8
-          },
-          (v1/*: any*/),
-          {
-            "kind": "Literal",
-            "name": "sort",
-            "value": [
-              "CREATED_AT_DESC"
-            ]
-          }
-        ],
+        "args": (v2/*: any*/),
         "concreteType": "ArtworkConnection",
         "kind": "LinkedField",
         "name": "artworks",
@@ -155,7 +169,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v2/*: any*/),
+                  (v3/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -192,7 +206,7 @@ return {
                         "name": "thumbnailUrl",
                         "storageKey": null
                       },
-                      (v2/*: any*/)
+                      (v3/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -211,11 +225,50 @@ return {
                         "name": "name",
                         "storageKey": null
                       },
-                      (v2/*: any*/)
+                      (v3/*: any*/)
                     ],
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "__typename",
                     "storageKey": null
                   }
                 ],
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "cursor",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "PageInfo",
+            "kind": "LinkedField",
+            "name": "pageInfo",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "endCursor",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "hasNextPage",
                 "storageKey": null
               }
             ],
@@ -223,18 +276,30 @@ return {
           }
         ],
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": (v2/*: any*/),
+        "filters": [
+          "sort",
+          "safeOnly"
+        ],
+        "handle": "connection",
+        "key": "RecentArtworks_artworks",
+        "kind": "LinkedHandle",
+        "name": "artworks"
       }
     ]
   },
   "params": {
-    "cacheID": "b13a369d27452a9fa0d5aa517d82a3c1",
+    "cacheID": "6ac4fee2d8ffc72bac05f95bce9f4eaf",
     "id": null,
     "metadata": {},
     "name": "RecentArtworkListPaginationQuery",
     "operationKind": "query",
-    "text": "query RecentArtworkListPaginationQuery(\n  $safeOnly: Boolean = true\n) {\n  ...RecentArtworks_artworks_1MgKj9\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks_1MgKj9 on Query {\n  artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query RecentArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $safeOnly: Boolean = true\n) {\n  ...RecentArtworks_artworks_1MgKj9\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks_1MgKj9 on Query {\n  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '9724d7bf8b6308b55161a01c8002f2e0';
+(node as any).hash = '0337ac8fd74b57dc06b1ba85a11624ea';
 export default node;

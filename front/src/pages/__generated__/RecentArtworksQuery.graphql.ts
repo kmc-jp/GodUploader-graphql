@@ -36,19 +36,44 @@ fragment ArtworkListItem_artwork on Artwork {
 }
 
 fragment RecentArtworks_artworks on Query {
-  artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {
+  artworks(first: 40, sort: [CREATED_AT_DESC], safeOnly: true) {
     edges {
       node {
         ...ArtworkListItem_artwork
         id
+        __typename
       }
+      cursor
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
     }
   }
 }
 */
 
 const node: ConcreteRequest = (function(){
-var v0 = {
+var v0 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 40
+  },
+  {
+    "kind": "Literal",
+    "name": "safeOnly",
+    "value": true
+  },
+  {
+    "kind": "Literal",
+    "name": "sort",
+    "value": [
+      "CREATED_AT_DESC"
+    ]
+  }
+],
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -79,25 +104,7 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": [
-          {
-            "kind": "Literal",
-            "name": "first",
-            "value": 8
-          },
-          {
-            "kind": "Literal",
-            "name": "safeOnly",
-            "value": true
-          },
-          {
-            "kind": "Literal",
-            "name": "sort",
-            "value": [
-              "CREATED_AT_DESC"
-            ]
-          }
-        ],
+        "args": (v0/*: any*/),
         "concreteType": "ArtworkConnection",
         "kind": "LinkedField",
         "name": "artworks",
@@ -119,7 +126,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v0/*: any*/),
+                  (v1/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -156,7 +163,7 @@ return {
                         "name": "thumbnailUrl",
                         "storageKey": null
                       },
-                      (v0/*: any*/)
+                      (v1/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -175,28 +182,79 @@ return {
                         "name": "name",
                         "storageKey": null
                       },
-                      (v0/*: any*/)
+                      (v1/*: any*/)
                     ],
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "__typename",
                     "storageKey": null
                   }
                 ],
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "cursor",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "PageInfo",
+            "kind": "LinkedField",
+            "name": "pageInfo",
+            "plural": false,
+            "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "endCursor",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "hasNextPage",
                 "storageKey": null
               }
             ],
             "storageKey": null
           }
         ],
-        "storageKey": "artworks(first:8,safeOnly:true,sort:[\"CREATED_AT_DESC\"])"
+        "storageKey": "artworks(first:40,safeOnly:true,sort:[\"CREATED_AT_DESC\"])"
+      },
+      {
+        "alias": null,
+        "args": (v0/*: any*/),
+        "filters": [
+          "sort",
+          "safeOnly"
+        ],
+        "handle": "connection",
+        "key": "RecentArtworks_artworks",
+        "kind": "LinkedHandle",
+        "name": "artworks"
       }
     ]
   },
   "params": {
-    "cacheID": "e37298fdbdf1ff7eea2f2f01c638c62a",
+    "cacheID": "7514bc108454aa274af73b0393255b21",
     "id": null,
     "metadata": {},
     "name": "RecentArtworksQuery",
     "operationKind": "query",
-    "text": "query RecentArtworksQuery {\n  ...RecentArtworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks on Query {\n  artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query RecentArtworksQuery {\n  ...RecentArtworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks on Query {\n  artworks(first: 40, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

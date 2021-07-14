@@ -22,7 +22,11 @@ export type RecentArtworks_artworks$key = {
 
 
 
-const node: ReaderFragment = {
+const node: ReaderFragment = (function(){
+var v0 = [
+  "artworks"
+];
+return {
   "argumentDefinitions": [
     {
       "defaultValue": 40,
@@ -42,8 +46,23 @@ const node: ReaderFragment = {
   ],
   "kind": "Fragment",
   "metadata": {
+    "connection": [
+      {
+        "count": "count",
+        "cursor": "cursor",
+        "direction": "forward",
+        "path": (v0/*: any*/)
+      }
+    ],
     "refetch": {
-      "connection": null,
+      "connection": {
+        "forward": {
+          "count": "count",
+          "cursor": "cursor"
+        },
+        "backward": null,
+        "path": (v0/*: any*/)
+      },
       "fragmentPathInResult": [],
       "operation": require('./RecentArtworkListPaginationQuery.graphql.ts')
     }
@@ -51,13 +70,8 @@ const node: ReaderFragment = {
   "name": "RecentArtworks_artworks",
   "selections": [
     {
-      "alias": null,
+      "alias": "artworks",
       "args": [
-        {
-          "kind": "Literal",
-          "name": "first",
-          "value": 8
-        },
         {
           "kind": "Variable",
           "name": "safeOnly",
@@ -73,7 +87,7 @@ const node: ReaderFragment = {
       ],
       "concreteType": "ArtworkConnection",
       "kind": "LinkedField",
-      "name": "artworks",
+      "name": "__RecentArtworks_artworks_connection",
       "plural": false,
       "selections": [
         {
@@ -93,11 +107,50 @@ const node: ReaderFragment = {
               "plural": false,
               "selections": [
                 {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "__typename",
+                  "storageKey": null
+                },
+                {
                   "args": null,
                   "kind": "FragmentSpread",
                   "name": "ArtworkListItem_artwork"
                 }
               ],
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "cursor",
+              "storageKey": null
+            }
+          ],
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "concreteType": "PageInfo",
+          "kind": "LinkedField",
+          "name": "pageInfo",
+          "plural": false,
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "endCursor",
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "hasNextPage",
               "storageKey": null
             }
           ],
@@ -110,5 +163,6 @@ const node: ReaderFragment = {
   "type": "Query",
   "abstractKey": null
 };
-(node as any).hash = '9724d7bf8b6308b55161a01c8002f2e0';
+})();
+(node as any).hash = '0337ac8fd74b57dc06b1ba85a11624ea';
 export default node;
