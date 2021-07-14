@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { loadQuery } from "react-relay";
 
 import { Index } from "./pages/Index";
+import { RecentArtworks } from "./pages/RecentArtworks";
 import { RedirectFolderToArtwork } from "./pages/RedirectFolderToArtwork";
 import { RedirectToMyPage } from "./pages/RedirectToMyPage";
 import { TaggedArtworks } from "./pages/TaggedArtworks";
@@ -10,6 +11,7 @@ import { UploadArtwork } from "./pages/UploadArtwork";
 import { UserDetail } from "./pages/UserDetail";
 import ArtworkDetailQuery from "./pages/__generated__/ArtworkDetailQuery.graphql";
 import IndexQuery from "./pages/__generated__/IndexQuery.graphql";
+import RecentArtworksQuery from "./pages/__generated__/RecentArtworksQuery.graphql";
 import RedirectFolderToArtworkQuery from "./pages/__generated__/RedirectFolderToArtworkQuery.graphql";
 import RedirectToMyPageQuery from "./pages/__generated__/RedirectToMyPageQuery.graphql";
 import TaggedArtworksQuery from "./pages/__generated__/TaggedArtworksQuery.graphql";
@@ -52,6 +54,18 @@ export const routes: RouteConfig[] = [
         RedirectToMyPageQuery,
         {},
         { fetchPolicy: "store-or-network" }
+      ),
+    }),
+  },
+  {
+    path: "/artworks",
+    component: RecentArtworks,
+    prepare: ({ params, environment }) => ({
+      recentArtworksQuery: loadQuery(
+        environment,
+        RecentArtworksQuery,
+        {},
+        { fetchPolicy: "store-and-network" }
       ),
     }),
   },
