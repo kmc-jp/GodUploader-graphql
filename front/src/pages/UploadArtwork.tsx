@@ -18,6 +18,7 @@ export const UploadArtwork: React.VFC = () => {
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const filesRef = useRef<HTMLInputElement>(null);
+  const [images, setImages] = useState<string[]>([]);
 
   const [isUploading, setIsUploading] = useState(false);
   const [tagList, setTagList] = useState<string[]>([]);
@@ -87,6 +88,20 @@ export const UploadArtwork: React.VFC = () => {
     ]
   );
 
+  const handleFileChange: React.ChangeEventHandler<HTMLInputElement> =
+    useCallback((e) => {
+      const files = e.target.files;
+      if (!files) {
+        return;
+      }
+
+      const newImages = [];
+      for (let i = 0; i < files.length; i++) {
+        newImages.push(URL.createObjectURL(files[i]));
+      }
+      setImages(newImages);
+    }, []);
+
   return (
     <div className="card">
       <div className="card-header">画像のアップロード</div>
@@ -105,7 +120,17 @@ export const UploadArtwork: React.VFC = () => {
               multiple
               accept="image/gif,image/png,image/jpeg"
               required
+              onChange={handleFileChange}
             />
+            {images.length > 0 && (
+              <div className="d-flex mt-2">
+                {images.map((dataURL, i) => (
+                  <div key={i} style={{ width: 186, height: 186 }}>
+                    <img src={dataURL} className="mw-100 mh-100" alt="" />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="mb-3">
             <TitleInput title={title} setTitle={setTitle} />
