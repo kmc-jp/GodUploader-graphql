@@ -68,6 +68,13 @@ export const Index: React.VFC<IndexProps> = ({ prepared }) => {
                 );
               })}
             </div>
+            <Link
+              to="/artworks"
+              type="button"
+              className="btn btn-lg btn-outline-secondary w-100 text-center"
+            >
+              もっと見る
+            </Link>
           </div>
         </div>
       ) : (
