@@ -46,11 +46,9 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:prettier/recommended"
+      "plugin:@typescript-eslint/recommended"
     ],
     "rules": {
-      "prettier/prettier": "warn",
       "@typescript-eslint/explicit-module-boundary-types": "off"
     }
   },
@@ -84,8 +82,6 @@
     "@types/relay-runtime": "^11.0.0",
     "babel-plugin-relay": "^11.0.2",
     "cra-bundle-analyzer": "^0.1.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
     "graphql": "^15.5.0",
     "graphql-cli": "^4.1.0",
     "prettier": "^2.3.1",
