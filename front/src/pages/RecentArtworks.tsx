@@ -5,18 +5,6 @@ import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { RecentArtworksQuery } from "./__generated__/RecentArtworksQuery.graphql";
 
-const recentArtworksQuery = graphql`
-  query RecentArtworksQuery($safeOnly: Boolean! = true) {
-    artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {
-      edges {
-        node {
-          ...ArtworkListItem_artwork
-        }
-      }
-    }
-  }
-`;
-
 interface RecentArtworksProps {
   prepared: {
     recentArtworksQuery: PreloadedQuery<RecentArtworksQuery>;
@@ -27,7 +15,17 @@ export const RecentArtworks: React.VFC<RecentArtworksProps> = ({
   prepared,
 }) => {
   const { artworks } = usePreloadedQuery<RecentArtworksQuery>(
-    recentArtworksQuery,
+    graphql`
+      query RecentArtworksQuery($safeOnly: Boolean! = true) {
+        artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {
+          edges {
+            node {
+              ...ArtworkListItem_artwork
+            }
+          }
+        }
+      }
+    `,
     prepared.recentArtworksQuery
   );
 
