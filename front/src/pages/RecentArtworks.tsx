@@ -1,5 +1,5 @@
 import { graphql } from "babel-plugin-relay/macro";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import {
   PreloadedQuery,
@@ -17,11 +17,13 @@ interface RecentArtworksProps {
   };
 }
 
-const ArtworkList: React.VFC<{ queryRef: RecentArtworks_artworks$key }> = ({
-  queryRef,
-}) => {
+const ArtworkList: React.VFC<{
+  queryRef: RecentArtworks_artworks$key;
+  includeNsfw: boolean;
+}> = ({ queryRef, includeNsfw }) => {
   const {
     data: { artworks },
+    refetch,
     loadNext,
     hasNext,
     isLoadingNext,
@@ -50,6 +52,10 @@ const ArtworkList: React.VFC<{ queryRef: RecentArtworks_artworks$key }> = ({
     `,
     queryRef
   );
+
+  useEffect(() => {
+    refetch({ safeOnly: !includeNsfw });
+  }, [includeNsfw, refetch]);
 
   const handleLoadArtworks = useCallback(() => {
     if (!hasNext || isLoadingNext) {
@@ -100,14 +106,31 @@ export const RecentArtworks: React.VFC<RecentArtworksProps> = ({
     prepared.recentArtworksQuery
   );
 
+  const [includeNsfw, setIncludeNsfw] = useState(false);
+
   return (
     <div>
       <div className="card">
         <div className="card-header">
           <h2 className="text-center">最新の絵</h2>
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+              checked={includeNsfw}
+              onChange={(e) => setIncludeNsfw(e.target.checked)}
+            />
+            <label
+              className="form-check-label"
+              htmlFor="flexSwitchCheckDefault"
+            >
+              NSFWなイラストを含める
+            </label>
+          </div>
         </div>
         <div className="card-body">
-          <ArtworkList queryRef={fragmentKey} />
+          <ArtworkList queryRef={fragmentKey} includeNsfw={includeNsfw} />
         </div>
       </div>
     </div>
