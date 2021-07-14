@@ -11,10 +11,7 @@ import { Prompt } from "react-router-dom";
 
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
-
-const isTouchDevice = () => navigator.maxTouchPoints > 0;
-
-const isMac = () => navigator.userAgent.includes("Mac OS");
+import { isMac, isTouchDevice } from "../utils";
 
 const modifierKeyPressed = (e: KeyboardEvent) => {
   if (isMac()) {
