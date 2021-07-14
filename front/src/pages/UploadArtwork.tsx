@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useRef, useState } from "react";
+import React, { FormEvent, useCallback, useMemo, useState } from "react";
 import { useRelayEnvironment } from "react-relay";
 import { useHistory } from "react-router-dom";
 import { PayloadError } from "relay-runtime";
@@ -7,20 +7,17 @@ import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
-import {
-  commitUploadArtworkMutation,
-  makeUploadablesFromFileList,
-} from "../mutation/UploadArtwork";
+import { commitUploadArtworkMutation } from "../mutation/UploadArtwork";
 
 export const UploadArtwork: React.VFC = () => {
   const environment = useRelayEnvironment();
   const history = useHistory();
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
-  const filesRef = useRef<HTMLInputElement>(null);
 
   const [isUploading, setIsUploading] = useState(false);
   const [tagList, setTagList] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
 
   const [notifySlack, setNotifySlack] = useState(false);
   const [showThumbnail, setShowThumbnail] = useState(true);
@@ -31,9 +28,6 @@ export const UploadArtwork: React.VFC = () => {
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
-      if (!(filesRef.current && filesRef.current.files)) {
-        return;
-      }
 
       const shareOption = notifySlack
         ? showThumbnail
@@ -42,10 +36,8 @@ export const UploadArtwork: React.VFC = () => {
         : "NONE";
 
       setIsUploading(true);
-      const files = filesRef.current.files;
-      const uploadables = makeUploadablesFromFileList(
-        "variables.input.files",
-        files
+      const uploadables = Object.fromEntries<File>(
+        Array.from(files, (file, i) => [`variables.input.files.${i}`, file])
       );
       commitUploadArtworkMutation(environment, {
         variables: {
@@ -78,6 +70,7 @@ export const UploadArtwork: React.VFC = () => {
     [
       caption,
       environment,
+      files,
       history,
       notifySlack,
       showThumbnail,
@@ -85,6 +78,16 @@ export const UploadArtwork: React.VFC = () => {
       tagList,
       title,
     ]
+  );
+
+  const handleFileChange: React.ChangeEventHandler<HTMLInputElement> =
+    useCallback((e) => {
+      setFiles(Array.from(e.target.files ?? []));
+    }, []);
+
+  const images = useMemo(
+    () => files.map((file) => URL.createObjectURL(file)),
+    [files]
   );
 
   return (
@@ -95,17 +98,37 @@ export const UploadArtwork: React.VFC = () => {
           <div className="mb-3">
             <label htmlFor="file" className="form-label">
               アップロードする画像{" "}
-              <span className="text-danger">(GIF/JPEG/PNG形式, 必須)</span>
+              <span className="text-danger">
+                (GIF/JPEG/PNG形式, 必須, 先頭の画像がサムネイルになります)
+              </span>
             </label>
             <input
               type="file"
               className="form-control"
               id="file"
-              ref={filesRef}
               multiple
               accept="image/gif,image/png,image/jpeg"
               required
+              onChange={handleFileChange}
             />
+            {images.length > 0 && (
+              <div className="d-flex mt-2">
+                {images.map((dataURL, i) => (
+                  <div
+                    key={i}
+                    className="card me-2"
+                    style={{ width: 186, height: 186 }}
+                  >
+                    <img
+                      src={dataURL}
+                      className="mw-100 mh-100"
+                      alt=""
+                      style={{ objectFit: "contain", display: "block" }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="mb-3">
             <TitleInput title={title} setTitle={setTitle} />
