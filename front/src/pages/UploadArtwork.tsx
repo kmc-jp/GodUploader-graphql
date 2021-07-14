@@ -125,8 +125,17 @@ export const UploadArtwork: React.VFC = () => {
             {images.length > 0 && (
               <div className="d-flex mt-2">
                 {images.map((dataURL, i) => (
-                  <div key={i} style={{ width: 186, height: 186 }}>
-                    <img src={dataURL} className="mw-100 mh-100" alt="" />
+                  <div
+                    key={i}
+                    className="card me-2"
+                    style={{ width: 186, height: 186 }}
+                  >
+                    <img
+                      src={dataURL}
+                      className="mw-100 mh-100"
+                      alt=""
+                      style={{ objectFit: "contain", display: "block" }}
+                    />
                   </div>
                 ))}
               </div>
