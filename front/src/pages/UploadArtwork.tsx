@@ -98,7 +98,9 @@ export const UploadArtwork: React.VFC = () => {
           <div className="mb-3">
             <label htmlFor="file" className="form-label">
               アップロードする画像{" "}
-              <span className="text-danger">(GIF/JPEG/PNG形式, 必須)</span>
+              <span className="text-danger">
+                (GIF/JPEG/PNG形式, 必須, 先頭の画像がサムネイルになります)
+              </span>
             </label>
             <input
               type="file"
