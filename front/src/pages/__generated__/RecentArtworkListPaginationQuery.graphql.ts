@@ -4,20 +4,26 @@
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
-export type RecentArtworksQueryVariables = {};
-export type RecentArtworksQueryResponse = {
+export type RecentArtworkListPaginationQueryVariables = {
+    count?: number | null;
+    cursor?: string | null;
+    safeOnly?: boolean | null;
+};
+export type RecentArtworkListPaginationQueryResponse = {
     readonly " $fragmentRefs": FragmentRefs<"RecentArtworks_artworks">;
 };
-export type RecentArtworksQuery = {
-    readonly response: RecentArtworksQueryResponse;
-    readonly variables: RecentArtworksQueryVariables;
+export type RecentArtworkListPaginationQuery = {
+    readonly response: RecentArtworkListPaginationQueryResponse;
+    readonly variables: RecentArtworkListPaginationQueryVariables;
 };
 
 
 
 /*
-query RecentArtworksQuery {
-  ...RecentArtworks_artworks
+query RecentArtworkListPaginationQuery(
+  $safeOnly: Boolean = true
+) {
+  ...RecentArtworks_artworks_1MgKj9
 }
 
 fragment ArtworkListItem_artwork on Artwork {
@@ -35,8 +41,8 @@ fragment ArtworkListItem_artwork on Artwork {
   }
 }
 
-fragment RecentArtworks_artworks on Query {
-  artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {
+fragment RecentArtworks_artworks_1MgKj9 on Query {
+  artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {
     edges {
       node {
         ...ArtworkListItem_artwork
@@ -48,7 +54,29 @@ fragment RecentArtworks_artworks on Query {
 */
 
 const node: ConcreteRequest = (function(){
-var v0 = {
+var v0 = [
+  {
+    "defaultValue": 40,
+    "kind": "LocalArgument",
+    "name": "count"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "cursor"
+  },
+  {
+    "defaultValue": true,
+    "kind": "LocalArgument",
+    "name": "safeOnly"
+  }
+],
+v1 = {
+  "kind": "Variable",
+  "name": "safeOnly",
+  "variableName": "safeOnly"
+},
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -57,13 +85,25 @@ var v0 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "RecentArtworksQuery",
+    "name": "RecentArtworkListPaginationQuery",
     "selections": [
       {
-        "args": null,
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "count",
+            "variableName": "count"
+          },
+          {
+            "kind": "Variable",
+            "name": "cursor",
+            "variableName": "cursor"
+          },
+          (v1/*: any*/)
+        ],
         "kind": "FragmentSpread",
         "name": "RecentArtworks_artworks"
       }
@@ -73,9 +113,9 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "RecentArtworksQuery",
+    "name": "RecentArtworkListPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -85,11 +125,7 @@ return {
             "name": "first",
             "value": 8
           },
-          {
-            "kind": "Literal",
-            "name": "safeOnly",
-            "value": true
-          },
+          (v1/*: any*/),
           {
             "kind": "Literal",
             "name": "sort",
@@ -119,7 +155,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v0/*: any*/),
+                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -156,7 +192,7 @@ return {
                         "name": "thumbnailUrl",
                         "storageKey": null
                       },
-                      (v0/*: any*/)
+                      (v2/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -175,7 +211,7 @@ return {
                         "name": "name",
                         "storageKey": null
                       },
-                      (v0/*: any*/)
+                      (v2/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -186,19 +222,19 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": "artworks(first:8,safeOnly:true,sort:[\"CREATED_AT_DESC\"])"
+        "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "e37298fdbdf1ff7eea2f2f01c638c62a",
+    "cacheID": "b13a369d27452a9fa0d5aa517d82a3c1",
     "id": null,
     "metadata": {},
-    "name": "RecentArtworksQuery",
+    "name": "RecentArtworkListPaginationQuery",
     "operationKind": "query",
-    "text": "query RecentArtworksQuery {\n  ...RecentArtworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks on Query {\n  artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query RecentArtworkListPaginationQuery(\n  $safeOnly: Boolean = true\n) {\n  ...RecentArtworks_artworks_1MgKj9\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks_1MgKj9 on Query {\n  artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '22345b5c530e7ede196c2e16602ffe8f';
+(node as any).hash = '9724d7bf8b6308b55161a01c8002f2e0';
 export default node;
