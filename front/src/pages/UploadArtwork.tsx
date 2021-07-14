@@ -1,10 +1,4 @@
-import React, {
-  FormEvent,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { FormEvent, useCallback, useMemo, useState } from "react";
 import { useRelayEnvironment } from "react-relay";
 import { useHistory } from "react-router-dom";
 import { PayloadError } from "relay-runtime";
@@ -20,7 +14,6 @@ export const UploadArtwork: React.VFC = () => {
   const history = useHistory();
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
-  const filesRef = useRef<HTMLInputElement>(null);
 
   const [isUploading, setIsUploading] = useState(false);
   const [tagList, setTagList] = useState<string[]>([]);
@@ -120,7 +113,6 @@ export const UploadArtwork: React.VFC = () => {
               type="file"
               className="form-control"
               id="file"
-              ref={filesRef}
               multiple
               accept="image/gif,image/png,image/jpeg"
               required
