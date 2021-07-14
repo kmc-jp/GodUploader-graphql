@@ -1,5 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
-import React from "react";
+import React, { useCallback } from "react";
+import InfiniteScroll from "react-infinite-scroller";
 import {
   PreloadedQuery,
   usePaginationFragment,
@@ -21,6 +22,9 @@ const ArtworkList: React.VFC<{ queryRef: RecentArtworks_artworks$key }> = ({
 }) => {
   const {
     data: { artworks },
+    loadNext,
+    hasNext,
+    isLoadingNext,
   } = usePaginationFragment(
     graphql`
       fragment RecentArtworks_artworks on Query
@@ -47,20 +51,40 @@ const ArtworkList: React.VFC<{ queryRef: RecentArtworks_artworks$key }> = ({
     queryRef
   );
 
-  return (
-    <div className="row row-cols-1 row-cols-lg-4">
-      {artworks?.edges.map((edge, i) => {
-        if (!(edge && edge.node)) {
-          return null;
-        }
+  const handleLoadArtworks = useCallback(() => {
+    if (!hasNext || isLoadingNext) {
+      return;
+    }
 
-        return (
-          <div key={i} className="col p-2">
-            <ArtworkListItem artwork={edge.node} />
+    loadNext(20);
+  }, [hasNext, isLoadingNext, loadNext]);
+
+  return (
+    <InfiniteScroll
+      loadMore={handleLoadArtworks}
+      hasMore={hasNext && !isLoadingNext}
+      loader={
+        <div key={0} className="d-flex justify-content-center">
+          <div className="spinner-border text-light" role="status">
+            <span className="visually-hidden">Uploading...</span>
           </div>
-        );
-      })}
-    </div>
+        </div>
+      }
+    >
+      <div className="row row-cols-1 row-cols-lg-4">
+        {artworks?.edges.map((edge, i) => {
+          if (!(edge && edge.node)) {
+            return null;
+          }
+
+          return (
+            <div key={i} className="col p-2">
+              <ArtworkListItem artwork={edge.node} />
+            </div>
+          );
+        })}
+      </div>
+    </InfiniteScroll>
   );
 };
 
