@@ -18,9 +18,9 @@ interface RecentArtworksProps {
 }
 
 const ArtworkList: React.VFC<{
-  queryRef: RecentArtworks_artworks$key;
+  artworks: RecentArtworks_artworks$key;
   includeNsfw: boolean;
-}> = ({ queryRef, includeNsfw }) => {
+}> = ({ artworks: queryRef, includeNsfw }) => {
   const {
     data: { artworks },
     refetch,
@@ -130,7 +130,7 @@ export const RecentArtworks: React.VFC<RecentArtworksProps> = ({
           </div>
         </div>
         <div className="card-body">
-          <ArtworkList queryRef={fragmentKey} includeNsfw={includeNsfw} />
+          <ArtworkList artworks={fragmentKey} includeNsfw={includeNsfw} />
         </div>
       </div>
     </div>
