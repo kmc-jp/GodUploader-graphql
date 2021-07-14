@@ -82,16 +82,7 @@ export const UploadArtwork: React.VFC = () => {
 
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback((e) => {
-      const files = e.target.files;
-      if (!files) {
-        return;
-      }
-
-      const newFiles = [];
-      for (let i = 0; i < files.length; i++) {
-        newFiles.push(files[i]);
-      }
-      setFiles(newFiles);
+      setFiles(Array.from(e.target.files ?? []));
     }, []);
 
   const images = useMemo(
