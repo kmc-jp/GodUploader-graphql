@@ -10,6 +10,7 @@ export type IllustCarousel_illusts = {
             readonly node: {
                 readonly id: string;
                 readonly imageUrl: string;
+                readonly thumbnailUrl: string;
             } | null;
         } | null>;
     } | null;
@@ -66,6 +67,13 @@ const node: ReaderFragment = {
                   "kind": "ScalarField",
                   "name": "imageUrl",
                   "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "thumbnailUrl",
+                  "storageKey": null
                 }
               ],
               "storageKey": null
@@ -80,5 +88,5 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '7b0443155da397b9f7e767773eae75bf';
+(node as any).hash = '792772302942d400c6387a46c3e3cb28';
 export default node;

@@ -159,6 +159,7 @@ fragment IllustCarousel_illusts on Artwork {
       node {
         id
         imageUrl
+        thumbnailUrl
       }
     }
   }
@@ -579,7 +580,8 @@ return {
                             "kind": "ScalarField",
                             "name": "imageUrl",
                             "storageKey": null
-                          }
+                          },
+                          (v6/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -781,12 +783,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "99efe4985e2dcb6771bc9404a67c3e50",
+    "cacheID": "475b317e31a46972aada165109d8bd2a",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  artworkWithBidirectional(id: $id) {\n    previous {\n      id\n      title\n      nsfw\n      topIllust {\n        thumbnailUrl\n        id\n      }\n    }\n    next {\n      id\n      title\n      nsfw\n      topIllust {\n        thumbnailUrl\n        id\n      }\n    }\n    current {\n      id\n      title\n      caption\n      createdAt\n      account {\n        id\n        kmcid\n        name\n      }\n      ...UpdateArtworkForm_artwork\n      ...IllustCarousel_illusts\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  artworkId: id\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  artworkId: id\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment IllustCarousel_illusts on Artwork {\n  illusts {\n    edges {\n      node {\n        id\n        imageUrl\n      }\n    }\n  }\n}\n\nfragment UpdateArtworkForm_artwork on Artwork {\n  id\n  title\n  caption\n  tags {\n    edges {\n      node {\n        name\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  artworkWithBidirectional(id: $id) {\n    previous {\n      id\n      title\n      nsfw\n      topIllust {\n        thumbnailUrl\n        id\n      }\n    }\n    next {\n      id\n      title\n      nsfw\n      topIllust {\n        thumbnailUrl\n        id\n      }\n    }\n    current {\n      id\n      title\n      caption\n      createdAt\n      account {\n        id\n        kmcid\n        name\n      }\n      ...UpdateArtworkForm_artwork\n      ...IllustCarousel_illusts\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  artworkId: id\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  artworkId: id\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment IllustCarousel_illusts on Artwork {\n  illusts {\n    edges {\n      node {\n        id\n        imageUrl\n        thumbnailUrl\n      }\n    }\n  }\n}\n\nfragment UpdateArtworkForm_artwork on Artwork {\n  id\n  title\n  caption\n  tags {\n    edges {\n      node {\n        name\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
