@@ -76,7 +76,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
 
   return (
     <>
-      <div className="carousel slide" ref={carouselElementRef}>
+      <div className="carousel carousel-dark slide" ref={carouselElementRef}>
         <div className="carousel-inner">
           {illusts?.edges.map((edge, i) => {
             if (!edge) {
