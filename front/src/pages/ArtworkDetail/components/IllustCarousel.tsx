@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFragment } from "react-relay";
 
 import { SuspenseImage } from "../../../components/SuspenseImage";
-import { usePrevious } from "../../../hooks/usePrevious";
 import { IllustCarousel_illusts$key } from "./__generated__/IllustCarousel_illusts.graphql";
 
 interface Props {
@@ -30,7 +29,6 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
     artwork
   );
   const [index, setIndex] = useState(0);
-  const previousIndex = usePrevious(index);
   const carouselElementRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<Carousel | null>(null);
 
