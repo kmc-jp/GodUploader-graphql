@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFragment } from "react-relay";
 
 import { SuspenseImage } from "../../../components/SuspenseImage";
-import { usePrevious } from "../../../hooks/usePrevious";
 import { IllustCarousel_illusts$key } from "./__generated__/IllustCarousel_illusts.graphql";
 
 interface Props {
@@ -21,6 +20,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
             node {
               id
               imageUrl
+              thumbnailUrl
             }
           }
         }
@@ -29,7 +29,6 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
     artwork
   );
   const [index, setIndex] = useState(0);
-  const previousIndex = usePrevious(index);
   const carouselElementRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<Carousel | null>(null);
 
@@ -76,60 +75,95 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
   }
 
   return (
-    <div className="carousel slide" ref={carouselElementRef}>
-      <div className="carousel-inner">
-        {illusts?.edges.map((edge, i) => {
-          if (!edge) {
-            return null;
-          }
-          const node = edge.node;
-          if (!node) {
-            return null;
-          }
+    <>
+      <div className="carousel carousel-dark slide" ref={carouselElementRef}>
+        <div className="carousel-inner">
+          {illusts?.edges.map((edge, i) => {
+            if (!edge) {
+              return null;
+            }
+            const node = edge.node;
+            if (!node) {
+              return null;
+            }
 
-          return (
-            <div
-              className={clsx(
-                "carousel-item",
-                (i === index || i === previousIndex) && "active"
-              )}
-              key={i}
-            >
-              <SuspenseImage
-                src={node.imageUrl}
-                alt=""
-                className="mw-100 d-block mx-auto"
-              />
-            </div>
-          );
-        })}
+            return (
+              <div
+                className={clsx("carousel-item", i === 0 && "active")}
+                key={i}
+              >
+                <SuspenseImage
+                  src={node.imageUrl}
+                  alt=""
+                  className="mw-100 d-block mx-auto"
+                />
+              </div>
+            );
+          })}
+        </div>
+        {index > 0 && (
+          <button
+            className="carousel-control-prev"
+            type="button"
+            onClick={handlePrevious}
+          >
+            <span
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+        )}
+        {index < illusts.edges.length - 1 && (
+          <button
+            className="carousel-control-next"
+            type="button"
+            onClick={handleNext}
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Next</span>
+          </button>
+        )}
       </div>
-      {index > 0 && (
-        <button
-          className="carousel-control-prev"
-          type="button"
-          onClick={handlePrevious}
-        >
-          <span
-            className="carousel-control-prev-icon"
-            aria-hidden="true"
-          ></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
+      {illusts.edges.length >= 1 && (
+        <div className="mt-2 d-flex justify-content-center">
+          {illusts.edges.map((edge, i) => {
+            const node = edge?.node;
+            if (!node) {
+              return null;
+            }
+
+            return (
+              <a
+                href={`#illust-${i}`}
+                className={clsx(
+                  "card",
+                  "me-2",
+                  i === index && "border-primary"
+                )}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIndex(i);
+                  carouselRef.current?.to(i);
+                }}
+              >
+                <SuspenseImage
+                  src={node.thumbnailUrl}
+                  style={{
+                    maxWidth: "100%",
+                    height: 186,
+                    objectFit: "contain",
+                    display: "block",
+                  }}
+                />
+              </a>
+            );
+          })}
+        </div>
       )}
-      {index < illusts.edges.length - 1 && (
-        <button
-          className="carousel-control-next"
-          type="button"
-          onClick={handleNext}
-        >
-          <span
-            className="carousel-control-next-icon"
-            aria-hidden="true"
-          ></span>
-          <span className="visually-hidden">Next</span>
-        </button>
-      )}
-    </div>
+    </>
   );
 };
