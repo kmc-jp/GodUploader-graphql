@@ -3,10 +3,10 @@ import { Modal } from "bootstrap";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
-import { CaptionInput } from "../../components/ArtworkInfoForm/CaptionInput";
-import { TagsInput } from "../../components/ArtworkInfoForm/TagsInput";
-import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";
-import { commitUpdateArtworkMutation } from "../../mutation/UpdateArtwork";
+import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
+import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
+import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
+import { commitUpdateArtworkMutation } from "../../../mutation/UpdateArtwork";
 import { UpdateArtworkForm_artwork$key } from "./__generated__/UpdateArtworkForm_artwork.graphql";
 
 interface Props {

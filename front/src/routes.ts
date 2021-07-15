@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { loadQuery } from "react-relay";
 
+import ArtworkDetailQuery from "./pages/ArtworkDetail/__generated__/ArtworkDetailQuery.graphql";
 import { Index } from "./pages/Index";
 import { RecentArtworks } from "./pages/RecentArtworks";
 import { RedirectFolderToArtwork } from "./pages/RedirectFolderToArtwork";
@@ -9,7 +10,6 @@ import { TaggedArtworks } from "./pages/TaggedArtworks";
 import { Tags } from "./pages/Tags";
 import { UploadArtwork } from "./pages/UploadArtwork";
 import { UserDetail } from "./pages/UserDetail";
-import ArtworkDetailQuery from "./pages/__generated__/ArtworkDetailQuery.graphql";
 import IndexQuery from "./pages/__generated__/IndexQuery.graphql";
 import RecentArtworksQuery from "./pages/__generated__/RecentArtworksQuery.graphql";
 import RedirectFolderToArtworkQuery from "./pages/__generated__/RedirectFolderToArtworkQuery.graphql";

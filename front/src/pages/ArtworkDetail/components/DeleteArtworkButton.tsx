@@ -2,7 +2,7 @@ import React from "react";
 import { useRelayEnvironment } from "react-relay";
 import { useHistory } from "react-router-dom";
 
-import { commitDeleteArtworkMutation } from "../../mutation/DeleteArtwork";
+import { commitDeleteArtworkMutation } from "../../../mutation/DeleteArtwork";
 
 interface DeleteArtworkButtonProps {
   artworkId: string;

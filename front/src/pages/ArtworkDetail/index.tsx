@@ -6,15 +6,15 @@ import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
-import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
-import { SuspenseImage } from "../components/SuspenseImage";
-import { formatDateTime } from "../util";
-import { ArtworkComment } from "./ArtworkDetail/ArtworkComment";
-import { LikeList } from "./ArtworkDetail/ArtworkLikeList";
-import { DeleteArtworkButton } from "./ArtworkDetail/DeleteArtworkButton";
-import { IllustCarousel } from "./ArtworkDetail/IllustCarousel";
-import { UpdateArtworkModal } from "./ArtworkDetail/UpdateArtworkForm";
+import CensoredThumbnailImage from "../../assets/img/regulation_mark_r18.png";
+import { SuspenseImage } from "../../components/SuspenseImage";
+import { formatDateTime } from "../../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
+import { ArtworkComment } from "./components/ArtworkComment";
+import { LikeList } from "./components/ArtworkLikeList";
+import { DeleteArtworkButton } from "./components/DeleteArtworkButton";
+import { IllustCarousel } from "./components/IllustCarousel";
+import { UpdateArtworkModal } from "./components/UpdateArtworkForm";
 
 const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {

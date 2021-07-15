@@ -4,8 +4,8 @@ import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFragment } from "react-relay";
 
-import { SuspenseImage } from "../../components/SuspenseImage";
-import { usePrevious } from "../../hooks/usePrevious";
+import { SuspenseImage } from "../../../components/SuspenseImage";
+import { usePrevious } from "../../../hooks/usePrevious";
 import { IllustCarousel_illusts$key } from "./__generated__/IllustCarousel_illusts.graphql";
 
 interface Props {
