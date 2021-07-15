@@ -128,7 +128,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
           </button>
         )}
       </div>
-      {illusts.edges.length >= 1 && (
+      {illusts.edges.length >= 2 && (
         <div className="mt-2 d-flex justify-content-center">
           {illusts.edges.map((edge, i) => {
             const node = edge?.node;
