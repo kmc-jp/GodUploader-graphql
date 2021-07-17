@@ -60,7 +60,7 @@ export const routes: RouteConfig[] = [
   {
     path: "/artworks",
     component: RecentArtworks,
-    prepare: ({ params, environment }) => ({
+    prepare: ({ environment }) => ({
       recentArtworksQuery: loadQuery(
         environment,
         RecentArtworksQuery,
