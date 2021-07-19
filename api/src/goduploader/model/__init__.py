@@ -6,22 +6,15 @@ from urllib.parse import urljoin
 from goduploader.config import app_config
 from goduploader.model.account import Account
 from goduploader.model.base import Base
+from goduploader.model.relation import artwork_tag_relation
 from graphene.relay import Node
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
-from sqlalchemy.sql.schema import ForeignKey, Index, Table
+from sqlalchemy.sql.schema import ForeignKey, Index
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
 
 __all__ = ["Account", "Base"]
-
-
-artwork_tag_relation = Table(
-    "artwork_tag_relation",
-    Base.metadata,
-    Column("artwork_id", Integer, ForeignKey("artwork.id")),
-    Column("tag_id", Integer, ForeignKey("tag.id")),
-)
 
 
 class Artwork(Base):
