@@ -138,6 +138,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
 
             return (
               <a
+                key={i}
                 href={`#illust-${i}`}
                 className={clsx(
                   "card",
