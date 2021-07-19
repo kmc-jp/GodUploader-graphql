@@ -4,15 +4,15 @@ from pathlib import Path
 from urllib.parse import urljoin
 
 from goduploader.config import app_config
+from goduploader.model.base import Base
 from graphene.relay import Node
 from sqlalchemy import Column
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.schema import ForeignKey, Index, Table
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
 
-Base = declarative_base()
+__all__ = ["Base"]
 
 
 class Account(Base):
