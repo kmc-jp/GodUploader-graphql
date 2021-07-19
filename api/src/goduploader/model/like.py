@@ -1,5 +1,4 @@
 from datetime import datetime
-from urllib.parse import urljoin
 
 from goduploader.model.account import Account
 from goduploader.model.artwork import Artwork
