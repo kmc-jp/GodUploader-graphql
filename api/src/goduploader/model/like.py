@@ -1,15 +1,9 @@
 from datetime import datetime
 
-from goduploader.model.account import Account
-from goduploader.model.artwork import Artwork
 from goduploader.model.base import Base
-from goduploader.model.comment import Comment
-from goduploader.model.illust import Illust
 from sqlalchemy import Column
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import DateTime, Integer
-
-__all__ = ["Account", "Artwork", "Base", "Comment", "Illust"]
 
 
 class Like(Base):
