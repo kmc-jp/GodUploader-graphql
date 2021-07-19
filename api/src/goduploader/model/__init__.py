@@ -7,6 +7,7 @@ from goduploader.config import app_config
 from goduploader.model.account import Account
 from goduploader.model.artwork import Artwork
 from goduploader.model.base import Base
+from goduploader.model.comment import Comment
 from goduploader.model.relation import artwork_tag_relation
 from graphene.relay import Node
 from sqlalchemy import Column
@@ -15,21 +16,7 @@ from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.schema import ForeignKey, Index
 from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
 
-__all__ = ["Account", "Artwork", "Base"]
-
-
-class Comment(Base):
-    __tablename__ = "comment"
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    text = Column(Text, nullable=False)
-    account_id = Column(Integer, ForeignKey("account.id"), nullable=False)
-    artwork_id = Column(Integer, ForeignKey("artwork.id"), nullable=False)
-
-    created_at = Column(DateTime, nullable=False, default=datetime.now)
-    updated_at = Column(
-        DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
-    )
+__all__ = ["Account", "Artwork", "Base", "Comment"]
 
 
 class Illust(Base):
