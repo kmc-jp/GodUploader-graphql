@@ -6,4 +6,4 @@ from goduploader.model.illust import Illust
 from goduploader.model.like import Like
 from goduploader.model.tag import Tag
 
-__all__ = ["Account", "Artwork", "Base", "Comment", "Illust", "Like", "Tag"]
+__all__ = ["Account", "Artwork", "Comment", "Illust", "Like", "Tag"]
