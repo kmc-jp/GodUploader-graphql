@@ -24,7 +24,7 @@ from goduploader.thumbnail import generate_thumbnail
 from graphene import relay
 from graphene.types.objecttype import ObjectType
 from graphene_file_upload.scalars import Upload
-from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
+from graphene_sqlalchemy import SQLAlchemyConnectionField
 from sqlalchemy.sql.expression import and_, desc
 from werkzeug.datastructures import FileStorage
 
