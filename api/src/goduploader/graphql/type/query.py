@@ -24,7 +24,7 @@ class ArtworkWithBidirectionalPayload(ObjectType):
     next = graphene.Field(Artwork)
 
 
-class Query(graphene.ObjectType):
+class Query(ObjectType):
     node = relay.Node.Field()
     accounts = SQLAlchemyConnectionField(Account.connection)
 
