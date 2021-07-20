@@ -16,6 +16,8 @@ from graphene.types.objecttype import ObjectType
 from graphene_sqlalchemy import SQLAlchemyConnectionField
 from sqlalchemy.sql.expression import and_, desc
 
+__all__ = ["Account", "Artwork", "Comment", "Illust", "Like", "Tag"]
+
 
 class SlackChannel(ObjectType):
     id = graphene.NonNull(graphene.String)
