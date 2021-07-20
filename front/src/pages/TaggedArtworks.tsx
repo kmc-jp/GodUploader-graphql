@@ -44,7 +44,7 @@ export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
     <div>
       <div className="card">
         <div className="card-header">
-          <h2 className="text-center">タグ"{tag}"の絵たち</h2>
+          <h2 className="text-center">タグ&quot;{tag}&quot;の絵たち</h2>
           {!tagByName.editFreezed && (
             <div className="d-flex justify-content-center mb-2">
               <UpdateTagModal tagKey={tagByName} />
