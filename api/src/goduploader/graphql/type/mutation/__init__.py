@@ -7,12 +7,11 @@ import sqlalchemy
 from goduploader.db import session
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.artwork import Artwork
-from goduploader.graphql.type.like import Like
 from goduploader.graphql.type.mutation.create_comment import CreateComment
+from goduploader.graphql.type.mutation.like_artwork import LikeArtwork
 from goduploader.graphql.type.tag import Tag
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Illust as IllustModel
-from goduploader.model import Like as LikeModel
 from goduploader.model import Tag as TagModel
 from goduploader.slack import ShareOption as ShareOptionEnum
 from goduploader.slack import share_to_slack
@@ -21,37 +20,6 @@ from goduploader.thumbnail import generate_thumbnail
 from graphene import relay
 from graphene_file_upload.scalars import Upload
 from werkzeug.datastructures import FileStorage
-
-
-class LikeArtwork(relay.ClientIDMutation):
-    class Input:
-        artwork_id = graphene.ID(description="「いいね」をする対象の作品ID", required=True)
-
-    like = graphene.Field(Like)
-
-    @classmethod
-    def mutate_and_get_payload(cls, root, info, **input):
-        current_user = info.context.user
-        if current_user is None:
-            raise Exception("Please login")
-
-        artwork_id = input["artwork_id"]
-        artwork = relay.Node.get_node_from_global_id(
-            info, artwork_id, only_type=Artwork
-        )
-        if artwork is None:
-            raise Exception("Artwork not found")
-
-        like = LikeModel(
-            account_id=current_user.id,
-            artwork_id=artwork.id,
-        )
-        session.add(like)
-
-        session.commit()
-
-        return LikeArtwork(like=like)
-
 
 UploadArtworkShareOption = graphene.Enum.from_enum(ShareOptionEnum)
 
