@@ -5,7 +5,6 @@ from typing import List
 import graphene
 import sqlalchemy
 from goduploader.db import session
-from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.artwork import Artwork
 from goduploader.graphql.type.comment import Comment
@@ -28,9 +27,6 @@ from graphene_file_upload.scalars import Upload
 from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
 from sqlalchemy.sql.expression import and_, desc
 from werkzeug.datastructures import FileStorage
-
-account_loader = AccountLoader()
-illust_loader = IllustLoader()
 
 
 class SlackChannel(ObjectType):
