@@ -8,6 +8,7 @@ from goduploader.db import session
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.artwork import Artwork
+from goduploader.graphql.type.comment import Comment
 from goduploader.graphql.type.illust import Illust
 from goduploader.model import Account as AccountModel
 from goduploader.model import Artwork as ArtworkModel
@@ -28,17 +29,6 @@ from werkzeug.datastructures import FileStorage
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
-
-
-class Comment(SQLAlchemyObjectType):
-    class Meta:
-        model = CommentModel
-        interfaces = (relay.Node,)
-
-    account = graphene.Field(Account)
-
-    def resolve_account(root, info):
-        return account_loader.load(root.account_id)
 
 
 class Like(SQLAlchemyObjectType):
