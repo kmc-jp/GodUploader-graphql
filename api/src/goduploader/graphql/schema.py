@@ -6,6 +6,7 @@ import graphene
 import sqlalchemy
 from goduploader.db import session
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
+from goduploader.graphql.type.account import Account
 from goduploader.model import Account as AccountModel
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Comment as CommentModel
@@ -25,12 +26,6 @@ from werkzeug.datastructures import FileStorage
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
-
-
-class Account(SQLAlchemyObjectType):
-    class Meta:
-        model = AccountModel
-        interfaces = (relay.Node,)
 
 
 class Illust(SQLAlchemyObjectType):
