@@ -7,6 +7,7 @@ import sqlalchemy
 from goduploader.db import session
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.graphql.type.account import Account
+from goduploader.graphql.type.illust import Illust
 from goduploader.model import Account as AccountModel
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Comment as CommentModel
@@ -26,22 +27,6 @@ from werkzeug.datastructures import FileStorage
 
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
-
-
-class Illust(SQLAlchemyObjectType):
-    class Meta:
-        model = IllustModel
-        interfaces = (relay.Node,)
-
-    image_url = graphene.Field(graphene.String, required=True)
-
-    def resolve_image_url(root, info):
-        return root.image_url
-
-    thumbnail_url = graphene.Field(graphene.String, required=True)
-
-    def resolve_thumbnail_url(root, info):
-        return root.thumbnail_url
 
 
 class Artwork(SQLAlchemyObjectType):
