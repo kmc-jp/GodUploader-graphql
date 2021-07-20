@@ -2,6 +2,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import React, { Suspense, useCallback, useRef, useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
 
+import { useArtworkInformation } from "../../hooks/useArtworkInformation";
 import { TagsInputQuery } from "./__generated__/TagsInputQuery.graphql";
 
 const tagsInputQuery = graphql`
@@ -22,24 +23,20 @@ const isSafari = () =>
   navigator.userAgent.includes("Safari/") &&
   navigator.userAgent.includes("Version/");
 
-interface Props {
-  tagList: string[];
-  setTagList: React.Dispatch<React.SetStateAction<string[]>>;
-}
-
-export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
+export const TagsInput: React.VFC = () => {
+  const { tags, setTags } = useArtworkInformation();
   const appendTag = useCallback(
     (newTag: string) => {
-      setTagList((oldTagList) => [...oldTagList, newTag]);
+      setTags([...tags, newTag]);
     },
-    [setTagList]
+    [setTags, tags]
   );
 
   const popLastTag = useCallback(() => {
-    const lastTag = tagList[tagList.length - 1];
-    setTagList(tagList.slice(0, tagList.length - 1));
+    const lastTag = tags[tags.length - 1];
+    setTags(tags.slice(0, tags.length - 1));
     return lastTag;
-  }, [tagList, setTagList]);
+  }, [tags, setTags]);
 
   const [currentInput, setCurrentInput] = useState("");
 
@@ -73,7 +70,7 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
           appendTag(newTag);
           setCurrentInput("");
         } else if (e.key === "Backspace" && currentInput === "") {
-          if (tagList.length === 0) {
+          if (tags.length === 0) {
             return;
           }
 
@@ -82,14 +79,14 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
           setCurrentInput(lastTag);
         }
       },
-      [appendTag, currentInput, popLastTag, tagList.length]
+      [appendTag, currentInput, popLastTag, tags.length]
     );
 
   return (
     <>
       <label htmlFor="tags">タグ</label>
       <div className="row g-2">
-        <TagList tagList={tagList} setTagList={setTagList} />
+        <TagList />
         <div className="col-lg">
           <input
             type="text"
@@ -115,18 +112,20 @@ export const TagsInput: React.VFC<Props> = ({ tagList, setTagList }) => {
   );
 };
 
-const TagList: React.VFC<Props> = ({ tagList, setTagList }) => {
+const TagList: React.VFC = () => {
+  const { tags, setTags } = useArtworkInformation();
+
   const removeTag = (targetTag: string) => {
-    setTagList((oldTagList) => oldTagList.filter((tag) => tag !== targetTag));
+    setTags(tags.filter((tag) => tag !== targetTag));
   };
 
-  if (tagList.length === 0) {
+  if (tags.length === 0) {
     return null;
   }
 
   return (
     <ul className="list-group list-group-horizontal-md mb-2 col-auto">
-      {tagList.map((tag, i) => (
+      {tags.map((tag, i) => (
         <li key={i} className="list-group-item">
           <button
             type="button"

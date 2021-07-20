@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useState } from "react";
 
+import { ArtworkInformationProvider } from "../../../contexts/ArtworkInformationContext";
 import { DrawingContext } from "../contexts/DrawingContext";
 import { PaintStackContext } from "../contexts/PaintStackContext";
 import { UploadArtworkModal } from "./UploadArtworkModal";
@@ -61,7 +62,9 @@ export const Sidebar: React.VFC = () => {
 
   return (
     <div className="container h-100">
-      <UploadArtworkModal blob={serializedBlob} />
+      <ArtworkInformationProvider initialTags={["tegaki_du"]}>
+        <UploadArtworkModal blob={serializedBlob} />
+      </ArtworkInformationProvider>
       <div className="row">
         <div className="col-sm-10">
           <div className="row mb-2">
