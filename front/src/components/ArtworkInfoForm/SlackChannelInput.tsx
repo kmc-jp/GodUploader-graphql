@@ -2,6 +2,7 @@ import { graphql } from "babel-plugin-relay/macro";
 import React, { useEffect, Suspense } from "react";
 import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
 
+import { useUploadArtworkContext } from "../../hooks/useUploadArtworkContext";
 import { SlackChannelInputQuery } from "./__generated__/SlackChannelInputQuery.graphql";
 
 const slackChannelInputQuery = graphql`
@@ -13,17 +14,9 @@ const slackChannelInputQuery = graphql`
   }
 `;
 
-interface Props {
-  slackChannel: string;
-  setSlackChannel: (channel: string) => void;
-  disabled: boolean;
-}
-
-export const SlackChannelInput: React.VFC<Props> = ({
-  slackChannel,
-  setSlackChannel,
-  disabled,
-}) => {
+export const SlackChannelInput: React.VFC = () => {
+  const { slackChannel, notifySlack, setSlackChannel } =
+    useUploadArtworkContext();
   const [queryRef, loadQuery] = useQueryLoader<SlackChannelInputQuery>(
     slackChannelInputQuery
   );
@@ -41,11 +34,11 @@ export const SlackChannelInput: React.VFC<Props> = ({
             id="channel_id"
             className="form-select"
             value={slackChannel}
-            disabled={disabled}
+            disabled={!notifySlack}
             onChange={(e) => setSlackChannel(e.target.value)}
           >
             <Suspense fallback={null}>
-              {!disabled && queryRef && (
+              {notifySlack && queryRef && (
                 <ChannelSuggestion queryRef={queryRef} />
               )}
             </Suspense>

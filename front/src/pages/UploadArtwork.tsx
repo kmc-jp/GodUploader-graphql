@@ -1,97 +1,43 @@
-import React, { FormEvent, useCallback, useMemo, useState } from "react";
-import { useRelayEnvironment } from "react-relay";
-import { useHistory } from "react-router-dom";
-import { PayloadError } from "relay-runtime";
+import React, { useCallback, useMemo } from "react";
 
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
 import { ArtworkInformationProvider } from "../contexts/ArtworkInformationContext";
-import { useArtworkInformation } from "../hooks/useArtworkInformation";
-import { commitUploadArtworkMutation } from "../mutation/UploadArtwork";
+import { UploadArtworkProvider } from "../contexts/UploadArtworkContext";
+import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
 
 export const UploadArtwork: React.VFC = () => {
   return (
     <ArtworkInformationProvider>
-      <UploadArtworkForm />
+      <UploadArtworkProvider>
+        <UploadArtworkForm />
+      </UploadArtworkProvider>
     </ArtworkInformationProvider>
   );
 };
 
 const UploadArtworkForm = () => {
-  const environment = useRelayEnvironment();
-  const history = useHistory();
-  const { title, caption, tags } = useArtworkInformation();
-
-  const [isUploading, setIsUploading] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
-
-  const [notifySlack, setNotifySlack] = useState(false);
-  const [showThumbnail, setShowThumbnail] = useState(true);
-  const [slackChannel, setSlackChannel] = useState("C039TN7Q1"); // #graphics
-
-  const [errors, setErrors] = useState<PayloadError[] | null | undefined>(null);
-
-  const handleSubmit = useCallback(
-    (event: FormEvent) => {
-      event.preventDefault();
-
-      const shareOption = notifySlack
-        ? showThumbnail
-          ? "SHARE_TO_SLACK_WITH_IMAGE"
-          : "SHARE_TO_SLACK"
-        : "NONE";
-
-      setIsUploading(true);
-      const uploadables = Object.fromEntries<File>(
-        Array.from(files, (file, i) => [`variables.input.files.${i}`, file])
-      );
-      commitUploadArtworkMutation(environment, {
-        variables: {
-          connections: [],
-          input: {
-            title,
-            caption,
-            tags,
-            files: Array.from(files, (_, i) => null),
-            shareOption,
-            channelId: slackChannel,
-          },
-        },
-        uploadables,
-        onCompleted: (resp, errors) => {
-          setIsUploading(false);
-          if (errors) {
-            setErrors(errors.slice());
-            return;
-          }
-
-          if (!resp.uploadArtwork?.artwork) {
-            return;
-          }
-
-          history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
-        },
-      });
-    },
-    [
-      caption,
-      environment,
-      files,
-      history,
-      notifySlack,
-      showThumbnail,
-      slackChannel,
-      tags,
-      title,
-    ]
-  );
+  const {
+    isUploading,
+    files,
+    showThumbnail,
+    notifySlack,
+    uploadErrors,
+    setFiles,
+    setShowThumbnail,
+    setNotifySlack,
+    handleSubmit,
+  } = useUploadArtworkContext();
 
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> =
-    useCallback((e) => {
-      setFiles(Array.from(e.target.files ?? []));
-    }, []);
+    useCallback(
+      (e) => {
+        setFiles(Array.from(e.target.files ?? []));
+      },
+      [setFiles]
+    );
 
   const images = useMemo(
     () => files.map((file) => URL.createObjectURL(file)),
@@ -169,11 +115,7 @@ const UploadArtworkForm = () => {
             />
           </div>
           <div className="mb-3">
-            <SlackChannelInput
-              slackChannel={slackChannel}
-              setSlackChannel={setSlackChannel}
-              disabled={!notifySlack}
-            />
+            <SlackChannelInput />
           </div>
           <div>
             <button
@@ -196,8 +138,8 @@ const UploadArtworkForm = () => {
               )}
             </button>
           </div>
-          {errors &&
-            errors.map((error, i) => (
+          {uploadErrors &&
+            uploadErrors.map((error, i) => (
               <div key={i} className="alert alert-danger mt-3" role="alert">
                 {error.message}
               </div>

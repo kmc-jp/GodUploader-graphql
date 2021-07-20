@@ -1,19 +1,12 @@
 import { Modal } from "bootstrap";
-import React, { FormEvent, useCallback, useRef, useState } from "react";
-import { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
-import { useRelayEnvironment } from "react-relay";
-import { useHistory } from "react-router-dom";
 
 import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../../../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
-import { useArtworkInformation } from "../../../hooks/useArtworkInformation";
-import {
-  commitUploadArtworkMutation,
-  makeUploadablesFromBlob,
-} from "../../../mutation/UploadArtwork";
+import { useUploadArtworkContext } from "../../../hooks/useUploadArtworkContext";
 import { DrawingContext } from "../contexts/DrawingContext";
 
 interface Props {
@@ -21,15 +14,22 @@ interface Props {
 }
 
 export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
-  const history = useHistory();
-  const environment = useRelayEnvironment();
+  const {
+    isUploading,
+    showThumbnail,
+    notifySlack,
+    setFiles,
+    setShowThumbnail,
+    setNotifySlack,
+    handleSubmit,
+  } = useUploadArtworkContext();
   const { setIsPosting } = useContext(DrawingContext);
-  const { title, caption, tags } = useArtworkInformation();
-  const [isUploading, setIsUploading] = useState(false);
 
-  const [notifySlack, setNotifySlack] = useState(false);
-  const [showThumbnail, setShowThumbnail] = useState(true);
-  const [slackChannel, setSlackChannel] = useState("C039TN7Q1"); // #graphics
+  useEffect(() => {
+    if (blob) {
+      setFiles([blob]);
+    }
+  }, [blob, setFiles]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -38,7 +38,10 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
       return;
     }
 
-    new Modal(ref.current);
+    const modal = new Modal(ref.current);
+    return () => {
+      modal.hide();
+    };
   }, []);
 
   useEffect(() => {
@@ -65,63 +68,6 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
       el.removeEventListener("hidden.bs.modal", hideModal);
     };
   }, [blob, setIsPosting]);
-
-  const handleSubmit = useCallback(
-    (event: FormEvent) => {
-      event.preventDefault();
-      const shareOption = notifySlack
-        ? showThumbnail
-          ? "SHARE_TO_SLACK_WITH_IMAGE"
-          : "SHARE_TO_SLACK"
-        : "NONE";
-
-      if (!blob) {
-        return;
-      }
-      setIsUploading(true);
-      const uploadables = makeUploadablesFromBlob(
-        "variables.input.files",
-        blob
-      );
-      commitUploadArtworkMutation(environment, {
-        variables: {
-          connections: [],
-          input: {
-            title,
-            caption,
-            tags,
-            files: [null],
-            shareOption,
-            channelId: slackChannel,
-          },
-        },
-        uploadables,
-        onCompleted: (resp, errors) => {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const modal = Modal.getInstance(ref.current!);
-          modal?.hide();
-
-          setIsUploading(false);
-          if (!resp.uploadArtwork?.artwork) {
-            return;
-          }
-
-          history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
-        },
-      });
-    },
-    [
-      blob,
-      caption,
-      environment,
-      history,
-      notifySlack,
-      showThumbnail,
-      slackChannel,
-      tags,
-      title,
-    ]
-  );
 
   return (
     <>
@@ -175,11 +121,7 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
                   />
                 </div>
                 <div className="mb-3">
-                  <SlackChannelInput
-                    slackChannel={slackChannel}
-                    setSlackChannel={setSlackChannel}
-                    disabled={!notifySlack}
-                  />
+                  <SlackChannelInput />
                 </div>
                 <div className="modal-footer">
                   <button
