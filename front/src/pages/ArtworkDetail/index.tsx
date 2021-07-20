@@ -8,6 +8,7 @@ import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../../assets/img/regulation_mark_r18.png";
 import { SuspenseImage } from "../../components/SuspenseImage";
+import { ArtworkInformationProvider } from "../../contexts/ArtworkInformationContext";
 import { formatDateTime } from "../../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 import { ArtworkComment } from "./components/ArtworkComment";
@@ -112,7 +113,28 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
           </p>
           <p>{formatDateTime(createdAt)}</p>
           {artwork.account && viewer && artwork.account.id === viewer.id && (
-            <UpdateArtworkModal artworkKey={artwork} />
+            <ArtworkInformationProvider
+              initialTitle={artwork.title}
+              initialCaption={artwork.caption}
+              initialTags={((): string[] => {
+                const { tags } = artwork;
+                if (!tags?.edges) {
+                  return [];
+                }
+
+                return tags.edges
+                  .map((edge) => {
+                    if (!edge?.node) {
+                      return "";
+                    }
+
+                    return edge.node.name;
+                  })
+                  .filter((t) => t);
+              })()}
+            >
+              <UpdateArtworkModal artworkKey={artwork} />
+            </ArtworkInformationProvider>
           )}
         </div>
         <div className="card-body">

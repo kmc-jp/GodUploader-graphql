@@ -9,6 +9,7 @@ import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../../../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
+import { useArtworkInformation } from "../../../hooks/useArtworkInformation";
 import {
   commitUploadArtworkMutation,
   makeUploadablesFromBlob,
@@ -23,11 +24,8 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
   const history = useHistory();
   const environment = useRelayEnvironment();
   const { setIsPosting } = useContext(DrawingContext);
-  const [title, setTitle] = useState("");
-  const [caption, setCaption] = useState("");
-
+  const { title, caption, tags } = useArtworkInformation();
   const [isUploading, setIsUploading] = useState(false);
-  const [tagList, setTagList] = useState<string[]>(["tegaki_du"]);
 
   const [notifySlack, setNotifySlack] = useState(false);
   const [showThumbnail, setShowThumbnail] = useState(true);
@@ -91,7 +89,7 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
           input: {
             title,
             caption,
-            tags: tagList,
+            tags,
             files: [null],
             shareOption,
             channelId: slackChannel,
@@ -120,7 +118,7 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
       notifySlack,
       showThumbnail,
       slackChannel,
-      tagList,
+      tags,
       title,
     ]
   );
@@ -147,13 +145,13 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                  <TitleInput title={title} setTitle={setTitle} />
+                  <TitleInput />
                 </div>
                 <div className="mb-3">
-                  <CaptionInput caption={caption} setCaption={setCaption} />
+                  <CaptionInput />
                 </div>
                 <div className="mb-3">
-                  <TagsInput tagList={tagList} setTagList={setTagList} />
+                  <TagsInput />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="notify_slack">Slackに通知する</label>

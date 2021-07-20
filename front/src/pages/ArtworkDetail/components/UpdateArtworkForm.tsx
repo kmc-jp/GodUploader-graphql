@@ -1,11 +1,12 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Modal } from "bootstrap";
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
 import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
+import { useArtworkInformation } from "../../../hooks/useArtworkInformation";
 import { commitUpdateArtworkMutation } from "../../../mutation/UpdateArtwork";
 import { UpdateArtworkForm_artwork$key } from "./__generated__/UpdateArtworkForm_artwork.graphql";
 
@@ -32,9 +33,6 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
     artworkKey
   );
   const environment = useRelayEnvironment();
-  const [title, setTitle] = useState(artwork.title || "");
-  const [caption, setCaption] = useState(artwork.caption || "");
-
   const initialTagList = (artwork.tags?.edges || [])
     .map((edge) => {
       if (!edge?.node) {
@@ -43,15 +41,23 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
       return edge.node.name;
     })
     .filter((tag) => tag !== "");
-  const [tagList, setTagList] = useState<string[]>(initialTagList);
+  const { title, caption, tags, setTitle, setCaption, setTags } =
+    useArtworkInformation();
 
   const ref = useRef<HTMLDivElement>(null);
   const resetStates = useCallback(() => {
     // explicitly reset values
     setTitle(artwork.title || "");
     setCaption(artwork.caption || "");
-    setTagList(initialTagList);
-  }, [artwork.caption, artwork.title, initialTagList]);
+    setTags(initialTagList);
+  }, [
+    artwork.caption,
+    artwork.title,
+    initialTagList,
+    setCaption,
+    setTags,
+    setTitle,
+  ]);
 
   useEffect(() => {
     const el = ref.current;
@@ -75,7 +81,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
             id: artwork.id!,
             title,
             caption,
-            tags: tagList,
+            tags,
           },
         },
         onCompleted: () => {
@@ -85,7 +91,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
         },
       });
     },
-    [artwork.id, caption, environment, tagList, title]
+    [artwork.id, caption, environment, tags, title]
   );
 
   return (
@@ -110,13 +116,13 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
               </div>
               <div className="modal-body">
                 <div className="mb-3">
-                  <TitleInput title={title} setTitle={setTitle} />
+                  <TitleInput />
                 </div>
                 <div className="mb-3">
-                  <CaptionInput caption={caption} setCaption={setCaption} />
+                  <CaptionInput />
                 </div>
                 <div className="mb-3">
-                  <TagsInput tagList={tagList} setTagList={setTagList} />
+                  <TagsInput />
                 </div>
               </div>
               <div className="modal-footer">
