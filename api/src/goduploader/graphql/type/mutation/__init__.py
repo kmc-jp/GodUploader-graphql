@@ -7,11 +7,10 @@ import sqlalchemy
 from goduploader.db import session
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.artwork import Artwork
-from goduploader.graphql.type.comment import Comment
 from goduploader.graphql.type.like import Like
+from goduploader.graphql.type.mutation.create_comment import CreateComment
 from goduploader.graphql.type.tag import Tag
 from goduploader.model import Artwork as ArtworkModel
-from goduploader.model import Comment as CommentModel
 from goduploader.model import Illust as IllustModel
 from goduploader.model import Like as LikeModel
 from goduploader.model import Tag as TagModel
@@ -22,41 +21,6 @@ from goduploader.thumbnail import generate_thumbnail
 from graphene import relay
 from graphene_file_upload.scalars import Upload
 from werkzeug.datastructures import FileStorage
-
-
-class CreateComment(relay.ClientIDMutation):
-    class Input:
-        artwork_id = graphene.ID(description="コメントをする対象の作品ID", required=True)
-        text = graphene.String(description="コメントの本文", required=True)
-
-    comment = graphene.Field(Comment)
-
-    @classmethod
-    def mutate_and_get_payload(cls, root, info, **input):
-        current_user = info.context.user
-        if current_user is None:
-            raise Exception("Please login")
-
-        artwork_id = input["artwork_id"]
-        artwork = relay.Node.get_node_from_global_id(
-            info, artwork_id, only_type=Artwork
-        )
-        if artwork is None:
-            raise Exception("Artwork not found")
-
-        text = input["text"].strip()
-        if not text:
-            raise Exception("Comment text is required")
-
-        comment = CommentModel(
-            account_id=current_user.id,
-            artwork_id=artwork.id,
-            text=text,
-        )
-        session.add(comment)
-        session.commit()
-
-        return CreateComment(comment=comment)
 
 
 class LikeArtwork(relay.ClientIDMutation):
