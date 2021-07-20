@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from goduploader.db import session
 from goduploader.model import Account, Illust
 from promise import Promise
