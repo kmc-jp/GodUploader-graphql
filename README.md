@@ -9,6 +9,7 @@ GodUploader with GraphQL
 - yarn 1.12.10
 - Python 3.9.5
 - poetry version 1.1.6
+- ImageMagick 6.9.7-4
 
 ### api
 
