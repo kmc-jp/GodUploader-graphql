@@ -5,6 +5,7 @@ import { PayloadError } from "relay-runtime";
 
 import { useArtworkInformation } from "../hooks/useArtworkInformation";
 import { commitUploadArtworkMutation } from "../mutation/UploadArtwork";
+import { tagWithAgeRestriction } from "./ArtworkInformationContext";
 
 type UplaodArtworkContextValue = {
   isUploading: boolean;
@@ -60,7 +61,7 @@ export const UploadArtworkContext =
   createContext<UplaodArtworkContextValue>(defaultValue);
 
 export const UploadArtworkProvider: React.FC = ({ children }) => {
-  const { title, caption, tags } = useArtworkInformation();
+  const { title, caption, tags, ageRestriction } = useArtworkInformation();
   const [isUploading, setIsUploading] = useState(false);
   const [files, setFiles] = useState<File[] | Blob[]>([]);
 
@@ -94,7 +95,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
           input: {
             title,
             caption,
-            tags,
+            tags: tagWithAgeRestriction(tags, ageRestriction),
             files: Array.from(files, (_, i) => null),
             shareOption,
             channelId: slackChannel,
@@ -117,6 +118,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
       });
     },
     [
+      ageRestriction,
       caption,
       environment,
       files,
