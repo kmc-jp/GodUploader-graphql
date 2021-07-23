@@ -71,3 +71,26 @@ export const ArtworkInformationProvider: React.FC<ArtworkInformationProviderProp
       </ArtworkInformationContext.Provider>
     );
   };
+
+// タグ一覧の先頭に、指定されたタグを足して返す。
+// 既にタグ一覧に指定されたタグが含まれているなら先頭に持ってきて返す。
+export const prependTag = (tags: string[], newTag: string) => {
+  const filteredTags = tags.filter((t) => t !== newTag);
+  return [newTag, ...filteredTags];
+};
+
+// 作品のタグに年齢制限タグを加えて返す
+export const tagWithAgeRestriction = (
+  tags: string[],
+  ageRestriction: AgeRestriction
+) => {
+  if (ageRestriction === "SAFE") {
+    return tags;
+  } else if (ageRestriction === "R-18") {
+    return prependTag(tags, "R-18");
+  } else if (ageRestriction === "R-18G") {
+    return prependTag(tags, "R-18G");
+  } else {
+    throw new Error(`Unknown age restriction: ${ageRestriction}`);
+  }
+};
