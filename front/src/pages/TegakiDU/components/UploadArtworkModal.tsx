@@ -2,6 +2,7 @@ import { Modal } from "bootstrap";
 import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
 
+import { AgeRestrictionInput } from "../../../components/ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../../../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
@@ -98,6 +99,9 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
                 </div>
                 <div className="mb-3">
                   <TagsInput />
+                </div>
+                <div className="mb-3">
+                  <AgeRestrictionInput />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="notify_slack">Slackに通知する</label>

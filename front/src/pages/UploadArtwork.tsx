@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 
+import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
@@ -92,6 +93,9 @@ const UploadArtworkForm = () => {
           </div>
           <div className="mb-3">
             <TagsInput />
+          </div>
+          <div className="mb-3">
+            <AgeRestrictionInput />
           </div>
           <div className="mb-3">
             <label htmlFor="notify_slack">Slackに通知する</label>

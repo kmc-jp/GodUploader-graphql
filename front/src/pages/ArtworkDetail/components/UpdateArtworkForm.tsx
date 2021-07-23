@@ -3,6 +3,7 @@ import { Modal } from "bootstrap";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
+import { AgeRestrictionInput } from "../../../components/ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
@@ -123,6 +124,9 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
                 </div>
                 <div className="mb-3">
                   <TagsInput />
+                </div>
+                <div className="mb-3">
+                  <AgeRestrictionInput />
                 </div>
               </div>
               <div className="modal-footer">
