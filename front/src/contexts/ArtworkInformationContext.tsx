@@ -105,12 +105,17 @@ export const tagWithAgeRestriction = (
   tags: string[],
   ageRestriction: AgeRestriction
 ) => {
+  // 年齢制限にまつわるタグは予め取り除いておく
+  const tagsWithoutAgeRestriction = tags.filter(
+    (t) => t.toLowerCase() !== "r-18" && t.toLowerCase() !== "r-18g"
+  );
+
   if (ageRestriction === "SAFE") {
     return tags;
   } else if (ageRestriction === "R-18") {
-    return prependTag(tags, "R-18");
+    return prependTag(tagsWithoutAgeRestriction, "R-18");
   } else if (ageRestriction === "R-18G") {
-    return prependTag(tags, "R-18G");
+    return prependTag(tagsWithoutAgeRestriction, "R-18G");
   } else {
     throw new Error(`Unknown age restriction: ${ageRestriction}`);
   }
