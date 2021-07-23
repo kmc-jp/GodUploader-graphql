@@ -84,7 +84,9 @@ export const TagsInput: React.VFC = () => {
 
   return (
     <>
-      <label htmlFor="tags">タグ</label>
+      <label htmlFor="tags">
+        タグ (入力、またはリストから選択してEnterで追加)
+      </label>
       <div className="row g-2">
         <TagList />
         <div className="col-lg">
