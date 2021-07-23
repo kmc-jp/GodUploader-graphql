@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 
 type AgeRestriction =
+  | "UNSELECTED" // 選択していない (この設定では作品を投稿できない)
   | "SAFE" // 全年齢
   | "R-18"
   | "R-18G";
@@ -21,7 +22,7 @@ const defaultInformation: ArtworkInformationContextValue = {
   title: "",
   caption: "",
   tags: [],
-  ageRestriction: "SAFE",
+  ageRestriction: "UNSELECTED",
 
   setTitle: () => {
     /* noop */
@@ -59,7 +60,7 @@ export const ArtworkInformationProvider: React.FC<ArtworkInformationProviderProp
     const [caption, setCaption] = useState<string>(initialCaption ?? "");
     const [tags, setTags] = useState<string[]>(initialTags ?? []);
     const [ageRestriction, setAgeRestriction] = useState<AgeRestriction>(
-      initialAgeRestriction ?? "SAFE"
+      initialAgeRestriction ?? "UNSELECTED"
     );
 
     return (
