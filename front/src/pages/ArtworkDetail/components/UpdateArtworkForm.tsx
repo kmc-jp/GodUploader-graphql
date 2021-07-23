@@ -3,9 +3,14 @@ import { Modal } from "bootstrap";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
+import { AgeRestrictionInput } from "../../../components/ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
+import {
+  ageRestirctionFromTags,
+  tagWithAgeRestriction,
+} from "../../../contexts/ArtworkInformationContext";
 import { useArtworkInformation } from "../../../hooks/useArtworkInformation";
 import { commitUpdateArtworkMutation } from "../../../mutation/UpdateArtwork";
 import { UpdateArtworkForm_artwork$key } from "./__generated__/UpdateArtworkForm_artwork.graphql";
@@ -41,8 +46,16 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
       return edge.node.name;
     })
     .filter((tag) => tag !== "");
-  const { title, caption, tags, setTitle, setCaption, setTags } =
-    useArtworkInformation();
+  const {
+    title,
+    caption,
+    tags,
+    ageRestriction,
+    setTitle,
+    setCaption,
+    setTags,
+    setAgeRestriction,
+  } = useArtworkInformation();
 
   const ref = useRef<HTMLDivElement>(null);
   const resetStates = useCallback(() => {
@@ -50,10 +63,12 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
     setTitle(artwork.title || "");
     setCaption(artwork.caption || "");
     setTags(initialTagList);
+    setAgeRestriction(ageRestirctionFromTags(initialTagList));
   }, [
     artwork.caption,
     artwork.title,
     initialTagList,
+    setAgeRestriction,
     setCaption,
     setTags,
     setTitle,
@@ -81,7 +96,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
             id: artwork.id!,
             title,
             caption,
-            tags,
+            tags: tagWithAgeRestriction(tags, ageRestriction),
           },
         },
         onCompleted: () => {
@@ -91,7 +106,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
         },
       });
     },
-    [artwork.id, caption, environment, tags, title]
+    [ageRestriction, artwork.id, caption, environment, tags, title]
   );
 
   return (
@@ -123,6 +138,9 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
                 </div>
                 <div className="mb-3">
                   <TagsInput />
+                </div>
+                <div className="mb-3">
+                  <AgeRestrictionInput />
                 </div>
               </div>
               <div className="modal-footer">

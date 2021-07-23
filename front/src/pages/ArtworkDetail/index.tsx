@@ -1,6 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
-import React from "react";
+import React, { useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
 import { Link } from "react-router-dom";
@@ -8,7 +8,10 @@ import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../../assets/img/regulation_mark_r18.png";
 import { SuspenseImage } from "../../components/SuspenseImage";
-import { ArtworkInformationProvider } from "../../contexts/ArtworkInformationContext";
+import {
+  ageRestirctionFromTags,
+  ArtworkInformationProvider,
+} from "../../contexts/ArtworkInformationContext";
 import { formatDateTime } from "../../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 import { ArtworkComment } from "./components/ArtworkComment";
@@ -87,6 +90,27 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
       prepared.artworkDetailQuery
     );
 
+  const tags = useMemo((): string[] => {
+    if (!artworkWithBidirectional?.current) {
+      return [];
+    }
+
+    const { tags } = artworkWithBidirectional.current;
+    if (!tags?.edges) {
+      return [];
+    }
+
+    return tags.edges
+      .map((edge) => {
+        if (!edge?.node) {
+          return "";
+        }
+
+        return edge.node.name;
+      })
+      .filter((t) => t);
+  }, [artworkWithBidirectional]);
+
   if (!(artworkWithBidirectional && artworkWithBidirectional.current)) {
     return <div>作品が見つかりません</div>;
   }
@@ -116,22 +140,8 @@ const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
             <ArtworkInformationProvider
               initialTitle={artwork.title}
               initialCaption={artwork.caption}
-              initialTags={((): string[] => {
-                const { tags } = artwork;
-                if (!tags?.edges) {
-                  return [];
-                }
-
-                return tags.edges
-                  .map((edge) => {
-                    if (!edge?.node) {
-                      return "";
-                    }
-
-                    return edge.node.name;
-                  })
-                  .filter((t) => t);
-              })()}
+              initialTags={tags}
+              initialAgeRestriction={ageRestirctionFromTags(tags)}
             >
               <UpdateArtworkModal artworkKey={artwork} />
             </ArtworkInformationProvider>
