@@ -44,15 +44,23 @@ type ArtworkInformationProviderProps = {
   initialTitle?: string;
   initialCaption?: string;
   initialTags?: string[];
+  initialAgeRestriction?: AgeRestriction;
 };
 
 export const ArtworkInformationProvider: React.FC<ArtworkInformationProviderProps> =
-  ({ initialTitle, initialCaption, initialTags, children }) => {
+  ({
+    initialTitle,
+    initialCaption,
+    initialTags,
+    initialAgeRestriction,
+    children,
+  }) => {
     const [title, setTitle] = useState<string>(initialTitle ?? "");
     const [caption, setCaption] = useState<string>(initialCaption ?? "");
     const [tags, setTags] = useState<string[]>(initialTags ?? []);
-    const [ageRestriction, setAgeRestriction] =
-      useState<AgeRestriction>("SAFE");
+    const [ageRestriction, setAgeRestriction] = useState<AgeRestriction>(
+      initialAgeRestriction ?? "SAFE"
+    );
 
     return (
       <ArtworkInformationContext.Provider
