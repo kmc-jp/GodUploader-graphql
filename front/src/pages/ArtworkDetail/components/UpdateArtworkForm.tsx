@@ -7,7 +7,10 @@ import { AgeRestrictionInput } from "../../../components/ArtworkInfoForm/AgeRest
 import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
-import { tagWithAgeRestriction } from "../../../contexts/ArtworkInformationContext";
+import {
+  ageRestirctionFromTags,
+  tagWithAgeRestriction,
+} from "../../../contexts/ArtworkInformationContext";
 import { useArtworkInformation } from "../../../hooks/useArtworkInformation";
 import { commitUpdateArtworkMutation } from "../../../mutation/UpdateArtwork";
 import { UpdateArtworkForm_artwork$key } from "./__generated__/UpdateArtworkForm_artwork.graphql";
@@ -51,6 +54,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
     setTitle,
     setCaption,
     setTags,
+    setAgeRestriction,
   } = useArtworkInformation();
 
   const ref = useRef<HTMLDivElement>(null);
@@ -59,10 +63,12 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
     setTitle(artwork.title || "");
     setCaption(artwork.caption || "");
     setTags(initialTagList);
+    setAgeRestriction(ageRestirctionFromTags(initialTagList));
   }, [
     artwork.caption,
     artwork.title,
     initialTagList,
+    setAgeRestriction,
     setCaption,
     setTags,
     setTitle,
