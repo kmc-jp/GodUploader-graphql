@@ -111,7 +111,7 @@ export const tagWithAgeRestriction = (
   );
 
   if (ageRestriction === "SAFE") {
-    return tags;
+    return tagsWithoutAgeRestriction;
   } else if (ageRestriction === "R-18") {
     return prependTag(tagsWithoutAgeRestriction, "R-18");
   } else if (ageRestriction === "R-18G") {
