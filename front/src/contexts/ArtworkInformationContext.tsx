@@ -79,6 +79,19 @@ const prependTag = (tags: string[], newTag: string) => {
   return [newTag, ...filteredTags];
 };
 
+// タグ一覧から年齢制限を計算する
+export const ageRestirctionFromTags = (tags: string[]): AgeRestriction => {
+  for (const tag of tags) {
+    if (tag === "R-18") {
+      return "R-18";
+    }
+    if (tag === "R-18G") {
+      return "R-18G";
+    }
+  }
+  return "SAFE";
+};
+
 // 作品のタグに年齢制限タグを加えて返す
 export const tagWithAgeRestriction = (
   tags: string[],
