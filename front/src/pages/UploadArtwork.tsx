@@ -44,6 +44,13 @@ const UploadArtworkForm = () => {
       [files, setFiles]
     );
 
+  const handleDeleteImage = useCallback(
+    (index: number) => {
+      setFiles(files.filter((file, i) => i !== index));
+    },
+    [files, setFiles]
+  );
+
   const images = useMemo(
     () => files.map((file) => URL.createObjectURL(file)),
     [files]
@@ -82,7 +89,14 @@ const UploadArtworkForm = () => {
                       backgroundSize: "contain",
                       backgroundRepeat: "no-repeat",
                     }}
-                  ></div>
+                  >
+                    <button
+                      type="button"
+                      className="btn-close ms-auto"
+                      aria-label="この画像を削除する"
+                      onClick={() => handleDeleteImage(i)}
+                    ></button>
+                  </div>
                 ))}
               </div>
             )}
