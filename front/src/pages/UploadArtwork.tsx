@@ -1,3 +1,19 @@
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import React, { useCallback, useMemo } from "react";
 
 import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";
@@ -56,6 +72,11 @@ const UploadArtworkForm = () => {
     [files]
   );
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
   return (
     <div className="card">
       <div className="card-header">画像のアップロード</div>
@@ -78,26 +99,38 @@ const UploadArtworkForm = () => {
             />
             {images.length > 0 && (
               <div className="d-flex mt-2">
-                {images.map((dataURL, i) => (
-                  <div
-                    key={i}
-                    className="card me-2"
-                    style={{
-                      width: 186,
-                      height: 186,
-                      backgroundImage: `url(${dataURL})`,
-                      backgroundSize: "contain",
-                      backgroundRepeat: "no-repeat",
-                    }}
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={(event) => {
+                    const { active, over } = event;
+                    if (!over) {
+                      return;
+                    }
+                    if (active.id === over?.id) {
+                      return;
+                    }
+                    const itemIds = images.map((im, i) => `${i}-${im}`);
+                    const oldIndex = itemIds.indexOf(active.id);
+                    const newIndex = itemIds.indexOf(over.id);
+                    console.log(oldIndex, newIndex);
+                    setFiles(arrayMove(files, oldIndex, newIndex));
+                  }}
+                >
+                  <SortableContext
+                    items={images.map((im, i) => `${i}-${im}`)}
+                    strategy={horizontalListSortingStrategy}
                   >
-                    <button
-                      type="button"
-                      className="btn-close ms-auto"
-                      aria-label="この画像を削除する"
-                      onClick={() => handleDeleteImage(i)}
-                    ></button>
-                  </div>
-                ))}
+                    {images.map((dataURL, i) => (
+                      <SortableImage
+                        key={`${i}-${dataURL}`}
+                        dataURL={dataURL}
+                        index={i}
+                        handleDeleteImage={handleDeleteImage}
+                      />
+                    ))}
+                  </SortableContext>
+                </DndContext>
               </div>
             )}
           </div>
@@ -166,6 +199,40 @@ const UploadArtworkForm = () => {
             ))}
         </form>
       </div>
+    </div>
+  );
+};
+
+const SortableImage: React.VFC<{
+  index: number;
+  dataURL: string;
+  handleDeleteImage: (i: number) => void;
+}> = ({ index, dataURL, handleDeleteImage }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: `${index}-${dataURL}` });
+
+  return (
+    <div
+      className="card me-2"
+      style={{
+        width: 186,
+        height: 186,
+        backgroundImage: `url(${dataURL})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        transform: CSS.Transform.toString(transform),
+        transition: transition ?? undefined,
+      }}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+    >
+      <button
+        type="button"
+        className="btn-close ms-auto"
+        aria-label="この画像を削除する"
+        onClick={() => handleDeleteImage(index)}
+      ></button>
     </div>
   );
 };
