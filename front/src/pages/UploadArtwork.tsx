@@ -75,15 +75,14 @@ const UploadArtworkForm = () => {
                   <div
                     key={i}
                     className="card me-2"
-                    style={{ width: 186, height: 186 }}
-                  >
-                    <img
-                      src={dataURL}
-                      className="mw-100 mh-100"
-                      alt=""
-                      style={{ objectFit: "contain", display: "block" }}
-                    />
-                  </div>
+                    style={{
+                      width: 186,
+                      height: 186,
+                      backgroundImage: `url(${dataURL})`,
+                      backgroundSize: "contain",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  ></div>
                 ))}
               </div>
             )}
