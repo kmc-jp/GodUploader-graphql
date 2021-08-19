@@ -35,9 +35,13 @@ const UploadArtworkForm = () => {
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
-        setFiles(Array.from(e.target.files ?? []));
+        if (!(e.target.files && e.target.files.length > 0)) {
+          return;
+        }
+        setFiles([...files, ...Array.from(e.target.files)]);
+        e.target.value = "";
       },
-      [setFiles]
+      [files, setFiles]
     );
 
   const images = useMemo(
@@ -52,7 +56,7 @@ const UploadArtworkForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="file" className="form-label">
-              アップロードする画像{" "}
+              アップロードする画像を追加{" "}
               <span className="text-danger">
                 (GIF/JPEG/PNG形式, 必須, 先頭の画像がサムネイルになります)
               </span>
@@ -63,7 +67,6 @@ const UploadArtworkForm = () => {
               id="file"
               multiple
               accept="image/gif,image/png,image/jpeg"
-              required
               onChange={handleFileChange}
             />
             {images.length > 0 && (
@@ -125,7 +128,7 @@ const UploadArtworkForm = () => {
             <button
               type="submit"
               className="btn btn-primary form-control"
-              disabled={isUploading}
+              disabled={files.length === 0 || isUploading}
             >
               {isUploading ? (
                 <div className="d-flex align-items-center justify-content-center">
