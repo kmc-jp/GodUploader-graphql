@@ -1,3 +1,19 @@
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import React, { useCallback, useMemo } from "react";
 
 import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";
@@ -35,14 +51,30 @@ const UploadArtworkForm = () => {
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
-        setFiles(Array.from(e.target.files ?? []));
+        if (!(e.target.files && e.target.files.length > 0)) {
+          return;
+        }
+        setFiles([...files, ...Array.from(e.target.files)]);
+        e.target.value = "";
       },
-      [setFiles]
+      [files, setFiles]
     );
+
+  const handleDeleteImage = useCallback(
+    (index: number) => {
+      setFiles(files.filter((file, i) => i !== index));
+    },
+    [files, setFiles]
+  );
 
   const images = useMemo(
     () => files.map((file) => URL.createObjectURL(file)),
     [files]
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
   return (
@@ -52,7 +84,7 @@ const UploadArtworkForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="file" className="form-label">
-              アップロードする画像{" "}
+              アップロードする画像を追加{" "}
               <span className="text-danger">
                 (GIF/JPEG/PNG形式, 必須, 先頭の画像がサムネイルになります)
               </span>
@@ -63,25 +95,42 @@ const UploadArtworkForm = () => {
               id="file"
               multiple
               accept="image/gif,image/png,image/jpeg"
-              required
               onChange={handleFileChange}
             />
             {images.length > 0 && (
               <div className="d-flex mt-2">
-                {images.map((dataURL, i) => (
-                  <div
-                    key={i}
-                    className="card me-2"
-                    style={{ width: 186, height: 186 }}
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={(event) => {
+                    const { active, over } = event;
+                    if (!over) {
+                      return;
+                    }
+                    if (active.id === over?.id) {
+                      return;
+                    }
+                    const itemIds = images.map((im, i) => `${i}-${im}`);
+                    const oldIndex = itemIds.indexOf(active.id);
+                    const newIndex = itemIds.indexOf(over.id);
+                    console.log(oldIndex, newIndex);
+                    setFiles(arrayMove(files, oldIndex, newIndex));
+                  }}
+                >
+                  <SortableContext
+                    items={images.map((im, i) => `${i}-${im}`)}
+                    strategy={horizontalListSortingStrategy}
                   >
-                    <img
-                      src={dataURL}
-                      className="mw-100 mh-100"
-                      alt=""
-                      style={{ objectFit: "contain", display: "block" }}
-                    />
-                  </div>
-                ))}
+                    {images.map((dataURL, i) => (
+                      <SortableImage
+                        key={`${i}-${dataURL}`}
+                        dataURL={dataURL}
+                        index={i}
+                        handleDeleteImage={handleDeleteImage}
+                      />
+                    ))}
+                  </SortableContext>
+                </DndContext>
               </div>
             )}
           </div>
@@ -125,7 +174,7 @@ const UploadArtworkForm = () => {
             <button
               type="submit"
               className="btn btn-primary form-control"
-              disabled={isUploading}
+              disabled={files.length === 0 || isUploading}
             >
               {isUploading ? (
                 <div className="d-flex align-items-center justify-content-center">
@@ -150,6 +199,40 @@ const UploadArtworkForm = () => {
             ))}
         </form>
       </div>
+    </div>
+  );
+};
+
+const SortableImage: React.VFC<{
+  index: number;
+  dataURL: string;
+  handleDeleteImage: (i: number) => void;
+}> = ({ index, dataURL, handleDeleteImage }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: `${index}-${dataURL}` });
+
+  return (
+    <div
+      className="card me-2"
+      style={{
+        width: 186,
+        height: 186,
+        backgroundImage: `url(${dataURL})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        transform: CSS.Transform.toString(transform),
+        transition: transition ?? undefined,
+      }}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+    >
+      <button
+        type="button"
+        className="btn-close ms-auto"
+        aria-label="この画像を削除する"
+        onClick={() => handleDeleteImage(index)}
+      ></button>
     </div>
   );
 };
