@@ -1,6 +1,7 @@
 import {
   closestCenter,
   DndContext,
+  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -51,20 +52,19 @@ const UploadArtworkForm = () => {
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
-        if (!(e.target.files && e.target.files.length > 0)) {
-          return;
-        }
-        setFiles([...files, ...Array.from(e.target.files)]);
+        setFiles((files) =>
+          e.target.files ? [...files, ...Array.from(e.target.files)] : files
+        );
         e.target.value = "";
       },
-      [files, setFiles]
+      [setFiles]
     );
 
   const handleDeleteImage = useCallback(
     (index: number) => {
-      setFiles(files.filter((file, i) => i !== index));
+      setFiles((files) => files.filter((file, i) => i !== index));
     },
-    [files, setFiles]
+    [setFiles]
   );
 
   const images = useMemo(
@@ -75,6 +75,23 @@ const UploadArtworkForm = () => {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (!over) {
+        return;
+      }
+      if (active.id === over?.id) {
+        return;
+      }
+      const oldIndex = images.indexOf(active.id);
+      const newIndex = images.indexOf(over.id);
+      console.log(oldIndex, newIndex);
+      setFiles((files) => arrayMove(files, oldIndex, newIndex));
+    },
+    [images, setFiles]
   );
 
   return (
@@ -102,28 +119,15 @@ const UploadArtworkForm = () => {
                 <DndContext
                   sensors={sensors}
                   collisionDetection={closestCenter}
-                  onDragEnd={(event) => {
-                    const { active, over } = event;
-                    if (!over) {
-                      return;
-                    }
-                    if (active.id === over?.id) {
-                      return;
-                    }
-                    const itemIds = images.map((im, i) => `${i}-${im}`);
-                    const oldIndex = itemIds.indexOf(active.id);
-                    const newIndex = itemIds.indexOf(over.id);
-                    console.log(oldIndex, newIndex);
-                    setFiles(arrayMove(files, oldIndex, newIndex));
-                  }}
+                  onDragEnd={handleDragEnd}
                 >
                   <SortableContext
-                    items={images.map((im, i) => `${i}-${im}`)}
+                    items={images}
                     strategy={horizontalListSortingStrategy}
                   >
                     {images.map((dataURL, i) => (
                       <SortableImage
-                        key={`${i}-${dataURL}`}
+                        key={dataURL}
                         dataURL={dataURL}
                         index={i}
                         handleDeleteImage={handleDeleteImage}
@@ -209,7 +213,7 @@ const SortableImage: React.VFC<{
   handleDeleteImage: (i: number) => void;
 }> = ({ index, dataURL, handleDeleteImage }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: `${index}-${dataURL}` });
+    useSortable({ id: dataURL });
 
   return (
     <div

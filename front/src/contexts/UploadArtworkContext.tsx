@@ -1,4 +1,11 @@
-import { createContext, FormEventHandler, useCallback, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  FormEventHandler,
+  SetStateAction,
+  useCallback,
+  useState,
+} from "react";
 import { useRelayEnvironment } from "react-relay";
 import { useHistory } from "react-router-dom";
 import { PayloadError } from "relay-runtime";
@@ -19,7 +26,7 @@ type UplaodArtworkContextValue = {
   setNotifySlack: (b: boolean) => void;
   setShowThumbnail: (b: boolean) => void;
   setSlackChannel: (ch: string) => void;
-  setFiles: (files: File[] | Blob[]) => void;
+  setFiles: Dispatch<SetStateAction<File[] | Blob[]>>;
   setUploadErrors: (errors: PayloadError[] | null | undefined) => void;
 
   handleSubmit: FormEventHandler;
