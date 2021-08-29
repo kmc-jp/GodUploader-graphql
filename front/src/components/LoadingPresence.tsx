@@ -42,6 +42,7 @@ export const LoadingPresence: React.VFC<LoadingPresenceProps> = ({
       }
     >
       {children}
+      <ImmediateEndLoad onLoadEnd={onLoadEnd} />
     </Suspense>
   );
 };
@@ -59,5 +60,13 @@ const LoadingWatcher: React.VFC<LoadingWatcherProps> = ({
     onLoadStart();
     return () => onLoadEnd();
   });
+  return null;
+};
+
+// suspendしないコンポーネント用
+const ImmediateEndLoad: React.VFC<Pick<LoadingWatcherProps, "onLoadEnd">> = ({
+  onLoadEnd,
+}) => {
+  useEffect(() => onLoadEnd());
   return null;
 };
