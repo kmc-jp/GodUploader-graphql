@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Environment, useRelayEnvironment } from "react-relay";
+import React from "react";
+import { Environment } from "react-relay";
 import { SwitchProps } from "react-router";
 import {
   RouteConfig as OriginalRouteConfig,
@@ -32,6 +32,7 @@ export interface RouteConfig extends Omit<OriginalRouteConfig, "component"> {
 
 export const renderRoutes = (
   routes: RouteConfig[] | undefined,
+  environment: Environment,
   extraProps?: any,
   switchProps?: SwitchProps
 ): React.ReactElement | null => {
@@ -43,32 +44,26 @@ export const renderRoutes = (
           path={route.path}
           exact={route.exact}
           strict={route.strict}
-          render={(props) => (
-            <WrappedRouteComponent {...props} route={route} {...extraProps} />
-          )}
+          render={(props) => {
+            if (!route.component) {
+              return null;
+            }
+
+            const params = props.match.params;
+            const prepared = route.prepare
+              ? route.prepare({ params, environment })
+              : null;
+            return (
+              <route.component
+                {...props}
+                {...extraProps}
+                prepared={prepared}
+                route={route}
+              />
+            );
+          }}
         />
       ))}
     </Switch>
   ) : null;
-};
-
-const WrappedRouteComponent: React.VFC<RouteConfigComponentProps<any>> = (
-  props
-) => {
-  const { route, match } = props;
-  const { params } = match;
-  const environment = useRelayEnvironment();
-
-  const [prepared] = useState(() => {
-    if (!route?.prepare) {
-      return null;
-    }
-    return route.prepare({ params, environment });
-  });
-
-  if (!(route && route.component)) {
-    return null;
-  }
-
-  return <route.component {...props} prepared={prepared} />;
 };
