@@ -1,25 +1,21 @@
 import { graphql } from "babel-plugin-relay/macro";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { useLazyLoadQuery } from "react-relay";
 import { Redirect } from "react-router-dom";
 
 import type { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
 
-const redirectToMyPageQuery = graphql`
-  query RedirectToMyPageQuery {
-    viewer {
-      kmcid
-    }
-  }
-`;
-
-interface Props {
-  prepared: {
-    viewer: PreloadedQuery<RedirectToMyPageQuery>;
-  };
-}
-
-export const RedirectToMyPage: React.VFC<Props> = ({ prepared }) => {
-  const { viewer } = usePreloadedQuery(redirectToMyPageQuery, prepared.viewer);
+export const RedirectToMyPage: React.VFC = () => {
+  const { viewer } = useLazyLoadQuery<RedirectToMyPageQuery>(
+    graphql`
+      query RedirectToMyPageQuery {
+        viewer {
+          kmcid
+        }
+      }
+    `,
+    {},
+    { fetchPolicy: "store-or-network" }
+  );
   if (!viewer) {
     return <Redirect to="/" />;
   }

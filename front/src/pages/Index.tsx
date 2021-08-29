@@ -1,45 +1,41 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { useLazyLoadQuery } from "react-relay";
 import { Link } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
-const indexQuery = graphql`
-  query IndexQuery {
-    activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
-      edges {
-        node {
-          id
-          kmcid
-          name
-          artworksCount
+export const Index: React.VFC = () => {
+  const { safeArtworks, activeAccounts } = useLazyLoadQuery<IndexQuery>(
+    graphql`
+      query IndexQuery {
+        activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
+          edges {
+            node {
+              id
+              kmcid
+              name
+              artworksCount
+            }
+          }
+        }
+        safeArtworks: artworks(
+          first: 8
+          sort: [CREATED_AT_DESC]
+          safeOnly: true
+        ) @connection(key: "Index_safeArtworks") {
+          __id
+          edges {
+            node {
+              ...ArtworkListItem_artwork
+            }
+          }
         }
       }
-    }
-    safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true)
-      @connection(key: "Index_safeArtworks") {
-      __id
-      edges {
-        node {
-          ...ArtworkListItem_artwork
-        }
-      }
-    }
-  }
-`;
-
-interface IndexProps {
-  prepared: {
-    indexQuery: PreloadedQuery<IndexQuery>;
-  };
-}
-
-export const Index: React.VFC<IndexProps> = ({ prepared }) => {
-  const { safeArtworks, activeAccounts } = usePreloadedQuery<IndexQuery>(
-    indexQuery,
-    prepared.indexQuery
+    `,
+    {},
+    { fetchPolicy: "store-and-network" }
   );
   const artworkCount = safeArtworks?.edges?.length || 0;
 

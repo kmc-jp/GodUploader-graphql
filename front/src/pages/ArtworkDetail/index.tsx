@@ -2,8 +2,8 @@ import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
 import React, { useMemo } from "react";
 import { Helmet } from "react-helmet";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
-import { Link } from "react-router-dom";
+import { useLazyLoadQuery } from "react-relay";
+import { Link, useParams } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../../assets/img/regulation_mark_r18.png";
@@ -20,61 +20,6 @@ import { DeleteArtworkButton } from "./components/DeleteArtworkButton";
 import { IllustCarousel } from "./components/IllustCarousel";
 import { UpdateArtworkModal } from "./components/UpdateArtworkForm";
 
-const artworkDetailQuery = graphql`
-  query ArtworkDetailQuery($id: ID!) {
-    viewer {
-      id
-    }
-    artworkWithBidirectional(id: $id) {
-      previous {
-        id
-        title
-        nsfw
-        topIllust {
-          thumbnailUrl
-        }
-      }
-      next {
-        id
-        title
-        nsfw
-        topIllust {
-          thumbnailUrl
-        }
-      }
-      current {
-        id
-        title
-        caption
-        createdAt
-        account {
-          id
-          kmcid
-          name
-        }
-        ...UpdateArtworkForm_artwork
-        ...IllustCarousel_illusts
-        ...ArtworkLikeList_likes
-        ...ArtworkComment_comments
-        tags {
-          edges {
-            node {
-              id
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-interface ArtworkDetailProps {
-  prepared: {
-    artworkDetailQuery: PreloadedQuery<ArtworkDetailQuery>;
-  };
-}
-
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
     <a key={match + i} href={match} target="_blank" rel="noopener noreferrer">
@@ -83,11 +28,60 @@ const autolink = (caption: string) => {
   ));
 };
 
-const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
+const ArtworkDetail: React.VFC = () => {
+  const { id } = useParams<{ id: string }>();
   const { viewer, artworkWithBidirectional } =
-    usePreloadedQuery<ArtworkDetailQuery>(
-      artworkDetailQuery,
-      prepared.artworkDetailQuery
+    useLazyLoadQuery<ArtworkDetailQuery>(
+      graphql`
+        query ArtworkDetailQuery($id: ID!) {
+          viewer {
+            id
+          }
+          artworkWithBidirectional(id: $id) {
+            previous {
+              id
+              title
+              nsfw
+              topIllust {
+                thumbnailUrl
+              }
+            }
+            next {
+              id
+              title
+              nsfw
+              topIllust {
+                thumbnailUrl
+              }
+            }
+            current {
+              id
+              title
+              caption
+              createdAt
+              account {
+                id
+                kmcid
+                name
+              }
+              ...UpdateArtworkForm_artwork
+              ...IllustCarousel_illusts
+              ...ArtworkLikeList_likes
+              ...ArtworkComment_comments
+              tags {
+                edges {
+                  node {
+                    id
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      `,
+      { id },
+      { fetchPolicy: "store-and-network" }
     );
 
   const tags = useMemo((): string[] => {

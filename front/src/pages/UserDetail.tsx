@@ -1,11 +1,8 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import {
-  PreloadedQuery,
-  usePaginationFragment,
-  usePreloadedQuery,
-} from "react-relay";
+import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
+import { useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateAccountModal } from "./UserDetail/UpdateInfoForm";
@@ -13,31 +10,26 @@ import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginatio
 import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 
-const userDetailQuery = graphql`
-  query UserDetailQuery($kmcid: String!) {
-    viewer {
-      id
-    }
-    accountByKmcid(kmcid: $kmcid) {
-      id
-      kmcid
-      name
-      ...UserDetail_artworks
-    }
-  }
-`;
-
-interface UserDetailProps {
-  prepared: {
-    userDetailQuery: PreloadedQuery<UserDetailQuery>;
-  };
-}
-
-export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
-  const { viewer, accountByKmcid: user } = usePreloadedQuery(
-    userDetailQuery,
-    prepared.userDetailQuery
+export const UserDetail: React.FC = () => {
+  const { kmcid } = useParams<{ kmcid: string }>();
+  const { viewer, accountByKmcid: user } = useLazyLoadQuery<UserDetailQuery>(
+    graphql`
+      query UserDetailQuery($kmcid: String!) {
+        viewer {
+          id
+        }
+        accountByKmcid(kmcid: $kmcid) {
+          id
+          kmcid
+          name
+          ...UserDetail_artworks
+        }
+      }
+    `,
+    { kmcid },
+    { fetchPolicy: "store-and-network" }
   );
+
   if (!user) {
     return <div>user not found</div>;
   }

@@ -1,31 +1,27 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { useLazyLoadQuery } from "react-relay";
 import { Link } from "react-router-dom";
 
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
-const tagsQuery = graphql`
-  query TagsQuery {
-    allTags(sort: [UPDATED_AT_DESC]) {
-      edges {
-        node {
-          name
-          artworksCount
+export const Tags: React.VFC = () => {
+  const { allTags } = useLazyLoadQuery<TagsQuery>(
+    graphql`
+      query TagsQuery {
+        allTags(sort: [UPDATED_AT_DESC]) {
+          edges {
+            node {
+              name
+              artworksCount
+            }
+          }
         }
       }
-    }
-  }
-`;
-
-interface Props {
-  prepared: {
-    tagsQuery: PreloadedQuery<TagsQuery>;
-  };
-}
-
-export const Tags: React.VFC<Props> = ({ prepared }) => {
-  const { allTags } = usePreloadedQuery(tagsQuery, prepared.tagsQuery);
+    `,
+    {},
+    { fetchPolicy: "store-and-network" }
+  );
 
   return (
     <div>
