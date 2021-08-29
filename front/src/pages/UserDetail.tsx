@@ -1,10 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import {
-  useLazyLoadQuery,
-  usePaginationFragment,
-} from "react-relay";
+import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
@@ -13,24 +10,22 @@ import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginatio
 import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 
-const userDetailQuery = graphql`
-  query UserDetailQuery($kmcid: String!) {
-    viewer {
-      id
-    }
-    accountByKmcid(kmcid: $kmcid) {
-      id
-      kmcid
-      name
-      ...UserDetail_artworks
-    }
-  }
-`;
-
 export const UserDetail: React.FC = () => {
   const { kmcid } = useParams<{ kmcid: string }>();
   const { viewer, accountByKmcid: user } = useLazyLoadQuery<UserDetailQuery>(
-    userDetailQuery,
+    graphql`
+      query UserDetailQuery($kmcid: String!) {
+        viewer {
+          id
+        }
+        accountByKmcid(kmcid: $kmcid) {
+          id
+          kmcid
+          name
+          ...UserDetail_artworks
+        }
+      }
+    `,
     { kmcid },
     { fetchPolicy: "store-and-network" }
   );

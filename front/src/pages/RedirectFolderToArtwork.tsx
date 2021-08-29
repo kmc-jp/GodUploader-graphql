@@ -5,19 +5,17 @@ import { Redirect, useParams } from "react-router-dom";
 
 import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";
 
-const redirectFolderToArtworkQuery = graphql`
-  query RedirectFolderToArtworkQuery($folderId: Int!) {
-    artworkByFolderId(folderId: $folderId) {
-      id
-    }
-  }
-`;
-
 export const RedirectFolderToArtwork: React.VFC = () => {
   const { folder_id } = useParams<{ folder_id: string }>();
   const { artworkByFolderId: artwork } =
     useLazyLoadQuery<RedirectFolderToArtworkQuery>(
-      redirectFolderToArtworkQuery,
+      graphql`
+        query RedirectFolderToArtworkQuery($folderId: Int!) {
+          artworkByFolderId(folderId: $folderId) {
+            id
+          }
+        }
+      `,
       { folderId: Number(folder_id) }
     );
 

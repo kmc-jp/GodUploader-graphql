@@ -6,33 +6,34 @@ import { Link } from "react-router-dom";
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
-const indexQuery = graphql`
-  query IndexQuery {
-    activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
-      edges {
-        node {
-          id
-          kmcid
-          name
-          artworksCount
-        }
-      }
-    }
-    safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true)
-      @connection(key: "Index_safeArtworks") {
-      __id
-      edges {
-        node {
-          ...ArtworkListItem_artwork
-        }
-      }
-    }
-  }
-`;
-
 export const Index: React.VFC = () => {
   const { safeArtworks, activeAccounts } = useLazyLoadQuery<IndexQuery>(
-    indexQuery,
+    graphql`
+      query IndexQuery {
+        activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
+          edges {
+            node {
+              id
+              kmcid
+              name
+              artworksCount
+            }
+          }
+        }
+        safeArtworks: artworks(
+          first: 8
+          sort: [CREATED_AT_DESC]
+          safeOnly: true
+        ) @connection(key: "Index_safeArtworks") {
+          __id
+          edges {
+            node {
+              ...ArtworkListItem_artwork
+            }
+          }
+        }
+      }
+    `,
     {},
     { fetchPolicy: "store-and-network" }
   );

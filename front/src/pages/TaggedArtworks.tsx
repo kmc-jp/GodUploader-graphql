@@ -7,26 +7,24 @@ import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateTagModal } from "./TaggedArtworks/UpdateTagModal";
 import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
 
-const taggedArtworksQuery = graphql`
-  query TaggedArtworksQuery($tag: String!) {
-    tagByName(name: $tag) {
-      ...UpdateTagModal_tag
-      editFreezed
-    }
-    taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {
-      edges {
-        node {
-          ...ArtworkListItem_artwork
-        }
-      }
-    }
-  }
-`;
-
 export const TaggedArtworks: React.VFC = () => {
   const { tag } = useParams<{ tag: string }>();
   const { tagByName, taggedArtworks } = useLazyLoadQuery<TaggedArtworksQuery>(
-    taggedArtworksQuery,
+    graphql`
+      query TaggedArtworksQuery($tag: String!) {
+        tagByName(name: $tag) {
+          ...UpdateTagModal_tag
+          editFreezed
+        }
+        taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {
+          edges {
+            node {
+              ...ArtworkListItem_artwork
+            }
+          }
+        }
+      }
+    `,
     { tag },
     { fetchPolicy: "store-and-network" }
   );

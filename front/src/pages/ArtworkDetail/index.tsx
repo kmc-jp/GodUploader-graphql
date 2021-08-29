@@ -20,55 +20,6 @@ import { DeleteArtworkButton } from "./components/DeleteArtworkButton";
 import { IllustCarousel } from "./components/IllustCarousel";
 import { UpdateArtworkModal } from "./components/UpdateArtworkForm";
 
-const artworkDetailQuery = graphql`
-  query ArtworkDetailQuery($id: ID!) {
-    viewer {
-      id
-    }
-    artworkWithBidirectional(id: $id) {
-      previous {
-        id
-        title
-        nsfw
-        topIllust {
-          thumbnailUrl
-        }
-      }
-      next {
-        id
-        title
-        nsfw
-        topIllust {
-          thumbnailUrl
-        }
-      }
-      current {
-        id
-        title
-        caption
-        createdAt
-        account {
-          id
-          kmcid
-          name
-        }
-        ...UpdateArtworkForm_artwork
-        ...IllustCarousel_illusts
-        ...ArtworkLikeList_likes
-        ...ArtworkComment_comments
-        tags {
-          edges {
-            node {
-              id
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
     <a key={match + i} href={match} target="_blank" rel="noopener noreferrer">
@@ -81,7 +32,54 @@ const ArtworkDetail: React.VFC = () => {
   const { id } = useParams<{ id: string }>();
   const { viewer, artworkWithBidirectional } =
     useLazyLoadQuery<ArtworkDetailQuery>(
-      artworkDetailQuery,
+      graphql`
+        query ArtworkDetailQuery($id: ID!) {
+          viewer {
+            id
+          }
+          artworkWithBidirectional(id: $id) {
+            previous {
+              id
+              title
+              nsfw
+              topIllust {
+                thumbnailUrl
+              }
+            }
+            next {
+              id
+              title
+              nsfw
+              topIllust {
+                thumbnailUrl
+              }
+            }
+            current {
+              id
+              title
+              caption
+              createdAt
+              account {
+                id
+                kmcid
+                name
+              }
+              ...UpdateArtworkForm_artwork
+              ...IllustCarousel_illusts
+              ...ArtworkLikeList_likes
+              ...ArtworkComment_comments
+              tags {
+                edges {
+                  node {
+                    id
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      `,
       { id },
       { fetchPolicy: "store-and-network" }
     );

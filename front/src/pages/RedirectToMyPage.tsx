@@ -4,17 +4,15 @@ import { Redirect } from "react-router-dom";
 
 import type { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
 
-const redirectToMyPageQuery = graphql`
-  query RedirectToMyPageQuery {
-    viewer {
-      kmcid
-    }
-  }
-`;
-
 export const RedirectToMyPage: React.VFC = () => {
   const { viewer } = useLazyLoadQuery<RedirectToMyPageQuery>(
-    redirectToMyPageQuery,
+    graphql`
+      query RedirectToMyPageQuery {
+        viewer {
+          kmcid
+        }
+      }
+    `,
     {},
     { fetchPolicy: "store-or-network" }
   );

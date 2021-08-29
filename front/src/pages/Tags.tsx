@@ -5,22 +5,20 @@ import { Link } from "react-router-dom";
 
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
-const tagsQuery = graphql`
-  query TagsQuery {
-    allTags(sort: [UPDATED_AT_DESC]) {
-      edges {
-        node {
-          name
-          artworksCount
-        }
-      }
-    }
-  }
-`;
-
 export const Tags: React.VFC = () => {
   const { allTags } = useLazyLoadQuery<TagsQuery>(
-    tagsQuery,
+    graphql`
+      query TagsQuery {
+        allTags(sort: [UPDATED_AT_DESC]) {
+          edges {
+            node {
+              name
+              artworksCount
+            }
+          }
+        }
+      }
+    `,
     {},
     { fetchPolicy: "store-and-network" }
   );
