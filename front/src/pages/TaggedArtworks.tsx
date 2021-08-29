@@ -1,6 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { useLazyLoadQuery } from "react-relay";
 import { useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
@@ -23,18 +23,13 @@ const taggedArtworksQuery = graphql`
   }
 `;
 
-interface IndexProps {
-  prepared: {
-    taggedArtworksQuery: PreloadedQuery<TaggedArtworksQuery>;
-  };
-}
-
-export const TaggedArtworks: React.VFC<IndexProps> = ({ prepared }) => {
-  const { tagByName, taggedArtworks } = usePreloadedQuery<TaggedArtworksQuery>(
-    taggedArtworksQuery,
-    prepared.taggedArtworksQuery
-  );
+export const TaggedArtworks: React.VFC = () => {
   const { tag } = useParams<{ tag: string }>();
+  const { tagByName, taggedArtworks } = useLazyLoadQuery<TaggedArtworksQuery>(
+    taggedArtworksQuery,
+    { tag },
+    { fetchPolicy: "store-and-network" }
+  );
 
   if (!tagByName) {
     return <div>タグはありません</div>;

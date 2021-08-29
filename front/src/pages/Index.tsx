@@ -1,6 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { useLazyLoadQuery } from "react-relay";
 import { Link } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
@@ -30,16 +30,11 @@ const indexQuery = graphql`
   }
 `;
 
-interface IndexProps {
-  prepared: {
-    indexQuery: PreloadedQuery<IndexQuery>;
-  };
-}
-
-export const Index: React.VFC<IndexProps> = ({ prepared }) => {
-  const { safeArtworks, activeAccounts } = usePreloadedQuery<IndexQuery>(
+export const Index: React.VFC = () => {
+  const { safeArtworks, activeAccounts } = useLazyLoadQuery<IndexQuery>(
     indexQuery,
-    prepared.indexQuery
+    {},
+    { fetchPolicy: "store-and-network" }
   );
   const artworkCount = safeArtworks?.edges?.length || 0;
 

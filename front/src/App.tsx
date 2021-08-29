@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { renderRoutes } from "react-router-config";
 import { useHistory, useLocation } from "react-router-dom";
 
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -7,7 +8,6 @@ import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { LoadingOverlay } from "./components/LoadingOverlay";
 import { LoadingPresence } from "./components/LoadingPresence";
-import { RouteRenderer } from "./router/RouteRenderer";
 import { routes } from "./routes";
 
 export const App: React.VFC = () => {
@@ -38,10 +38,7 @@ export const App: React.VFC = () => {
             onLoadStart={() => setIsLoading(true)}
             onLoadEnd={() => setIsLoading(false)}
           >
-            <RouteRenderer
-              routes={routes}
-              switchProps={{ location: currentLocation }}
-            />
+            {renderRoutes(routes, null, { location: currentLocation })}
           </LoadingPresence>
         </ErrorBoundary>
       </div>

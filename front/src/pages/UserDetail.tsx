@@ -2,10 +2,10 @@ import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import {
-  PreloadedQuery,
+  useLazyLoadQuery,
   usePaginationFragment,
-  usePreloadedQuery,
 } from "react-relay";
+import { useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateAccountModal } from "./UserDetail/UpdateInfoForm";
@@ -27,17 +27,14 @@ const userDetailQuery = graphql`
   }
 `;
 
-interface UserDetailProps {
-  prepared: {
-    userDetailQuery: PreloadedQuery<UserDetailQuery>;
-  };
-}
-
-export const UserDetail: React.FC<UserDetailProps> = ({ prepared }) => {
-  const { viewer, accountByKmcid: user } = usePreloadedQuery(
+export const UserDetail: React.FC = () => {
+  const { kmcid } = useParams<{ kmcid: string }>();
+  const { viewer, accountByKmcid: user } = useLazyLoadQuery<UserDetailQuery>(
     userDetailQuery,
-    prepared.userDetailQuery
+    { kmcid },
+    { fetchPolicy: "store-and-network" }
   );
+
   if (!user) {
     return <div>user not found</div>;
   }

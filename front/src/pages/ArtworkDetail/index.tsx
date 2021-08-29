@@ -2,8 +2,8 @@ import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
 import React, { useMemo } from "react";
 import { Helmet } from "react-helmet";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
-import { Link } from "react-router-dom";
+import { useLazyLoadQuery } from "react-relay";
+import { Link, useParams } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../../assets/img/regulation_mark_r18.png";
@@ -69,12 +69,6 @@ const artworkDetailQuery = graphql`
   }
 `;
 
-interface ArtworkDetailProps {
-  prepared: {
-    artworkDetailQuery: PreloadedQuery<ArtworkDetailQuery>;
-  };
-}
-
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
     <a key={match + i} href={match} target="_blank" rel="noopener noreferrer">
@@ -83,11 +77,13 @@ const autolink = (caption: string) => {
   ));
 };
 
-const ArtworkDetail: React.FC<ArtworkDetailProps> = ({ prepared }) => {
+const ArtworkDetail: React.VFC = () => {
+  const { id } = useParams<{ id: string }>();
   const { viewer, artworkWithBidirectional } =
-    usePreloadedQuery<ArtworkDetailQuery>(
+    useLazyLoadQuery<ArtworkDetailQuery>(
       artworkDetailQuery,
-      prepared.artworkDetailQuery
+      { id },
+      { fetchPolicy: "store-and-network" }
     );
 
   const tags = useMemo((): string[] => {

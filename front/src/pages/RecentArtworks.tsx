@@ -1,21 +1,11 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import {
-  PreloadedQuery,
-  usePaginationFragment,
-  usePreloadedQuery,
-} from "react-relay";
+import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import type { RecentArtworksQuery } from "./__generated__/RecentArtworksQuery.graphql";
 import { RecentArtworks_artworks$key } from "./__generated__/RecentArtworks_artworks.graphql";
-
-interface RecentArtworksProps {
-  prepared: {
-    recentArtworksQuery: PreloadedQuery<RecentArtworksQuery>;
-  };
-}
 
 const ArtworkList: React.VFC<{
   artworks: RecentArtworks_artworks$key;
@@ -94,16 +84,15 @@ const ArtworkList: React.VFC<{
   );
 };
 
-export const RecentArtworks: React.VFC<RecentArtworksProps> = ({
-  prepared,
-}) => {
-  const fragmentKey = usePreloadedQuery<RecentArtworksQuery>(
+export const RecentArtworks: React.VFC = () => {
+  const artworks = useLazyLoadQuery<RecentArtworksQuery>(
     graphql`
       query RecentArtworksQuery {
         ...RecentArtworks_artworks
       }
     `,
-    prepared.recentArtworksQuery
+    {},
+    { fetchPolicy: "store-and-network" }
   );
 
   const [includeNsfw, setIncludeNsfw] = useState(false);
@@ -130,7 +119,7 @@ export const RecentArtworks: React.VFC<RecentArtworksProps> = ({
           </div>
         </div>
         <div className="card-body">
-          <ArtworkList artworks={fragmentKey} includeNsfw={includeNsfw} />
+          <ArtworkList artworks={artworks} includeNsfw={includeNsfw} />
         </div>
       </div>
     </div>
