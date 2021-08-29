@@ -1,44 +1,18 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Footer } from "./components/Footer";
 import { LoadingOverlay } from "./components/LoadingOverlay";
+import { LoadingPresence } from "./components/LoadingPresence";
 import { RouteRenderer } from "./router/RouteRenderer";
 import { routes } from "./routes";
 
-const LoadingWatcher: React.VFC<{
-  setIsLoading: (isLoading: boolean) => void;
-}> = ({ setIsLoading }) => {
-  useEffect(() => {
-    setIsLoading(true);
-    return () => setIsLoading(false);
-  });
-  return null;
-};
-
 export const App: React.VFC = () => {
   const currentLocation = useLocation();
-  const previousLocation = useRef(currentLocation);
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const dispose = history.listen((location, action) => {
-      if (location !== currentLocation) {
-        if (action !== "REPLACE") {
-          previousLocation.current = currentLocation;
-        }
-        setIsLoading(true);
-      }
-    });
-
-    return () => {
-      setIsLoading(false);
-      dispose();
-    };
-  }, [history, currentLocation]);
 
   useEffect(
     () =>
@@ -49,11 +23,6 @@ export const App: React.VFC = () => {
       }),
     [history]
   );
-
-  // For non-suspended pages
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
 
   return (
     <div className="App">
@@ -118,23 +87,15 @@ export const App: React.VFC = () => {
       </nav>
       <div className="container">
         <ErrorBoundary>
-          <Suspense
-            fallback={
-              <>
-                <Suspense fallback={null}>
-                  <RouteRenderer
-                    routes={routes}
-                    switchProps={{
-                      location: previousLocation.current,
-                    }}
-                  />
-                </Suspense>
-                <LoadingWatcher setIsLoading={setIsLoading} />
-              </>
-            }
+          <LoadingPresence
+            onLoadStart={() => setIsLoading(true)}
+            onLoadEnd={() => setIsLoading(false)}
           >
-            <RouteRenderer routes={routes} />
-          </Suspense>
+            <RouteRenderer
+              routes={routes}
+              switchProps={{ location: currentLocation }}
+            />
+          </LoadingPresence>
         </ErrorBoundary>
       </div>
       <Footer />
