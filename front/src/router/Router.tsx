@@ -1,5 +1,10 @@
+import { createBrowserHistory } from "history";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { Router as ReactRouter } from "react-router-dom";
+
+const history = createBrowserHistory({
+  basename: process.env.REACT_APP_BASENAME,
+});
 
 export const Router: React.FC = ({ children }) => {
   const [forceRefresh, setForceRefresh] = useState(false);
@@ -16,12 +21,16 @@ export const Router: React.FC = ({ children }) => {
     };
   }, []);
 
-  return (
-    <BrowserRouter
-      basename={process.env.REACT_APP_BASENAME}
-      forceRefresh={forceRefresh}
-    >
-      {children}
-    </BrowserRouter>
-  );
+  // 後からBrowserRouterのforceRefresh propを書き換えても、BrowserRouter内で保持しているhistoryオブジェクトが作り直されない
+  // なので自分でhistoryの変化をlistenして、forceRefresh = trueのときに再読み込みされるようにする
+  useEffect(() => {
+    const dispose = history.listen((location) => {
+      if (forceRefresh) {
+        window.location.replace(history.createHref(location));
+      }
+    });
+    return () => dispose();
+  }, [forceRefresh]);
+
+  return <ReactRouter history={history}>{children}</ReactRouter>;
 };
