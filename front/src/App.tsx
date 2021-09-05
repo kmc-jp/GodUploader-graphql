@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import { renderRoutes } from "react-router-config";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Route, Switch } from "react-router-loading";
 
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { LoadingOverlay } from "./components/LoadingOverlay";
-import { LoadingPresence } from "./components/LoadingPresence";
 import { routes } from "./routes";
 
 export const App: React.VFC = () => {
-  const currentLocation = useLocation();
   const history = useHistory();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
 
   useEffect(
     () =>
@@ -34,12 +32,16 @@ export const App: React.VFC = () => {
       <Header />
       <div className="container">
         <ErrorBoundary>
-          <LoadingPresence
-            onLoadStart={() => setIsLoading(true)}
-            onLoadEnd={() => setIsLoading(false)}
-          >
-            {renderRoutes(routes, null, { location: currentLocation })}
-          </LoadingPresence>
+          <Switch>
+            {routes.map((route, i) => (
+              <Route
+                key={i}
+                path={route.path}
+                exact={route.exact}
+                component={route.component}
+              />
+            ))}
+          </Switch>
         </ErrorBoundary>
       </div>
       <Footer />
