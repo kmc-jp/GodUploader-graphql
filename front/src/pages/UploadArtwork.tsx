@@ -23,7 +23,10 @@ import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInp
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
 import { ArtworkInformationProvider } from "../contexts/ArtworkInformationContext";
-import { UploadArtworkProvider } from "../contexts/UploadArtworkContext";
+import {
+  MAX_FILESIZE_MB,
+  UploadArtworkProvider,
+} from "../contexts/UploadArtworkContext";
 import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
 
 export const UploadArtwork: React.VFC = () => {
@@ -43,6 +46,7 @@ const UploadArtworkForm = () => {
     showThumbnail,
     notifySlack,
     uploadErrors,
+    filesizeLimitExceeded,
     setFiles,
     setShowThumbnail,
     setNotifySlack,
@@ -103,7 +107,8 @@ const UploadArtworkForm = () => {
             <label htmlFor="file" className="form-label">
               アップロードする画像を追加{" "}
               <span className="text-danger">
-                (GIF/JPEG/PNG形式, 必須, 先頭の画像がサムネイルになります)
+                (GIF/JPEG/PNG形式, 合計{MAX_FILESIZE_MB}MBまで,
+                先頭の画像がサムネイルになります)
               </span>
             </label>
             <input
@@ -114,6 +119,11 @@ const UploadArtworkForm = () => {
               accept="image/gif,image/png,image/jpeg"
               onChange={handleFileChange}
             />
+            {filesizeLimitExceeded && (
+              <div className="alert alert-danger mt-3" role="alert">
+                アップロードするファイルのサイズが大きすぎます
+              </div>
+            )}
             {images.length > 0 && (
               <div className="d-flex mt-2">
                 <DndContext
@@ -178,7 +188,9 @@ const UploadArtworkForm = () => {
             <button
               type="submit"
               className="btn btn-primary form-control"
-              disabled={files.length === 0 || isUploading}
+              disabled={
+                files.length === 0 || isUploading || filesizeLimitExceeded
+              }
             >
               {isUploading ? (
                 <div className="d-flex align-items-center justify-content-center">
