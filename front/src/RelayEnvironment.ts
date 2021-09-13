@@ -69,6 +69,11 @@ const fetchRelay: FetchFunction = async (
     body,
   });
 
+  // アップロードするファイルが大きすぎると、リクエストがアプリケーションに到達する前にnginxが413を返すのでここでケアしておく
+  if (response.status === 413) {
+    return {data: null, errors: [{message: 'アップロードするファイルのサイズが大きすぎます'}]}
+  }
+
   // force refresh
   if (response.status === 302) {
     window.location.reload();
