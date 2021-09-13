@@ -68,7 +68,7 @@ const defaultValue = {
 };
 
 // nginxのclient_max_body_sizeに合わせる
-export const MAX_FILESIZE_MB = 10
+export const MAX_FILESIZE_MB = 40
 
 // client_max_body_sizeより厳しめに制限する
 const MAX_FILESIZE = (MAX_FILESIZE_MB * 0.95) * 1024 * 1024;
