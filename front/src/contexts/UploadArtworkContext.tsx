@@ -4,6 +4,7 @@ import {
   FormEventHandler,
   SetStateAction,
   useCallback,
+  useMemo,
   useState,
 } from "react";
 import { useRelayEnvironment } from "react-relay";
@@ -21,6 +22,7 @@ type UplaodArtworkContextValue = {
   slackChannel: string;
   files: (File | Blob)[];
   uploadErrors: PayloadError[] | null | undefined;
+  filesizeLimitExceeded: boolean;
 
   setIsUploading: (b: boolean) => void;
   setNotifySlack: (b: boolean) => void;
@@ -39,6 +41,7 @@ const defaultValue = {
   slackChannel: "",
   files: [],
   uploadErrors: null,
+  filesizeLimitExceeded: false,
 
   setIsUploading: () => {
     /* noop */
@@ -64,6 +67,12 @@ const defaultValue = {
   },
 };
 
+// nginxのclient_max_body_sizeに合わせる
+export const MAX_FILESIZE_MB = 10
+
+// client_max_body_sizeより厳しめに制限する
+const MAX_FILESIZE = (MAX_FILESIZE_MB * 0.95) * 1024 * 1024;
+
 export const UploadArtworkContext =
   createContext<UplaodArtworkContextValue>(defaultValue);
 
@@ -71,6 +80,12 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
   const { title, caption, tags, ageRestriction } = useArtworkInformation();
   const [isUploading, setIsUploading] = useState(false);
   const [files, setFiles] = useState<File[] | Blob[]>([]);
+  const filesizeLimitExceeded = useMemo(() => {
+    const totalFileSize = files
+      .map((file) => file.size)
+      .reduce((a, b) => a + b, 0);
+    return totalFileSize >= MAX_FILESIZE;
+  }, [files]);
 
   const [notifySlack, setNotifySlack] = useState(false);
   const [showThumbnail, setShowThumbnail] = useState(true);
@@ -147,6 +162,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
         showThumbnail,
         slackChannel,
         uploadErrors,
+        filesizeLimitExceeded,
         setIsUploading,
         setFiles,
         setNotifySlack,
