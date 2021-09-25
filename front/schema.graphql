@@ -105,12 +105,6 @@ enum ArtworkSortEnum {
   UPDATED_AT_DESC
 }
 
-type ArtworkWithBidirectionalPayload {
-  previous: Artwork
-  current: Artwork
-  next: Artwork
-}
-
 type Comment implements Node {
   """The ID of the object."""
   id: ID!
@@ -294,7 +288,6 @@ type Query {
 
   """for compatibility"""
   artworkByFolderId(folderId: Int!): Artwork
-  artworkWithBidirectional(id: ID!): ArtworkWithBidirectionalPayload @deprecated(reason: "Artwork型のnextArtwork / previousArtworkフィールドを使うようにしてください")
   viewer: Account
   accountByKmcid(kmcid: String!): Account
   activeAccounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection

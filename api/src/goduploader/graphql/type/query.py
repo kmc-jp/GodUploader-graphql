@@ -18,12 +18,6 @@ class SlackChannel(ObjectType):
     name = graphene.NonNull(graphene.String)
 
 
-class ArtworkWithBidirectionalPayload(ObjectType):
-    previous = graphene.Field(Artwork)
-    current = graphene.Field(Artwork)
-    next = graphene.Field(Artwork)
-
-
 class Query(ObjectType):
     node = relay.Node.Field()
     accounts = SQLAlchemyConnectionField(Account.connection)
@@ -46,48 +40,6 @@ class Query(ObjectType):
 
     def resolve_artwork_by_folder_id(root, info, **args):
         return Artwork.get_query(info).filter_by(id=args["folder_id"]).first()
-
-    artwork_with_bidirectional = graphene.Field(
-        ArtworkWithBidirectionalPayload,
-        id=graphene.ID(required=True),
-        deprecation_reason="Artwork型のnextArtwork / previousArtworkフィールドを使うようにしてください",
-    )
-
-    def resolve_artwork_with_bidirectional(root, info, id):
-        current: ArtworkModel = relay.Node.get_node_from_global_id(
-            info, id, only_type=Artwork
-        )
-        if not current:
-            return ArtworkWithBidirectionalPayload(
-                previous=None, current=None, next=None
-            )
-
-        previous = (
-            session.query(ArtworkModel)
-            .filter(
-                and_(
-                    ArtworkModel.account_id == current.account_id,
-                    ArtworkModel.id < current.id,
-                )
-            )
-            .order_by(desc(ArtworkModel.id))
-            .first()
-        )
-        next = (
-            session.query(ArtworkModel)
-            .filter(
-                and_(
-                    ArtworkModel.account_id == current.account_id,
-                    ArtworkModel.id > current.id,
-                )
-            )
-            .order_by(ArtworkModel.id)
-            .first()
-        )
-
-        return ArtworkWithBidirectionalPayload(
-            previous=previous, current=current, next=next
-        )
 
     viewer = graphene.Field(Account)
 
