@@ -36,3 +36,10 @@ $ yarn start
 ```
 $ BASE="utgw@kmc.gr.jp:~passenger/GodUploader-graphql" python3 api/script/init.py
 ```
+
+### デプロイする
+
+```
+$ git pull
+$ make
+```
