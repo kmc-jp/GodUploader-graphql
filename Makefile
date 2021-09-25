@@ -17,6 +17,6 @@ api/install:
 	cd api && poetry install
 
 api/restart:
-	touch api/tmp/restart.txt
+	passenger-config restart-app .
 
 .PHONY: all front front/install front/build api api/install
