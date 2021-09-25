@@ -62,6 +62,12 @@ type Artwork implements Node {
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
   tags(before: String, after: String, first: Int, last: Int): TagConnection
   account: Account
+
+  """この作品より1つ新しい、同じユーザーの作品を返す"""
+  nextArtwork: Artwork
+
+  """この作品より1つ古い、同じユーザーの作品を返す"""
+  previousArtwork: Artwork
 }
 
 type ArtworkConnection {

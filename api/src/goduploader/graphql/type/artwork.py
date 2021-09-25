@@ -25,3 +25,11 @@ class Artwork(SQLAlchemyObjectType):
 
     def resolve_top_illust(root, info):
         return illust_loader.load(root.top_illust_id)
+
+    next_artwork = graphene.Field(
+        lambda: Artwork, description="この作品より1つ新しい、同じユーザーの作品を返す"
+    )
+
+    previous_artwork = graphene.Field(
+        lambda: Artwork, description="この作品より1つ古い、同じユーザーの作品を返す"
+    )
