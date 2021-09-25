@@ -48,7 +48,9 @@ class Query(ObjectType):
         return Artwork.get_query(info).filter_by(id=args["folder_id"]).first()
 
     artwork_with_bidirectional = graphene.Field(
-        ArtworkWithBidirectionalPayload, id=graphene.ID(required=True)
+        ArtworkWithBidirectionalPayload,
+        id=graphene.ID(required=True),
+        deprecation_reason="Artwork型のnextArtwork / previousArtworkフィールドを使うようにしてください",
     )
 
     def resolve_artwork_with_bidirectional(root, info, id):

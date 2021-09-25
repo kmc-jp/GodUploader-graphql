@@ -294,7 +294,7 @@ type Query {
 
   """for compatibility"""
   artworkByFolderId(folderId: Int!): Artwork
-  artworkWithBidirectional(id: ID!): ArtworkWithBidirectionalPayload
+  artworkWithBidirectional(id: ID!): ArtworkWithBidirectionalPayload @deprecated(reason: "Artwork型のnextArtwork / previousArtworkフィールドを使うようにしてください")
   viewer: Account
   accountByKmcid(kmcid: String!): Account
   activeAccounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
