@@ -1,5 +1,5 @@
 from graphene.relay.node import Node
-from tests.util import create_account, create_artwork
+from tests.util import create_account, create_artwork, mock_context
 
 ARTWORK_WITH_BIDIRECTIONAL_QUERY = """
     query ArtworkWithBidirectionalTestQuery($id: ID!) {
@@ -113,3 +113,64 @@ def test_artwork_with_bidirectional_not_found(client):
     assert "data" in result
     assert "artworkWithBidirectional" in result["data"]
     assert result["data"]["artworkWithBidirectional"] is None
+
+
+EDTIABLE_QUERY = """
+    query EditableQuery($id: ID!) {
+        node(id: $id) {
+            ... on Artwork {
+                editable
+            }
+        }
+    }
+"""
+
+
+def test_editable_not_logged_in(client):
+    artwork = create_artwork()
+    result = client.execute(
+        EDTIABLE_QUERY,
+        variable_values={"id": Node.to_global_id("Artwork", artwork.id)},
+    )
+    assert "data" in result
+    assert "node" in result["data"]
+    assert not result["data"]["node"]["editable"]
+
+
+def test_editable_unknown_user(client):
+    artwork = create_artwork()
+    result = client.execute(
+        EDTIABLE_QUERY,
+        variable_values={"id": Node.to_global_id("Artwork", artwork.id)},
+        context_value=mock_context(),
+    )
+    assert "data" in result
+    assert "node" in result["data"]
+    assert not result["data"]["node"]["editable"]
+
+
+def test_editable_mine(client):
+    account = create_account()
+    artwork = create_artwork(account=account)
+    result = client.execute(
+        EDTIABLE_QUERY,
+        variable_values={"id": Node.to_global_id("Artwork", artwork.id)},
+        context_value=mock_context(account.kmcid),
+    )
+    assert "data" in result
+    assert "node" in result["data"]
+    assert result["data"]["node"]["editable"]
+
+
+def test_editable_others(client):
+    account = create_account()
+    other_account = create_account()
+    artwork = create_artwork(account=other_account)
+    result = client.execute(
+        EDTIABLE_QUERY,
+        variable_values={"id": Node.to_global_id("Artwork", artwork.id)},
+        context_value=mock_context(account.kmcid),
+    )
+    assert "data" in result
+    assert "node" in result["data"]
+    assert not result["data"]["node"]["editable"]

@@ -68,6 +68,9 @@ type Artwork implements Node {
 
   """この作品より1つ古い、同じユーザーの作品を返す"""
   previousArtwork: Artwork
+
+  """作品の情報を編集できるかどうかを返す"""
+  editable: Boolean!
 }
 
 type ArtworkConnection {
