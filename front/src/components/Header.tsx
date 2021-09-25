@@ -11,6 +11,7 @@ export const Header: React.VFC = () => {
     if (!ref.current) {
       return;
     }
+    // toggle: false を指定しないとページ遷移するたびにドロップダウンメニューが開閉してしまう
     const collapse = new Collapse(ref.current, { toggle: false });
     const unsubscribe = history.listen(() => {
       collapse.hide();
