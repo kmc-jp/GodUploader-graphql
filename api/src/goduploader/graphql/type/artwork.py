@@ -1,8 +1,10 @@
+from typing import Optional
 import graphene
 from goduploader.db import session
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.illust import Illust
+from goduploader.model import Account as AccountModel
 from goduploader.model import Artwork as ArtworkModel
 from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyObjectType
@@ -61,3 +63,21 @@ class Artwork(SQLAlchemyObjectType):
             .order_by(desc(ArtworkModel.id))
             .first()
         )
+
+    editable = graphene.Field(graphene.Boolean, required=True, description="作品の情報を編集できるかどうかを返す")
+
+    def resolve_editable(root, info):
+        if not info.context:
+            # Requestオブジェクトが入っているのでここは通らないはず
+            return False
+
+        user: Optional[AccountModel] = info.context.user
+        if not user:
+            return False
+
+        owner = root.account
+        if not owner:
+            # ownerは必ず存在するからこのパスを通ることはないはず
+            return False
+
+        return user.id == owner.id
