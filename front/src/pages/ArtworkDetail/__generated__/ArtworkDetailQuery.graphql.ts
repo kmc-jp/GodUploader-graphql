@@ -11,8 +11,9 @@ export type ArtworkDetailQueryResponse = {
     readonly viewer: {
         readonly id: string;
     } | null;
-    readonly artworkWithBidirectional: {
-        readonly previous: {
+    readonly artworkWithBidirectional: ({
+        readonly __typename: "Artwork";
+        readonly previousArtwork: {
             readonly id: string;
             readonly title: string;
             readonly nsfw: boolean;
@@ -20,7 +21,7 @@ export type ArtworkDetailQueryResponse = {
                 readonly thumbnailUrl: string;
             } | null;
         } | null;
-        readonly next: {
+        readonly nextArtwork: {
             readonly id: string;
             readonly title: string;
             readonly nsfw: boolean;
@@ -28,27 +29,29 @@ export type ArtworkDetailQueryResponse = {
                 readonly thumbnailUrl: string;
             } | null;
         } | null;
-        readonly current: {
+        readonly id: string;
+        readonly title: string;
+        readonly caption: string;
+        readonly createdAt: string;
+        readonly account: {
             readonly id: string;
-            readonly title: string;
-            readonly caption: string;
-            readonly createdAt: string;
-            readonly account: {
-                readonly id: string;
-                readonly kmcid: string;
-                readonly name: string;
-            } | null;
-            readonly tags: {
-                readonly edges: ReadonlyArray<{
-                    readonly node: {
-                        readonly id: string;
-                        readonly name: string;
-                    } | null;
-                } | null>;
-            } | null;
-            readonly " $fragmentRefs": FragmentRefs<"UpdateArtworkForm_artwork" | "IllustCarousel_illusts" | "ArtworkLikeList_likes" | "ArtworkComment_comments">;
+            readonly kmcid: string;
+            readonly name: string;
         } | null;
-    } | null;
+        readonly tags: {
+            readonly edges: ReadonlyArray<{
+                readonly node: {
+                    readonly id: string;
+                    readonly name: string;
+                } | null;
+            } | null>;
+        } | null;
+        readonly " $fragmentRefs": FragmentRefs<"UpdateArtworkForm_artwork" | "IllustCarousel_illusts" | "ArtworkLikeList_likes" | "ArtworkComment_comments">;
+    } | {
+        /*This will never be '%other', but we need some
+        value in case none of the concrete values match.*/
+        readonly __typename: "%other";
+    }) | null;
 };
 export type ArtworkDetailQuery = {
     readonly response: ArtworkDetailQueryResponse;
@@ -64,26 +67,27 @@ query ArtworkDetailQuery(
   viewer {
     id
   }
-  artworkWithBidirectional(id: $id) {
-    previous {
-      id
-      title
-      nsfw
-      topIllust {
-        thumbnailUrl
+  artworkWithBidirectional: node(id: $id) {
+    __typename
+    ... on Artwork {
+      previousArtwork {
         id
+        title
+        nsfw
+        topIllust {
+          thumbnailUrl
+          id
+        }
       }
-    }
-    next {
-      id
-      title
-      nsfw
-      topIllust {
-        thumbnailUrl
+      nextArtwork {
         id
+        title
+        nsfw
+        topIllust {
+          thumbnailUrl
+          id
+        }
       }
-    }
-    current {
       id
       title
       caption
@@ -106,6 +110,7 @@ query ArtworkDetailQuery(
         }
       }
     }
+    id
   }
 }
 
@@ -218,27 +223,34 @@ v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "title",
+  "name": "__typename",
   "storageKey": null
 },
 v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "nsfw",
+  "name": "title",
   "storageKey": null
 },
 v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "nsfw",
+  "storageKey": null
+},
+v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "thumbnailUrl",
   "storageKey": null
 },
-v7 = [
+v8 = [
   (v1/*: any*/),
-  (v4/*: any*/),
   (v5/*: any*/),
+  (v6/*: any*/),
   {
     "alias": null,
     "args": null,
@@ -247,40 +259,40 @@ v7 = [
     "name": "topIllust",
     "plural": false,
     "selections": [
-      (v6/*: any*/)
+      (v7/*: any*/)
     ],
     "storageKey": null
   }
 ],
-v8 = {
+v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "caption",
   "storageKey": null
 },
-v9 = {
+v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "createdAt",
   "storageKey": null
 },
-v10 = {
+v11 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "kmcid",
   "storageKey": null
 },
-v11 = {
+v12 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v12 = {
+v13 = {
   "alias": null,
   "args": null,
   "concreteType": "Account",
@@ -289,15 +301,15 @@ v12 = {
   "plural": false,
   "selections": [
     (v1/*: any*/),
-    (v10/*: any*/),
-    (v11/*: any*/)
+    (v11/*: any*/),
+    (v12/*: any*/)
   ],
   "storageKey": null
 },
-v13 = [
+v14 = [
   (v1/*: any*/),
-  (v4/*: any*/),
   (v5/*: any*/),
+  (v6/*: any*/),
   {
     "alias": null,
     "args": null,
@@ -306,26 +318,19 @@ v13 = [
     "name": "topIllust",
     "plural": false,
     "selections": [
-      (v6/*: any*/),
+      (v7/*: any*/),
       (v1/*: any*/)
     ],
     "storageKey": null
   }
 ],
-v14 = [
+v15 = [
   {
     "kind": "Literal",
     "name": "first",
     "value": 10000000
   }
 ],
-v15 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "__typename",
-  "storageKey": null
-},
 v16 = {
   "alias": null,
   "args": null,
@@ -361,46 +366,42 @@ return {
     "selections": [
       (v2/*: any*/),
       {
-        "alias": null,
+        "alias": "artworkWithBidirectional",
         "args": (v3/*: any*/),
-        "concreteType": "ArtworkWithBidirectionalPayload",
+        "concreteType": null,
         "kind": "LinkedField",
-        "name": "artworkWithBidirectional",
+        "name": "node",
         "plural": false,
         "selections": [
+          (v4/*: any*/),
           {
-            "alias": null,
-            "args": null,
-            "concreteType": "Artwork",
-            "kind": "LinkedField",
-            "name": "previous",
-            "plural": false,
-            "selections": (v7/*: any*/),
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Artwork",
-            "kind": "LinkedField",
-            "name": "next",
-            "plural": false,
-            "selections": (v7/*: any*/),
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Artwork",
-            "kind": "LinkedField",
-            "name": "current",
-            "plural": false,
+            "kind": "InlineFragment",
             "selections": [
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Artwork",
+                "kind": "LinkedField",
+                "name": "previousArtwork",
+                "plural": false,
+                "selections": (v8/*: any*/),
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Artwork",
+                "kind": "LinkedField",
+                "name": "nextArtwork",
+                "plural": false,
+                "selections": (v8/*: any*/),
+                "storageKey": null
+              },
               (v1/*: any*/),
-              (v4/*: any*/),
-              (v8/*: any*/),
+              (v5/*: any*/),
               (v9/*: any*/),
-              (v12/*: any*/),
+              (v10/*: any*/),
+              (v13/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -426,7 +427,7 @@ return {
                         "plural": false,
                         "selections": [
                           (v1/*: any*/),
-                          (v11/*: any*/)
+                          (v12/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -457,7 +458,8 @@ return {
                 "name": "ArtworkComment_comments"
               }
             ],
-            "storageKey": null
+            "type": "Artwork",
+            "abstractKey": null
           }
         ],
         "storageKey": null
@@ -474,46 +476,42 @@ return {
     "selections": [
       (v2/*: any*/),
       {
-        "alias": null,
+        "alias": "artworkWithBidirectional",
         "args": (v3/*: any*/),
-        "concreteType": "ArtworkWithBidirectionalPayload",
+        "concreteType": null,
         "kind": "LinkedField",
-        "name": "artworkWithBidirectional",
+        "name": "node",
         "plural": false,
         "selections": [
+          (v4/*: any*/),
+          (v1/*: any*/),
           {
-            "alias": null,
-            "args": null,
-            "concreteType": "Artwork",
-            "kind": "LinkedField",
-            "name": "previous",
-            "plural": false,
-            "selections": (v13/*: any*/),
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Artwork",
-            "kind": "LinkedField",
-            "name": "next",
-            "plural": false,
-            "selections": (v13/*: any*/),
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Artwork",
-            "kind": "LinkedField",
-            "name": "current",
-            "plural": false,
+            "kind": "InlineFragment",
             "selections": [
-              (v1/*: any*/),
-              (v4/*: any*/),
-              (v8/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Artwork",
+                "kind": "LinkedField",
+                "name": "previousArtwork",
+                "plural": false,
+                "selections": (v14/*: any*/),
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "Artwork",
+                "kind": "LinkedField",
+                "name": "nextArtwork",
+                "plural": false,
+                "selections": (v14/*: any*/),
+                "storageKey": null
+              },
+              (v5/*: any*/),
               (v9/*: any*/),
-              (v12/*: any*/),
+              (v10/*: any*/),
+              (v13/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -538,7 +536,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v11/*: any*/),
+                          (v12/*: any*/),
                           (v1/*: any*/)
                         ],
                         "storageKey": null
@@ -581,7 +579,7 @@ return {
                             "name": "imageUrl",
                             "storageKey": null
                           },
-                          (v6/*: any*/)
+                          (v7/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -600,7 +598,7 @@ return {
               },
               {
                 "alias": null,
-                "args": (v14/*: any*/),
+                "args": (v15/*: any*/),
                 "concreteType": "LikeConnection",
                 "kind": "LinkedField",
                 "name": "likes",
@@ -631,12 +629,12 @@ return {
                             "plural": false,
                             "selections": [
                               (v1/*: any*/),
-                              (v10/*: any*/)
+                              (v11/*: any*/)
                             ],
                             "storageKey": null
                           },
                           (v1/*: any*/),
-                          (v15/*: any*/)
+                          (v4/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -675,7 +673,7 @@ return {
               },
               {
                 "alias": null,
-                "args": (v14/*: any*/),
+                "args": (v15/*: any*/),
                 "filters": null,
                 "handle": "connection",
                 "key": "ArtworkDetail_likes",
@@ -713,7 +711,7 @@ return {
                             "name": "text",
                             "storageKey": null
                           },
-                          (v9/*: any*/),
+                          (v10/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -722,13 +720,13 @@ return {
                             "name": "account",
                             "plural": false,
                             "selections": [
-                              (v10/*: any*/),
+                              (v11/*: any*/),
                               (v1/*: any*/)
                             ],
                             "storageKey": null
                           },
                           (v1/*: any*/),
-                          (v15/*: any*/)
+                          (v4/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -775,7 +773,8 @@ return {
                 "name": "comments"
               }
             ],
-            "storageKey": null
+            "type": "Artwork",
+            "abstractKey": null
           }
         ],
         "storageKey": null
@@ -783,14 +782,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "475b317e31a46972aada165109d8bd2a",
+    "cacheID": "174b5d1782952f95b027a8e6d53316c6",
     "id": null,
     "metadata": {},
     "name": "ArtworkDetailQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  artworkWithBidirectional(id: $id) {\n    previous {\n      id\n      title\n      nsfw\n      topIllust {\n        thumbnailUrl\n        id\n      }\n    }\n    next {\n      id\n      title\n      nsfw\n      topIllust {\n        thumbnailUrl\n        id\n      }\n    }\n    current {\n      id\n      title\n      caption\n      createdAt\n      account {\n        id\n        kmcid\n        name\n      }\n      ...UpdateArtworkForm_artwork\n      ...IllustCarousel_illusts\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  artworkId: id\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  artworkId: id\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment IllustCarousel_illusts on Artwork {\n  illusts {\n    edges {\n      node {\n        id\n        imageUrl\n        thumbnailUrl\n      }\n    }\n  }\n}\n\nfragment UpdateArtworkForm_artwork on Artwork {\n  id\n  title\n  caption\n  tags {\n    edges {\n      node {\n        name\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  viewer {\n    id\n  }\n  artworkWithBidirectional: node(id: $id) {\n    __typename\n    ... on Artwork {\n      previousArtwork {\n        id\n        title\n        nsfw\n        topIllust {\n          thumbnailUrl\n          id\n        }\n      }\n      nextArtwork {\n        id\n        title\n        nsfw\n        topIllust {\n          thumbnailUrl\n          id\n        }\n      }\n      id\n      title\n      caption\n      createdAt\n      account {\n        id\n        kmcid\n        name\n      }\n      ...UpdateArtworkForm_artwork\n      ...IllustCarousel_illusts\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  artworkId: id\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  artworkId: id\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment IllustCarousel_illusts on Artwork {\n  illusts {\n    edges {\n      node {\n        id\n        imageUrl\n        thumbnailUrl\n      }\n    }\n  }\n}\n\nfragment UpdateArtworkForm_artwork on Artwork {\n  id\n  title\n  caption\n  tags {\n    edges {\n      node {\n        name\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'abe7987e3a971021f404aee7188ce8a1';
+(node as any).hash = '1197cb2105165507752e2d178ffd8c1c';
 export default node;

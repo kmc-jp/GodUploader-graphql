@@ -37,24 +37,25 @@ const ArtworkDetail: React.VFC = () => {
           viewer {
             id
           }
-          artworkWithBidirectional(id: $id) {
-            previous {
-              id
-              title
-              nsfw
-              topIllust {
-                thumbnailUrl
+          artworkWithBidirectional: node(id: $id) {
+            __typename
+            ... on Artwork {
+              previousArtwork {
+                id
+                title
+                nsfw
+                topIllust {
+                  thumbnailUrl
+                }
               }
-            }
-            next {
-              id
-              title
-              nsfw
-              topIllust {
-                thumbnailUrl
+              nextArtwork {
+                id
+                title
+                nsfw
+                topIllust {
+                  thumbnailUrl
+                }
               }
-            }
-            current {
               id
               title
               caption
@@ -85,11 +86,16 @@ const ArtworkDetail: React.VFC = () => {
     );
 
   const tags = useMemo((): string[] => {
-    if (!artworkWithBidirectional?.current) {
+    if (
+      !(
+        artworkWithBidirectional &&
+        artworkWithBidirectional.__typename === "Artwork"
+      )
+    ) {
       return [];
     }
 
-    const { tags } = artworkWithBidirectional.current;
+    const { tags } = artworkWithBidirectional;
     if (!tags?.edges) {
       return [];
     }
@@ -105,11 +111,20 @@ const ArtworkDetail: React.VFC = () => {
       .filter((t) => t);
   }, [artworkWithBidirectional]);
 
-  if (!(artworkWithBidirectional && artworkWithBidirectional.current)) {
+  if (
+    !(
+      artworkWithBidirectional &&
+      artworkWithBidirectional.__typename === "Artwork"
+    )
+  ) {
     return <div>作品が見つかりません</div>;
   }
 
-  const { previous, next, current: artwork } = artworkWithBidirectional;
+  const {
+    previousArtwork: previous,
+    nextArtwork: next,
+    ...artwork
+  } = artworkWithBidirectional;
 
   const createdAt = new Date(artwork.createdAt);
 
