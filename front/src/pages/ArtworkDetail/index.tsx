@@ -30,60 +30,57 @@ const autolink = (caption: string) => {
 
 const ArtworkDetail: React.VFC = () => {
   const { id } = useParams<{ id: string }>();
-  const { viewer, artworkWithBidirectional } =
-    useLazyLoadQuery<ArtworkDetailQuery>(
-      graphql`
-        query ArtworkDetailQuery($id: ID!) {
-          viewer {
-            id
-          }
-          artworkWithBidirectional: node(id: $id) {
-            __typename
-            ... on Artwork {
-              previousArtwork {
-                id
-                title
-                nsfw
-                topIllust {
-                  thumbnailUrl
-                }
-              }
-              nextArtwork {
-                id
-                title
-                nsfw
-                topIllust {
-                  thumbnailUrl
-                }
-              }
+  const { artworkWithBidirectional } = useLazyLoadQuery<ArtworkDetailQuery>(
+    graphql`
+      query ArtworkDetailQuery($id: ID!) {
+        artworkWithBidirectional: node(id: $id) {
+          __typename
+          ... on Artwork {
+            previousArtwork {
               id
               title
-              caption
-              createdAt
-              account {
-                id
-                kmcid
-                name
+              nsfw
+              topIllust {
+                thumbnailUrl
               }
-              ...UpdateArtworkForm_artwork
-              ...IllustCarousel_illusts
-              ...ArtworkLikeList_likes
-              ...ArtworkComment_comments
-              tags {
-                edges {
-                  node {
-                    id
-                    name
-                  }
+            }
+            nextArtwork {
+              id
+              title
+              nsfw
+              topIllust {
+                thumbnailUrl
+              }
+            }
+            id
+            title
+            caption
+            createdAt
+            editable
+            account {
+              id
+              kmcid
+              name
+            }
+            ...UpdateArtworkForm_artwork
+            ...IllustCarousel_illusts
+            ...ArtworkLikeList_likes
+            ...ArtworkComment_comments
+            tags {
+              edges {
+                node {
+                  id
+                  name
                 }
               }
             }
           }
         }
-      `,
-      { id },
-      { fetchPolicy: "store-and-network" }
-    );
+      }
+    `,
+    { id },
+    { fetchPolicy: "store-and-network" }
+  );
 
   const tags = useMemo((): string[] => {
     if (
@@ -145,7 +142,7 @@ const ArtworkDetail: React.VFC = () => {
             </Link>
           </p>
           <p>{formatDateTime(createdAt)}</p>
-          {artwork.account && viewer && artwork.account.id === viewer.id && (
+          {artwork.editable && (
             <ArtworkInformationProvider
               initialTitle={artwork.title}
               initialCaption={artwork.caption}
@@ -180,7 +177,7 @@ const ArtworkDetail: React.VFC = () => {
           <LikeList artwork={artwork} />
           <IllustCarousel artwork={artwork} />
           <ArtworkComment artwork={artwork} />
-          {viewer && artwork.account && artwork.account.id === viewer.id && (
+          {artwork.editable && (
             <div className="mt-2 d-flex justify-content-center">
               <DeleteArtworkButton artworkId={artwork.id} />
             </div>
