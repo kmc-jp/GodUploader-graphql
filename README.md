@@ -43,3 +43,23 @@ $ BASE="utgw@kmc.gr.jp:~passenger/GodUploader-graphql" python3 api/script/init.p
 $ git pull
 $ make
 ```
+
+## テスト
+
+### api
+
+`tests` 以下にテストがある。
+
+```
+$ cd api
+$ poetry run pytest
+```
+
+### front
+
+実はテストがないかもしれない。
+
+```
+$ cd front
+$ yarn test
+```
