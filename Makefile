@@ -3,7 +3,7 @@ all: front api
 front: front/install front/build front/deploy
 
 front/install:
-	cd front && yarn install --frozen-lockfile --cache-folder /tmp/yarn-cache
+	cd front && yarn install --frozen-lockfile
 
 front/build:
 	cd front && env DISABLE_ESLINT_PLUGIN=true yarn build
