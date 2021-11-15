@@ -17,7 +17,7 @@ poetryをインストールしておいてください。
 
 ```
 $ poetry install
-$ poetry run python main.py
+$ poetry run python script/main.py
 ```
 
 ### front
