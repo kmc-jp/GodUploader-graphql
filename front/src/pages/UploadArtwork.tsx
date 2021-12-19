@@ -104,19 +104,20 @@ const UploadArtworkForm = () => {
       <div className="panel-body px-4 py-4">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="file" className="form-label">
+            <p>
               アップロードする画像を追加{" "}
               <span className="text-danger">
                 (GIF/JPEG/PNG形式, 合計{MAX_FILESIZE_MB}MBまで,
                 先頭の画像がサムネイルになります)
               </span>
-            </label>
+            </p>
             <input
               type="file"
               className="form-control"
               id="file"
               multiple
               accept="image/gif,image/png,image/jpeg"
+              style={{ display: "none" }}
               onChange={handleFileChange}
             />
             {filesizeLimitExceeded && (
@@ -124,8 +125,8 @@ const UploadArtworkForm = () => {
                 アップロードするファイルのサイズが大きすぎます
               </div>
             )}
-            {images.length > 0 && (
-              <div className="d-flex mt-2">
+            <div className="d-flex mt-2">
+              {images.length > 0 && (
                 <DndContext
                   sensors={sensors}
                   collisionDetection={closestCenter}
@@ -145,8 +146,23 @@ const UploadArtworkForm = () => {
                     ))}
                   </SortableContext>
                 </DndContext>
-              </div>
-            )}
+              )}
+              <label
+                htmlFor="file"
+                title="ここをタップして画像を追加"
+                className="form-label card"
+                style={{
+                  width: 186,
+                  height: 186,
+                  cursor: "pointer",
+                }}
+              >
+                <i
+                  className="bi bi-plus-lg mx-auto my-auto"
+                  style={{ fontSize: "2em" }}
+                ></i>
+              </label>
+            </div>
           </div>
           <div className="mb-3">
             <TitleInput />
