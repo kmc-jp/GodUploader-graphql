@@ -86,7 +86,7 @@
     "@graphql-codegen/schema-ast": "^1.18.2",
     "@testing-library/react-hooks": "^7.0.0",
     "@trivago/prettier-plugin-sort-imports": "^2.0.2",
-    "babel-plugin-relay": "^11.0.2",
+    "babel-plugin-relay": "^13.0.1",
     "cra-bundle-analyzer": "^0.1.0",
     "graphql": "^15.5.0",
     "prettier": "^2.3.1",
