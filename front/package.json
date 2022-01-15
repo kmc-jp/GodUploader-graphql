@@ -94,5 +94,8 @@
     "relay-compiler": "^11.0.2",
     "relay-compiler-language-typescript": "^14.0.0",
     "relay-config": "^11.0.2"
+  },
+  "resolutions": {
+    "mini-css-extract-plugin": "~2.4.5"
   }
 }
