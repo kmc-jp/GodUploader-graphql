@@ -95,6 +95,7 @@
     "relay-config": "^11.0.2"
   },
   "resolutions": {
-    "mini-css-extract-plugin": "~2.4.5"
+    "mini-css-extract-plugin": "~2.4.5",
+    "@types/relay-runtime": "~13.0.0"
   }
 }
