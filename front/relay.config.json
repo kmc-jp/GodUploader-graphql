@@ -1,9 +1,0 @@
-{
-  "schema": "./schema.graphql",
-  "src": "./src",
-  "language": "typescript",
-  "customScalars": {
-    "DateTime": "string",
-    "Upload": "null"
-  }
-}

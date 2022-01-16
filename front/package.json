@@ -47,7 +47,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "codegen": "graphql-codegen",
-    "relay-compiler": "relay-compiler ./relay.config.json"
+    "relay-compiler": "relay-compiler"
   },
   "eslintConfig": {
     "extends": [
@@ -67,6 +67,15 @@
       "^[./]"
     ],
     "importOrderSeparation": true
+  },
+  "relay": {
+    "schema": "./schema.graphql",
+    "src": "./src",
+    "language": "typescript",
+    "customScalars": {
+      "DateTime": "string",
+      "Upload": "null"
+    }
   },
   "proxy": "http://localhost:5000",
   "browserslist": {
