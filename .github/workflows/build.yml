@@ -18,11 +18,9 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: front/yarn.lock
 
-      - run: cd front
+      - run: cd front && yarn install --frozen-lockfile
 
-      - run: yarn install --frozen-lockfile
-
-      - run: yarn build
+      - run: cd front && yarn build
 
       - uses: actions/upload-artifact@v2
         with:
