@@ -2,9 +2,8 @@ name: Build front
 
 on:
   push:
-    # TODO: 動作確認できたらmainブランチでだけビルドするように変更する
-    # branches:
-    #   - main
+    branches:
+      - main
 
 jobs:
   build:
