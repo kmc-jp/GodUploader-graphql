@@ -1,0 +1,29 @@
+name: Build front
+
+on:
+  push:
+    # TODO: 動作確認できたらmainブランチでだけビルドするように変更する
+    # branches:
+    #   - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - run: cd front
+
+      - run: yarn install --frozen-lockfile
+
+      - run: yarn build
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: front-${{ env.GITHUB_SHA }}
+          path: front/build/
