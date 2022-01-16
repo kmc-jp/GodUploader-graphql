@@ -1,39 +1,31 @@
+/**
+ * @generated SignedSource<<3bc8e4adcc493ab39c68df7fe4d5a2d9>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
-export type TagsQueryVariables = {};
-export type TagsQueryResponse = {
-    readonly allTags: {
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly name: string;
-                readonly artworksCount: number;
-            } | null;
-        } | null>;
-    } | null;
+import { ConcreteRequest, Query } from 'relay-runtime';
+export type TagsQuery$variables = {};
+export type TagsQueryVariables = TagsQuery$variables;
+export type TagsQuery$data = {
+  readonly allTags: {
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly name: string;
+        readonly artworksCount: number;
+      } | null;
+    } | null>;
+  } | null;
 };
+export type TagsQueryResponse = TagsQuery$data;
 export type TagsQuery = {
-    readonly response: TagsQueryResponse;
-    readonly variables: TagsQueryVariables;
+  variables: TagsQueryVariables;
+  response: TagsQuery$data;
 };
-
-
-
-/*
-query TagsQuery {
-  allTags(sort: [UPDATED_AT_DESC]) {
-    edges {
-      node {
-        name
-        artworksCount
-        id
-      }
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -165,5 +157,7 @@ return {
   }
 };
 })();
-(node as any).hash = 'c21a329086271c16f01fc0b7bdda5f1c';
+
+(node as any).hash = "c21a329086271c16f01fc0b7bdda5f1c";
+
 export default node;

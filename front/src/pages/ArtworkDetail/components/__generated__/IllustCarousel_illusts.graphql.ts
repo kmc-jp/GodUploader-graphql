@@ -1,28 +1,32 @@
+/**
+ * @generated SignedSource<<7d770dabd8db31596779fcabbea72d0d>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from "relay-runtime";
+import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type IllustCarousel_illusts = {
-    readonly illusts: {
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly id: string;
-                readonly imageUrl: string;
-                readonly thumbnailUrl: string;
-            } | null;
-        } | null>;
-    } | null;
-    readonly " $refType": "IllustCarousel_illusts";
+export type IllustCarousel_illusts$data = {
+  readonly illusts: {
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly id: string;
+        readonly imageUrl: string;
+        readonly thumbnailUrl: string;
+      } | null;
+    } | null>;
+  } | null;
+  readonly " $fragmentType": "IllustCarousel_illusts";
 };
-export type IllustCarousel_illusts$data = IllustCarousel_illusts;
+export type IllustCarousel_illusts = IllustCarousel_illusts$data;
 export type IllustCarousel_illusts$key = {
-    readonly " $data"?: IllustCarousel_illusts$data;
-    readonly " $fragmentRefs": FragmentRefs<"IllustCarousel_illusts">;
+  readonly " $data"?: IllustCarousel_illusts$data;
+  readonly " $fragmentSpreads": FragmentRefs<"IllustCarousel_illusts">;
 };
-
-
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
@@ -88,5 +92,7 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '792772302942d400c6387a46c3e3cb28';
+
+(node as any).hash = "792772302942d400c6387a46c3e3cb28";
+
 export default node;

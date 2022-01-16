@@ -1,43 +1,36 @@
+/**
+ * @generated SignedSource<<dfb1a27f567ed9e6b16d3c3828b56edc>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateTagInput = {
-    id: string;
-    name: string;
-    clientMutationId?: string | null;
+  id: string;
+  name: string;
+  clientMutationId?: string | null;
 };
-export type UpdateTagMutationVariables = {
-    input: UpdateTagInput;
+export type UpdateTagMutation$variables = {
+  input: UpdateTagInput;
 };
-export type UpdateTagMutationResponse = {
-    readonly updateTag: {
-        readonly tag: {
-            readonly id: string;
-            readonly name: string;
-        } | null;
+export type UpdateTagMutationVariables = UpdateTagMutation$variables;
+export type UpdateTagMutation$data = {
+  readonly updateTag: {
+    readonly tag: {
+      readonly id: string;
+      readonly name: string;
     } | null;
+  } | null;
 };
+export type UpdateTagMutationResponse = UpdateTagMutation$data;
 export type UpdateTagMutation = {
-    readonly response: UpdateTagMutationResponse;
-    readonly variables: UpdateTagMutationVariables;
+  variables: UpdateTagMutationVariables;
+  response: UpdateTagMutation$data;
 };
-
-
-
-/*
-mutation UpdateTagMutation(
-  $input: UpdateTagInput!
-) {
-  updateTag(input: $input) {
-    tag {
-      id
-      name
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -118,5 +111,7 @@ return {
   }
 };
 })();
-(node as any).hash = 'd825c6ee73cc55f1f4ee0d6952ff54d4';
+
+(node as any).hash = "d825c6ee73cc55f1f4ee0d6952ff54d4";
+
 export default node;

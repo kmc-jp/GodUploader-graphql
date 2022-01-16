@@ -1,52 +1,40 @@
+/**
+ * @generated SignedSource<<f07067ce7cce6d94f78e722818f7bc24>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type CreateCommentInput = {
-    artworkId: string;
-    text: string;
-    clientMutationId?: string | null;
+  artworkId: string;
+  text: string;
+  clientMutationId?: string | null;
 };
-export type CreateCommentMutationVariables = {
-    connections: Array<string>;
-    input: CreateCommentInput;
+export type CreateCommentMutation$variables = {
+  connections: ReadonlyArray<string>;
+  input: CreateCommentInput;
 };
-export type CreateCommentMutationResponse = {
-    readonly createComment: {
-        readonly comment: {
-            readonly text: string;
-            readonly createdAt: string;
-            readonly account: {
-                readonly kmcid: string;
-            } | null;
-        } | null;
+export type CreateCommentMutationVariables = CreateCommentMutation$variables;
+export type CreateCommentMutation$data = {
+  readonly createComment: {
+    readonly comment: {
+      readonly text: string;
+      readonly createdAt: string;
+      readonly account: {
+        readonly kmcid: string;
+      } | null;
     } | null;
+  } | null;
 };
+export type CreateCommentMutationResponse = CreateCommentMutation$data;
 export type CreateCommentMutation = {
-    readonly response: CreateCommentMutationResponse;
-    readonly variables: CreateCommentMutationVariables;
+  variables: CreateCommentMutationVariables;
+  response: CreateCommentMutation$data;
 };
-
-
-
-/*
-mutation CreateCommentMutation(
-  $input: CreateCommentInput!
-) {
-  createComment(input: $input) {
-    comment {
-      text
-      createdAt
-      account {
-        kmcid
-        id
-      }
-      id
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -220,5 +208,7 @@ return {
   }
 };
 })();
-(node as any).hash = '5e7fb0e5720df2a5c71bf7edb549569a';
+
+(node as any).hash = "5e7fb0e5720df2a5c71bf7edb549569a";
+
 export default node;

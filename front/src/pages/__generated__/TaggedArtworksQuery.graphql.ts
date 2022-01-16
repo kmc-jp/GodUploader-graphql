@@ -1,72 +1,37 @@
+/**
+ * @generated SignedSource<<087c64f7d3a534461ebd0d7b2ddf233e>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type TaggedArtworksQueryVariables = {
-    tag: string;
+export type TaggedArtworksQuery$variables = {
+  tag: string;
 };
-export type TaggedArtworksQueryResponse = {
-    readonly tagByName: {
-        readonly editFreezed: boolean;
-        readonly " $fragmentRefs": FragmentRefs<"UpdateTagModal_tag">;
-    } | null;
-    readonly taggedArtworks: {
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly " $fragmentRefs": FragmentRefs<"ArtworkListItem_artwork">;
-            } | null;
-        } | null>;
-    } | null;
+export type TaggedArtworksQueryVariables = TaggedArtworksQuery$variables;
+export type TaggedArtworksQuery$data = {
+  readonly tagByName: {
+    readonly editFreezed: boolean;
+    readonly " $fragmentSpreads": FragmentRefs<"UpdateTagModal_tag">;
+  } | null;
+  readonly taggedArtworks: {
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
+      } | null;
+    } | null>;
+  } | null;
 };
+export type TaggedArtworksQueryResponse = TaggedArtworksQuery$data;
 export type TaggedArtworksQuery = {
-    readonly response: TaggedArtworksQueryResponse;
-    readonly variables: TaggedArtworksQueryVariables;
+  variables: TaggedArtworksQueryVariables;
+  response: TaggedArtworksQuery$data;
 };
-
-
-
-/*
-query TaggedArtworksQuery(
-  $tag: String!
-) {
-  tagByName(name: $tag) {
-    ...UpdateTagModal_tag
-    editFreezed
-    id
-  }
-  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {
-    edges {
-      node {
-        ...ArtworkListItem_artwork
-        id
-      }
-    }
-  }
-}
-
-fragment ArtworkListItem_artwork on Artwork {
-  id
-  title
-  caption
-  nsfw
-  topIllust {
-    thumbnailUrl
-    id
-  }
-  account {
-    name
-    id
-  }
-}
-
-fragment UpdateTagModal_tag on Tag {
-  id
-  name
-  canonicalName
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -133,12 +98,12 @@ return {
         "name": "tagByName",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
             "name": "UpdateTagModal_tag"
-          }
+          },
+          (v2/*: any*/)
         ],
         "storageKey": null
       },
@@ -310,5 +275,7 @@ return {
   }
 };
 })();
-(node as any).hash = '6bc50170ae2689f15ab98960198b8d70';
+
+(node as any).hash = "6bc50170ae2689f15ab98960198b8d70";
+
 export default node;

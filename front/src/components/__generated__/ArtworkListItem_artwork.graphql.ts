@@ -1,29 +1,33 @@
+/**
+ * @generated SignedSource<<6ea5fb83795fb0500fafbb7c64f1f194>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from "relay-runtime";
+import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkListItem_artwork = {
-    readonly id: string;
-    readonly title: string;
-    readonly caption: string;
-    readonly nsfw: boolean;
-    readonly topIllust: {
-        readonly thumbnailUrl: string;
-    } | null;
-    readonly account: {
-        readonly name: string;
-    } | null;
-    readonly " $refType": "ArtworkListItem_artwork";
+export type ArtworkListItem_artwork$data = {
+  readonly id: string;
+  readonly title: string;
+  readonly caption: string;
+  readonly nsfw: boolean;
+  readonly topIllust: {
+    readonly thumbnailUrl: string;
+  } | null;
+  readonly account: {
+    readonly name: string;
+  } | null;
+  readonly " $fragmentType": "ArtworkListItem_artwork";
 };
-export type ArtworkListItem_artwork$data = ArtworkListItem_artwork;
+export type ArtworkListItem_artwork = ArtworkListItem_artwork$data;
 export type ArtworkListItem_artwork$key = {
-    readonly " $data"?: ArtworkListItem_artwork$data;
-    readonly " $fragmentRefs": FragmentRefs<"ArtworkListItem_artwork">;
+  readonly " $data"?: ArtworkListItem_artwork$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
 };
-
-
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
@@ -99,5 +103,7 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '7e366bd9ec07d8f09e5e2155ac5d0b14';
+
+(node as any).hash = "7e366bd9ec07d8f09e5e2155ac5d0b14";
+
 export default node;

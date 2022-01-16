@@ -1,29 +1,26 @@
+/**
+ * @generated SignedSource<<8d6fdc2d5787438eef00f8c6e907910d>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
-export type RedirectToMyPageQueryVariables = {};
-export type RedirectToMyPageQueryResponse = {
-    readonly viewer: {
-        readonly kmcid: string;
-    } | null;
+import { ConcreteRequest, Query } from 'relay-runtime';
+export type RedirectToMyPageQuery$variables = {};
+export type RedirectToMyPageQueryVariables = RedirectToMyPageQuery$variables;
+export type RedirectToMyPageQuery$data = {
+  readonly viewer: {
+    readonly kmcid: string;
+  } | null;
 };
+export type RedirectToMyPageQueryResponse = RedirectToMyPageQuery$data;
 export type RedirectToMyPageQuery = {
-    readonly response: RedirectToMyPageQueryResponse;
-    readonly variables: RedirectToMyPageQueryVariables;
+  variables: RedirectToMyPageQueryVariables;
+  response: RedirectToMyPageQuery$data;
 };
-
-
-
-/*
-query RedirectToMyPageQuery {
-  viewer {
-    kmcid
-    id
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = {
@@ -93,5 +90,7 @@ return {
   }
 };
 })();
-(node as any).hash = '5a15b32b60ffc6502f40c5a06d55b32a';
+
+(node as any).hash = "5a15b32b60ffc6502f40c5a06d55b32a";
+
 export default node;

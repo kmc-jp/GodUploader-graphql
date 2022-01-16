@@ -1,32 +1,28 @@
+/**
+ * @generated SignedSource<<c45d3d532bd7b8cc3cd7ebe33a8ef6ae>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
-export type RedirectFolderToArtworkQueryVariables = {
-    folderId: number;
+import { ConcreteRequest, Query } from 'relay-runtime';
+export type RedirectFolderToArtworkQuery$variables = {
+  folderId: number;
 };
-export type RedirectFolderToArtworkQueryResponse = {
-    readonly artworkByFolderId: {
-        readonly id: string;
-    } | null;
+export type RedirectFolderToArtworkQueryVariables = RedirectFolderToArtworkQuery$variables;
+export type RedirectFolderToArtworkQuery$data = {
+  readonly artworkByFolderId: {
+    readonly id: string;
+  } | null;
 };
+export type RedirectFolderToArtworkQueryResponse = RedirectFolderToArtworkQuery$data;
 export type RedirectFolderToArtworkQuery = {
-    readonly response: RedirectFolderToArtworkQueryResponse;
-    readonly variables: RedirectFolderToArtworkQueryVariables;
+  variables: RedirectFolderToArtworkQueryVariables;
+  response: RedirectFolderToArtworkQuery$data;
 };
-
-
-
-/*
-query RedirectFolderToArtworkQuery(
-  $folderId: Int!
-) {
-  artworkByFolderId(folderId: $folderId) {
-    id
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -89,5 +85,7 @@ return {
   }
 };
 })();
-(node as any).hash = '3dff7ab3fce90fa26183ba13a217c971';
+
+(node as any).hash = "3dff7ab3fce90fa26183ba13a217c971";
+
 export default node;

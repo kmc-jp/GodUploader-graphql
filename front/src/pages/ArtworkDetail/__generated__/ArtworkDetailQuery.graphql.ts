@@ -1,185 +1,68 @@
+/**
+ * @generated SignedSource<<8e52b06dfd5c0a35834c0831f3b80a2e>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkDetailQueryVariables = {
-    id: string;
+export type ArtworkDetailQuery$variables = {
+  id: string;
 };
-export type ArtworkDetailQueryResponse = {
-    readonly artworkWithBidirectional: ({
-        readonly __typename: "Artwork";
-        readonly previousArtwork: {
-            readonly id: string;
-            readonly title: string;
-            readonly nsfw: boolean;
-            readonly topIllust: {
-                readonly thumbnailUrl: string;
-            } | null;
+export type ArtworkDetailQueryVariables = ArtworkDetailQuery$variables;
+export type ArtworkDetailQuery$data = {
+  readonly artworkWithBidirectional: {
+    readonly __typename: "Artwork";
+    readonly previousArtwork: {
+      readonly id: string;
+      readonly title: string;
+      readonly nsfw: boolean;
+      readonly topIllust: {
+        readonly thumbnailUrl: string;
+      } | null;
+    } | null;
+    readonly nextArtwork: {
+      readonly id: string;
+      readonly title: string;
+      readonly nsfw: boolean;
+      readonly topIllust: {
+        readonly thumbnailUrl: string;
+      } | null;
+    } | null;
+    readonly id: string;
+    readonly title: string;
+    readonly caption: string;
+    readonly createdAt: string;
+    readonly editable: boolean;
+    readonly account: {
+      readonly id: string;
+      readonly kmcid: string;
+      readonly name: string;
+    } | null;
+    readonly tags: {
+      readonly edges: ReadonlyArray<{
+        readonly node: {
+          readonly id: string;
+          readonly name: string;
         } | null;
-        readonly nextArtwork: {
-            readonly id: string;
-            readonly title: string;
-            readonly nsfw: boolean;
-            readonly topIllust: {
-                readonly thumbnailUrl: string;
-            } | null;
-        } | null;
-        readonly id: string;
-        readonly title: string;
-        readonly caption: string;
-        readonly createdAt: string;
-        readonly editable: boolean;
-        readonly account: {
-            readonly id: string;
-            readonly kmcid: string;
-            readonly name: string;
-        } | null;
-        readonly tags: {
-            readonly edges: ReadonlyArray<{
-                readonly node: {
-                    readonly id: string;
-                    readonly name: string;
-                } | null;
-            } | null>;
-        } | null;
-        readonly " $fragmentRefs": FragmentRefs<"UpdateArtworkForm_artwork" | "IllustCarousel_illusts" | "ArtworkLikeList_likes" | "ArtworkComment_comments">;
-    } | {
-        /*This will never be '%other', but we need some
-        value in case none of the concrete values match.*/
-        readonly __typename: "%other";
-    }) | null;
+      } | null>;
+    } | null;
+    readonly " $fragmentSpreads": FragmentRefs<"UpdateArtworkForm_artwork" | "IllustCarousel_illusts" | "ArtworkLikeList_likes" | "ArtworkComment_comments">;
+  } | {
+    // This will never be '%other', but we need some
+    // value in case none of the concrete values match.
+    readonly __typename: "%other";
+  } | null;
 };
+export type ArtworkDetailQueryResponse = ArtworkDetailQuery$data;
 export type ArtworkDetailQuery = {
-    readonly response: ArtworkDetailQueryResponse;
-    readonly variables: ArtworkDetailQueryVariables;
+  variables: ArtworkDetailQueryVariables;
+  response: ArtworkDetailQuery$data;
 };
-
-
-
-/*
-query ArtworkDetailQuery(
-  $id: ID!
-) {
-  artworkWithBidirectional: node(id: $id) {
-    __typename
-    ... on Artwork {
-      previousArtwork {
-        id
-        title
-        nsfw
-        topIllust {
-          thumbnailUrl
-          id
-        }
-      }
-      nextArtwork {
-        id
-        title
-        nsfw
-        topIllust {
-          thumbnailUrl
-          id
-        }
-      }
-      id
-      title
-      caption
-      createdAt
-      editable
-      account {
-        id
-        kmcid
-        name
-      }
-      ...UpdateArtworkForm_artwork
-      ...IllustCarousel_illusts
-      ...ArtworkLikeList_likes
-      ...ArtworkComment_comments
-      tags {
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-    }
-    id
-  }
-}
-
-fragment ArtworkComment_comments on Artwork {
-  artworkId: id
-  comments(last: 1000000) {
-    edges {
-      node {
-        text
-        createdAt
-        account {
-          kmcid
-          id
-        }
-        id
-        __typename
-      }
-      cursor
-    }
-    pageInfo {
-      hasPreviousPage
-      startCursor
-    }
-  }
-}
-
-fragment ArtworkLikeList_likes on Artwork {
-  artworkId: id
-  likes(first: 10000000) {
-    edges {
-      node {
-        account {
-          id
-          kmcid
-        }
-        id
-        __typename
-      }
-      cursor
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
-    }
-  }
-}
-
-fragment IllustCarousel_illusts on Artwork {
-  illusts {
-    edges {
-      node {
-        id
-        imageUrl
-        thumbnailUrl
-      }
-    }
-  }
-}
-
-fragment UpdateArtworkForm_artwork on Artwork {
-  id
-  title
-  caption
-  tags {
-    edges {
-      node {
-        name
-        id
-      }
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -394,6 +277,26 @@ return {
               (v10/*: any*/),
               (v13/*: any*/),
               {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "UpdateArtworkForm_artwork"
+              },
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "IllustCarousel_illusts"
+              },
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "ArtworkLikeList_likes"
+              },
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "ArtworkComment_comments"
+              },
+              {
                 "alias": null,
                 "args": null,
                 "concreteType": "TagConnection",
@@ -427,26 +330,6 @@ return {
                   }
                 ],
                 "storageKey": null
-              },
-              {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "UpdateArtworkForm_artwork"
-              },
-              {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "IllustCarousel_illusts"
-              },
-              {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "ArtworkLikeList_likes"
-              },
-              {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "ArtworkComment_comments"
               }
             ],
             "type": "Artwork",
@@ -782,5 +665,7 @@ return {
   }
 };
 })();
-(node as any).hash = '587d323b261cca89d27c6a980d0bdbc6';
+
+(node as any).hash = "587d323b261cca89d27c6a980d0bdbc6";
+
 export default node;

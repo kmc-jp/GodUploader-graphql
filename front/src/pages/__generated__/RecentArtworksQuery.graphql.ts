@@ -1,57 +1,25 @@
+/**
+ * @generated SignedSource<<13a2413aa7547563551b22bb261c7972>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type RecentArtworksQueryVariables = {};
-export type RecentArtworksQueryResponse = {
-    readonly " $fragmentRefs": FragmentRefs<"RecentArtworks_artworks">;
+export type RecentArtworksQuery$variables = {};
+export type RecentArtworksQueryVariables = RecentArtworksQuery$variables;
+export type RecentArtworksQuery$data = {
+  readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
 };
+export type RecentArtworksQueryResponse = RecentArtworksQuery$data;
 export type RecentArtworksQuery = {
-    readonly response: RecentArtworksQueryResponse;
-    readonly variables: RecentArtworksQueryVariables;
+  variables: RecentArtworksQueryVariables;
+  response: RecentArtworksQuery$data;
 };
-
-
-
-/*
-query RecentArtworksQuery {
-  ...RecentArtworks_artworks
-}
-
-fragment ArtworkListItem_artwork on Artwork {
-  id
-  title
-  caption
-  nsfw
-  topIllust {
-    thumbnailUrl
-    id
-  }
-  account {
-    name
-    id
-  }
-}
-
-fragment RecentArtworks_artworks on Query {
-  artworks(first: 40, sort: [CREATED_AT_DESC], safeOnly: true) {
-    edges {
-      node {
-        ...ArtworkListItem_artwork
-        id
-        __typename
-      }
-      cursor
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -258,5 +226,7 @@ return {
   }
 };
 })();
-(node as any).hash = '22345b5c530e7ede196c2e16602ffe8f';
+
+(node as any).hash = "22345b5c530e7ede196c2e16602ffe8f";
+
 export default node;

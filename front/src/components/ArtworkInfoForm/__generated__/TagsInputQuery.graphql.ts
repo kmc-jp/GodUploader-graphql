@@ -1,39 +1,31 @@
+/**
+ * @generated SignedSource<<666be1d663599305d4203cfd559b6ea0>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
-export type TagsInputQueryVariables = {};
-export type TagsInputQueryResponse = {
-    readonly allTags: {
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly name: string;
-                readonly artworksCount: number;
-            } | null;
-        } | null>;
-    } | null;
+import { ConcreteRequest, Query } from 'relay-runtime';
+export type TagsInputQuery$variables = {};
+export type TagsInputQueryVariables = TagsInputQuery$variables;
+export type TagsInputQuery$data = {
+  readonly allTags: {
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly name: string;
+        readonly artworksCount: number;
+      } | null;
+    } | null>;
+  } | null;
 };
+export type TagsInputQueryResponse = TagsInputQuery$data;
 export type TagsInputQuery = {
-    readonly response: TagsInputQueryResponse;
-    readonly variables: TagsInputQueryVariables;
+  variables: TagsInputQueryVariables;
+  response: TagsInputQuery$data;
 };
-
-
-
-/*
-query TagsInputQuery {
-  allTags {
-    edges {
-      node {
-        name
-        artworksCount
-        id
-      }
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = {
@@ -156,5 +148,7 @@ return {
   }
 };
 })();
-(node as any).hash = 'd91113a880564a2abc668636f514efae';
+
+(node as any).hash = "d91113a880564a2abc668636f514efae";
+
 export default node;

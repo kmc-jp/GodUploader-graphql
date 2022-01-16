@@ -1,27 +1,31 @@
+/**
+ * @generated SignedSource<<6915b520308ed338bfbf32b9574ab05e>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from "relay-runtime";
+import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type UserDetail_artworks = {
-    readonly artworks: {
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly " $fragmentRefs": FragmentRefs<"ArtworkListItem_artwork">;
-            } | null;
-        } | null>;
-    } | null;
-    readonly id: string;
-    readonly " $refType": "UserDetail_artworks";
+export type UserDetail_artworks$data = {
+  readonly artworks: {
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
+      } | null;
+    } | null>;
+  } | null;
+  readonly id: string;
+  readonly " $fragmentType": "UserDetail_artworks";
 };
-export type UserDetail_artworks$data = UserDetail_artworks;
+export type UserDetail_artworks = UserDetail_artworks$data;
 export type UserDetail_artworks$key = {
-    readonly " $data"?: UserDetail_artworks$data;
-    readonly " $fragmentRefs": FragmentRefs<"UserDetail_artworks">;
+  readonly " $data"?: UserDetail_artworks$data;
+  readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
 };
-
-
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -62,7 +66,7 @@ return {
       "fragmentPathInResult": [
         "node"
       ],
-      "operation": require('./ArtworkListPaginationQuery.graphql.ts'),
+      "operation": require('./ArtworkListPaginationQuery.graphql'),
       "identifierField": "id"
     }
   },
@@ -93,16 +97,16 @@ return {
               "plural": false,
               "selections": [
                 {
+                  "args": null,
+                  "kind": "FragmentSpread",
+                  "name": "ArtworkListItem_artwork"
+                },
+                {
                   "alias": null,
                   "args": null,
                   "kind": "ScalarField",
                   "name": "__typename",
                   "storageKey": null
-                },
-                {
-                  "args": null,
-                  "kind": "FragmentSpread",
-                  "name": "ArtworkListItem_artwork"
                 }
               ],
               "storageKey": null
@@ -157,5 +161,7 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = '0f97f8850b1d501b7a663b3702510fbb';
+
+(node as any).hash = "0f97f8850b1d501b7a663b3702510fbb";
+
 export default node;
