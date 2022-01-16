@@ -47,7 +47,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "codegen": "graphql-codegen",
-    "relay-compiler": "relay-compiler"
+    "relay-compiler": "relay-compiler ./relay.config.json"
   },
   "eslintConfig": {
     "extends": [
