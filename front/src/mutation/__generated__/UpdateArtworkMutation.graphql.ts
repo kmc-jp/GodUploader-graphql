@@ -1,62 +1,46 @@
+/**
+ * @generated SignedSource<<f9ded6bcff93c08ef18aad87b517d918>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateArtworkInput = {
-    id: string;
-    title: string;
-    caption: string;
-    tags: Array<string>;
-    clientMutationId?: string | null;
+  id: string;
+  title: string;
+  caption: string;
+  tags: ReadonlyArray<string>;
+  clientMutationId?: string | null;
 };
-export type UpdateArtworkMutationVariables = {
-    input: UpdateArtworkInput;
+export type UpdateArtworkMutation$variables = {
+  input: UpdateArtworkInput;
 };
-export type UpdateArtworkMutationResponse = {
-    readonly updateArtwork: {
-        readonly artwork: {
-            readonly id: string;
-            readonly title: string;
-            readonly caption: string;
-            readonly tags: {
-                readonly edges: ReadonlyArray<{
-                    readonly node: {
-                        readonly name: string;
-                    } | null;
-                } | null>;
-            } | null;
-        } | null;
+export type UpdateArtworkMutationVariables = UpdateArtworkMutation$variables;
+export type UpdateArtworkMutation$data = {
+  readonly updateArtwork: {
+    readonly artwork: {
+      readonly id: string;
+      readonly title: string;
+      readonly caption: string;
+      readonly tags: {
+        readonly edges: ReadonlyArray<{
+          readonly node: {
+            readonly name: string;
+          } | null;
+        } | null>;
+      } | null;
     } | null;
+  } | null;
 };
+export type UpdateArtworkMutationResponse = UpdateArtworkMutation$data;
 export type UpdateArtworkMutation = {
-    readonly response: UpdateArtworkMutationResponse;
-    readonly variables: UpdateArtworkMutationVariables;
+  variables: UpdateArtworkMutationVariables;
+  response: UpdateArtworkMutation$data;
 };
-
-
-
-/*
-mutation UpdateArtworkMutation(
-  $input: UpdateArtworkInput!
-) {
-  updateArtwork(input: $input) {
-    artwork {
-      id
-      title
-      caption
-      tags {
-        edges {
-          node {
-            name
-            id
-          }
-        }
-      }
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -249,5 +233,7 @@ return {
   }
 };
 })();
-(node as any).hash = '2c5e52ea4e7237bb4d73542b36beb01f';
+
+(node as any).hash = "2c5e52ea4e7237bb4d73542b36beb01f";
+
 export default node;

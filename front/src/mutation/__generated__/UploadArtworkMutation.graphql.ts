@@ -1,47 +1,41 @@
+/**
+ * @generated SignedSource<<e9f3d4fa3a0bdbb86df7226c7df938b2>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type ShareOption = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
 export type UploadArtworkInput = {
-    title: string;
-    caption: string;
-    tags: Array<string>;
-    shareOption?: ShareOption | null;
-    channelId?: string | null;
-    files: Array<null>;
-    clientMutationId?: string | null;
+  title: string;
+  caption: string;
+  tags: ReadonlyArray<string>;
+  shareOption?: ShareOption | null;
+  channelId?: string | null;
+  files: ReadonlyArray<null>;
+  clientMutationId?: string | null;
 };
-export type UploadArtworkMutationVariables = {
-    connections: Array<string>;
-    input: UploadArtworkInput;
+export type UploadArtworkMutation$variables = {
+  connections: ReadonlyArray<string>;
+  input: UploadArtworkInput;
 };
-export type UploadArtworkMutationResponse = {
-    readonly uploadArtwork: {
-        readonly artwork: {
-            readonly id: string;
-        } | null;
+export type UploadArtworkMutationVariables = UploadArtworkMutation$variables;
+export type UploadArtworkMutation$data = {
+  readonly uploadArtwork: {
+    readonly artwork: {
+      readonly id: string;
     } | null;
+  } | null;
 };
+export type UploadArtworkMutationResponse = UploadArtworkMutation$data;
 export type UploadArtworkMutation = {
-    readonly response: UploadArtworkMutationResponse;
-    readonly variables: UploadArtworkMutationVariables;
+  variables: UploadArtworkMutationVariables;
+  response: UploadArtworkMutation$data;
 };
-
-
-
-/*
-mutation UploadArtworkMutation(
-  $input: UploadArtworkInput!
-) {
-  uploadArtwork(input: $input) {
-    artwork {
-      id
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -155,5 +149,7 @@ return {
   }
 };
 })();
-(node as any).hash = 'fb8f373e074e65e416568c933388eee4';
+
+(node as any).hash = "fb8f373e074e65e416568c933388eee4";
+
 export default node;

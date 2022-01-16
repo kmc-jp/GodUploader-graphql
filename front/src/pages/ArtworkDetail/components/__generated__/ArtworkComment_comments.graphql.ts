@@ -1,32 +1,36 @@
+/**
+ * @generated SignedSource<<448d5e5e500cff362f468f98100ad8f8>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from "relay-runtime";
+import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkComment_comments = {
-    readonly artworkId: string;
-    readonly comments: {
-        readonly __id: string;
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly text: string;
-                readonly createdAt: string;
-                readonly account: {
-                    readonly kmcid: string;
-                } | null;
-            } | null;
-        } | null>;
-    } | null;
-    readonly " $refType": "ArtworkComment_comments";
+export type ArtworkComment_comments$data = {
+  readonly artworkId: string;
+  readonly comments: {
+    readonly __id: string;
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly text: string;
+        readonly createdAt: string;
+        readonly account: {
+          readonly kmcid: string;
+        } | null;
+      } | null;
+    } | null>;
+  } | null;
+  readonly " $fragmentType": "ArtworkComment_comments";
 };
-export type ArtworkComment_comments$data = ArtworkComment_comments;
+export type ArtworkComment_comments = ArtworkComment_comments$data;
 export type ArtworkComment_comments$key = {
-    readonly " $data"?: ArtworkComment_comments$data;
-    readonly " $fragmentRefs": FragmentRefs<"ArtworkComment_comments">;
+  readonly " $data"?: ArtworkComment_comments$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ArtworkComment_comments">;
 };
-
-
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
@@ -172,5 +176,7 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '70d8e84a6f5911b53e03568fb4fb20ad';
+
+(node as any).hash = "70d8e84a6f5911b53e03568fb4fb20ad";
+
 export default node;

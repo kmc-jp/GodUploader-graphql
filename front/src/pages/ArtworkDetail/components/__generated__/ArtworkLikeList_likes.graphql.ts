@@ -1,31 +1,35 @@
+/**
+ * @generated SignedSource<<91ab610fd6132fd6fde9ede7083288ed>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from "relay-runtime";
+import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkLikeList_likes = {
-    readonly artworkId: string;
-    readonly likes: {
-        readonly __id: string;
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly account: {
-                    readonly id: string;
-                    readonly kmcid: string;
-                } | null;
-            } | null;
-        } | null>;
-    } | null;
-    readonly " $refType": "ArtworkLikeList_likes";
+export type ArtworkLikeList_likes$data = {
+  readonly artworkId: string;
+  readonly likes: {
+    readonly __id: string;
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly account: {
+          readonly id: string;
+          readonly kmcid: string;
+        } | null;
+      } | null;
+    } | null>;
+  } | null;
+  readonly " $fragmentType": "ArtworkLikeList_likes";
 };
-export type ArtworkLikeList_likes$data = ArtworkLikeList_likes;
+export type ArtworkLikeList_likes = ArtworkLikeList_likes$data;
 export type ArtworkLikeList_likes$key = {
-    readonly " $data"?: ArtworkLikeList_likes$data;
-    readonly " $fragmentRefs": FragmentRefs<"ArtworkLikeList_likes">;
+  readonly " $data"?: ArtworkLikeList_likes$data;
+  readonly " $fragmentSpreads": FragmentRefs<"ArtworkLikeList_likes">;
 };
-
-
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
@@ -164,5 +168,7 @@ const node: ReaderFragment = {
   "type": "Artwork",
   "abstractKey": null
 };
-(node as any).hash = '8db34bdbaec29ae81d20e6afa09024d5';
+
+(node as any).hash = "8db34bdbaec29ae81d20e6afa09024d5";
+
 export default node;

@@ -1,65 +1,29 @@
+/**
+ * @generated SignedSource<<f2309f0c66065a134c345340c3951b38>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type RecentArtworkListPaginationQueryVariables = {
-    count?: number | null;
-    cursor?: string | null;
-    safeOnly?: boolean | null;
+export type RecentArtworkListPaginationQuery$variables = {
+  count?: number | null;
+  cursor?: string | null;
+  safeOnly?: boolean | null;
 };
-export type RecentArtworkListPaginationQueryResponse = {
-    readonly " $fragmentRefs": FragmentRefs<"RecentArtworks_artworks">;
+export type RecentArtworkListPaginationQueryVariables = RecentArtworkListPaginationQuery$variables;
+export type RecentArtworkListPaginationQuery$data = {
+  readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
 };
+export type RecentArtworkListPaginationQueryResponse = RecentArtworkListPaginationQuery$data;
 export type RecentArtworkListPaginationQuery = {
-    readonly response: RecentArtworkListPaginationQueryResponse;
-    readonly variables: RecentArtworkListPaginationQueryVariables;
+  variables: RecentArtworkListPaginationQueryVariables;
+  response: RecentArtworkListPaginationQuery$data;
 };
-
-
-
-/*
-query RecentArtworkListPaginationQuery(
-  $count: Int = 40
-  $cursor: String
-  $safeOnly: Boolean = true
-) {
-  ...RecentArtworks_artworks_1MgKj9
-}
-
-fragment ArtworkListItem_artwork on Artwork {
-  id
-  title
-  caption
-  nsfw
-  topIllust {
-    thumbnailUrl
-    id
-  }
-  account {
-    name
-    id
-  }
-}
-
-fragment RecentArtworks_artworks_1MgKj9 on Query {
-  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {
-    edges {
-      node {
-        ...ArtworkListItem_artwork
-        id
-        __typename
-      }
-      cursor
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -301,5 +265,7 @@ return {
   }
 };
 })();
-(node as any).hash = '0337ac8fd74b57dc06b1ba85a11624ea';
+
+(node as any).hash = "e6db0821f3726ed002772ce16cb36d3c";
+
 export default node;

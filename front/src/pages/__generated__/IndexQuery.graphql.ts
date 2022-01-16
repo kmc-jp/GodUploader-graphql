@@ -1,80 +1,42 @@
+/**
+ * @generated SignedSource<<403252b870e33787e34f035063c15eb6>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type IndexQueryVariables = {};
-export type IndexQueryResponse = {
-    readonly activeAccounts: {
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly id: string;
-                readonly kmcid: string;
-                readonly name: string;
-                readonly artworksCount: number;
-            } | null;
-        } | null>;
-    } | null;
-    readonly safeArtworks: {
-        readonly __id: string;
-        readonly edges: ReadonlyArray<{
-            readonly node: {
-                readonly " $fragmentRefs": FragmentRefs<"ArtworkListItem_artwork">;
-            } | null;
-        } | null>;
-    } | null;
+export type IndexQuery$variables = {};
+export type IndexQueryVariables = IndexQuery$variables;
+export type IndexQuery$data = {
+  readonly activeAccounts: {
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly id: string;
+        readonly kmcid: string;
+        readonly name: string;
+        readonly artworksCount: number;
+      } | null;
+    } | null>;
+  } | null;
+  readonly safeArtworks: {
+    readonly __id: string;
+    readonly edges: ReadonlyArray<{
+      readonly node: {
+        readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
+      } | null;
+    } | null>;
+  } | null;
 };
+export type IndexQueryResponse = IndexQuery$data;
 export type IndexQuery = {
-    readonly response: IndexQueryResponse;
-    readonly variables: IndexQueryVariables;
+  variables: IndexQueryVariables;
+  response: IndexQuery$data;
 };
-
-
-
-/*
-query IndexQuery {
-  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
-    edges {
-      node {
-        id
-        kmcid
-        name
-        artworksCount
-      }
-    }
-  }
-  safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {
-    edges {
-      node {
-        ...ArtworkListItem_artwork
-        id
-        __typename
-      }
-      cursor
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
-    }
-  }
-}
-
-fragment ArtworkListItem_artwork on Artwork {
-  id
-  title
-  caption
-  nsfw
-  topIllust {
-    thumbnailUrl
-    id
-  }
-  account {
-    name
-    id
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = {
@@ -255,12 +217,12 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v5/*: any*/),
                   {
                     "args": null,
                     "kind": "FragmentSpread",
                     "name": "ArtworkListItem_artwork"
-                  }
+                  },
+                  (v5/*: any*/)
                 ],
                 "storageKey": null
               },
@@ -410,5 +372,7 @@ return {
   }
 };
 })();
-(node as any).hash = '0d15df74246e9a73e057a8af622afb3c';
+
+(node as any).hash = "0d15df74246e9a73e057a8af622afb3c";
+
 export default node;

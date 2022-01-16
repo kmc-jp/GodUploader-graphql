@@ -1,44 +1,36 @@
+/**
+ * @generated SignedSource<<458933453898e700a644c02779f55c5f>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateAccountInput = {
-    name: string;
-    clientMutationId?: string | null;
+  name: string;
+  clientMutationId?: string | null;
 };
-export type UpdateAccountMutationVariables = {
-    input: UpdateAccountInput;
+export type UpdateAccountMutation$variables = {
+  input: UpdateAccountInput;
 };
-export type UpdateAccountMutationResponse = {
-    readonly updateAccount: {
-        readonly account: {
-            readonly id: string;
-            readonly kmcid: string;
-            readonly name: string;
-        } | null;
+export type UpdateAccountMutationVariables = UpdateAccountMutation$variables;
+export type UpdateAccountMutation$data = {
+  readonly updateAccount: {
+    readonly account: {
+      readonly id: string;
+      readonly kmcid: string;
+      readonly name: string;
     } | null;
+  } | null;
 };
+export type UpdateAccountMutationResponse = UpdateAccountMutation$data;
 export type UpdateAccountMutation = {
-    readonly response: UpdateAccountMutationResponse;
-    readonly variables: UpdateAccountMutationVariables;
+  variables: UpdateAccountMutationVariables;
+  response: UpdateAccountMutation$data;
 };
-
-
-
-/*
-mutation UpdateAccountMutation(
-  $input: UpdateAccountInput!
-) {
-  updateAccount(input: $input) {
-    account {
-      id
-      kmcid
-      name
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -126,5 +118,7 @@ return {
   }
 };
 })();
-(node as any).hash = 'e0a6a72baf781f4374711281b5326d02';
+
+(node as any).hash = "e0a6a72baf781f4374711281b5326d02";
+
 export default node;

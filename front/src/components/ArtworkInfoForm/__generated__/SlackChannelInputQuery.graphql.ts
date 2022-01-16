@@ -1,30 +1,27 @@
+/**
+ * @generated SignedSource<<b6fdddf063157c24061b7b0734eb6051>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
-export type SlackChannelInputQueryVariables = {};
-export type SlackChannelInputQueryResponse = {
-    readonly allSlackChannels: ReadonlyArray<{
-        readonly id: string;
-        readonly name: string;
-    } | null>;
+import { ConcreteRequest, Query } from 'relay-runtime';
+export type SlackChannelInputQuery$variables = {};
+export type SlackChannelInputQueryVariables = SlackChannelInputQuery$variables;
+export type SlackChannelInputQuery$data = {
+  readonly allSlackChannels: ReadonlyArray<{
+    readonly id: string;
+    readonly name: string;
+  } | null>;
 };
+export type SlackChannelInputQueryResponse = SlackChannelInputQuery$data;
 export type SlackChannelInputQuery = {
-    readonly response: SlackChannelInputQueryResponse;
-    readonly variables: SlackChannelInputQueryVariables;
+  variables: SlackChannelInputQueryVariables;
+  response: SlackChannelInputQuery$data;
 };
-
-
-
-/*
-query SlackChannelInputQuery {
-  allSlackChannels {
-    id
-    name
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -81,5 +78,7 @@ return {
   }
 };
 })();
-(node as any).hash = '5a637c9f1771b836829179b7784ef074';
+
+(node as any).hash = "5a637c9f1771b836829179b7784ef074";
+
 export default node;

@@ -1,72 +1,31 @@
+/**
+ * @generated SignedSource<<db6f712087b3009eb2379c69b3862ffe>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkListPaginationQueryVariables = {
-    count?: number | null;
-    cursor?: string | null;
-    id: string;
+export type ArtworkListPaginationQuery$variables = {
+  count?: number | null;
+  cursor?: string | null;
+  id: string;
 };
-export type ArtworkListPaginationQueryResponse = {
-    readonly node: {
-        readonly " $fragmentRefs": FragmentRefs<"UserDetail_artworks">;
-    } | null;
+export type ArtworkListPaginationQueryVariables = ArtworkListPaginationQuery$variables;
+export type ArtworkListPaginationQuery$data = {
+  readonly node: {
+    readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
+  } | null;
 };
+export type ArtworkListPaginationQueryResponse = ArtworkListPaginationQuery$data;
 export type ArtworkListPaginationQuery = {
-    readonly response: ArtworkListPaginationQueryResponse;
-    readonly variables: ArtworkListPaginationQueryVariables;
+  variables: ArtworkListPaginationQueryVariables;
+  response: ArtworkListPaginationQuery$data;
 };
-
-
-
-/*
-query ArtworkListPaginationQuery(
-  $count: Int = 40
-  $cursor: String
-  $id: ID!
-) {
-  node(id: $id) {
-    __typename
-    ...UserDetail_artworks_1G22uz
-    id
-  }
-}
-
-fragment ArtworkListItem_artwork on Artwork {
-  id
-  title
-  caption
-  nsfw
-  topIllust {
-    thumbnailUrl
-    id
-  }
-  account {
-    name
-    id
-  }
-}
-
-fragment UserDetail_artworks_1G22uz on Account {
-  artworks(last: $count, before: $cursor) {
-    edges {
-      node {
-        ...ArtworkListItem_artwork
-        id
-        __typename
-      }
-      cursor
-    }
-    pageInfo {
-      hasPreviousPage
-      startCursor
-    }
-  }
-  id
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -330,5 +289,7 @@ return {
   }
 };
 })();
-(node as any).hash = '0f97f8850b1d501b7a663b3702510fbb';
+
+(node as any).hash = "0f97f8850b1d501b7a663b3702510fbb";
+
 export default node;

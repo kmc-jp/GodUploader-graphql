@@ -1,49 +1,39 @@
+/**
+ * @generated SignedSource<<e0ec0f4b72b2c4b749c451ff48dce6e3>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type LikeArtworkInput = {
-    artworkId: string;
-    clientMutationId?: string | null;
+  artworkId: string;
+  clientMutationId?: string | null;
 };
-export type LikeArtworkMutationVariables = {
-    connections: Array<string>;
-    input: LikeArtworkInput;
+export type LikeArtworkMutation$variables = {
+  connections: ReadonlyArray<string>;
+  input: LikeArtworkInput;
 };
-export type LikeArtworkMutationResponse = {
-    readonly likeArtwork: {
-        readonly like: {
-            readonly id: string;
-            readonly account: {
-                readonly id: string;
-                readonly kmcid: string;
-            } | null;
-        } | null;
+export type LikeArtworkMutationVariables = LikeArtworkMutation$variables;
+export type LikeArtworkMutation$data = {
+  readonly likeArtwork: {
+    readonly like: {
+      readonly id: string;
+      readonly account: {
+        readonly id: string;
+        readonly kmcid: string;
+      } | null;
     } | null;
+  } | null;
 };
+export type LikeArtworkMutationResponse = LikeArtworkMutation$data;
 export type LikeArtworkMutation = {
-    readonly response: LikeArtworkMutationResponse;
-    readonly variables: LikeArtworkMutationVariables;
+  variables: LikeArtworkMutationVariables;
+  response: LikeArtworkMutation$data;
 };
-
-
-
-/*
-mutation LikeArtworkMutation(
-  $input: LikeArtworkInput!
-) {
-  likeArtwork(input: $input) {
-    like {
-      id
-      account {
-        id
-        kmcid
-      }
-    }
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -177,5 +167,7 @@ return {
   }
 };
 })();
-(node as any).hash = '29584cb546970c87222ce212e1667234';
+
+(node as any).hash = "29584cb546970c87222ce212e1667234";
+
 export default node;

@@ -1,78 +1,35 @@
+/**
+ * @generated SignedSource<<df6703b6e1a53c2a3e9a163f03c81845>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type UserDetailQueryVariables = {
-    kmcid: string;
+export type UserDetailQuery$variables = {
+  kmcid: string;
 };
-export type UserDetailQueryResponse = {
-    readonly viewer: {
-        readonly id: string;
-    } | null;
-    readonly accountByKmcid: {
-        readonly id: string;
-        readonly kmcid: string;
-        readonly name: string;
-        readonly " $fragmentRefs": FragmentRefs<"UserDetail_artworks">;
-    } | null;
+export type UserDetailQueryVariables = UserDetailQuery$variables;
+export type UserDetailQuery$data = {
+  readonly viewer: {
+    readonly id: string;
+  } | null;
+  readonly accountByKmcid: {
+    readonly id: string;
+    readonly kmcid: string;
+    readonly name: string;
+    readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
+  } | null;
 };
+export type UserDetailQueryResponse = UserDetailQuery$data;
 export type UserDetailQuery = {
-    readonly response: UserDetailQueryResponse;
-    readonly variables: UserDetailQueryVariables;
+  variables: UserDetailQueryVariables;
+  response: UserDetailQuery$data;
 };
-
-
-
-/*
-query UserDetailQuery(
-  $kmcid: String!
-) {
-  viewer {
-    id
-  }
-  accountByKmcid(kmcid: $kmcid) {
-    id
-    kmcid
-    name
-    ...UserDetail_artworks
-  }
-}
-
-fragment ArtworkListItem_artwork on Artwork {
-  id
-  title
-  caption
-  nsfw
-  topIllust {
-    thumbnailUrl
-    id
-  }
-  account {
-    name
-    id
-  }
-}
-
-fragment UserDetail_artworks on Account {
-  artworks(last: 40) {
-    edges {
-      node {
-        ...ArtworkListItem_artwork
-        id
-        __typename
-      }
-      cursor
-    }
-    pageInfo {
-      hasPreviousPage
-      startCursor
-    }
-  }
-  id
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -328,5 +285,7 @@ return {
   }
 };
 })();
-(node as any).hash = 'defef5c49c66f004ff6cc8cb7851e098';
+
+(node as any).hash = "defef5c49c66f004ff6cc8cb7851e098";
+
 export default node;

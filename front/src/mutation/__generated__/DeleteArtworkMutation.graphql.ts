@@ -1,37 +1,33 @@
+/**
+ * @generated SignedSource<<2effdd78f4a3b7e878189e72d6c31727>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type DeleteArtworkInput = {
-    id: string;
-    clientMutationId?: string | null;
+  id: string;
+  clientMutationId?: string | null;
 };
-export type DeleteArtworkMutationVariables = {
-    connections: Array<string>;
-    input: DeleteArtworkInput;
+export type DeleteArtworkMutation$variables = {
+  connections: ReadonlyArray<string>;
+  input: DeleteArtworkInput;
 };
-export type DeleteArtworkMutationResponse = {
-    readonly deleteArtwork: {
-        readonly deletedArtworkId: string | null;
-    } | null;
+export type DeleteArtworkMutationVariables = DeleteArtworkMutation$variables;
+export type DeleteArtworkMutation$data = {
+  readonly deleteArtwork: {
+    readonly deletedArtworkId: string | null;
+  } | null;
 };
+export type DeleteArtworkMutationResponse = DeleteArtworkMutation$data;
 export type DeleteArtworkMutation = {
-    readonly response: DeleteArtworkMutationResponse;
-    readonly variables: DeleteArtworkMutationVariables;
+  variables: DeleteArtworkMutationVariables;
+  response: DeleteArtworkMutation$data;
 };
-
-
-
-/*
-mutation DeleteArtworkMutation(
-  $input: DeleteArtworkInput!
-) {
-  deleteArtwork(input: $input) {
-    deletedArtworkId
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -129,5 +125,7 @@ return {
   }
 };
 })();
-(node as any).hash = 'f58f8842a9eef2551da0b514cb0e9aca';
+
+(node as any).hash = "f58f8842a9eef2551da0b514cb0e9aca";
+
 export default node;
