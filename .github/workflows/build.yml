@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_URL: /godillustuploader
+      REACT_APP_BASENAME: /godillustuploader
     steps:
       - uses: actions/checkout@v2
 
