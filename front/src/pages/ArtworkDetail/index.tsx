@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../../assets/img/regulation_mark_r18.png";
+import { ShareButton } from "../../components/ShareButton";
 import { SuspenseImage } from "../../components/SuspenseImage";
 import {
   ageRestirctionFromTags,
@@ -174,7 +175,13 @@ const ArtworkDetail: React.VFC = () => {
               </ul>
             </div>
           )}
-          <LikeList artwork={artwork} />
+          <div className="mb-2 d-flex justify-content-between">
+            <LikeList artwork={artwork} />
+            <ShareButton
+              title={artwork.title}
+              url={`${process.env.PUBLIC_URL}/artwork/${artwork.id}`}
+            />
+          </div>
           <IllustCarousel artwork={artwork} />
           <ArtworkComment artwork={artwork} />
           {artwork.editable && (
