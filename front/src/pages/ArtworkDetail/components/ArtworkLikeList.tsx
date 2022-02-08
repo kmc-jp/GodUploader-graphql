@@ -56,7 +56,7 @@ export const LikeList: React.FC<Props> = ({ artwork }) => {
   }
 
   return (
-    <div className="mb-2">
+    <div>
       <button
         className="btn btn-sm btn-outline-secondary"
         ref={buttonRef}
@@ -78,7 +78,7 @@ export const LikeList: React.FC<Props> = ({ artwork }) => {
         }
 
         return <LikeIcon key={i} like={node} />;
-      })}{" "}
+      })}
     </div>
   );
 };
