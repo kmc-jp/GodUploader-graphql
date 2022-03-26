@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useRelayEnvironment } from "react-relay";
 
 import { commitUpdateAccountMutation } from "../../mutation/UpdateAccount";
-import { UserDetailQueryResponse } from "../__generated__/UserDetailQuery.graphql";
+import { UserDetailQueryResponse } from "../../pages/__generated__/UserDetailQuery.graphql";
 
 interface Props {
   account: NonNullable<UserDetailQueryResponse["accountByKmcid"]>;
