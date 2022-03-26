@@ -2,13 +2,13 @@ import { Modal } from "bootstrap";
 import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
 
-import { AgeRestrictionInput } from "../../../components/ArtworkInfoForm/AgeRestrictionInput";
-import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
-import { SlackChannelInput } from "../../../components/ArtworkInfoForm/SlackChannelInput";
-import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
-import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
-import { useUploadArtworkContext } from "../../../hooks/useUploadArtworkContext";
-import { DrawingContext } from "../contexts/DrawingContext";
+import { AgeRestrictionInput } from "../ArtworkInfoForm/AgeRestrictionInput";
+import { CaptionInput } from "../ArtworkInfoForm/CaptionInput";
+import { SlackChannelInput } from "../ArtworkInfoForm/SlackChannelInput";
+import { TagsInput } from "../ArtworkInfoForm/TagsInput";
+import { TitleInput } from "../ArtworkInfoForm/TitleInput";
+import { useUploadArtworkContext } from "../../hooks/useUploadArtworkContext";
+import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
 
 interface Props {
   blob?: Blob;
