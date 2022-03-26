@@ -20,6 +20,7 @@ export const UserDetail: React.FC = () => {
           kmcid
           name
           isYou
+          ...UpdateInfoForm_account
           ...UserDetail_artworks
         }
       }

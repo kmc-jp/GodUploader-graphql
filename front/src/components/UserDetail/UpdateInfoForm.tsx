@@ -1,16 +1,26 @@
+import { graphql } from "babel-plugin-relay/macro";
 import { Modal } from "bootstrap";
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { useRelayEnvironment } from "react-relay";
+import { useFragment, useRelayEnvironment } from "react-relay";
 
 import { commitUpdateAccountMutation } from "../../mutation/UpdateAccount";
-import { UserDetailQueryResponse } from "../../pages/__generated__/UserDetailQuery.graphql";
+import { UpdateInfoForm_account$key } from "./__generated__/UpdateInfoForm_account.graphql";
 
 interface Props {
-  account: NonNullable<UserDetailQueryResponse["accountByKmcid"]>;
+  account: UpdateInfoForm_account$key;
 }
 
-export const UpdateAccountModal: React.VFC<Props> = ({ account }) => {
+export const UpdateAccountModal: React.VFC<Props> = ({ account: _account }) => {
   const environment = useRelayEnvironment();
+  const account = useFragment(
+    graphql`
+      fragment UpdateInfoForm_account on Account {
+        kmcid
+        name
+      }
+    `,
+    _account
+  );
   const [name, setName] = useState(account.name || "");
   const ref = useRef<HTMLDivElement>(null);
 
