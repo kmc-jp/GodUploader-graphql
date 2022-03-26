@@ -75,9 +75,4 @@ class Artwork(SQLAlchemyObjectType):
         if not user:
             return False
 
-        owner = root.account
-        if not owner:
-            # ownerは必ず存在するからこのパスを通ることはないはず
-            return False
-
-        return user.id == owner.id
+        return root.can_edit(user)
