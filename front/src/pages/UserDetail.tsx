@@ -12,16 +12,14 @@ import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.gra
 
 export const UserDetail: React.FC = () => {
   const { kmcid } = useParams<{ kmcid: string }>();
-  const { viewer, accountByKmcid: user } = useLazyLoadQuery<UserDetailQuery>(
+  const { user } = useLazyLoadQuery<UserDetailQuery>(
     graphql`
       query UserDetailQuery($kmcid: String!) {
-        viewer {
-          id
-        }
-        accountByKmcid(kmcid: $kmcid) {
+        user: accountByKmcid(kmcid: $kmcid) {
           id
           kmcid
           name
+          isYou
           ...UserDetail_artworks
         }
       }
@@ -39,7 +37,7 @@ export const UserDetail: React.FC = () => {
       <div className="card">
         <div className="card-header">
           <h2 className="text-center mb-4">{user.name}の作品置場</h2>
-          {user.id === viewer?.id && <UpdateAccountModal account={user} />}
+          {user.isYou && <UpdateAccountModal account={user} />}
         </div>
         <ArtworkList user={user} />
       </div>
