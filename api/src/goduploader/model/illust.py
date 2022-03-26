@@ -34,5 +34,8 @@ class Illust(Base):
             return str(Path(app_config.public_folder) / "illusts" / self.filename)
         elif size == "thumbnail":
             return str(Path(app_config.public_folder) / "thumbnail" / self.filename)
+        elif size == "webp":
+            base = Path(self.filename).stem
+            return str(Path(app_config.public_folder) / "webp" / base)
         else:
             raise ValueError(f"Unknown size: {size}")
