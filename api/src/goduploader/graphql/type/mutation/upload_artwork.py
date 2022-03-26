@@ -4,6 +4,7 @@ from typing import List
 
 import graphene
 from goduploader.db import session
+from goduploader.generate_webp import generate_webp
 from goduploader.graphql.type.artwork import Artwork
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Illust as IllustModel
@@ -68,10 +69,12 @@ class UploadArtwork(graphene.ClientIDMutation):
 
             illust_path = illust.image_path("full")
             thumbnail_path = illust.image_path("thumbnail")
+            webp_path = illust.image_path("webp")
             with open(illust_path, "wb") as dst:
                 dst.write(content)
 
             generate_thumbnail(illust_path, thumbnail_path)
+            generate_webp(illust_path, webp_path)
 
             session.add(illust)
             artwork.illusts.append(illust)

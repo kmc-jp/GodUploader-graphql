@@ -18,3 +18,8 @@ class Illust(SQLAlchemyObjectType):
 
     def resolve_thumbnail_url(root, info):
         return root.thumbnail_url
+
+    webp_url = graphene.Field(graphene.String, required=True)
+
+    def resolve_webp_url(root, info):
+        return root.webp_url

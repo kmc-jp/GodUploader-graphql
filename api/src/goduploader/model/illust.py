@@ -29,10 +29,18 @@ class Illust(Base):
     def thumbnail_url(self):
         return urljoin(app_config.base_url, f"public/thumbnail/{self.filename}")
 
+    @property
+    def webp_url(self):
+        base = Path(self.filename).stem
+        return urljoin(app_config.base_url, f"public/webp/{base}.webp")
+
     def image_path(self, size="full") -> str:
         if size == "full":
             return str(Path(app_config.public_folder) / "illusts" / self.filename)
         elif size == "thumbnail":
             return str(Path(app_config.public_folder) / "thumbnail" / self.filename)
+        elif size == "webp":
+            base = Path(self.filename).stem
+            return str(Path(app_config.public_folder) / "webp" / f'{base}.webp')
         else:
             raise ValueError(f"Unknown size: {size}")

@@ -182,6 +182,7 @@ type Illust implements Node {
   artwork: Artwork
   imageUrl: String!
   thumbnailUrl: String!
+  webpUrl: String!
 }
 
 type IllustConnection {
