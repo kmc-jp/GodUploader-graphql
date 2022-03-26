@@ -10,6 +10,9 @@ type Account implements Node {
   artworks(before: String, after: String, first: Int, last: Int): ArtworkConnection
   comments(before: String, after: String, first: Int, last: Int): CommentConnection
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
+
+  """ログインユーザーかどうか"""
+  isYou: Boolean!
 }
 
 type AccountConnection {
@@ -284,8 +287,10 @@ type PageInfo {
 }
 
 type Query {
-  """The ID of the object"""
-  node(id: ID!): Node
+  node(
+    """The ID of the object"""
+    id: ID!
+  ): Node
   accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
   artworks(safeOnly: Boolean, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
 
