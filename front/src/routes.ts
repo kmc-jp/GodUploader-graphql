@@ -9,6 +9,7 @@ import { TaggedArtworks } from "./pages/TaggedArtworks";
 import { Tags } from "./pages/Tags";
 import { UploadArtwork } from "./pages/UploadArtwork";
 import { UserDetail } from "./pages/UserDetail";
+import { UserLikes } from "./pages/UserLikes";
 
 export const routes: RouteConfig[] = [
   {
@@ -19,6 +20,11 @@ export const routes: RouteConfig[] = [
   {
     path: "/users/:kmcid",
     component: UserDetail,
+    exact: true,
+  },
+  {
+    path: "/users/:kmcid/likes",
+    component: UserLikes,
   },
   {
     path: "/my",
