@@ -3,16 +3,16 @@ import { Modal } from "bootstrap";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
-import { AgeRestrictionInput } from "../../../components/ArtworkInfoForm/AgeRestrictionInput";
-import { CaptionInput } from "../../../components/ArtworkInfoForm/CaptionInput";
-import { TagsInput } from "../../../components/ArtworkInfoForm/TagsInput";
-import { TitleInput } from "../../../components/ArtworkInfoForm/TitleInput";
+import { AgeRestrictionInput } from "../../components/ArtworkInfoForm/AgeRestrictionInput";
+import { CaptionInput } from "../../components/ArtworkInfoForm/CaptionInput";
+import { TagsInput } from "../../components/ArtworkInfoForm/TagsInput";
+import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";
 import {
   ageRestirctionFromTags,
   tagWithAgeRestriction,
-} from "../../../contexts/ArtworkInformationContext";
-import { useArtworkInformation } from "../../../hooks/useArtworkInformation";
-import { commitUpdateArtworkMutation } from "../../../mutation/UpdateArtwork";
+} from "../../contexts/ArtworkInformationContext";
+import { useArtworkInformation } from "../../hooks/useArtworkInformation";
+import { commitUpdateArtworkMutation } from "../../mutation/UpdateArtwork";
 import { UpdateArtworkForm_artwork$key } from "./__generated__/UpdateArtworkForm_artwork.graphql";
 
 interface Props {

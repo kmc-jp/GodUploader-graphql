@@ -4,7 +4,7 @@ import { useLazyLoadQuery } from "react-relay";
 import { useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
-import { UpdateTagModal } from "./TaggedArtworks/UpdateTagModal";
+import { UpdateTagModal } from "../components/TaggedArtworks/UpdateTagModal";
 import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
 
 export const TaggedArtworks: React.VFC = () => {

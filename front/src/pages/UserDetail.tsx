@@ -5,7 +5,7 @@ import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
-import { UpdateAccountModal } from "./UserDetail/UpdateInfoForm";
+import { UpdateAccountModal } from "../components/UserDetail/UpdateInfoForm";
 import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginationQuery.graphql";
 import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
