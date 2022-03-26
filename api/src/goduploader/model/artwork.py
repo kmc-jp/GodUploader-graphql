@@ -2,6 +2,7 @@ from datetime import datetime
 from urllib.parse import urljoin
 
 from goduploader.config import app_config
+from goduploader.model.account import Account
 from goduploader.model.base import Base
 from goduploader.model.relation import artwork_tag_relation
 from graphene.relay import Node
@@ -47,3 +48,6 @@ class Artwork(Base):
         secondary=artwork_tag_relation,
         back_populates="artworks",
     )
+
+    def user_can_edit(self, user: Account):
+        return self.account_id == user.id

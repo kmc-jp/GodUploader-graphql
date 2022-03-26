@@ -1,6 +1,9 @@
+from typing import Optional
+
 import graphene
 from goduploader.db import session
 from goduploader.graphql.type.artwork import Artwork
+from goduploader.model.artwork import Artwork as ArtworkModel
 from goduploader.tag import has_nsfw_tag, update_tag_relation
 from graphene import relay
 
@@ -23,13 +26,13 @@ class UpdateArtwork(graphene.ClientIDMutation):
             raise Exception("Please login")
 
         artwork_id = input["id"]
-        artwork = relay.Node.get_node_from_global_id(
+        artwork: Optional[ArtworkModel] = relay.Node.get_node_from_global_id(
             info, artwork_id, only_type=Artwork
         )
         if artwork is None:
             raise Exception("Artwork not found")
 
-        if artwork.account_id != current_user.id:
+        if not artwork.user_can_edit(current_user):
             raise Exception("You cannot update this artwork")
 
         artwork.title = input["title"]
