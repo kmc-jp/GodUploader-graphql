@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1f6458d5da462c53a33eb00ce50b6f05>>
+ * @generated SignedSource<<b664167ebf7dc6f20c492963a9405782>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,7 +20,7 @@ export type UserDetailQuery$data = {
     readonly kmcid: string;
     readonly name: string;
     readonly isYou: boolean;
-    readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
+    readonly " $fragmentSpreads": FragmentRefs<"UpdateInfoForm_account" | "UserDetail_artworks">;
   } | null;
 };
 export type UserDetailQueryResponse = UserDetailQuery$data;
@@ -98,6 +98,11 @@ return {
           (v3/*: any*/),
           (v4/*: any*/),
           (v5/*: any*/),
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "UpdateInfoForm_account"
+          },
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -269,16 +274,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "03df0ebddef0decd13fe12a620835960",
+    "cacheID": "1fd8cc3a550c1c9551cb9b003eddf159",
     "id": null,
     "metadata": {},
     "name": "UserDetailQuery",
     "operationKind": "query",
-    "text": "query UserDetailQuery(\n  $kmcid: String!\n) {\n  user: accountByKmcid(kmcid: $kmcid) {\n    id\n    kmcid\n    name\n    isYou\n    ...UserDetail_artworks\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UserDetail_artworks on Account {\n  artworks(last: 40) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
+    "text": "query UserDetailQuery(\n  $kmcid: String!\n) {\n  user: accountByKmcid(kmcid: $kmcid) {\n    id\n    kmcid\n    name\n    isYou\n    ...UpdateInfoForm_account\n    ...UserDetail_artworks\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UpdateInfoForm_account on Account {\n  kmcid\n  name\n}\n\nfragment UserDetail_artworks on Account {\n  artworks(last: 40) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e7d95e7d15b208e95c88585905167b7a";
+(node as any).hash = "1dd0ea34b348f4d372513d7312f5843f";
 
 export default node;
