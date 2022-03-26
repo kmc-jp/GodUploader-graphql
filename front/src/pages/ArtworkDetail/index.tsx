@@ -7,6 +7,11 @@ import { Link, useParams } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../../assets/img/regulation_mark_r18.png";
+import { ArtworkComment } from "../../components/ArtworkDetail/ArtworkComment";
+import { LikeList } from "../../components/ArtworkDetail/ArtworkLikeList";
+import { DeleteArtworkButton } from "../../components/ArtworkDetail/DeleteArtworkButton";
+import { IllustCarousel } from "../../components/ArtworkDetail/IllustCarousel";
+import { UpdateArtworkModal } from "../../components/ArtworkDetail/UpdateArtworkForm";
 import { ShareButton } from "../../components/ShareButton";
 import { SuspenseImage } from "../../components/SuspenseImage";
 import {
@@ -15,11 +20,6 @@ import {
 } from "../../contexts/ArtworkInformationContext";
 import { formatDateTime } from "../../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
-import { ArtworkComment } from "./components/ArtworkComment";
-import { LikeList } from "./components/ArtworkLikeList";
-import { DeleteArtworkButton } from "./components/DeleteArtworkButton";
-import { IllustCarousel } from "./components/IllustCarousel";
-import { UpdateArtworkModal } from "./components/UpdateArtworkForm";
 
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
