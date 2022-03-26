@@ -20,6 +20,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
             node {
               id
               imageUrl
+              webpUrl
               thumbnailUrl
             }
           }
@@ -92,11 +93,17 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
                 className={clsx("carousel-item", i === 0 && "active")}
                 key={i}
               >
-                <SuspenseImage
-                  src={node.imageUrl}
-                  alt=""
-                  className="mw-100 d-block mx-auto"
-                />
+                <picture>
+                  <source
+                    srcSet={node.webpUrl}
+                    className="mw-100 d-block mx-auto"
+                  />
+                  <img
+                    src={node.imageUrl}
+                    alt=""
+                    className="mw-100 d-block mx-auto"
+                  />
+                </picture>
               </div>
             );
           })}

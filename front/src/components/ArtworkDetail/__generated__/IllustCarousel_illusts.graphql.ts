@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7d770dabd8db31596779fcabbea72d0d>>
+ * @generated SignedSource<<947a40bff63c1a40f6465d188a05108d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,6 +16,7 @@ export type IllustCarousel_illusts$data = {
       readonly node: {
         readonly id: string;
         readonly imageUrl: string;
+        readonly webpUrl: string;
         readonly thumbnailUrl: string;
       } | null;
     } | null>;
@@ -76,6 +77,13 @@ const node: ReaderFragment = {
                   "alias": null,
                   "args": null,
                   "kind": "ScalarField",
+                  "name": "webpUrl",
+                  "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
                   "name": "thumbnailUrl",
                   "storageKey": null
                 }
@@ -93,6 +101,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "792772302942d400c6387a46c3e3cb28";
+(node as any).hash = "e0a5cbaac50ca25ef5d7079e085a396d";
 
 export default node;
