@@ -49,5 +49,5 @@ class Artwork(Base):
         back_populates="artworks",
     )
 
-    def can_edit(self, user: Account):
+    def user_can_edit(self, user: Account):
         return self.account_id == user.id

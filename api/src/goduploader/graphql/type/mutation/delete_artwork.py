@@ -26,7 +26,7 @@ class DeleteArtwork(graphene.ClientIDMutation):
         if artwork is None:
             raise Exception("Artwork not found")
 
-        if not artwork.can_edit(current_user):
+        if not artwork.user_can_edit(current_user):
             raise Exception("You cannot delete this artwork")
 
         for tag in artwork.tags:

@@ -1,4 +1,5 @@
 from typing import Optional
+
 import graphene
 from goduploader.db import session
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
@@ -64,7 +65,9 @@ class Artwork(SQLAlchemyObjectType):
             .first()
         )
 
-    editable = graphene.Field(graphene.Boolean, required=True, description="作品の情報を編集できるかどうかを返す")
+    editable = graphene.Field(
+        graphene.Boolean, required=True, description="作品の情報を編集できるかどうかを返す"
+    )
 
     def resolve_editable(root, info):
         if not info.context:
@@ -75,4 +78,4 @@ class Artwork(SQLAlchemyObjectType):
         if not user:
             return False
 
-        return root.can_edit(user)
+        return root.user_can_edit(user)

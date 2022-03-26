@@ -32,7 +32,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
         if artwork is None:
             raise Exception("Artwork not found")
 
-        if not artwork.can_edit(current_user):
+        if not artwork.user_can_edit(current_user):
             raise Exception("You cannot update this artwork")
 
         artwork.title = input["title"]
