@@ -9,6 +9,8 @@ RUN apt-get update -qq
 RUN apt-get install -y -qq --no-install-recommends imagemagick webp
 
 # poetry
+ENV PIP_NO_CACHE_DIR=yes
+ENV PIP_DISABLE_PIP_VERSION_CHECK=yes
 ENV POETRY_HOME="/opt/poetry"
 ENV POETRY_NO_INTERACTION=1
 ENV PATH="$POETRY_HOME/bin:$PATH"
