@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./api
+    command: poetry run flask run --host 0.0.0.0 --port 5000
+    ports:
+      - 127.0.0.1:5000:5000
+    volumes:
+      - ./api/public:/app/public
+      - ./api/tests:/app/tests
+      - ./api/tmp:/app/tmp
+    environment:
+      - DB_URL=sqlite:///tmp/god.db
+      - FLASK_APP=goduploader/web
+      - GYAZO_ACCESS_TOKEN=${GYAZO_ACCESS_TOKEN}
+      - SLACK_TOKEN=${SLACK_TOKEN}
+      - PUBLIC_FOLDER=/app/public
