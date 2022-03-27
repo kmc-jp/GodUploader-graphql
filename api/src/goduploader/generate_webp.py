@@ -2,17 +2,14 @@ import subprocess
 
 
 def generate_webp(illust_path, thumbnail_path):
-    if _is_animated_gif(illust_path):
+    if _is_gif(illust_path):
         _generate_animated_webp(illust_path, thumbnail_path)
     else:
         _generate_normal_webp(illust_path, thumbnail_path)
 
 
-def _is_animated_gif(illust_path):
-    identify = subprocess.run(
-        ["identify", illust_path], encoding="utf-8", capture_output=True
-    )
-    return identify.stdout.count("\n") > 1
+def _is_gif(illust_path: str):
+    return illust_path.lower().endswith(".gif")
 
 
 def _generate_normal_webp(illust_path, webp_path):
