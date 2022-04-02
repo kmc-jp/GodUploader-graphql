@@ -9,9 +9,9 @@ services:
     volumes:
       - ./api/public:/app/public
       - ./api/tests:/app/tests
-      - ./api/tmp:/app/tmp
+      - ./api/db:/app/db
     environment:
-      - DB_URL=sqlite:///tmp/god.db
+      - DB_URL=sqlite:///db/god.db
       - FLASK_APP=goduploader/web
       - GYAZO_ACCESS_TOKEN=${GYAZO_ACCESS_TOKEN}
       - SLACK_TOKEN=${SLACK_TOKEN}
