@@ -30,7 +30,7 @@ def load_user():
 
 @app.route("/api/ping")
 def ping():
-    return {"ok": "true"}
+    return {"ok": True}
 
 
 @app.after_request
