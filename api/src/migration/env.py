@@ -1,19 +1,22 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
-from goduploader.model import Base
+from alembic.config import Config
 from goduploader.db import engine
+from goduploader.model import Base
+from goduploader.config import app_config
+from sqlalchemy import engine_from_config, pool
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-config = context.config
+config: Config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
+
+# DBの接続先をアプリケーションの設定から持ってくる
+config.set_main_option("sqlalchemy.url", app_config.db_url)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
