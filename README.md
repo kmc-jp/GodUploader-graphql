@@ -13,7 +13,7 @@ GodUploader with GraphQL
 
 ### api
 
-poetryをインストールしておいてください。
+依存ライブラリの管理は[poetry](https://python-poetry.org/)で行っています。
 
 ```
 $ poetry install
