@@ -13,8 +13,8 @@ class Account(Base):
     __tablename__ = "account"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    kmcid = Column(String, unique=True, nullable=False)
-    name = Column(String, nullable=False)
+    kmcid = Column(String(255), unique=True, nullable=False)
+    name = Column(String(255), nullable=False)
     artworks_count = Column(Integer, nullable=False, default=0)
     last_logged_in = Column(DateTime, nullable=False, default=datetime.now)
 
