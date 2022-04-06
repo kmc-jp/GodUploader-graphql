@@ -9,6 +9,7 @@ services:
     volumes:
       - ./api/public:/app/public
       - ./api/script:/app/script
+      - ./api/alembic.ini:/app/alembic.ini
       - ./api/tests:/app/tests
       - ./api/db:/app/db
     environment:
