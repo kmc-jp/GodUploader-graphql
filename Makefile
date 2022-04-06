@@ -14,7 +14,7 @@ front/deploy:
 	rsync -auv --delete-after front/build/ front/_app/
 
 front-k8s/build:
-	cd front && env DISABLE_ESLINT_PLUGIN=true DISABLE_ESLINT_PLUGIN=true PUBLIC_URL=/ REACT_APP_BASENAME=/ yarn build
+	cd front && env DISABLE_ESLINT_PLUGIN=true DISABLE_ESLINT_PLUGIN=true PUBLIC_URL=/ REACT_APP_BASENAME= yarn build
 
 front-k8s/deploy:
 	rsync -auv --delete-after front/build/ front/_app_k8s/
