@@ -8,6 +8,7 @@ services:
       - 127.0.0.1:5000:5000
     volumes:
       - ./api/public:/app/public
+      - ./api/script:/app/script
       - ./api/tests:/app/tests
       - ./api/db:/app/db
     environment:
