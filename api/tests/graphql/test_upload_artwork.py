@@ -67,7 +67,6 @@ def test_upload_artwork(client):
     uploaded_artwork = session.query(Artwork).filter_by(id=uploaded_artwork_id).first()
     assert uploaded_artwork
     assert uploaded_artwork.top_illust
-    assert uploaded_artwork.top_illust_id
 
     uploaded_dst = Path(uploaded_artwork.top_illust.image_path("full"))
     assert (

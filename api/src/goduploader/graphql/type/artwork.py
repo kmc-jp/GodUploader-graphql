@@ -2,7 +2,7 @@ from typing import Optional
 
 import graphene
 from goduploader.db import session
-from goduploader.graphql.dataloader import AccountLoader, IllustLoader
+from goduploader.graphql.dataloader import AccountLoader
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.illust import Illust
 from goduploader.model import Account as AccountModel
@@ -12,7 +12,6 @@ from graphene_sqlalchemy import SQLAlchemyObjectType
 from sqlalchemy.sql.expression import and_, desc
 
 account_loader = AccountLoader()
-illust_loader = IllustLoader()
 
 
 class Artwork(SQLAlchemyObjectType):
@@ -29,7 +28,7 @@ class Artwork(SQLAlchemyObjectType):
     top_illust = graphene.Field(Illust)
 
     def resolve_top_illust(root, info):
-        return illust_loader.load(root.top_illust_id)
+        return root.top_illust
 
     next_artwork = graphene.Field(
         lambda: Artwork, description="この作品より1つ新しい、同じユーザーの作品を返す"

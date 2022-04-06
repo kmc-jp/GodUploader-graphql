@@ -84,7 +84,6 @@ class UploadArtwork(graphene.ClientIDMutation):
         current_user.artworks_count += 1
 
         top_illust = artwork.illusts[0]
-        artwork.top_illust = top_illust
 
         session.commit()
 
