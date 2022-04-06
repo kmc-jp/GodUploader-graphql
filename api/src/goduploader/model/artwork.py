@@ -27,7 +27,7 @@ class Artwork(Base):
         )
 
     nsfw = Column(Boolean, nullable=False)
-    top_illust_id = Column(Integer, ForeignKey("artwork.id"))
+    top_illust_id = Column(Integer, ForeignKey("illust.id"))
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(
