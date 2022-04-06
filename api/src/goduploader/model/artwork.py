@@ -27,7 +27,7 @@ class Artwork(Base):
         )
 
     nsfw = Column(Boolean, nullable=False)
-    top_illust_id = Column(Integer, ForeignKey("illust.id"))
+    top_illust_id = Column(Integer)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(
@@ -37,7 +37,6 @@ class Artwork(Base):
     top_illust = relationship(
         "Illust",
         primaryjoin="Artwork.top_illust_id == Illust.id",
-        foreign_keys=top_illust_id,
         post_update=True,
     )
     illusts = relationship("Illust", backref="artwork", cascade="all, delete")
