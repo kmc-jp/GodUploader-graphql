@@ -1,7 +1,7 @@
 """reset
 
 Revision ID: 9a509324aa66
-Revises: 
+Revises:
 Create Date: 2022-04-07 19:35:28.159565
 
 """
@@ -33,7 +33,7 @@ def upgrade():
     op.create_table('tag',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('edit_freezed', sa.Boolean(), nullable=False),
-    sa.Column('canonical_name', sa.String(length=255, collation='nocase'), nullable=False),
+    sa.Column('canonical_name', sa.String(length=255), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('artworks_count', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
