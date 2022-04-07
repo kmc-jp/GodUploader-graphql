@@ -111,6 +111,33 @@ def test_upload_artwork_filetype(client, source_file: str, can_upload: bool):
     assert ("errors" not in result) == can_upload
 
 
+def test_upload_artwork_share_option_shate_to_slack_none(client):
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "shareOption": "NONE",
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+
+    last_request = httpretty.last_request()
+    assert isinstance(last_request, httpretty.HTTPrettyRequestEmpty)
+
+
 def test_upload_artwork_share_option_shate_to_slack(client):
     account = create_account()
     upload_src = Path(__file__).parent.parent / "data" / "me.png"
