@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import httpretty
@@ -17,7 +18,7 @@ def _mock_slack_api():
         Path(__file__).parent / "data/httpmock/slack_chat_postMessage.json"
     ).read_text()
     httpretty.register_uri(
-        httpretty.POST, "https://slack.com/api/chat.postMessage", body=body
+        httpretty.POST, re.compile(r"^https://(www[.])?slack[.]com/api/chat[.]postMessage$"), body=body
     )
 
 
