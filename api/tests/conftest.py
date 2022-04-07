@@ -14,19 +14,19 @@ from tests.util import create_account
 app_config.testing = True
 
 
+@pytest.fixture(scope="function", autouse=True)
 def prepare_temporary_public_dir():
-    public = Path(tempfile.mkdtemp())
-    illusts_dir = public / "illusts"
-    illusts_dir.mkdir()
-    thumbnail_dir = public / "thumbnail"
-    thumbnail_dir.mkdir()
-    wep_dir = public / "webp"
-    wep_dir.mkdir()
-    app_config.public_folder = str(public)
+    with tempfile.TemporaryDirectory(prefix="goduploader-test-") as tmpdir:
+        public = Path(tmpdir)
+        illusts_dir = public / "illusts"
+        illusts_dir.mkdir()
+        thumbnail_dir = public / "thumbnail"
+        thumbnail_dir.mkdir()
+        wep_dir = public / "webp"
+        wep_dir.mkdir()
+        app_config.public_folder = str(public)
 
-
-prepare_temporary_public_dir()
-
+        yield
 
 @pytest.fixture(scope="function", autouse=True)
 def mock_http_request():
