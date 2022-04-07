@@ -23,7 +23,6 @@ def _mock_slack_api():
 
 
 def mock_requests():
-    httpretty.enable(allow_net_connect=False)
     # モックしたいAPIが増えたらここに追記してください
     _mock_gyazo_upload_request()
     _mock_slack_api()
