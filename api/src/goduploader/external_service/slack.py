@@ -8,8 +8,11 @@ from slack_sdk.web.client import WebClient
 
 
 class ShareOption(Enum):
+    """Slackに共有しない"""
     NONE = 0
+    """Slackにサムネイル無しで共有する"""
     SHARE_TO_SLACK = 1
+    """Slackにサムネイル付きで共有する"""
     SHARE_TO_SLACK_WITH_IMAGE = 2
 
 
