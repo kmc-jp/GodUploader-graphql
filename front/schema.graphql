@@ -306,16 +306,16 @@ type Query {
   allSlackChannels: [SlackChannel]!
 }
 
-"""画像をアップロードする際にSlackに共有するかどうかを表すenum"""
-enum ShareOption {
-  NONE
-  SHARE_TO_SLACK
-  SHARE_TO_SLACK_WITH_IMAGE
-}
-
 type SlackChannel {
   id: String!
   name: String!
+}
+
+"""画像をアップロードする際にSlackに共有するかどうかを表すenum"""
+enum SlackShareOptionEnum {
+  NONE
+  SHARE_TO_SLACK
+  SHARE_TO_SLACK_WITH_IMAGE
 }
 
 type Tag implements Node {
@@ -426,7 +426,7 @@ input UploadArtworkInput {
   tags: [String!]!
 
   """作品をSlackにシェアするかどうか"""
-  shareOption: ShareOption
+  shareOption: SlackShareOptionEnum
 
   """投稿したことを共有するSlackチャンネルのID"""
   channelId: String

@@ -15,9 +15,12 @@ from goduploader.tag import has_nsfw_tag, update_tag_relation
 from graphene_file_upload.scalars import Upload
 from werkzeug.datastructures import FileStorage
 
-UploadArtworkShareOption = graphene.Enum.from_enum(
-    ShareOptionEnum, description="画像をアップロードする際にSlackに共有するかどうかを表すenum"
-)
+
+class SlackShareOptionEnum(graphene.Enum):
+    class Meta:
+        enum = ShareOptionEnum
+        name = "SlackShareOptionEnum"
+        description = "画像をアップロードする際にSlackに共有するかどうかを表すenum"
 
 
 class UploadArtwork(graphene.ClientIDMutation):
@@ -27,7 +30,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         tags = graphene.List(
             graphene.NonNull(graphene.String), description="作品に付けるタグ", required=True
         )
-        share_option = UploadArtworkShareOption(description="作品をSlackにシェアするかどうか")
+        share_option = SlackShareOptionEnum(description="作品をSlackにシェアするかどうか")
         channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID")
         files = graphene.List(
             graphene.NonNull(Upload),
@@ -54,7 +57,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         artwork.account = current_user
         session.add(artwork)
 
-        share_option = UploadArtworkShareOption.get(input.get("share_option", 0))
+        share_option = SlackShareOptionEnum.get(input.get("share_option", 0))
 
         for buf in files:
             content = buf.stream.read()
