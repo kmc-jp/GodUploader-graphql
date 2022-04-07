@@ -1,5 +1,5 @@
 from goduploader.db import session
-from goduploader.generate_webp import generate_webp
+from goduploader.image.generate_webp import generate_webp
 from goduploader.model.illust import Illust
 
 all_illusts = session.query(Illust).all()
