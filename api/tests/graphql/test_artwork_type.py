@@ -1,5 +1,5 @@
 from graphene.relay.node import Node
-from tests.util import create_account, create_artwork, mock_context
+from tests.util import create_account, create_artwork, create_illust, mock_context
 
 ARTWORK_WITH_BIDIRECTIONAL_QUERY = """
     query ArtworkWithBidirectionalTestQuery($id: ID!) {
@@ -174,3 +174,33 @@ def test_editable_others(client):
     assert "data" in result
     assert "node" in result["data"]
     assert not result["data"]["node"]["editable"]
+
+
+TOP_ILLUST_QUERY = """
+    query TopIllustQuery($id: ID!) {
+        node(id: $id) {
+            ... on Artwork {
+                topIllust {
+                    id
+                }
+            }
+        }
+    }
+"""
+
+
+def test_top_illust(client):
+    artwork = create_artwork()
+    create_illust(artwork)
+    create_illust(artwork)
+    result = client.execute(
+        TOP_ILLUST_QUERY,
+        variable_values={"id": Node.to_global_id("Artwork", artwork.id)},
+    )
+    assert "data" in result
+    assert "node" in result["data"]
+    assert "topIllust" in result["data"]["node"]
+    assert Node.from_global_id(result["data"]["node"]["topIllust"]["id"]) == (
+        "Illust",
+        str(artwork.illusts[0].id),
+    )

@@ -27,19 +27,18 @@ class Artwork(Base):
         )
 
     nsfw = Column(Boolean, nullable=False)
-    top_illust_id = Column(Integer, ForeignKey("artwork.id"))
+    # XXX: 消したい
+    top_illust_id = Column(Integer)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(
         DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
     )
 
-    top_illust = relationship(
-        "Illust",
-        primaryjoin="Artwork.top_illust_id == Illust.id",
-        foreign_keys=top_illust_id,
-        post_update=True,
-    )
+    @property
+    def top_illust(self):
+        return self.illusts[0]
+
     illusts = relationship("Illust", backref="artwork", cascade="all, delete")
     comments = relationship("Comment", backref="artwork", cascade="all, delete")
     likes = relationship("Like", backref="artwork", cascade="all, delete")

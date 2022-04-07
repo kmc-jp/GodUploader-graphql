@@ -63,7 +63,6 @@ def create_artwork(**args):
     session.commit()
 
     args["account"].artworks_count += 1
-    artwork.top_illust_id = illusts[0].id
     session.commit()
 
     return artwork

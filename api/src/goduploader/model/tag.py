@@ -19,12 +19,13 @@ class Tag(Base):
 
     # タグの編集が許可されているかどうか
     edit_freezed = Column(
-        Boolean, default=False, server_default=text("FALSE"), nullable=False
+        Boolean, default=False, nullable=False
     )
 
     # 正規化した (小文字に統一した) タグ名
     canonical_name = Column(
-        String(255, collation="nocase"),
+        # XXX: SQLite向けの暫定対応
+        String(255, collation="nocase" if "sqlite" in app_config.db_url else None),
         nullable=False,
         unique=True,
     )
