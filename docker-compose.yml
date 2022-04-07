@@ -8,11 +8,29 @@ services:
       - 127.0.0.1:5000:5000
     volumes:
       - ./api/public:/app/public
+      - ./api/script:/app/script
+      - ./api/alembic.ini:/app/alembic.ini
       - ./api/tests:/app/tests
       - ./api/db:/app/db
     environment:
       - DB_URL=sqlite:///db/god.db
       - FLASK_APP=goduploader/web
+      - DB_URL=mysql+mysqlconnector://root@db/goduploader
+      - FLASK_APP=src/goduploader/web
       - GYAZO_ACCESS_TOKEN=${GYAZO_ACCESS_TOKEN}
       - SLACK_TOKEN=${SLACK_TOKEN}
       - PUBLIC_FOLDER=/app/public
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0.28
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - 127.0.0.1:3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
+volumes:
+  mysql_data:
