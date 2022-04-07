@@ -1,5 +1,7 @@
 from pathlib import Path
+from typing import List
 
+import httpretty
 import pytest
 from goduploader.db import session
 from goduploader.model import Account, Artwork, Illust, Tag
@@ -13,6 +15,7 @@ UPLOAD_ARTWORK_QUERY = """
         $title: String!,
         $caption: String!,
         $tags: [String!]!
+        $shareOption: ShareOption = NONE,
         $channelId: String
     ) {
         uploadArtwork(input: {
@@ -20,6 +23,7 @@ UPLOAD_ARTWORK_QUERY = """
             title: $title,
             caption: $caption,
             tags: $tags,
+            shareOption: $shareOption,
             channelId: $channelId
         }) {
             artwork {
@@ -105,3 +109,62 @@ def test_upload_artwork_filetype(client, source_file: str, can_upload: bool):
         context_value=mock_context(kmcid=account.kmcid),
     )
     assert ("errors" not in result) == can_upload
+
+
+def test_upload_artwork_share_option_shate_to_slack(client):
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "shareOption": "SHARE_TO_SLACK",
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+
+    last_request = httpretty.last_request()
+    assert last_request.host == "www.slack.com"
+    assert last_request.path == "/api/chat.postMessage"
+
+
+def test_upload_artwork_share_option_shate_to_slack_with_image(client):
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "shareOption": "SHARE_TO_SLACK_WITH_IMAGE",
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+
+    # XXX: なぜか2回ずつリクエストが送信されているように見える
+    latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
+    assert latest_requests[0].host == "upload.gyazo.com"
+    assert latest_requests[0].path == "/api/upload"
+    assert latest_requests[2].host == "www.slack.com"
+    assert latest_requests[2].path == "/api/chat.postMessage"
