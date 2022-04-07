@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e9f3d4fa3a0bdbb86df7226c7df938b2>>
+ * @generated SignedSource<<4a7c4967d05f03f2bc52f2519e1ca54c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,12 +9,12 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type ShareOption = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
+export type SlackShareOptionEnum = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
 export type UploadArtworkInput = {
   title: string;
   caption: string;
   tags: ReadonlyArray<string>;
-  shareOption?: ShareOption | null;
+  shareOption?: SlackShareOptionEnum | null;
   channelId?: string | null;
   files: ReadonlyArray<null>;
   clientMutationId?: string | null;
