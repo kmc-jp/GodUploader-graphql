@@ -2,7 +2,7 @@ from enum import Enum
 
 from cacheout import Cache
 from goduploader.config import app_config
-from goduploader.gyazo import upload_image
+from goduploader.external_service.gyazo import upload_image
 from goduploader.model import Artwork
 from slack_sdk.web.client import WebClient
 

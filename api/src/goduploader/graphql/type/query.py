@@ -1,12 +1,12 @@
 import graphene
 from goduploader.db import session
+from goduploader.external_service.slack import get_all_public_channels
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.artwork import Artwork
 from goduploader.graphql.type.tag import Tag
 from goduploader.model import Account as AccountModel
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Tag as TagModel
-from goduploader.slack import get_all_public_channels
 from graphene import relay
 from graphene.types.objecttype import ObjectType
 from graphene_sqlalchemy import SQLAlchemyConnectionField

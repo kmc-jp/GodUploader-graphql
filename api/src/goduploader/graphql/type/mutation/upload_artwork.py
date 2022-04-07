@@ -4,12 +4,12 @@ from typing import List
 
 import graphene
 from goduploader.db import session
+from goduploader.external_service.slack import ShareOption as ShareOptionEnum
+from goduploader.external_service.slack import share_to_slack
 from goduploader.generate_webp import generate_webp
 from goduploader.graphql.type.artwork import Artwork
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Illust as IllustModel
-from goduploader.slack import ShareOption as ShareOptionEnum
-from goduploader.slack import share_to_slack
 from goduploader.tag import has_nsfw_tag, update_tag_relation
 from goduploader.thumbnail import generate_thumbnail
 from graphene_file_upload.scalars import Upload
