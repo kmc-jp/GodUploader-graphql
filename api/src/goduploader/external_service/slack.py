@@ -13,6 +13,9 @@ class ShareOption(Enum):
     SHARE_TO_SLACK_WITH_IMAGE = 2
 
 
+def _build_web_client():
+    return WebClient(token=app_config.slack_token)
+
 def share_to_slack(
     artwork: Artwork, image_path: str, share_option=ShareOption.NONE, channel_id=None
 ):
@@ -64,7 +67,7 @@ def share_to_slack(
         ],
     }
 
-    api = WebClient(token=app_config.slack_token)
+    api = _build_web_client()
     api.chat_postMessage(channel=channel_id, **data)
 
 
@@ -80,7 +83,7 @@ def get_all_public_channels():
     next_cursor = None
     all_channels = []
 
-    api = WebClient(token=app_config.slack_token)
+    api = _build_web_client()
 
     for i in range(10):
         resp = api.conversations_list(
