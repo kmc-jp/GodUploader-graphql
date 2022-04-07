@@ -1,6 +1,7 @@
 import tempfile
 from pathlib import Path
 
+import httpretty
 import pytest
 from goduploader.config import app_config
 from goduploader.db import engine, session
@@ -24,6 +25,7 @@ def prepare_temporary_public_dir():
 
 
 prepare_temporary_public_dir()
+httpretty.enable(allow_net_connect=False)
 
 
 @pytest.fixture(scope="function", autouse=True)
