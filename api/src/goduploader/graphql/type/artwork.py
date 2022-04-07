@@ -29,7 +29,7 @@ class Artwork(SQLAlchemyObjectType):
     top_illust = graphene.Field(Illust)
 
     def resolve_top_illust(root, info):
-        return illust_loader.load(root.top_illust_id)
+        return root.top_illust
 
     next_artwork = graphene.Field(
         lambda: Artwork, description="この作品より1つ新しい、同じユーザーの作品を返す"
