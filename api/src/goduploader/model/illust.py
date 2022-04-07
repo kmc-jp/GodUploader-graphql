@@ -14,7 +14,7 @@ class Illust(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     artwork_id = Column(Integer, ForeignKey("artwork.id"), nullable=False)
-    filename = Column(String, nullable=False)
+    filename = Column(String(2048), nullable=False)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(
