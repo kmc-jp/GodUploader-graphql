@@ -19,9 +19,6 @@ def _build_web_client():
 def share_to_slack(
     artwork: Artwork, image_path: str, share_option=ShareOption.NONE, channel_id=None
 ):
-    if app_config.testing:
-        return
-
     if share_option == ShareOption.NONE:
         return
 
