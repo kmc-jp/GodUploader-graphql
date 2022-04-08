@@ -1,5 +1,8 @@
 name: Build
 
+env:
+  TZ: Asia/Tokyo
+
 on:
   push:
     branches:
