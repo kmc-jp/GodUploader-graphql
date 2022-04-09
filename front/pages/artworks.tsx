@@ -1,10 +1,15 @@
+import { GetServerSideProps } from "next";
 import React, { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
+import { fetchQuery, usePaginationFragment } from "react-relay";
 import { graphql } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
-import { artworksQuery } from "./__generated__/artworksQuery.graphql";
+import { initEnvironment } from "../lib/RelayEnvironment";
+import {
+  artworksQuery,
+  artworksQuery$data,
+} from "./__generated__/artworksQuery.graphql";
 import { artworks_artworks$key } from "./__generated__/artworks_artworks.graphql";
 
 const ArtworkList: React.VFC<{
@@ -84,17 +89,11 @@ const ArtworkList: React.VFC<{
   );
 };
 
-export const RecentArtworks: React.VFC = () => {
-  const artworks = useLazyLoadQuery<artworksQuery>(
-    graphql`
-      query artworksQuery {
-        ...artworks_artworks
-      }
-    `,
-    {},
-    { fetchPolicy: "store-and-network" }
-  );
+interface RecentArtworksProps {
+  artworks: artworksQuery$data;
+}
 
+const RecentArtworks: React.VFC<RecentArtworksProps> = ({ artworks }) => {
   const [includeNsfw, setIncludeNsfw] = useState(false);
 
   return (
@@ -125,3 +124,26 @@ export const RecentArtworks: React.VFC = () => {
     </div>
   );
 };
+
+export const getServerSideProps: GetServerSideProps<RecentArtworksProps> =
+  async () => {
+    const environment = initEnvironment();
+    const data = await fetchQuery<artworksQuery>(
+      environment,
+      graphql`
+        query artworksQuery {
+          ...artworks_artworks
+        }
+      `,
+      {}
+    ).toPromise();
+
+    if (!data) {
+      return { notFound: true };
+    }
+
+    const initialRecords = environment.getStore().getSource().toJSON();
+    return { props: { artworks: data, initialRecords } };
+  };
+
+export default RecentArtworks;
