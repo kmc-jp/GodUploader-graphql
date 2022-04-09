@@ -17,6 +17,7 @@ slack-sdk = "^3.7.0"
 cacheout = "^0.13.1"
 python-dotenv = "^0.17.1"
 alembic = "^1.6.5"
+mysql-connector-python = "^8.0.28"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
