@@ -1,42 +1,22 @@
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import React from "react";
-import { useLazyLoadQuery } from "react-relay";
+import { fetchQuery } from "react-relay";
 import { graphql } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
-import { pagesQuery } from "./__generated__/pagesQuery.graphql";
+import { initEnvironment } from "../lib/RelayEnvironment";
+import {
+  pagesQuery,
+  pagesQueryResponse,
+} from "./__generated__/pagesQuery.graphql";
 
-const Index: React.VFC = () => {
-  const { safeArtworks, activeAccounts } = useLazyLoadQuery<pagesQuery>(
-    graphql`
-      query pagesQuery {
-        activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
-          edges {
-            node {
-              id
-              kmcid
-              name
-              artworksCount
-            }
-          }
-        }
-        safeArtworks: artworks(
-          first: 8
-          sort: [CREATED_AT_DESC]
-          safeOnly: true
-        ) @connection(key: "Index_safeArtworks") {
-          __id
-          edges {
-            node {
-              ...ArtworkListItem_artwork
-            }
-          }
-        }
-      }
-    `,
-    {},
-    { fetchPolicy: "store-and-network" }
-  );
+interface IndexProps {
+  safeArtworks: pagesQueryResponse["safeArtworks"];
+  activeAccounts: pagesQueryResponse["activeAccounts"];
+}
+
+const Index: React.VFC<IndexProps> = ({ safeArtworks, activeAccounts }) => {
   const artworkCount = safeArtworks?.edges?.length || 0;
 
   return (
@@ -47,7 +27,7 @@ const Index: React.VFC = () => {
             <h2 className="text-center">最新{artworkCount}件の絵</h2>
           </div>
           <div className="card-body">
-            <div className="row row-cols-1 row-cols-lg-4">
+            <ul className="row row-cols-1 row-cols-lg-4">
               {safeArtworks.edges.map((edge, i) => {
                 if (!edge) {
                   return null;
@@ -58,12 +38,12 @@ const Index: React.VFC = () => {
                 }
 
                 return (
-                  <div key={i} className="col p-2">
+                  <li key={i} className="col p-2">
                     <ArtworkListItem artwork={edge.node} />
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
             <Link href="/artworks">
               <a
                 type="button"
@@ -109,6 +89,47 @@ const Index: React.VFC = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<IndexProps> = async () => {
+  const environment = initEnvironment();
+  const data = await fetchQuery<pagesQuery>(
+    environment,
+    graphql`
+      query pagesQuery {
+        activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
+          edges {
+            node {
+              id
+              kmcid
+              name
+              artworksCount
+            }
+          }
+        }
+        safeArtworks: artworks(
+          first: 8
+          sort: [CREATED_AT_DESC]
+          safeOnly: true
+        ) @connection(key: "Index_safeArtworks") {
+          __id
+          edges {
+            node {
+              ...ArtworkListItem_artwork
+            }
+          }
+        }
+      }
+    `,
+    {}
+  ).toPromise();
+
+  if (!data) {
+    return { notFound: true };
+  }
+
+  const initialRecords = environment.getStore().getSource().toJSON();
+  return { props: { ...data, initialRecords } };
 };
 
 export default Index;

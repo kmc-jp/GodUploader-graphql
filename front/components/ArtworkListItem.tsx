@@ -1,30 +1,16 @@
 import Link from "next/link";
-import React, { Suspense } from "react";
-import { graphql } from "react-relay";
-import { useFragment } from "react-relay/hooks";
+import React from "react";
+import { graphql, useFragment } from "react-relay";
 
-import { SuspenseImage } from "./SuspenseImage";
 import { ArtworkListItem_artwork$key } from "./__generated__/ArtworkListItem_artwork.graphql";
 
 interface ArtworkListItemProps {
   artwork: ArtworkListItem_artwork$key;
 }
 
-const Spinner: React.VFC = () => (
-  <div style={{ height: 186 }}>
-    <div className="d-flex justify-content-center h-100">
-      <div
-        className="spinner-border"
-        role="status"
-        style={{ width: 80, height: 80 }}
-      >
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  </div>
-);
-
-export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
+export const ArtworkListItem: React.VFC<ArtworkListItemProps> = ({
+  artwork: _artwork,
+}) => {
   const artwork = useFragment(
     graphql`
       fragment ArtworkListItem_artwork on Artwork {
@@ -40,13 +26,9 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
         }
       }
     `,
-    props.artwork
+    _artwork
   );
-
   const account = artwork.account;
-  if (!artwork.topIllust) {
-    return null;
-  }
 
   return (
     <div className="card p-1" style={{ height: 320 }}>
@@ -54,7 +36,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
         src={
           artwork.nsfw
             ? "/public/img/regulation_mark_r18.png"
-            : artwork.topIllust.thumbnailUrl
+            : artwork.topIllust!.thumbnailUrl
         }
         alt={artwork.title}
         style={{

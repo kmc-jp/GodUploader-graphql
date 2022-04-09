@@ -207,7 +207,7 @@ const ArtworkDetail: React.VFC = () => {
                   <Link href={`/artwork/${next.id}`} passHref>
                     <a className="page-link h-100">
                       <div className="d-none d-sm-block">
-                        <SuspenseImage
+                        <img
                           src={
                             next.nsfw
                               ? "/public/img/regulation_mark_r18.png"
@@ -232,7 +232,7 @@ const ArtworkDetail: React.VFC = () => {
                   <Link href={`/artwork/${previous.id}`} passHref>
                     <a className="page-link h-100">
                       <div className="d-none d-sm-block">
-                        <SuspenseImage
+                        <img
                           src={
                             previous.nsfw
                               ? "/public/img/regulation_mark_r18.png"
