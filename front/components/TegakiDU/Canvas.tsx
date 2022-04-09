@@ -1,4 +1,5 @@
 import { KonvaEventObject } from "konva/lib/Node";
+import { useRouter } from "next/router";
 import React, {
   useCallback,
   useContext,
@@ -7,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import { Circle, Layer, Line, Rect, Stage } from "react-konva";
-import { Prompt } from "react-router-dom";
 
 import { DrawingContext } from "../../lib/contexts/TegakiDU/DrawingContext";
 import { PaintStackContext } from "../../lib/contexts/TegakiDU/PaintStackContext";
@@ -159,12 +159,20 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     setMouseY(-999999);
   }, []);
 
+  const router = useRouter();
+  useEffect(() => {
+    router.events.on("beforeHistoryChange", (event: BeforeUnloadEvent) => {
+      if (!(paints.length > 0 && !isPosting)) {
+        return;
+      }
+      if (!window.prompt("このページを離れると絵は破棄されます。")) {
+        event.preventDefault();
+      }
+    });
+  });
+
   return (
     <div className="mw-100">
-      <Prompt
-        when={paints.length > 0 && !isPosting}
-        message="このページを離れると絵は破棄されます。"
-      />
       <Stage
         width={width}
         height={height}
