@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import styles from "./ShareButton.module.css";
 
@@ -7,9 +7,13 @@ interface ShareButtonProps {
   title: string;
 }
 
-const canShare = "share" in navigator;
-
 export const ShareButton: React.VFC<ShareButtonProps> = ({ url, title }) => {
+  const [canShare, setCanShare] = useState(false);
+
+  useEffect(() => {
+    setCanShare("share" in navigator);
+  }, []);
+
   const handleClick = useCallback(() => {
     if (!canShare) {
       return;
