@@ -33,9 +33,9 @@ export const LoadingPresence: React.VFC<LoadingPresenceProps> = ({
   }, [history, currentLocation, onLoadStart, onLoadEnd, children]);
 
   return (
-    <Suspense
+    <img
       fallback={
-        <Suspense fallback={null}>
+        <img fallback={null}>
           {previousElement.current}
           <LoadingWatcher onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} />
         </Suspense>

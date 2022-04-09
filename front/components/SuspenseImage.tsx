@@ -40,6 +40,9 @@ export const SuspenseImage: React.VFC<
   > &
     SuspenseImageProps
 > = ({ src, timeout, ...rest }) => {
+  if (typeof window === "undefined") {
+    return null;
+  }
   if (!src) {
     return null;
   }

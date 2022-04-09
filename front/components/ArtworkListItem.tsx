@@ -50,23 +50,21 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
 
   return (
     <div className="card p-1" style={{ height: 320 }}>
-      <Suspense fallback={<Spinner />}>
-        <SuspenseImage
-          src={
-            artwork.nsfw
-              ? "/public/img/regulation_mark_r18.png"
-              : artwork.topIllust.thumbnailUrl
-          }
-          alt={artwork.title}
-          style={{
-            maxWidth: "100%",
-            height: 186,
-            objectFit: "contain",
-            display: "block",
-          }}
-          className="card-img-top mx-auto my-0"
-        />
-      </Suspense>
+      <img
+        src={
+          artwork.nsfw
+            ? "/public/img/regulation_mark_r18.png"
+            : artwork.topIllust.thumbnailUrl
+        }
+        alt={artwork.title}
+        style={{
+          maxWidth: "100%",
+          height: 186,
+          objectFit: "contain",
+          display: "block",
+        }}
+        className="card-img-top mx-auto my-0"
+      />
       <div className="card-body">
         <h3 className="text-truncate">
           <Link href={`/artwork/${artwork.id}`} passHref>

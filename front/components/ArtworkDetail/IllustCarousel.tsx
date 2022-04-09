@@ -164,7 +164,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
                   carouselRef.current?.to(i);
                 }}
               >
-                <SuspenseImage
+                <img
                   src={node.thumbnailUrl}
                   style={{
                     maxWidth: "100%",

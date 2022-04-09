@@ -107,9 +107,7 @@ export const TagsInput: React.VFC = () => {
           />
         </div>
       </div>
-      <Suspense fallback={null}>
         <TagSuggestion />
-      </Suspense>
     </>
   );
 };

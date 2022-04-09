@@ -37,11 +37,9 @@ export const SlackChannelInput: React.VFC = () => {
             disabled={!notifySlack}
             onChange={(e) => setSlackChannel(e.target.value)}
           >
-            <Suspense fallback={null}>
               {notifySlack && queryRef && (
                 <ChannelSuggestion queryRef={queryRef} />
               )}
-            </Suspense>
           </select>
         </div>
       </div>
