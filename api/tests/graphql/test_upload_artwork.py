@@ -15,7 +15,7 @@ UPLOAD_ARTWORK_QUERY = """
         $title: String!,
         $caption: String!,
         $tags: [String!]!
-        $shareOption: ShareOption = NONE,
+        $shareOption: SlackShareOptionEnum = NONE,
         $channelId: String
     ) {
         uploadArtwork(input: {
