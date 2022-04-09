@@ -12,17 +12,19 @@ def _mock_gyazo_upload_request():
     )
 
 
-def _mock_slack_api():
+def _mock_slack_chat_postMessage():
     # https://api.slack.com/methods/chat.postMessage
     body = (
         Path(__file__).parent / "data/httpmock/slack_chat_postMessage.json"
     ).read_text()
     httpretty.register_uri(
-        httpretty.POST, re.compile(r"^https://(www[.])?slack[.]com/api/chat[.]postMessage$"), body=body
+        httpretty.POST,
+        re.compile(r"^https://(www[.])?slack[.]com/api/chat[.]postMessage$"),
+        body=body,
     )
 
 
 def mock_requests():
     # モックしたいAPIが増えたらここに追記してください
     _mock_gyazo_upload_request()
-    _mock_slack_api()
+    _mock_slack_chat_postMessage()
