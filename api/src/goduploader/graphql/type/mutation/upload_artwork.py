@@ -4,18 +4,23 @@ from typing import List
 
 import graphene
 from goduploader.db import session
-from goduploader.generate_webp import generate_webp
+from goduploader.external_service.slack import ShareOption as ShareOptionEnum
+from goduploader.external_service.slack import share_to_slack
 from goduploader.graphql.type.artwork import Artwork
+from goduploader.image.thumbnail import generate_thumbnail
+from goduploader.image.webp import generate_webp
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Illust as IllustModel
-from goduploader.slack import ShareOption as ShareOptionEnum
-from goduploader.slack import share_to_slack
 from goduploader.tag import has_nsfw_tag, update_tag_relation
-from goduploader.thumbnail import generate_thumbnail
 from graphene_file_upload.scalars import Upload
 from werkzeug.datastructures import FileStorage
 
-UploadArtworkShareOption = graphene.Enum.from_enum(ShareOptionEnum)
+
+class SlackShareOptionEnum(graphene.Enum):
+    class Meta:
+        enum = ShareOptionEnum
+        name = "SlackShareOptionEnum"
+        description = "画像をアップロードする際にSlackに共有するかどうかを表すenum"
 
 
 class UploadArtwork(graphene.ClientIDMutation):
@@ -25,7 +30,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         tags = graphene.List(
             graphene.NonNull(graphene.String), description="作品に付けるタグ", required=True
         )
-        share_option = UploadArtworkShareOption(description="作品をSlackにシェアするかどうか")
+        share_option = SlackShareOptionEnum(description="作品をSlackにシェアするかどうか")
         channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID")
         files = graphene.List(
             graphene.NonNull(Upload),
@@ -52,7 +57,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         artwork.account = current_user
         session.add(artwork)
 
-        share_option = UploadArtworkShareOption.get(input.get("share_option", 0))
+        share_option = SlackShareOptionEnum.get(input.get("share_option", 0))
 
         for buf in files:
             content = buf.stream.read()

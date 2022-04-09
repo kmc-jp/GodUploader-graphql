@@ -42,7 +42,7 @@ $ poetry run python script/freeze_edit_for_tegaki_du.py
 $ poetry run python script/main.py
 ```
 
-http://localhost:5000/api/ping にアクセスして `{"ok":"true"}` というJSONが返ったらOKです。
+http://localhost:5000/api/ping にアクセスして `{"ok":true}` というJSONが返ったらOKです。
 
 #### テスト
 

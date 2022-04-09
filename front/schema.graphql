@@ -59,12 +59,12 @@ type Artwork implements Node {
   nsfw: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
-  topIllust: Illust
   illusts(before: String, after: String, first: Int, last: Int): IllustConnection
   comments(before: String, after: String, first: Int, last: Int): CommentConnection
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
   tags(before: String, after: String, first: Int, last: Int): TagConnection
   account: Account
+  topIllust: Illust
 
   """この作品より1つ新しい、同じユーザーの作品を返す"""
   nextArtwork: Artwork
@@ -306,16 +306,16 @@ type Query {
   allSlackChannels: [SlackChannel]!
 }
 
-"""An enumeration."""
-enum ShareOption {
-  NONE
-  SHARE_TO_SLACK
-  SHARE_TO_SLACK_WITH_IMAGE
-}
-
 type SlackChannel {
   id: String!
   name: String!
+}
+
+"""画像をアップロードする際にSlackに共有するかどうかを表すenum"""
+enum SlackShareOptionEnum {
+  NONE
+  SHARE_TO_SLACK
+  SHARE_TO_SLACK_WITH_IMAGE
 }
 
 type Tag implements Node {
@@ -426,7 +426,7 @@ input UploadArtworkInput {
   tags: [String!]!
 
   """作品をSlackにシェアするかどうか"""
-  shareOption: ShareOption
+  shareOption: SlackShareOptionEnum
 
   """投稿したことを共有するSlackチャンネルのID"""
   channelId: String
