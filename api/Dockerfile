@@ -21,5 +21,6 @@ COPY ./pyproject.toml ./poetry.lock ./
 RUN poetry install
 
 COPY ./alembic.ini ./pytest.ini ./.env.test ./
+COPY ./script ./script
 COPY ./src ./src
 RUN poetry install
