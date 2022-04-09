@@ -1,35 +1,29 @@
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
+import {
+  fetchQuery,
+  useLazyLoadQuery,
+  usePaginationFragment,
+} from "react-relay";
 import { graphql } from "react-relay";
 
 import { ArtworkListItem } from "../../components/ArtworkListItem";
 import { UpdateAccountModal } from "../../components/UserDetail/UpdateInfoForm";
+import { initEnvironment } from "../../lib/RelayEnvironment";
 import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginationQuery.graphql";
-import { KmcidQuery } from "./__generated__/KmcidQuery.graphql";
+import {
+  KmcidQuery,
+  KmcidQuery$data,
+} from "./__generated__/KmcidQuery.graphql";
 import { Kmcid_artworks$key } from "./__generated__/Kmcid_artworks.graphql";
 
-export const UserDetail: React.FC = () => {
-  const router = useRouter();
-  const { kmcid } = router.query;
-  const { user } = useLazyLoadQuery<KmcidQuery>(
-    graphql`
-      query KmcidQuery($kmcid: String!) {
-        user: accountByKmcid(kmcid: $kmcid) {
-          id
-          kmcid
-          name
-          isYou
-          ...UpdateInfoForm_account
-          ...Kmcid_artworks
-        }
-      }
-    `,
-    { kmcid: typeof kmcid === "string" ? kmcid : kmcid[0] },
-    { fetchPolicy: "store-and-network" }
-  );
+interface UserDetailProps {
+  user: KmcidQuery$data["user"] | null;
+}
 
+const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
   if (!user) {
     return <div>user not found</div>;
   }
@@ -118,3 +112,38 @@ const ArtworkList: React.VFC<{ user: Kmcid_artworks$key }> = ({ user }) => {
     </div>
   );
 };
+
+export const getServerSideProps: GetServerSideProps<UserDetailProps> = async (
+  ctx
+) => {
+  const kmcid = ctx.params?.kmcid;
+  if (typeof kmcid !== "string") {
+    return { notFound: true };
+  }
+  const environment = initEnvironment();
+  const data = await fetchQuery<KmcidQuery>(
+    environment,
+    graphql`
+      query KmcidQuery($kmcid: String!) {
+        user: accountByKmcid(kmcid: $kmcid) {
+          id
+          kmcid
+          name
+          isYou
+          ...UpdateInfoForm_account
+          ...Kmcid_artworks
+        }
+      }
+    `,
+    { kmcid }
+  ).toPromise();
+
+  if (!data) {
+    return { notFound: true };
+  }
+
+  const initialRecords = environment.getStore().getSource().toJSON();
+  return { props: { user: data.user, initialRecords } };
+};
+
+export default UserDetail;
