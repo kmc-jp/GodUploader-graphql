@@ -38,9 +38,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "dev": "env REACT_APP_REVISION=`git rev-parse HEAD` REACT_APP_BUILT_AT=`date +%s` next dev",
-    "start": "env REACT_APP_REVISION=`git rev-parse HEAD` REACT_APP_BUILT_AT=`date +%s` next start",
-    "build": "env REACT_APP_REVISION=`git rev-parse HEAD` REACT_APP_BUILT_AT=`date +%s` next build",
+    "dev": "env NEXT_APP_REVISION=`git rev-parse HEAD` NEXT_APP_BUILT_AT=`date +%s` next dev",
+    "start": "env NEXT_APP_REVISION=`git rev-parse HEAD` NEXT_APP_BUILT_AT=`date +%s` next start",
+    "build": "env NEXT_APP_REVISION=`git rev-parse HEAD` NEXT_APP_BUILT_AT=`date +%s` next build",
     "test": "echo TODO && exit 1",
     "codegen": "graphql-codegen",
     "relay-compiler": "relay-compiler"
