@@ -1,7 +1,7 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
+import { graphql } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { artworksQuery } from "./__generated__/artworksQuery.graphql";

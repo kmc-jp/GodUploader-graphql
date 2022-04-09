@@ -1,7 +1,7 @@
-import { graphql } from "babel-plugin-relay/macro";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
+import { graphql } from "react-relay";
 import { PayloadError } from "relay-runtime";
 
 import { commitUpdateTagMutation } from "../../lib/mutation/UpdateTag";

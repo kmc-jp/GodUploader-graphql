@@ -1,6 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
 import { GetServerSideProps } from "next";
 import { fetchQuery } from "react-relay";
+import { graphql } from "react-relay";
 
 import RelayEnvironment from "../../lib/RelayEnvironment";
 import { FolderIdQuery } from "./__generated__/FolderIdQuery.graphql";

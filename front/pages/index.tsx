@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { useLazyLoadQuery } from "react-relay";
-import { graphql } from "relay-runtime";
+import { graphql } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { pagesQuery } from "./__generated__/pagesQuery.graphql";

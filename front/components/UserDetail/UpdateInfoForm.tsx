@@ -1,6 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
+import { graphql } from "react-relay";
 
 import { commitUpdateAccountMutation } from "../../lib/mutation/UpdateAccount";
 import { UpdateInfoForm_account$key } from "./__generated__/UpdateInfoForm_account.graphql";

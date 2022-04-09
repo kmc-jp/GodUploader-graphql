@@ -1,6 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { Suspense, useCallback, useRef, useState } from "react";
 import { useLazyLoadQuery } from "react-relay";
+import { graphql } from "react-relay";
 
 import { useArtworkInformation } from "../../lib/hooks/useArtworkInformation";
 import { TagsInputQuery } from "./__generated__/TagsInputQuery.graphql";

@@ -1,6 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback, useState } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
+import { graphql } from "react-relay";
 
 import { commitCreateCommentMutation } from "../../lib/mutation/CreateComment";
 import { ArtworkComment_comments$key } from "./__generated__/ArtworkComment_comments.graphql";

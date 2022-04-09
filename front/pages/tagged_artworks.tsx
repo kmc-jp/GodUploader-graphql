@@ -1,6 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
 import { useRouter } from "next/router";
 import React from "react";
+import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";

@@ -1,7 +1,7 @@
-import { graphql } from "babel-plugin-relay/macro";
 import Link from "next/link";
 import React, { useCallback } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
+import { graphql } from "react-relay";
 
 import { useTooltip } from "../../lib/hooks/useTooltip";
 import { commitLikeArtworkMutation } from "../../lib/mutation/LikeArtwork";

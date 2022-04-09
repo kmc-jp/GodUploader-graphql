@@ -1,7 +1,7 @@
-import { graphql } from "babel-plugin-relay/macro";
 import Link from "next/link";
 import React from "react";
 import { useLazyLoadQuery } from "react-relay";
+import { graphql } from "react-relay";
 
 import { tagsQuery } from "./__generated__/tagsQuery.graphql";
 

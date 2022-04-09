@@ -1,10 +1,10 @@
-import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { useLazyLoadQuery } from "react-relay";
+import { graphql } from "react-relay";
 import reactStringReplace from "react-string-replace";
 
 import { ArtworkComment } from "../../components/ArtworkDetail/ArtworkComment";
