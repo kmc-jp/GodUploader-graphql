@@ -29,7 +29,7 @@ import {
 } from "../../lib/contexts/UploadArtworkContext";
 import { useUploadArtworkContext } from "../../lib/hooks/useUploadArtworkContext";
 
-export const UploadArtwork: React.VFC = () => {
+const UploadArtwork: React.VFC = () => {
   return (
     <ArtworkInformationProvider>
       <UploadArtworkProvider>
@@ -268,3 +268,5 @@ const SortableImage: React.VFC<{
     </div>
   );
 };
+
+export default UploadArtwork;

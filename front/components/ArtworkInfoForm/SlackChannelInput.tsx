@@ -2,6 +2,7 @@ import React, { useEffect, Suspense } from "react";
 import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
 import { graphql } from "react-relay";
 
+import { useClientSideRendering } from "../../lib/hooks/useClientSideRendering";
 import { useUploadArtworkContext } from "../../lib/hooks/useUploadArtworkContext";
 import { SlackChannelInputQuery } from "./__generated__/SlackChannelInputQuery.graphql";
 
@@ -15,6 +16,15 @@ const slackChannelInputQuery = graphql`
 `;
 
 export const SlackChannelInput: React.VFC = () => {
+  const isCSR = useClientSideRendering();
+  return isCSR ? (
+    <Suspense fallback={null}>
+      <SlackChannelInputInner />
+    </Suspense>
+  ) : null;
+};
+
+const SlackChannelInputInner: React.VFC = () => {
   const { slackChannel, notifySlack, setSlackChannel } =
     useUploadArtworkContext();
   const [queryRef, loadQuery] = useQueryLoader<SlackChannelInputQuery>(
@@ -37,9 +47,9 @@ export const SlackChannelInput: React.VFC = () => {
             disabled={!notifySlack}
             onChange={(e) => setSlackChannel(e.target.value)}
           >
-              {notifySlack && queryRef && (
-                <ChannelSuggestion queryRef={queryRef} />
-              )}
+            {notifySlack && queryRef && (
+              <ChannelSuggestion queryRef={queryRef} />
+            )}
           </select>
         </div>
       </div>

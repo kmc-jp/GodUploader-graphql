@@ -3,6 +3,7 @@ import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "react-relay";
 
 import { useArtworkInformation } from "../../lib/hooks/useArtworkInformation";
+import { useClientSideRendering } from "../../lib/hooks/useClientSideRendering";
 import { TagsInputQuery } from "./__generated__/TagsInputQuery.graphql";
 
 const tagsInputQuery = graphql`
@@ -24,6 +25,15 @@ const isSafari = () =>
   navigator.userAgent.includes("Version/");
 
 export const TagsInput: React.VFC = () => {
+  const isCSR = useClientSideRendering();
+  return isCSR ? (
+    <Suspense fallback={null}>
+      <TagsInputInner />
+    </Suspense>
+  ) : null;
+};
+
+const TagsInputInner: React.VFC = () => {
   const { tags, setTags } = useArtworkInformation();
   const appendTag = useCallback(
     (newTag: string) => {
@@ -107,7 +117,7 @@ export const TagsInput: React.VFC = () => {
           />
         </div>
       </div>
-        <TagSuggestion />
+      <TagSuggestion />
     </>
   );
 };
