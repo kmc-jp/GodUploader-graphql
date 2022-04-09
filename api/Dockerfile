@@ -14,6 +14,7 @@ ENV POETRY_HOME="/opt/poetry"
 ENV POETRY_NO_INTERACTION=1
 ENV PATH="$POETRY_HOME/bin:$PATH"
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+RUN chmod 755 $POETRY_HOME/bin/poetry
 
 COPY ./poetry.toml ./
 COPY ./pyproject.toml ./poetry.lock ./
