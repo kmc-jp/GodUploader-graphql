@@ -12,10 +12,29 @@ GodUploader with GraphQL
 - ImageMagick 6.9.7-4
 - WebP
   - Debian系なら `apt install webp` でWebPのコマンド群をインストールすればOKです
+- MySQL 8.0.28
 
 ### api
 
-このセクション以下のコマンドは全て `api` ディレクトリ以下で実行してください。
+#### Dockerを使う
+
+フロントエンドの開発のためにAPIサーバーを立ち上げるだけであれば、Dockerを使うのがおすすめです。
+`docker` `docker-compose` コマンドが叩ける状態であれば、以下のコマンドでAPIサーバーを立ち上げることができます。
+
+```
+$ docker-compose up --build
+```
+
+-----
+
+以降のセクションに書いてあるコマンドは全て `api` ディレクトリ以下で、Docker環境外で実行してください。
+
+DBマイグレーションを作成する際や、Pythonの依存ライブラリを追加する際などは、docker-composeでMySQLコンテナを立ち上げたままDocker環境外で作業するのがおすすめです。
+`DB_URL` 環境変数を設定して、MySQLコンテナにつなぎに行くようにすると作業しやすいかもしれません。
+
+```
+$ DB_URL=mysql+mysqlconnector://root@db/goduploader
+```
 
 #### 依存ライブラリをインストールする
 
@@ -28,12 +47,7 @@ $ poetry install
 #### 初期設定を行う
 
 ```
-# DBのマイグレーションを行う
-$ poetry run alembic upgrade head
-
-# 特殊なタグを編集できないようにする
-$ poetry run python script/freeze_edit_for_nsfw_tags.py
-$ poetry run python script/freeze_edit_for_tegaki_du.py
+$ script/init_db.sh
 ```
 
 #### 手元環境を立ち上げる
@@ -79,9 +93,17 @@ http://localhost:3000/ にアクセスして閲覧できればOKです。
 $ yarn test
 ```
 
-### デプロイする
+## デプロイする
+
+### api
+
+mainブランチに変更がマージされると、GitHub ActionsでDockerイメージがbuildされて、GitHub Container Registryにpushされます。イメージがpushされてちょっと待つとデプロイされます。
+
+### front
+
+hatsuneの `~passenger/GodUploader-graphql` ディレクトリで以下のコマンドを実行してください。
 
 ```
 $ git pull
-$ make
+$ make front-k8s
 ```
