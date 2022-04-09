@@ -24,20 +24,7 @@ def _mock_slack_chat_postMessage():
     )
 
 
-def _mock_slack_conversations_list():
-    # https://api.slack.com/methods/conversations.list
-    body = (
-        Path(__file__).parent / "data/httpmock/slack_conversations_list.json"
-    ).read_text()
-    httpretty.register_uri(
-        httpretty.POST,
-        re.compile(r"^https://(www[.])?slack[.]com/api/conversations[.]list$"),
-        body=body,
-    )
-
-
 def mock_requests():
     # モックしたいAPIが増えたらここに追記してください
     _mock_gyazo_upload_request()
     _mock_slack_chat_postMessage()
-    _mock_slack_conversations_list()

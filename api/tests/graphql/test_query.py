@@ -1,3 +1,7 @@
+import re
+from pathlib import Path
+
+import httpretty
 from graphene.relay.node import Node
 from tests.util import create_artwork
 
@@ -61,7 +65,21 @@ def test_tagged_artworks(client):
     }
 
 
+def _mock_slack_conversations_list():
+    # https://api.slack.com/methods/conversations.list
+    body = (
+        Path(__file__).parent.parent / "data/httpmock/slack_conversations_list.json"
+    ).read_text()
+    httpretty.register_uri(
+        httpretty.POST,
+        re.compile(r"^https://(www[.])?slack[.]com/api/conversations[.]list$"),
+        body=body,
+    )
+
+
 def test_all_slack_channels(client):
+    _mock_slack_conversations_list()
+
     query = """
     {
         allSlackChannels {
@@ -78,10 +96,7 @@ def test_all_slack_channels(client):
                     "id": "C012AB3CD",
                     "name": "general",
                 },
-                {
-                    "id": "C061EG9T2",
-                    "name": "random"
-                },
+                {"id": "C061EG9T2", "name": "random"},
             ]
         }
     }
