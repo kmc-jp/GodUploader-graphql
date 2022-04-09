@@ -1,28 +1,17 @@
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import React from "react";
-import { useLazyLoadQuery } from "react-relay";
+import { fetchQuery, useLazyLoadQuery } from "react-relay";
 import { graphql } from "react-relay";
 
-import { tagsQuery } from "./__generated__/tagsQuery.graphql";
+import { initEnvironment } from "../lib/RelayEnvironment";
+import { tagsQuery, tagsQuery$data } from "./__generated__/tagsQuery.graphql";
 
-export const Tags: React.VFC = () => {
-  const { allTags } = useLazyLoadQuery<tagsQuery>(
-    graphql`
-      query tagsQuery {
-        allTags(sort: [UPDATED_AT_DESC]) {
-          edges {
-            node {
-              name
-              artworksCount
-            }
-          }
-        }
-      }
-    `,
-    {},
-    { fetchPolicy: "store-and-network" }
-  );
+interface TagsProps {
+  allTags: tagsQuery$data["allTags"];
+}
 
+const Tags: React.VFC<TagsProps> = ({ allTags }) => {
   return (
     <div>
       <div className="card">
@@ -58,3 +47,32 @@ export const Tags: React.VFC = () => {
     </div>
   );
 };
+
+export const getServerSideProps: GetServerSideProps<TagsProps> = async () => {
+  const environment = initEnvironment();
+  const data = await fetchQuery<tagsQuery>(
+    environment,
+    graphql`
+      query tagsQuery {
+        allTags(sort: [UPDATED_AT_DESC]) {
+          edges {
+            node {
+              name
+              artworksCount
+            }
+          }
+        }
+      }
+    `,
+    {}
+  ).toPromise();
+
+  if (!data) {
+    return { notFound: true };
+  }
+
+  const initialRecords = environment.getStore().getSource().toJSON();
+  return { props: { ...data, initialRecords } };
+};
+
+export default Tags;
