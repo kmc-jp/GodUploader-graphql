@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b664167ebf7dc6f20c492963a9405782>>
+ * @generated SignedSource<<ab91785fadd37334d134b6b198c58363>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,23 +10,23 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type UserDetailQuery$variables = {
+export type KmcidQuery$variables = {
   kmcid: string;
 };
-export type UserDetailQueryVariables = UserDetailQuery$variables;
-export type UserDetailQuery$data = {
+export type KmcidQueryVariables = KmcidQuery$variables;
+export type KmcidQuery$data = {
   readonly user: {
     readonly id: string;
     readonly kmcid: string;
     readonly name: string;
     readonly isYou: boolean;
-    readonly " $fragmentSpreads": FragmentRefs<"UpdateInfoForm_account" | "UserDetail_artworks">;
+    readonly " $fragmentSpreads": FragmentRefs<"UpdateInfoForm_account" | "Kmcid_artworks">;
   } | null;
 };
-export type UserDetailQueryResponse = UserDetailQuery$data;
-export type UserDetailQuery = {
-  variables: UserDetailQueryVariables;
-  response: UserDetailQuery$data;
+export type KmcidQueryResponse = KmcidQuery$data;
+export type KmcidQuery = {
+  variables: KmcidQueryVariables;
+  response: KmcidQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -84,7 +84,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "UserDetailQuery",
+    "name": "KmcidQuery",
     "selections": [
       {
         "alias": "user",
@@ -106,7 +106,7 @@ return {
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "UserDetail_artworks"
+            "name": "Kmcid_artworks"
           }
         ],
         "storageKey": null
@@ -119,7 +119,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "UserDetailQuery",
+    "name": "KmcidQuery",
     "selections": [
       {
         "alias": "user",
@@ -264,7 +264,7 @@ return {
             "args": (v6/*: any*/),
             "filters": null,
             "handle": "connection",
-            "key": "UserDetail_artworks",
+            "key": "Kmcid_artworks",
             "kind": "LinkedHandle",
             "name": "artworks"
           }
@@ -274,16 +274,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1fd8cc3a550c1c9551cb9b003eddf159",
+    "cacheID": "6dccd9fe96c6e11da4a8306b8ab108ea",
     "id": null,
     "metadata": {},
-    "name": "UserDetailQuery",
+    "name": "KmcidQuery",
     "operationKind": "query",
-    "text": "query UserDetailQuery(\n  $kmcid: String!\n) {\n  user: accountByKmcid(kmcid: $kmcid) {\n    id\n    kmcid\n    name\n    isYou\n    ...UpdateInfoForm_account\n    ...UserDetail_artworks\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UpdateInfoForm_account on Account {\n  kmcid\n  name\n}\n\nfragment UserDetail_artworks on Account {\n  artworks(last: 40) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
+    "text": "query KmcidQuery(\n  $kmcid: String!\n) {\n  user: accountByKmcid(kmcid: $kmcid) {\n    id\n    kmcid\n    name\n    isYou\n    ...UpdateInfoForm_account\n    ...Kmcid_artworks\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment Kmcid_artworks on Account {\n  artworks(last: 40) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n\nfragment UpdateInfoForm_account on Account {\n  kmcid\n  name\n}\n"
   }
 };
 })();
 
-(node as any).hash = "1dd0ea34b348f4d372513d7312f5843f";
+(node as any).hash = "86737b8bed86d648ccf059d38ee272f5";
 
 export default node;

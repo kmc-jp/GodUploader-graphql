@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6915b520308ed338bfbf32b9574ab05e>>
+ * @generated SignedSource<<fbbb74de305cd76418b72fe0ebe989b7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type UserDetail_artworks$data = {
+export type artworks_artworks$data = {
   readonly artworks: {
     readonly edges: ReadonlyArray<{
       readonly node: {
@@ -18,13 +18,12 @@ export type UserDetail_artworks$data = {
       } | null;
     } | null>;
   } | null;
-  readonly id: string;
-  readonly " $fragmentType": "UserDetail_artworks";
+  readonly " $fragmentType": "artworks_artworks";
 };
-export type UserDetail_artworks = UserDetail_artworks$data;
-export type UserDetail_artworks$key = {
-  readonly " $data"?: UserDetail_artworks$data;
-  readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
+export type artworks_artworks = artworks_artworks$data;
+export type artworks_artworks$key = {
+  readonly " $data"?: artworks_artworks$data;
+  readonly " $fragmentSpreads": FragmentRefs<"artworks_artworks">;
 };
 
 const node: ReaderFragment = (function(){
@@ -42,6 +41,11 @@ return {
       "defaultValue": null,
       "kind": "LocalArgument",
       "name": "cursor"
+    },
+    {
+      "defaultValue": true,
+      "kind": "LocalArgument",
+      "name": "safeOnly"
     }
   ],
   "kind": "Fragment",
@@ -50,34 +54,44 @@ return {
       {
         "count": "count",
         "cursor": "cursor",
-        "direction": "backward",
+        "direction": "forward",
         "path": (v0/*: any*/)
       }
     ],
     "refetch": {
       "connection": {
-        "forward": null,
-        "backward": {
+        "forward": {
           "count": "count",
           "cursor": "cursor"
         },
+        "backward": null,
         "path": (v0/*: any*/)
       },
-      "fragmentPathInResult": [
-        "node"
-      ],
-      "operation": require('./ArtworkListPaginationQuery.graphql'),
-      "identifierField": "id"
+      "fragmentPathInResult": [],
+      "operation": require('./artworksPaginationQuery.graphql')
     }
   },
-  "name": "UserDetail_artworks",
+  "name": "artworks_artworks",
   "selections": [
     {
       "alias": "artworks",
-      "args": null,
+      "args": [
+        {
+          "kind": "Variable",
+          "name": "safeOnly",
+          "variableName": "safeOnly"
+        },
+        {
+          "kind": "Literal",
+          "name": "sort",
+          "value": [
+            "CREATED_AT_DESC"
+          ]
+        }
+      ],
       "concreteType": "ArtworkConnection",
       "kind": "LinkedField",
-      "name": "__UserDetail_artworks_connection",
+      "name": "__artworks_artworks_connection",
       "plural": false,
       "selections": [
         {
@@ -133,14 +147,14 @@ return {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "hasPreviousPage",
+              "name": "endCursor",
               "storageKey": null
             },
             {
               "alias": null,
               "args": null,
               "kind": "ScalarField",
-              "name": "startCursor",
+              "name": "hasNextPage",
               "storageKey": null
             }
           ],
@@ -148,20 +162,13 @@ return {
         }
       ],
       "storageKey": null
-    },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
-      "storageKey": null
     }
   ],
-  "type": "Account",
+  "type": "Query",
   "abstractKey": null
 };
 })();
 
-(node as any).hash = "0f97f8850b1d501b7a663b3702510fbb";
+(node as any).hash = "47de58474de2883e6aab6106a506899f";
 
 export default node;

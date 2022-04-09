@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<087c64f7d3a534461ebd0d7b2ddf233e>>
+ * @generated SignedSource<<ed7319dc33739ba542f4ba0c8506d236>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,11 +10,11 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type TaggedArtworksQuery$variables = {
+export type taggedArtworksQuery$variables = {
   tag: string;
 };
-export type TaggedArtworksQueryVariables = TaggedArtworksQuery$variables;
-export type TaggedArtworksQuery$data = {
+export type taggedArtworksQueryVariables = taggedArtworksQuery$variables;
+export type taggedArtworksQuery$data = {
   readonly tagByName: {
     readonly editFreezed: boolean;
     readonly " $fragmentSpreads": FragmentRefs<"UpdateTagModal_tag">;
@@ -27,10 +27,10 @@ export type TaggedArtworksQuery$data = {
     } | null>;
   } | null;
 };
-export type TaggedArtworksQueryResponse = TaggedArtworksQuery$data;
-export type TaggedArtworksQuery = {
-  variables: TaggedArtworksQueryVariables;
-  response: TaggedArtworksQuery$data;
+export type taggedArtworksQueryResponse = taggedArtworksQuery$data;
+export type taggedArtworksQuery = {
+  variables: taggedArtworksQueryVariables;
+  response: taggedArtworksQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -88,7 +88,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "TaggedArtworksQuery",
+    "name": "taggedArtworksQuery",
     "selections": [
       {
         "alias": null,
@@ -153,7 +153,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "TaggedArtworksQuery",
+    "name": "taggedArtworksQuery",
     "selections": [
       {
         "alias": null,
@@ -266,16 +266,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "16b47ea429d83bed5d42d503302f946e",
+    "cacheID": "adda4de810a282905bb49e2f76766e7c",
     "id": null,
     "metadata": {},
-    "name": "TaggedArtworksQuery",
+    "name": "taggedArtworksQuery",
     "operationKind": "query",
-    "text": "query TaggedArtworksQuery(\n  $tag: String!\n) {\n  tagByName(name: $tag) {\n    ...UpdateTagModal_tag\n    editFreezed\n    id\n  }\n  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UpdateTagModal_tag on Tag {\n  id\n  name\n  canonicalName\n}\n"
+    "text": "query taggedArtworksQuery(\n  $tag: String!\n) {\n  tagByName(name: $tag) {\n    ...UpdateTagModal_tag\n    editFreezed\n    id\n  }\n  taggedArtworks(tag: $tag, sort: [CREATED_AT_DESC]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n      }\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UpdateTagModal_tag on Tag {\n  id\n  name\n  canonicalName\n}\n"
   }
 };
 })();
 
-(node as any).hash = "6bc50170ae2689f15ab98960198b8d70";
+(node as any).hash = "f44a75fb7ff3f750fe121f1db4953d52";
 
 export default node;

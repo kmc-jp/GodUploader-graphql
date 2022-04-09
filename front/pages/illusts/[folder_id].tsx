@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { fetchQuery } from "react-relay";
 
 import RelayEnvironment from "../../lib/RelayEnvironment";
-import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";
+import { FolderIdQuery } from "./__generated__/FolderIdQuery.graphql";
 
 export const getServerSideProps: GetServerSideProps<{ folder_id: string }> =
   async (ctx) => {
@@ -12,16 +12,16 @@ export const getServerSideProps: GetServerSideProps<{ folder_id: string }> =
       return { notFound: true };
     }
 
-    const data = await fetchQuery<RedirectFolderToArtworkQuery>(
+    const data = await fetchQuery<FolderIdQuery>(
       RelayEnvironment,
       graphql`
-        query RedirectFolderToArtworkQuery($folderId: Int!) {
+        query FolderIdQuery($folderId: Int!) {
           artworkByFolderId(folderId: $folderId) {
             id
           }
         }
       `,
-      { folderId }
+      { folderId: Number(folderId) }
     ).toPromise();
 
     if (typeof data?.artworkByFolderId?.id === "string") {

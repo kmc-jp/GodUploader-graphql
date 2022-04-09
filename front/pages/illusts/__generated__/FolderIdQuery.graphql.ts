@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c45d3d532bd7b8cc3cd7ebe33a8ef6ae>>
+ * @generated SignedSource<<a2d668782d279e2af1c56610feca8e29>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,19 +9,19 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type RedirectFolderToArtworkQuery$variables = {
+export type FolderIdQuery$variables = {
   folderId: number;
 };
-export type RedirectFolderToArtworkQueryVariables = RedirectFolderToArtworkQuery$variables;
-export type RedirectFolderToArtworkQuery$data = {
+export type FolderIdQueryVariables = FolderIdQuery$variables;
+export type FolderIdQuery$data = {
   readonly artworkByFolderId: {
     readonly id: string;
   } | null;
 };
-export type RedirectFolderToArtworkQueryResponse = RedirectFolderToArtworkQuery$data;
-export type RedirectFolderToArtworkQuery = {
-  variables: RedirectFolderToArtworkQueryVariables;
-  response: RedirectFolderToArtworkQuery$data;
+export type FolderIdQueryResponse = FolderIdQuery$data;
+export type FolderIdQuery = {
+  variables: FolderIdQueryVariables;
+  response: FolderIdQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -63,7 +63,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "RedirectFolderToArtworkQuery",
+    "name": "FolderIdQuery",
     "selections": (v1/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -72,20 +72,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "RedirectFolderToArtworkQuery",
+    "name": "FolderIdQuery",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "1d8c01ee133937af1d556e53123f1af5",
+    "cacheID": "8441292886f2c82a1a8ce17c090e3d61",
     "id": null,
     "metadata": {},
-    "name": "RedirectFolderToArtworkQuery",
+    "name": "FolderIdQuery",
     "operationKind": "query",
-    "text": "query RedirectFolderToArtworkQuery(\n  $folderId: Int!\n) {\n  artworkByFolderId(folderId: $folderId) {\n    id\n  }\n}\n"
+    "text": "query FolderIdQuery(\n  $folderId: Int!\n) {\n  artworkByFolderId(folderId: $folderId) {\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3dff7ab3fce90fa26183ba13a217c971";
+(node as any).hash = "7d61ff70bfcd506ad731b15c4c63cbe8";
 
 export default node;

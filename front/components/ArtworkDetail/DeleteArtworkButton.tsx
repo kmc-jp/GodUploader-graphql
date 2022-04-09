@@ -1,8 +1,8 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { useRelayEnvironment } from "react-relay";
-import { useHistory } from "react-router-dom";
 
-import { commitDeleteArtworkMutation } from "../../mutation/DeleteArtwork";
+import { commitDeleteArtworkMutation } from "../../lib/mutation/DeleteArtwork";
 
 interface DeleteArtworkButtonProps {
   artworkId: string;
@@ -12,7 +12,7 @@ export const DeleteArtworkButton: React.VFC<DeleteArtworkButtonProps> = ({
   artworkId,
 }) => {
   const environment = useRelayEnvironment();
-  const history = useHistory();
+  const router = useRouter();
 
   const handleDeleteButtonClick = () => {
     if (!window.confirm("本当に削除しますか？")) {
@@ -25,7 +25,7 @@ export const DeleteArtworkButton: React.VFC<DeleteArtworkButtonProps> = ({
         connections: [],
       },
       onCompleted: () => {
-        history.replace("/");
+        router.replace("/");
       },
     });
   };

@@ -1,17 +1,18 @@
 import { graphql } from "babel-plugin-relay/macro";
+import { useRouter } from "next/router";
 import React from "react";
 import { useLazyLoadQuery } from "react-relay";
-import { useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateTagModal } from "../components/TaggedArtworks/UpdateTagModal";
-import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
+import { taggedArtworksQuery } from "./__generated__/taggedArtworksQuery.graphql";
 
 export const TaggedArtworks: React.VFC = () => {
-  const { tag } = useParams<{ tag: string }>();
-  const { tagByName, taggedArtworks } = useLazyLoadQuery<TaggedArtworksQuery>(
+  const router = useRouter();
+  const { tag } = router.query;
+  const { tagByName, taggedArtworks } = useLazyLoadQuery<taggedArtworksQuery>(
     graphql`
-      query TaggedArtworksQuery($tag: String!) {
+      query taggedArtworksQuery($tag: String!) {
         tagByName(name: $tag) {
           ...UpdateTagModal_tag
           editFreezed
@@ -25,7 +26,7 @@ export const TaggedArtworks: React.VFC = () => {
         }
       }
     `,
-    { tag },
+    { tag: typeof tag === "string" ? tag : tag[0] },
     { fetchPolicy: "store-and-network" }
   );
 

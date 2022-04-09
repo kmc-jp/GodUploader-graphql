@@ -1,31 +1,32 @@
 import { graphql } from "babel-plugin-relay/macro";
+import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
-import { useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../../components/ArtworkListItem";
 import { UpdateAccountModal } from "../../components/UserDetail/UpdateInfoForm";
-import { ArtworkListPaginationQuery } from "../__generated__/ArtworkListPaginationQuery.graphql";
-import { UserDetailQuery } from "../__generated__/UserDetailQuery.graphql";
-import { UserDetail_artworks$key } from "../__generated__/UserDetail_artworks.graphql";
+import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginationQuery.graphql";
+import { KmcidQuery } from "./__generated__/KmcidQuery.graphql";
+import { Kmcid_artworks$key } from "./__generated__/Kmcid_artworks.graphql";
 
 export const UserDetail: React.FC = () => {
-  const { kmcid } = useParams<{ kmcid: string }>();
-  const { user } = useLazyLoadQuery<UserDetailQuery>(
+  const router = useRouter();
+  const { kmcid } = router.query;
+  const { user } = useLazyLoadQuery<KmcidQuery>(
     graphql`
-      query UserDetailQuery($kmcid: String!) {
+      query KmcidQuery($kmcid: String!) {
         user: accountByKmcid(kmcid: $kmcid) {
           id
           kmcid
           name
           isYou
           ...UpdateInfoForm_account
-          ...UserDetail_artworks
+          ...Kmcid_artworks
         }
       }
     `,
-    { kmcid },
+    { kmcid: typeof kmcid === "string" ? kmcid : kmcid[0] },
     { fetchPolicy: "store-and-network" }
   );
 
@@ -46,27 +47,22 @@ export const UserDetail: React.FC = () => {
   );
 };
 
-const ArtworkList: React.VFC<{ user: UserDetail_artworks$key }> = ({
-  user,
-}) => {
+const ArtworkList: React.VFC<{ user: Kmcid_artworks$key }> = ({ user }) => {
   const {
     data: { artworks },
     loadPrevious,
     hasPrevious,
     isLoadingPrevious,
-  } = usePaginationFragment<
-    ArtworkListPaginationQuery,
-    UserDetail_artworks$key
-  >(
+  } = usePaginationFragment<ArtworkListPaginationQuery, Kmcid_artworks$key>(
     graphql`
-      fragment UserDetail_artworks on Account
+      fragment Kmcid_artworks on Account
       @argumentDefinitions(
         cursor: { type: "String" }
         count: { type: "Int", defaultValue: 40 }
       )
       @refetchable(queryName: "ArtworkListPaginationQuery") {
         artworks(last: $count, before: $cursor)
-          @connection(key: "UserDetail_artworks") {
+          @connection(key: "Kmcid_artworks") {
           edges {
             node {
               ...ArtworkListItem_artwork

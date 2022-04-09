@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4c4c4cd87fbecd85eff29f17ebaff02d>>
+ * @generated SignedSource<<260e67a6f275862cd37be9d12e82baff>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,11 +10,11 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkDetailQuery$variables = {
+export type IdQuery$variables = {
   id: string;
 };
-export type ArtworkDetailQueryVariables = ArtworkDetailQuery$variables;
-export type ArtworkDetailQuery$data = {
+export type IdQueryVariables = IdQuery$variables;
+export type IdQuery$data = {
   readonly artworkWithBidirectional: {
     readonly __typename: "Artwork";
     readonly previousArtwork: {
@@ -58,10 +58,10 @@ export type ArtworkDetailQuery$data = {
     readonly __typename: "%other";
   } | null;
 };
-export type ArtworkDetailQueryResponse = ArtworkDetailQuery$data;
-export type ArtworkDetailQuery = {
-  variables: ArtworkDetailQueryVariables;
-  response: ArtworkDetailQuery$data;
+export type IdQueryResponse = IdQuery$data;
+export type IdQuery = {
+  variables: IdQueryVariables;
+  response: IdQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -236,7 +236,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ArtworkDetailQuery",
+    "name": "IdQuery",
     "selections": [
       {
         "alias": "artworkWithBidirectional",
@@ -346,7 +346,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ArtworkDetailQuery",
+    "name": "IdQuery",
     "selections": [
       {
         "alias": "artworkWithBidirectional",
@@ -663,16 +663,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c7682d4bc9c62ca8724c67b6deaeab6f",
+    "cacheID": "ff64ca1d40171cbb98529706dbdfbe30",
     "id": null,
     "metadata": {},
-    "name": "ArtworkDetailQuery",
+    "name": "IdQuery",
     "operationKind": "query",
-    "text": "query ArtworkDetailQuery(\n  $id: ID!\n) {\n  artworkWithBidirectional: node(id: $id) {\n    __typename\n    ... on Artwork {\n      previousArtwork {\n        id\n        title\n        nsfw\n        topIllust {\n          thumbnailUrl\n          id\n        }\n      }\n      nextArtwork {\n        id\n        title\n        nsfw\n        topIllust {\n          thumbnailUrl\n          id\n        }\n      }\n      id\n      title\n      caption\n      createdAt\n      editable\n      account {\n        id\n        kmcid\n        name\n      }\n      ...UpdateArtworkForm_artwork\n      ...IllustCarousel_illusts\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  artworkId: id\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  artworkId: id\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment IllustCarousel_illusts on Artwork {\n  illusts {\n    edges {\n      node {\n        id\n        imageUrl\n        webpUrl\n        thumbnailUrl\n      }\n    }\n  }\n}\n\nfragment UpdateArtworkForm_artwork on Artwork {\n  id\n  title\n  caption\n  tags {\n    edges {\n      node {\n        name\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query IdQuery(\n  $id: ID!\n) {\n  artworkWithBidirectional: node(id: $id) {\n    __typename\n    ... on Artwork {\n      previousArtwork {\n        id\n        title\n        nsfw\n        topIllust {\n          thumbnailUrl\n          id\n        }\n      }\n      nextArtwork {\n        id\n        title\n        nsfw\n        topIllust {\n          thumbnailUrl\n          id\n        }\n      }\n      id\n      title\n      caption\n      createdAt\n      editable\n      account {\n        id\n        kmcid\n        name\n      }\n      ...UpdateArtworkForm_artwork\n      ...IllustCarousel_illusts\n      ...ArtworkLikeList_likes\n      ...ArtworkComment_comments\n      tags {\n        edges {\n          node {\n            id\n            name\n          }\n        }\n      }\n    }\n    id\n  }\n}\n\nfragment ArtworkComment_comments on Artwork {\n  artworkId: id\n  comments(last: 1000000) {\n    edges {\n      node {\n        text\n        createdAt\n        account {\n          kmcid\n          id\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n}\n\nfragment ArtworkLikeList_likes on Artwork {\n  artworkId: id\n  likes(first: 10000000) {\n    edges {\n      node {\n        account {\n          id\n          kmcid\n        }\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment IllustCarousel_illusts on Artwork {\n  illusts {\n    edges {\n      node {\n        id\n        imageUrl\n        webpUrl\n        thumbnailUrl\n      }\n    }\n  }\n}\n\nfragment UpdateArtworkForm_artwork on Artwork {\n  id\n  title\n  caption\n  tags {\n    edges {\n      node {\n        name\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "587d323b261cca89d27c6a980d0bdbc6";
+(node as any).hash = "d97608d213963017424f4d451b05ae87";
 
 export default node;

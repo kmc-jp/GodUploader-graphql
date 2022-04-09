@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<13a2413aa7547563551b22bb261c7972>>
+ * @generated SignedSource<<7280cf36ded2aa9550a7af331cb1e01e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,15 +10,15 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type RecentArtworksQuery$variables = {};
-export type RecentArtworksQueryVariables = RecentArtworksQuery$variables;
-export type RecentArtworksQuery$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
+export type artworksQuery$variables = {};
+export type artworksQueryVariables = artworksQuery$variables;
+export type artworksQuery$data = {
+  readonly " $fragmentSpreads": FragmentRefs<"artworks_artworks">;
 };
-export type RecentArtworksQueryResponse = RecentArtworksQuery$data;
-export type RecentArtworksQuery = {
-  variables: RecentArtworksQueryVariables;
-  response: RecentArtworksQuery$data;
+export type artworksQueryResponse = artworksQuery$data;
+export type artworksQuery = {
+  variables: artworksQueryVariables;
+  response: artworksQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -53,12 +53,12 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "RecentArtworksQuery",
+    "name": "artworksQuery",
     "selections": [
       {
         "args": null,
         "kind": "FragmentSpread",
-        "name": "RecentArtworks_artworks"
+        "name": "artworks_artworks"
       }
     ],
     "type": "Query",
@@ -68,7 +68,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "RecentArtworksQuery",
+    "name": "artworksQuery",
     "selections": [
       {
         "alias": null,
@@ -210,23 +210,23 @@ return {
           "safeOnly"
         ],
         "handle": "connection",
-        "key": "RecentArtworks_artworks",
+        "key": "artworks_artworks",
         "kind": "LinkedHandle",
         "name": "artworks"
       }
     ]
   },
   "params": {
-    "cacheID": "7514bc108454aa274af73b0393255b21",
+    "cacheID": "c33d87ea159de6cb53398ca3f7957253",
     "id": null,
     "metadata": {},
-    "name": "RecentArtworksQuery",
+    "name": "artworksQuery",
     "operationKind": "query",
-    "text": "query RecentArtworksQuery {\n  ...RecentArtworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks on Query {\n  artworks(first: 40, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query artworksQuery {\n  ...artworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment artworks_artworks on Query {\n  artworks(first: 40, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "22345b5c530e7ede196c2e16602ffe8f";
+(node as any).hash = "3187b2a2f8dee6a9117e70923b21837b";
 
 export default node;

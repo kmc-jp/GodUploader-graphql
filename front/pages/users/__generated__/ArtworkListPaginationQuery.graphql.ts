@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<db6f712087b3009eb2379c69b3862ffe>>
+ * @generated SignedSource<<20b8b433db1164a89f7bf689bd28b093>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,7 +18,7 @@ export type ArtworkListPaginationQuery$variables = {
 export type ArtworkListPaginationQueryVariables = ArtworkListPaginationQuery$variables;
 export type ArtworkListPaginationQuery$data = {
   readonly node: {
-    readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
+    readonly " $fragmentSpreads": FragmentRefs<"Kmcid_artworks">;
   } | null;
 };
 export type ArtworkListPaginationQueryResponse = ArtworkListPaginationQuery$data;
@@ -107,7 +107,7 @@ return {
               }
             ],
             "kind": "FragmentSpread",
-            "name": "UserDetail_artworks"
+            "name": "Kmcid_artworks"
           }
         ],
         "storageKey": null
@@ -266,7 +266,7 @@ return {
                 "args": (v4/*: any*/),
                 "filters": null,
                 "handle": "connection",
-                "key": "UserDetail_artworks",
+                "key": "Kmcid_artworks",
                 "kind": "LinkedHandle",
                 "name": "artworks"
               }
@@ -280,16 +280,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9510f6eb53332e8586f5f8abd930056f",
+    "cacheID": "66dd7693708fd3c7daf71434a581689e",
     "id": null,
     "metadata": {},
     "name": "ArtworkListPaginationQuery",
     "operationKind": "query",
-    "text": "query ArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...UserDetail_artworks_1G22uz\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment UserDetail_artworks_1G22uz on Account {\n  artworks(last: $count, before: $cursor) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
+    "text": "query ArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...Kmcid_artworks_1G22uz\n    id\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment Kmcid_artworks_1G22uz on Account {\n  artworks(last: $count, before: $cursor) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasPreviousPage\n      startCursor\n    }\n  }\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "0f97f8850b1d501b7a663b3702510fbb";
+(node as any).hash = "7f96dffbd4bc0813bc3de53e9c67d047";
 
 export default node;

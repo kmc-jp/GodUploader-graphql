@@ -1,26 +1,25 @@
 import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
+import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useMemo } from "react";
-import { Helmet } from "react-helmet";
 import { useLazyLoadQuery } from "react-relay";
-import { LuseParams } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
-import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
+import { ArtworkComment } from "../../components/ArtworkDetail/ArtworkComment";
+import { LikeList } from "../../components/ArtworkDetail/ArtworkLikeList";
+import { DeleteArtworkButton } from "../../components/ArtworkDetail/DeleteArtworkButton";
+import { IllustCarousel } from "../../components/ArtworkDetail/IllustCarousel";
+import { UpdateArtworkModal } from "../../components/ArtworkDetail/UpdateArtworkForm";
+import { ShareButton } from "../../components/ShareButton";
+import { SuspenseImage } from "../../components/SuspenseImage";
 import {
   ageRestirctionFromTags,
   ArtworkInformationProvider,
-} from "../lib/contexts/ArtworkInformationContext";
-import { ArtworkComment } from "../src/components/ArtworkDetail/ArtworkComment";
-import { LikeList } from "../src/components/ArtworkDetail/ArtworkLikeList";
-import { DeleteArtworkButton } from "../src/components/ArtworkDetail/DeleteArtworkButton";
-import { IllustCarousel } from "../src/components/ArtworkDetail/IllustCarousel";
-import { UpdateArtworkModal } from "../src/components/ArtworkDetail/UpdateArtworkForm";
-import { ShareButton } from "../src/components/ShareButton";
-import { SuspenseImage } from "../src/components/SuspenseImage";
-import { formatDateTime } from "../util";
-import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
+} from "../../lib/contexts/ArtworkInformationContext";
+import { formatDateTime } from "../../lib/util";
+import { IdQuery } from "./__generated__/IdQuery.graphql";
 
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
@@ -31,10 +30,11 @@ const autolink = (caption: string) => {
 };
 
 const ArtworkDetail: React.VFC = () => {
-  const { id } = useParams<{ id: string }>();
-  const { artworkWithBidirectional } = useLazyLoadQuery<ArtworkDetailQuery>(
+  const router = useRouter();
+  const { id } = router.query;
+  const { artworkWithBidirectional } = useLazyLoadQuery<IdQuery>(
     graphql`
-      query ArtworkDetailQuery($id: ID!) {
+      query IdQuery($id: ID!) {
         artworkWithBidirectional: node(id: $id) {
           __typename
           ... on Artwork {
@@ -80,7 +80,7 @@ const ArtworkDetail: React.VFC = () => {
         }
       }
     `,
-    { id },
+    { id: typeof id === "string" ? id : id[0] },
     { fetchPolicy: "store-and-network" }
   );
 
@@ -129,11 +129,11 @@ const ArtworkDetail: React.VFC = () => {
 
   return (
     <div>
-      <Helmet>
+      <Head>
         <title>
           {`${artwork.title} - ${artwork.account?.name}のイラスト - God Illust Uploader`}
         </title>
-      </Helmet>
+      </Head>
       <div className="card">
         <div className="card-header text-center">
           <h2>{artwork.title}</h2>
@@ -210,7 +210,7 @@ const ArtworkDetail: React.VFC = () => {
                         <SuspenseImage
                           src={
                             next.nsfw
-                              ? CensoredThumbnailImage
+                              ? "/public/img/regulation_mark_r18.png"
                               : next.topIllust?.thumbnailUrl
                           }
                           style={{ maxWidth: 186 }}
@@ -235,7 +235,7 @@ const ArtworkDetail: React.VFC = () => {
                         <SuspenseImage
                           src={
                             previous.nsfw
-                              ? CensoredThumbnailImage
+                              ? "/public/img/regulation_mark_r18.png"
                               : previous.topIllust?.thumbnailUrl
                           }
                           style={{ maxWidth: 186 }}

@@ -3,12 +3,12 @@ import Link from "next/link";
 import React from "react";
 import { useLazyLoadQuery } from "react-relay";
 
-import { TagsQuery } from "./__generated__/TagsQuery.graphql";
+import { tagsQuery } from "./__generated__/tagsQuery.graphql";
 
 export const Tags: React.VFC = () => {
-  const { allTags } = useLazyLoadQuery<TagsQuery>(
+  const { allTags } = useLazyLoadQuery<tagsQuery>(
     graphql`
-      query TagsQuery {
+      query tagsQuery {
         allTags(sort: [UPDATED_AT_DESC]) {
           edges {
             node {

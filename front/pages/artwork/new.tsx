@@ -17,17 +17,17 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import React, { useCallback, useMemo } from "react";
 
-import { AgeRestrictionInput } from "../src/components/ArtworkInfoForm/AgeRestrictionInput";
-import { CaptionInput } from "../src/components/ArtworkInfoForm/CaptionInput";
-import { SlackChannelInput } from "../src/components/ArtworkInfoForm/SlackChannelInput";
-import { TagsInput } from "../src/components/ArtworkInfoForm/TagsInput";
-import { TitleInput } from "../src/components/ArtworkInfoForm/TitleInput";
-import { ArtworkInformationProvider } from "../lib/contexts/ArtworkInformationContext";
+import { AgeRestrictionInput } from "../../components/ArtworkInfoForm/AgeRestrictionInput";
+import { CaptionInput } from "../../components/ArtworkInfoForm/CaptionInput";
+import { SlackChannelInput } from "../../components/ArtworkInfoForm/SlackChannelInput";
+import { TagsInput } from "../../components/ArtworkInfoForm/TagsInput";
+import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";
+import { ArtworkInformationProvider } from "../../lib/contexts/ArtworkInformationContext";
 import {
   MAX_FILESIZE_MB,
   UploadArtworkProvider,
-} from "../lib/contexts/UploadArtworkContext";
-import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
+} from "../../lib/contexts/UploadArtworkContext";
+import { useUploadArtworkContext } from "../../lib/hooks/useUploadArtworkContext";
 
 export const UploadArtwork: React.VFC = () => {
   return (

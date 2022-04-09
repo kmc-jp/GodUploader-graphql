@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8d6fdc2d5787438eef00f8c6e907910d>>
+ * @generated SignedSource<<64830330bd965fe20810865f8c24f7ef>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,17 +9,17 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type RedirectToMyPageQuery$variables = {};
-export type RedirectToMyPageQueryVariables = RedirectToMyPageQuery$variables;
-export type RedirectToMyPageQuery$data = {
+export type myQuery$variables = {};
+export type myQueryVariables = myQuery$variables;
+export type myQuery$data = {
   readonly viewer: {
     readonly kmcid: string;
   } | null;
 };
-export type RedirectToMyPageQueryResponse = RedirectToMyPageQuery$data;
-export type RedirectToMyPageQuery = {
-  variables: RedirectToMyPageQueryVariables;
-  response: RedirectToMyPageQuery$data;
+export type myQueryResponse = myQuery$data;
+export type myQuery = {
+  variables: myQueryVariables;
+  response: myQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -35,7 +35,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "RedirectToMyPageQuery",
+    "name": "myQuery",
     "selections": [
       {
         "alias": null,
@@ -57,7 +57,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "RedirectToMyPageQuery",
+    "name": "myQuery",
     "selections": [
       {
         "alias": null,
@@ -81,16 +81,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a40385d14028dda6069658a45d119f25",
+    "cacheID": "9b3dfef1d56cbc6a6e79753386563f85",
     "id": null,
     "metadata": {},
-    "name": "RedirectToMyPageQuery",
+    "name": "myQuery",
     "operationKind": "query",
-    "text": "query RedirectToMyPageQuery {\n  viewer {\n    kmcid\n    id\n  }\n}\n"
+    "text": "query myQuery {\n  viewer {\n    kmcid\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5a15b32b60ffc6502f40c5a06d55b32a";
+(node as any).hash = "75264a088a268cced3b4b5c99ed63e61";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3bc8e4adcc493ab39c68df7fe4d5a2d9>>
+ * @generated SignedSource<<a8268128c34f62fc51d220cc86d9f815>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,9 +9,9 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type TagsQuery$variables = {};
-export type TagsQueryVariables = TagsQuery$variables;
-export type TagsQuery$data = {
+export type tagsQuery$variables = {};
+export type tagsQueryVariables = tagsQuery$variables;
+export type tagsQuery$data = {
   readonly allTags: {
     readonly edges: ReadonlyArray<{
       readonly node: {
@@ -21,10 +21,10 @@ export type TagsQuery$data = {
     } | null>;
   } | null;
 };
-export type TagsQueryResponse = TagsQuery$data;
-export type TagsQuery = {
-  variables: TagsQueryVariables;
-  response: TagsQuery$data;
+export type tagsQueryResponse = tagsQuery$data;
+export type tagsQuery = {
+  variables: tagsQueryVariables;
+  response: tagsQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -56,7 +56,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "TagsQuery",
+    "name": "tagsQuery",
     "selections": [
       {
         "alias": null,
@@ -101,7 +101,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "TagsQuery",
+    "name": "tagsQuery",
     "selections": [
       {
         "alias": null,
@@ -148,16 +148,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d48b2be3f2f6bd871cbc46c588c6b315",
+    "cacheID": "f6c413c849579425b1be36081d256b4b",
     "id": null,
     "metadata": {},
-    "name": "TagsQuery",
+    "name": "tagsQuery",
     "operationKind": "query",
-    "text": "query TagsQuery {\n  allTags(sort: [UPDATED_AT_DESC]) {\n    edges {\n      node {\n        name\n        artworksCount\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query tagsQuery {\n  allTags(sort: [UPDATED_AT_DESC]) {\n    edges {\n      node {\n        name\n        artworksCount\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c21a329086271c16f01fc0b7bdda5f1c";
+(node as any).hash = "8d1c04c5be3875fe31bb6bb7b3680a3b";
 
 export default node;

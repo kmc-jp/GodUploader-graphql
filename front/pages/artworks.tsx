@@ -4,11 +4,11 @@ import InfiniteScroll from "react-infinite-scroller";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
-import type { RecentArtworksQuery } from "./__generated__/RecentArtworksQuery.graphql";
-import { RecentArtworks_artworks$key } from "./__generated__/RecentArtworks_artworks.graphql";
+import { artworksQuery } from "./__generated__/artworksQuery.graphql";
+import { artworks_artworks$key } from "./__generated__/artworks_artworks.graphql";
 
 const ArtworkList: React.VFC<{
-  artworks: RecentArtworks_artworks$key;
+  artworks: artworks_artworks$key;
   includeNsfw: boolean;
 }> = ({ artworks: queryRef, includeNsfw }) => {
   const {
@@ -19,19 +19,19 @@ const ArtworkList: React.VFC<{
     isLoadingNext,
   } = usePaginationFragment(
     graphql`
-      fragment RecentArtworks_artworks on Query
+      fragment artworks_artworks on Query
       @argumentDefinitions(
         cursor: { type: "String" }
         count: { type: "Int", defaultValue: 40 }
         safeOnly: { type: "Boolean", defaultValue: true }
       )
-      @refetchable(queryName: "RecentArtworkListPaginationQuery") {
+      @refetchable(queryName: "artworksPaginationQuery") {
         artworks(
           first: $count
           after: $cursor
           sort: [CREATED_AT_DESC]
           safeOnly: $safeOnly
-        ) @connection(key: "RecentArtworks_artworks") {
+        ) @connection(key: "artworks_artworks") {
           edges {
             node {
               ...ArtworkListItem_artwork
@@ -85,10 +85,10 @@ const ArtworkList: React.VFC<{
 };
 
 export const RecentArtworks: React.VFC = () => {
-  const artworks = useLazyLoadQuery<RecentArtworksQuery>(
+  const artworks = useLazyLoadQuery<artworksQuery>(
     graphql`
-      query RecentArtworksQuery {
-        ...RecentArtworks_artworks
+      query artworksQuery {
+        ...artworks_artworks
       }
     `,
     {},

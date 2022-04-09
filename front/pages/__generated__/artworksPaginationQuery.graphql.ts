@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f2309f0c66065a134c345340c3951b38>>
+ * @generated SignedSource<<7df43c22a5dc9d18370f791a0feae7b2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,19 +10,19 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type RecentArtworkListPaginationQuery$variables = {
+export type artworksPaginationQuery$variables = {
   count?: number | null;
   cursor?: string | null;
   safeOnly?: boolean | null;
 };
-export type RecentArtworkListPaginationQueryVariables = RecentArtworkListPaginationQuery$variables;
-export type RecentArtworkListPaginationQuery$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
+export type artworksPaginationQueryVariables = artworksPaginationQuery$variables;
+export type artworksPaginationQuery$data = {
+  readonly " $fragmentSpreads": FragmentRefs<"artworks_artworks">;
 };
-export type RecentArtworkListPaginationQueryResponse = RecentArtworkListPaginationQuery$data;
-export type RecentArtworkListPaginationQuery = {
-  variables: RecentArtworkListPaginationQueryVariables;
-  response: RecentArtworkListPaginationQuery$data;
+export type artworksPaginationQueryResponse = artworksPaginationQuery$data;
+export type artworksPaginationQuery = {
+  variables: artworksPaginationQueryVariables;
+  response: artworksPaginationQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -80,7 +80,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "RecentArtworkListPaginationQuery",
+    "name": "artworksPaginationQuery",
     "selections": [
       {
         "args": [
@@ -97,7 +97,7 @@ return {
           (v1/*: any*/)
         ],
         "kind": "FragmentSpread",
-        "name": "RecentArtworks_artworks"
+        "name": "artworks_artworks"
       }
     ],
     "type": "Query",
@@ -107,7 +107,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "RecentArtworkListPaginationQuery",
+    "name": "artworksPaginationQuery",
     "selections": [
       {
         "alias": null,
@@ -249,23 +249,23 @@ return {
           "safeOnly"
         ],
         "handle": "connection",
-        "key": "RecentArtworks_artworks",
+        "key": "artworks_artworks",
         "kind": "LinkedHandle",
         "name": "artworks"
       }
     ]
   },
   "params": {
-    "cacheID": "6ac4fee2d8ffc72bac05f95bce9f4eaf",
+    "cacheID": "076218dc6d809e0be54b187c5df83471",
     "id": null,
     "metadata": {},
-    "name": "RecentArtworkListPaginationQuery",
+    "name": "artworksPaginationQuery",
     "operationKind": "query",
-    "text": "query RecentArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $safeOnly: Boolean = true\n) {\n  ...RecentArtworks_artworks_1MgKj9\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks_1MgKj9 on Query {\n  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query artworksPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $safeOnly: Boolean = true\n) {\n  ...artworks_artworks_1MgKj9\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment artworks_artworks_1MgKj9 on Query {\n  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e6db0821f3726ed002772ce16cb36d3c";
+(node as any).hash = "47de58474de2883e6aab6106a506899f";
 
 export default node;

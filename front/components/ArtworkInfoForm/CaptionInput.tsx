@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useArtworkInformation } from "../../hooks/useArtworkInformation";
+import { useArtworkInformation } from "../../lib/hooks/useArtworkInformation";
 
 export const CaptionInput: React.VFC = () => {
   const { caption, setCaption } = useArtworkInformation();

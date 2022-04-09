@@ -1,11 +1,11 @@
 import { graphql } from "babel-plugin-relay/macro";
 import { Modal } from "bootstrap";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
-import { useHistory } from "react-router-dom";
 import { PayloadError } from "relay-runtime";
 
-import { commitUpdateTagMutation } from "../../mutation/UpdateTag";
+import { commitUpdateTagMutation } from "../../lib/mutation/UpdateTag";
 import { UpdateTagModal_tag$key } from "./__generated__/UpdateTagModal_tag.graphql";
 
 interface UpdateTagModalProps {
@@ -45,7 +45,7 @@ export const UpdateTagModal: React.VFC<UpdateTagModalProps> = ({ tagKey }) => {
 
   const [errors, setErrors] = useState<PayloadError[] | null | undefined>(null);
   const environment = useRelayEnvironment();
-  const history = useHistory();
+  const router = useRouter();
   const handleUpdate: React.FormEventHandler = useCallback(
     (e) => {
       e.preventDefault();
@@ -68,7 +68,7 @@ export const UpdateTagModal: React.VFC<UpdateTagModalProps> = ({ tagKey }) => {
 
           const modal = Modal.getInstance(ref.current);
           modal?.hide();
-          history.replace(`/tagged_artworks/${response.updateTag?.tag?.name}`);
+          router.replace(`/tagged_artworks/${response.updateTag?.tag?.name}`);
         },
       });
     },

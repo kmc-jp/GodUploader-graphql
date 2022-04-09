@@ -3,8 +3,8 @@ import Link from "next/link";
 import React, { useCallback } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
-import { useTooltip } from "../../hooks/useTooltip";
-import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
+import { useTooltip } from "../../lib/hooks/useTooltip";
+import { commitLikeArtworkMutation } from "../../lib/mutation/LikeArtwork";
 import type { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
 
 interface Props {
