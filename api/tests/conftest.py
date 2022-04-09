@@ -28,6 +28,7 @@ def prepare_temporary_public_dir():
 
         yield
 
+
 @pytest.fixture(scope="function", autouse=True)
 def mock_http_request():
     with httpretty.enabled(allow_net_connect=False):
@@ -46,5 +47,6 @@ def client():
     try:
         yield client
     finally:
+        session.rollback()
         Base.metadata.drop_all(engine)
         session.remove()
