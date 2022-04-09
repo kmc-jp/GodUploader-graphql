@@ -33,7 +33,7 @@ DBマイグレーションを作成する際や、Pythonの依存ライブラリ
 `DB_URL` 環境変数を設定して、MySQLコンテナにつなぎに行くようにすると作業しやすいかもしれません。
 
 ```
-$ DB_URL=mysql+mysqlconnector://root@db/goduploader
+$ DB_URL=mysql+mysqlconnector://root@localhost:3306/goduploader
 ```
 
 #### 依存ライブラリをインストールする
