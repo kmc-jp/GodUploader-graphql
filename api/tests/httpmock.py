@@ -25,7 +25,7 @@ def _mock_slack_chat_postMessage():
 
 
 def _mock_slack_conversations_list():
-    # https://api.slack.com/methods/chat.postMessage
+    # https://api.slack.com/methods/conversations.list
     body = (
         Path(__file__).parent / "data/httpmock/slack_conversations_list.json"
     ).read_text()
