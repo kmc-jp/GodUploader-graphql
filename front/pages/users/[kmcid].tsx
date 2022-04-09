@@ -4,11 +4,11 @@ import InfiniteScroll from "react-infinite-scroller";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { useParams } from "react-router-dom";
 
-import { ArtworkListItem } from "../src/components/ArtworkListItem";
-import { UpdateAccountModal } from "../src/components/UserDetail/UpdateInfoForm";
-import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginationQuery.graphql";
-import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
-import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
+import { ArtworkListItem } from "../../src/components/ArtworkListItem";
+import { UpdateAccountModal } from "../../src/components/UserDetail/UpdateInfoForm";
+import { ArtworkListPaginationQuery } from "../__generated__/ArtworkListPaginationQuery.graphql";
+import { UserDetailQuery } from "../__generated__/UserDetailQuery.graphql";
+import { UserDetail_artworks$key } from "../__generated__/UserDetail_artworks.graphql";
 
 export const UserDetail: React.FC = () => {
   const { kmcid } = useParams<{ kmcid: string }>();
