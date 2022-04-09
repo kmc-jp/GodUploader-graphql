@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 
-import { ArtworkListItem } from "../components/ArtworkListItem";
+import { ArtworkListItem } from "../src/components/ArtworkListItem";
 import type { RecentArtworksQuery } from "./__generated__/RecentArtworksQuery.graphql";
 import { RecentArtworks_artworks$key } from "./__generated__/RecentArtworks_artworks.graphql";
 

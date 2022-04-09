@@ -3,7 +3,7 @@ import React from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { Link } from "react-router-dom";
 
-import { ArtworkListItem } from "../components/ArtworkListItem";
+import { ArtworkListItem } from "../src/components/ArtworkListItem";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
 export const Index: React.VFC = () => {

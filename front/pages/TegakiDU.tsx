@@ -1,11 +1,11 @@
 import React from "react";
 import { useMeasure } from "react-use";
 
-import { Canvas } from "../components/TegakiDU/Canvas";
-import { ColorSuggestion } from "../components/TegakiDU/ColorSuggestion";
-import { Sidebar } from "../components/TegakiDU/Sidebar";
-import { DrawingProvider } from "../../lib/contexts/TegakiDU/DrawingContext";
-import { PaintStackContextProvider } from "../../lib/contexts/TegakiDU/PaintStackContext";
+import { Canvas } from "../src/components/TegakiDU/Canvas";
+import { ColorSuggestion } from "../src/components/TegakiDU/ColorSuggestion";
+import { Sidebar } from "../src/components/TegakiDU/Sidebar";
+import { DrawingProvider } from "../lib/contexts/TegakiDU/DrawingContext";
+import { PaintStackContextProvider } from "../lib/contexts/TegakiDU/PaintStackContext";
 
 const TegakiDU: React.VFC = () => {
   const [ref, { width, height }] = useMeasure<HTMLDivElement>();
