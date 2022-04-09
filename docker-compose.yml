@@ -14,7 +14,7 @@ services:
       - ./api/db:/app/db
     environment:
       - FLASK_APP=goduploader/web
-      - DB_URL=mysql+mysqlconnector://root@db/goduploader
+      - DB_URL=${DB_URL:-mysql+mysqlconnector://root@db/goduploader}
       - FLASK_APP=src/goduploader/web
       - GYAZO_ACCESS_TOKEN=${GYAZO_ACCESS_TOKEN}
       - SLACK_TOKEN=${SLACK_TOKEN}
