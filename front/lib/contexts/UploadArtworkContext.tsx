@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   createContext,
   Dispatch,
@@ -8,7 +9,6 @@ import {
   useState,
 } from "react";
 import { useRelayEnvironment } from "react-relay";
-import { useHistory } from "react-router-dom";
 import { PayloadError } from "relay-runtime";
 
 import { useArtworkInformation } from "../hooks/useArtworkInformation";
@@ -68,10 +68,10 @@ const defaultValue = {
 };
 
 // nginxのclient_max_body_sizeに合わせる
-export const MAX_FILESIZE_MB = 40
+export const MAX_FILESIZE_MB = 40;
 
 // client_max_body_sizeより厳しめに制限する
-const MAX_FILESIZE = (MAX_FILESIZE_MB * 0.95) * 1024 * 1024;
+const MAX_FILESIZE = MAX_FILESIZE_MB * 0.95 * 1024 * 1024;
 
 export const UploadArtworkContext =
   createContext<UplaodArtworkContextValue>(defaultValue);
@@ -95,7 +95,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
   >(null);
 
   const environment = useRelayEnvironment();
-  const history = useHistory();
+  const router = useRouter();
 
   const handleSubmit: FormEventHandler = useCallback(
     (event) => {
@@ -135,7 +135,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
             return;
           }
 
-          history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
+          router.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
         },
       });
     },
@@ -144,7 +144,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
       caption,
       environment,
       files,
-      history,
+      router,
       notifySlack,
       showThumbnail,
       slackChannel,
