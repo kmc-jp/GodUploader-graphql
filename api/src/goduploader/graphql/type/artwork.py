@@ -23,19 +23,19 @@ class Artwork(SQLAlchemyObjectType):
 
     account = graphene.Field(Account)
 
-    def resolve_account(root, info):
+    def resolve_account(root: ArtworkModel, info):
         return account_loader.load(root.account_id)
 
     top_illust = graphene.Field(Illust)
 
-    def resolve_top_illust(root, info):
+    def resolve_top_illust(root: ArtworkModel, info):
         return root.top_illust
 
     next_artwork = graphene.Field(
         lambda: Artwork, description="この作品より1つ新しい、同じユーザーの作品を返す"
     )
 
-    def resolve_next_artwork(root, info):
+    def resolve_next_artwork(root: ArtworkModel, info):
         return (
             session.query(ArtworkModel)
             .filter(
@@ -52,7 +52,7 @@ class Artwork(SQLAlchemyObjectType):
         lambda: Artwork, description="この作品より1つ古い、同じユーザーの作品を返す"
     )
 
-    def resolve_previous_artwork(root, info):
+    def resolve_previous_artwork(root: ArtworkModel, info):
         return (
             session.query(ArtworkModel)
             .filter(
@@ -69,7 +69,7 @@ class Artwork(SQLAlchemyObjectType):
         graphene.Boolean, required=True, description="作品の情報を編集できるかどうかを返す"
     )
 
-    def resolve_editable(root, info):
+    def resolve_editable(root: ArtworkModel, info):
         if not info.context:
             # Requestオブジェクトが入っているのでここは通らないはず
             return False

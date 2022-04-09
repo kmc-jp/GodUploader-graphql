@@ -17,10 +17,10 @@ class Like(SQLAlchemyObjectType):
 
     account = graphene.Field(Account)
 
-    def resolve_account(root, info):
+    def resolve_account(root: LikeModel, info):
         return account_loader.load(root.account_id)
 
     artwork = graphene.Field(Artwork)
 
-    def resolve_artwork(root, info):
+    def resolve_artwork(root: LikeModel, info):
         return artwork_loader.load(root.artwork_id)

@@ -11,15 +11,15 @@ class Illust(SQLAlchemyObjectType):
 
     image_url = graphene.Field(graphene.String, required=True)
 
-    def resolve_image_url(root, info):
+    def resolve_image_url(root: IllustModel, info):
         return root.image_url
 
     thumbnail_url = graphene.Field(graphene.String, required=True)
 
-    def resolve_thumbnail_url(root, info):
+    def resolve_thumbnail_url(root: IllustModel, info):
         return root.thumbnail_url
 
     webp_url = graphene.Field(graphene.String, required=True)
 
-    def resolve_webp_url(root, info):
+    def resolve_webp_url(root: IllustModel, info):
         return root.webp_url

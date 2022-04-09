@@ -18,10 +18,10 @@ class Comment(SQLAlchemyObjectType):
 
     account = graphene.Field(Account)
 
-    def resolve_account(root, info):
+    def resolve_account(root: CommentModel, info):
         return account_loader.load(root.account_id)
 
     artwork = graphene.Field(Artwork)
 
-    def resolve_artwork(root, info):
+    def resolve_artwork(root: CommentModel, info):
         return artwork_loader.load(root.artwork_id)
