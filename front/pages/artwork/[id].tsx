@@ -2,9 +2,8 @@ import clsx from "clsx";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useMemo } from "react";
-import { fetchQuery, useLazyLoadQuery } from "react-relay";
+import { fetchQuery } from "react-relay";
 import { graphql } from "react-relay";
 import reactStringReplace from "react-string-replace";
 
@@ -14,7 +13,6 @@ import { DeleteArtworkButton } from "../../components/ArtworkDetail/DeleteArtwor
 import { IllustCarousel } from "../../components/ArtworkDetail/IllustCarousel";
 import { UpdateArtworkModal } from "../../components/ArtworkDetail/UpdateArtworkForm";
 import { ShareButton } from "../../components/ShareButton";
-import { SuspenseImage } from "../../components/SuspenseImage";
 import { initEnvironment } from "../../lib/RelayEnvironment";
 import {
   ageRestirctionFromTags,

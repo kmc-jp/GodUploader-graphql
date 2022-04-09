@@ -1,12 +1,7 @@
 import { GetServerSideProps } from "next";
-import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import {
-  fetchQuery,
-  useLazyLoadQuery,
-  usePaginationFragment,
-} from "react-relay";
+import { fetchQuery, usePaginationFragment } from "react-relay";
 import { graphql } from "react-relay";
 
 import { ArtworkListItem } from "../../components/ArtworkListItem";
