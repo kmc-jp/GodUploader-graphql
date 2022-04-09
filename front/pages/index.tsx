@@ -1,15 +1,15 @@
-import { graphql } from "babel-plugin-relay/macro";
 import Link from "next/link";
 import React from "react";
 import { useLazyLoadQuery } from "react-relay";
+import { graphql } from "relay-runtime";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
-import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
+import { pagesQuery } from "./__generated__/pagesQuery.graphql";
 
-export const Index: React.VFC = () => {
-  const { safeArtworks, activeAccounts } = useLazyLoadQuery<IndexQuery>(
+const Index: React.VFC = () => {
+  const { safeArtworks, activeAccounts } = useLazyLoadQuery<pagesQuery>(
     graphql`
-      query IndexQuery {
+      query pagesQuery {
         activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
           edges {
             node {
@@ -110,3 +110,5 @@ export const Index: React.VFC = () => {
     </div>
   );
 };
+
+export default Index;

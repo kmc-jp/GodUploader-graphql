@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<403252b870e33787e34f035063c15eb6>>
+ * @generated SignedSource<<93241b2f0a7be4a966f7a179c641c28f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,9 +10,9 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type IndexQuery$variables = {};
-export type IndexQueryVariables = IndexQuery$variables;
-export type IndexQuery$data = {
+export type pagesQuery$variables = {};
+export type pagesQueryVariables = pagesQuery$variables;
+export type pagesQuery$data = {
   readonly activeAccounts: {
     readonly edges: ReadonlyArray<{
       readonly node: {
@@ -32,10 +32,10 @@ export type IndexQuery$data = {
     } | null>;
   } | null;
 };
-export type IndexQueryResponse = IndexQuery$data;
-export type IndexQuery = {
-  variables: IndexQueryVariables;
-  response: IndexQuery$data;
+export type pagesQueryResponse = pagesQuery$data;
+export type pagesQuery = {
+  variables: pagesQueryVariables;
+  response: pagesQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -187,7 +187,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "IndexQuery",
+    "name": "pagesQuery",
     "selections": [
       (v2/*: any*/),
       {
@@ -243,7 +243,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "IndexQuery",
+    "name": "pagesQuery",
     "selections": [
       (v2/*: any*/),
       {
@@ -352,7 +352,7 @@ return {
     ]
   },
   "params": {
-    "cacheID": "03df590ce7fe810527078a8bc62b777d",
+    "cacheID": "50260bcf7b63a7adeecea394b8d9ac4e",
     "id": null,
     "metadata": {
       "connection": [
@@ -366,13 +366,13 @@ return {
         }
       ]
     },
-    "name": "IndexQuery",
+    "name": "pagesQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query pagesQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "0d15df74246e9a73e057a8af622afb3c";
+(node as any).hash = "e69f0d9e839346e8c5c0e8477c96fb42";
 
 export default node;
