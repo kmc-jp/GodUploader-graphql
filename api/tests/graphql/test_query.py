@@ -59,3 +59,29 @@ def test_tagged_artworks(client):
             },
         },
     }
+
+
+def test_all_slack_channels(client):
+    query = """
+    {
+        allSlackChannels {
+            id
+            name
+        }
+    }
+    """
+    result = client.execute(query)
+    assert result == {
+        "data": {
+            "allSlackChannels": [
+                {
+                    "id": "C012AB3CD",
+                    "name": "general",
+                },
+                {
+                    "id": "C061EG9T2",
+                    "name": "random"
+                },
+            ]
+        }
+    }
