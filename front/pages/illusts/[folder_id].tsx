@@ -1,14 +1,19 @@
 import { graphql } from "babel-plugin-relay/macro";
-import React from "react";
-import { useLazyLoadQuery } from "react-relay";
-import { Redirect, useParams } from "react-router-dom";
+import { GetServerSideProps } from "next";
+import { fetchQuery } from "react-relay";
 
+import RelayEnvironment from "../../lib/RelayEnvironment";
 import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";
 
-export const RedirectFolderToArtwork: React.VFC = () => {
-  const { folder_id } = useParams<{ folder_id: string }>();
-  const { artworkByFolderId: artwork } =
-    useLazyLoadQuery<RedirectFolderToArtworkQuery>(
+export const getServerSideProps: GetServerSideProps<{ folder_id: string }> =
+  async (ctx) => {
+    const folderId = ctx.params?.folder_id;
+    if (!(typeof folderId === "string")) {
+      return { notFound: true };
+    }
+
+    const data = await fetchQuery<RedirectFolderToArtworkQuery>(
+      RelayEnvironment,
       graphql`
         query RedirectFolderToArtworkQuery($folderId: Int!) {
           artworkByFolderId(folderId: $folderId) {
@@ -16,12 +21,17 @@ export const RedirectFolderToArtwork: React.VFC = () => {
           }
         }
       `,
-      { folderId: Number(folder_id) }
-    );
+      { folderId }
+    ).toPromise();
 
-  if (!artwork) {
-    return <div>artwork not found</div>;
-  }
+    if (typeof data?.artworkByFolderId?.id === "string") {
+      return {
+        redirect: {
+          statusCode: 302,
+          destination: `/artwork/${data?.artworkByFolderId?.id}`,
+        },
+      };
+    }
 
-  return <Redirect to={`/artwork/${artwork.id}`} />;
-};
+    return { notFound: true };
+  };
