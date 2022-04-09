@@ -11,7 +11,7 @@ import { Prompt } from "react-router-dom";
 
 import { DrawingContext } from "../../lib/contexts/TegakiDU/DrawingContext";
 import { PaintStackContext } from "../../lib/contexts/TegakiDU/PaintStackContext";
-import { isMac, isTouchDevice } from "../../detectUserAgent";
+import { isMac, isTouchDevice } from "../../lib/detectUserAgent";
 
 const modifierKeyPressed = (e: KeyboardEvent) => {
   if (isMac()) {
