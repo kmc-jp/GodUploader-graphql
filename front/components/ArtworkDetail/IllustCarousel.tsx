@@ -1,5 +1,5 @@
 import { graphql } from "babel-plugin-relay/macro";
-import { Carousel } from "bootstrap";
+import type { Carousel } from "bootstrap";
 import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFragment } from "react-relay";
@@ -39,17 +39,23 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
   }, [illusts]);
 
   useEffect(() => {
-    if (!carouselElementRef.current) {
-      return;
-    }
-    carouselRef.current = new Carousel(carouselElementRef.current, {
-      pause: true,
-      wrap: false,
+    let cleanup = () => {};
+
+    import("bootstrap").then(({ Carousel: CarouselClass }) => {
+      if (!carouselElementRef.current) {
+        return;
+      }
+      carouselRef.current = new CarouselClass(carouselElementRef.current, {
+        pause: true,
+        wrap: false,
+      });
+
+      cleanup = () => {
+        carouselRef.current?.dispose();
+      };
     });
 
-    return () => {
-      carouselRef.current?.dispose();
-    };
+    return cleanup;
   });
 
   const handleNext = useCallback(() => {

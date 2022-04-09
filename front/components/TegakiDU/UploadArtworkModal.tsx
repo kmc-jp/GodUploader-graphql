@@ -1,4 +1,3 @@
-import { Modal } from "bootstrap";
 import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
 
@@ -35,14 +34,17 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    const modal = new Modal(ref.current);
-    return () => {
-      modal.hide();
-    };
+    let cleanup = () => {};
+    import("bootstrap").then(({ Modal }) => {
+      if (!ref.current) {
+        return;
+      }
+      const modal = new Modal(ref.current);
+      cleanup = () => {
+        modal.hide();
+      };
+    });
+    return cleanup;
   }, []);
 
   useEffect(() => {
@@ -51,23 +53,27 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
       return;
     }
 
-    const modal = Modal.getInstance(el);
-    if (!modal) {
-      return;
-    }
+    let cleanup = () => {};
+    import("bootstrap").then(({ Modal }) => {
+      const modal = Modal.getInstance(el);
+      if (!modal) {
+        return;
+      }
 
-    if (blob) {
-      modal.show();
-    }
+      if (blob) {
+        modal.show();
+      }
 
-    const hideModal = () => {
-      setIsPosting(false);
-    };
+      const hideModal = () => {
+        setIsPosting(false);
+      };
 
-    el.addEventListener("hidden.bs.modal", hideModal);
-    return () => {
-      el.removeEventListener("hidden.bs.modal", hideModal);
-    };
+      el.addEventListener("hidden.bs.modal", hideModal);
+      cleanup = () => {
+        el.removeEventListener("hidden.bs.modal", hideModal);
+      };
+    });
+    return cleanup;
   }, [blob, setIsPosting]);
 
   return (

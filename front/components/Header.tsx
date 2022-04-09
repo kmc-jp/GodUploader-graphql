@@ -1,4 +1,3 @@
-import { Collapse } from "bootstrap";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
@@ -9,21 +8,29 @@ export const Header: React.VFC = () => {
   // ページ遷移時にドロップダウンメニューが閉じるようにする
   const router = useRouter();
   useEffect(() => {
-    if (!ref.current) {
+    if (typeof window === "undefined") {
       return;
     }
+    let cleanup = () => {};
 
-    // toggle: false を指定しないとページ遷移するたびにドロップダウンメニューが開閉してしまう
-    const collapse = new Collapse(ref.current, { toggle: false });
-    const handleRouteChange = () => {
-      collapse.hide();
-    };
+    import("bootstrap").then(({ Collapse }) => {
+      if (!ref.current) {
+        return;
+      }
 
-    router.events.on("routeChangeStart", handleRouteChange);
-    return () => {
-      collapse.dispose();
-      router.events.off("routeChangeStart", handleRouteChange);
-    };
+      // toggle: false を指定しないとページ遷移するたびにドロップダウンメニューが開閉してしまう
+      const collapse = new Collapse(ref.current, { toggle: false });
+      const handleRouteChange = () => {
+        collapse.hide();
+      };
+
+      router.events.on("routeChangeStart", handleRouteChange);
+      cleanup = () => {
+        collapse.dispose();
+        router.events.off("routeChangeStart", handleRouteChange);
+      };
+    });
+    return cleanup
   }, [router]);
 
   return (

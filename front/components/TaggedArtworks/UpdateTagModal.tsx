@@ -1,5 +1,4 @@
 import { graphql } from "babel-plugin-relay/macro";
-import { Modal } from "bootstrap";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
@@ -57,18 +56,20 @@ export const UpdateTagModal: React.VFC<UpdateTagModalProps> = ({ tagKey }) => {
           },
         },
         onCompleted: (response, errors) => {
-          if (!ref.current) {
-            return;
-          }
-
           if (errors) {
             setErrors(errors.slice());
             return;
           }
 
-          const modal = Modal.getInstance(ref.current);
-          modal?.hide();
-          router.replace(`/tagged_artworks/${response.updateTag?.tag?.name}`);
+          import("bootstrap").then(({ Modal }) => {
+            if (!ref.current) {
+              return;
+            }
+
+            const modal = Modal.getInstance(ref.current);
+            modal?.hide();
+            router.replace(`/tagged_artworks/${response.updateTag?.tag?.name}`);
+          });
         },
       });
     },
