@@ -3,8 +3,8 @@ import React from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { useParams } from "react-router-dom";
 
-import { ArtworkListItem } from "../src/components/ArtworkListItem";
-import { UpdateTagModal } from "../src/components/TaggedArtworks/UpdateTagModal";
+import { ArtworkListItem } from "../components/ArtworkListItem";
+import { UpdateTagModal } from "../components/TaggedArtworks/UpdateTagModal";
 import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
 
 export const TaggedArtworks: React.VFC = () => {
