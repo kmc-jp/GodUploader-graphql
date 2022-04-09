@@ -8,7 +8,7 @@ import { SlackChannelInput } from "../ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../ArtworkInfoForm/TitleInput";
 import { useUploadArtworkContext } from "../../hooks/useUploadArtworkContext";
-import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
+import { DrawingContext } from "../../../lib/contexts/TegakiDU/DrawingContext";
 
 interface Props {
   blob?: Blob;

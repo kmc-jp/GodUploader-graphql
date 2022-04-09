@@ -17,7 +17,7 @@ import { SuspenseImage } from "../components/SuspenseImage";
 import {
   ageRestirctionFromTags,
   ArtworkInformationProvider,
-} from "../contexts/ArtworkInformationContext";
+} from "../../lib/contexts/ArtworkInformationContext";
 import { formatDateTime } from "../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 

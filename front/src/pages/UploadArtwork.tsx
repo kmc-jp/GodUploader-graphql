@@ -22,11 +22,11 @@ import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
-import { ArtworkInformationProvider } from "../contexts/ArtworkInformationContext";
+import { ArtworkInformationProvider } from "../../lib/contexts/ArtworkInformationContext";
 import {
   MAX_FILESIZE_MB,
   UploadArtworkProvider,
-} from "../contexts/UploadArtworkContext";
+} from "../../lib/contexts/UploadArtworkContext";
 import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
 
 export const UploadArtwork: React.VFC = () => {

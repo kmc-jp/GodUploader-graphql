@@ -10,7 +10,7 @@ import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";
 import {
   ageRestirctionFromTags,
   tagWithAgeRestriction,
-} from "../../contexts/ArtworkInformationContext";
+} from "../../../lib/contexts/ArtworkInformationContext";
 import { useArtworkInformation } from "../../hooks/useArtworkInformation";
 import { commitUpdateArtworkMutation } from "../../mutation/UpdateArtwork";
 import { UpdateArtworkForm_artwork$key } from "./__generated__/UpdateArtworkForm_artwork.graphql";

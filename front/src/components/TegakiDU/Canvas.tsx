@@ -9,8 +9,8 @@ import React, {
 import { Circle, Layer, Line, Rect, Stage } from "react-konva";
 import { Prompt } from "react-router-dom";
 
-import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
-import { PaintStackContext } from "../../contexts/TegakiDU/PaintStackContext";
+import { DrawingContext } from "../../../lib/contexts/TegakiDU/DrawingContext";
+import { PaintStackContext } from "../../../lib/contexts/TegakiDU/PaintStackContext";
 import { isMac, isTouchDevice } from "../../detectUserAgent";
 
 const modifierKeyPressed = (e: KeyboardEvent) => {
