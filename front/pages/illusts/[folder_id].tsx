@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import { fetchQuery } from "react-relay";
 import { graphql } from "react-relay";
 
-import RelayEnvironment from "../../lib/RelayEnvironment";
+import { initEnvironment } from "../../lib/RelayEnvironment";
 import { FolderIdQuery } from "./__generated__/FolderIdQuery.graphql";
 
 export const getServerSideProps: GetServerSideProps<{ folder_id: string }> =
@@ -12,8 +12,9 @@ export const getServerSideProps: GetServerSideProps<{ folder_id: string }> =
       return { notFound: true };
     }
 
+    const environment = initEnvironment()
     const data = await fetchQuery<FolderIdQuery>(
-      RelayEnvironment,
+      environment,
       graphql`
         query FolderIdQuery($folderId: Int!) {
           artworkByFolderId(folderId: $folderId) {
