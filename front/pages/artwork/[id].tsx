@@ -1,9 +1,10 @@
 import clsx from "clsx";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
-import { useLazyLoadQuery } from "react-relay";
+import { fetchQuery, useLazyLoadQuery } from "react-relay";
 import { graphql } from "react-relay";
 import reactStringReplace from "react-string-replace";
 
@@ -14,12 +15,13 @@ import { IllustCarousel } from "../../components/ArtworkDetail/IllustCarousel";
 import { UpdateArtworkModal } from "../../components/ArtworkDetail/UpdateArtworkForm";
 import { ShareButton } from "../../components/ShareButton";
 import { SuspenseImage } from "../../components/SuspenseImage";
+import { initEnvironment } from "../../lib/RelayEnvironment";
 import {
   ageRestirctionFromTags,
   ArtworkInformationProvider,
 } from "../../lib/contexts/ArtworkInformationContext";
 import { formatDateTime } from "../../lib/util";
-import { IdQuery } from "./__generated__/IdQuery.graphql";
+import { IdQuery, IdQuery$data } from "./__generated__/IdQuery.graphql";
 
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
@@ -29,61 +31,13 @@ const autolink = (caption: string) => {
   ));
 };
 
-const ArtworkDetail: React.VFC = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const { artworkWithBidirectional } = useLazyLoadQuery<IdQuery>(
-    graphql`
-      query IdQuery($id: ID!) {
-        artworkWithBidirectional: node(id: $id) {
-          __typename
-          ... on Artwork {
-            previousArtwork {
-              id
-              title
-              nsfw
-              topIllust {
-                thumbnailUrl
-              }
-            }
-            nextArtwork {
-              id
-              title
-              nsfw
-              topIllust {
-                thumbnailUrl
-              }
-            }
-            id
-            title
-            caption
-            createdAt
-            editable
-            account {
-              id
-              kmcid
-              name
-            }
-            ...UpdateArtworkForm_artwork
-            ...IllustCarousel_illusts
-            ...ArtworkLikeList_likes
-            ...ArtworkComment_comments
-            tags {
-              edges {
-                node {
-                  id
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
-    { id: typeof id === "string" ? id : id[0] },
-    { fetchPolicy: "store-and-network" }
-  );
+interface ArtworkDetailProps {
+  artworkWithBidirectional: IdQuery$data["artworkWithBidirectional"];
+}
 
+const ArtworkDetail: React.VFC<ArtworkDetailProps> = ({
+  artworkWithBidirectional,
+}) => {
   const tags = useMemo((): string[] => {
     if (
       !(
@@ -168,7 +122,7 @@ const ArtworkDetail: React.VFC = () => {
                   return (
                     <li key={tag.id} className="text-center breadcrumb-item">
                       <Link href={`/tagged_artworks/${tag.name}`}>
-                        #{tag.name}
+                        {`#${tag.name}`}
                       </Link>
                     </li>
                   );
@@ -259,5 +213,69 @@ const ArtworkDetail: React.VFC = () => {
     </div>
   );
 };
+
+export const getServerSideProps: GetServerSideProps<ArtworkDetailProps> =
+  async (ctx) => {
+    const { id } = ctx.query;
+    const environment = initEnvironment();
+    const data = await fetchQuery<IdQuery>(
+      environment,
+      graphql`
+        query IdQuery($id: ID!) {
+          artworkWithBidirectional: node(id: $id) {
+            __typename
+            ... on Artwork {
+              previousArtwork {
+                id
+                title
+                nsfw
+                topIllust {
+                  thumbnailUrl
+                }
+              }
+              nextArtwork {
+                id
+                title
+                nsfw
+                topIllust {
+                  thumbnailUrl
+                }
+              }
+              id
+              title
+              caption
+              createdAt
+              editable
+              account {
+                id
+                kmcid
+                name
+              }
+              ...UpdateArtworkForm_artwork
+              ...IllustCarousel_illusts
+              ...ArtworkLikeList_likes
+              ...ArtworkComment_comments
+              tags {
+                edges {
+                  node {
+                    id
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      `,
+      { id: typeof id === "string" ? id : id[0] }
+    ).toPromise();
+
+    if (!data) {
+      return { notFound: true };
+    }
+
+    const initialRecords = environment.getStore().getSource().toJSON();
+    return { props: { ...data, initialRecords } };
+  };
 
 export default ArtworkDetail;
