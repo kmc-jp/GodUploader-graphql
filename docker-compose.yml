@@ -13,7 +13,6 @@ services:
       - ./api/tests:/app/tests
       - ./api/db:/app/db
     environment:
-      - DB_URL=sqlite:///db/god.db
       - FLASK_APP=goduploader/web
       - DB_URL=mysql+mysqlconnector://root@db/goduploader
       - FLASK_APP=src/goduploader/web
