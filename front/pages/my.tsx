@@ -5,6 +5,8 @@ import { graphql } from "react-relay";
 import RelayEnvironment from "../lib/RelayEnvironment";
 import { myQuery } from "./__generated__/myQuery.graphql";
 
+export default () => null;
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const data = await fetchQuery<myQuery>(
     RelayEnvironment,
