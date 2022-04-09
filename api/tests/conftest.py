@@ -43,7 +43,8 @@ def client():
     create_account(kmcid="unknown_user", name="unknown_user")
 
     client = Client(schema)
-    yield client
-
-    Base.metadata.drop_all(engine)
-    session.remove()
+    try:
+        yield client
+    finally:
+        Base.metadata.drop_all(engine)
+        session.remove()
