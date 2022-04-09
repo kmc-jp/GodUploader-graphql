@@ -1,4 +1,5 @@
-// https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35707
-declare module "babel-plugin-relay/macro" {
-  export { graphql } from "react-relay";
-}
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/basic-features/typescript for more information.
