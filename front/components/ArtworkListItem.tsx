@@ -1,9 +1,8 @@
 import { graphql } from "babel-plugin-relay/macro";
+import Link from "next/link";
 import React, { Suspense } from "react";
 import { useFragment } from "react-relay/hooks";
-import { Link } from "react-router-dom";
 
-import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
 import { SuspenseImage } from "./SuspenseImage";
 import { ArtworkListItem_artwork$key } from "./__generated__/ArtworkListItem_artwork.graphql";
 
@@ -55,7 +54,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
         <SuspenseImage
           src={
             artwork.nsfw
-              ? CensoredThumbnailImage
+              ? "/public/img/regulation_mark_r18.png"
               : artwork.topIllust.thumbnailUrl
           }
           alt={artwork.title}
@@ -70,11 +69,10 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
       </Suspense>
       <div className="card-body">
         <h3 className="text-truncate">
-          <Link
-            to={`/artwork/${artwork.id}`}
-            className="card-link text-body stretched-link"
-          >
-            {artwork.title}
+          <Link href={`/artwork/${artwork.id}`} passHref>
+            <a className="card-link text-body stretched-link">
+              {artwork.title}
+            </a>
           </Link>
         </h3>
         {account && <p className="card-text text-truncate">{account.name}</p>}

@@ -1,7 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
+import Link from "next/link";
 import React from "react";
 import { useLazyLoadQuery } from "react-relay";
-import { Link } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
@@ -64,12 +64,13 @@ export const Index: React.VFC = () => {
                 );
               })}
             </div>
-            <Link
-              to="/artworks"
-              type="button"
-              className="btn btn-lg btn-outline-secondary w-100 text-center"
-            >
-              もっと見る
+            <Link href="/artworks">
+              <a
+                type="button"
+                className="btn btn-lg btn-outline-secondary w-100 text-center"
+              >
+                もっと見る
+              </a>
             </Link>
           </div>
         </div>
@@ -89,15 +90,16 @@ export const Index: React.VFC = () => {
               const node = edge.node;
               return (
                 <div key={i} className="col py-1">
-                  <Link
-                    to={`/users/${node.kmcid}`}
-                    type="button"
-                    className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between"
-                  >
-                    {node.name}
-                    <span className="badge rounded-pill bg-secondary">
-                      {node.artworksCount}
-                    </span>
+                  <Link href={`/users/${node.kmcid}`} passHref>
+                    <a
+                      type="button"
+                      className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between"
+                    >
+                      {node.name}
+                      <span className="badge rounded-pill bg-secondary">
+                        {node.artworksCount}
+                      </span>
+                    </a>
                   </Link>
                 </div>
               );

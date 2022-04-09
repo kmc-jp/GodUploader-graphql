@@ -1,34 +1,39 @@
 import { Collapse } from "bootstrap";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
 
 export const Header: React.VFC = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const history = useHistory();
 
   // ページ遷移時にドロップダウンメニューが閉じるようにする
+  const router = useRouter();
   useEffect(() => {
     if (!ref.current) {
       return;
     }
+
     // toggle: false を指定しないとページ遷移するたびにドロップダウンメニューが開閉してしまう
     const collapse = new Collapse(ref.current, { toggle: false });
-    const unsubscribe = history.listen(() => {
+    const handleRouteChange = () => {
       collapse.hide();
-    });
+    };
 
+    router.events.on("routeChangeStart", handleRouteChange);
     return () => {
       collapse.dispose();
-      unsubscribe();
+      router.events.off("routeChangeStart", handleRouteChange);
     };
-  }, [history]);
+  }, [router]);
 
   return (
     <nav className="navbar navbar-expand-xl navbar-light bg-light mb-3">
       <div className="container">
-        <Link className="navbar-brand" to="/">
-          <span className="d-none d-md-inline">KMC画像アップローダー </span>
-          God Illust Uploader
+        <Link href="/" passHref>
+          <a className="navbar-brand">
+            <span className="d-none d-md-inline">KMC画像アップローダー </span>
+            God Illust Uploader
+          </a>
         </Link>
         <button
           className="navbar-toggler"
@@ -48,32 +53,25 @@ export const Header: React.VFC = () => {
         >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink
-                to="/artwork/new"
-                className="nav-link"
-                activeClassName="active"
-              >
-                アップロード
-              </NavLink>
+              {/* TODO: NavLink */}
+              <Link href="/artwork/new" passHref>
+                <a className="nav-item">アップロード</a>
+              </Link>
             </li>
             <li className="nav-item">
-              <NavLink to="/my" className="nav-link" activeClassName="active">
-                マイページ
-              </NavLink>
+              <Link href="/my" passHref>
+                <a className="nav-link">マイページ</a>
+              </Link>
             </li>
             <li className="nav-item">
-              <NavLink to="/tags" className="nav-link" activeClassName="active">
-                タグ検索
-              </NavLink>
+              <Link href="/tags" passHref>
+                <a className="nav-link">タグ検索</a>
+              </Link>
             </li>
             <li className="nav-item">
-              <NavLink
-                to="/tegaki"
-                className="nav-link"
-                activeClassName="active"
-              >
-                tegaki_du
-              </NavLink>
+              <Link href="/tegaki" passHref>
+                <a className="nav-link">tegaki_du</a>
+              </Link>
             </li>
           </ul>
         </div>

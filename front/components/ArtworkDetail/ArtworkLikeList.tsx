@@ -1,7 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
+import Link from "next/link";
 import React, { useCallback } from "react";
 import { useFragment, useRelayEnvironment } from "react-relay";
-import { Link } from "react-router-dom";
 
 import { useTooltip } from "../../hooks/useTooltip";
 import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
@@ -98,14 +98,15 @@ const LikeIcon: React.FC<{
   }
 
   return (
-    <Link
-      to={`/users/${like.account.kmcid}`}
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title={like.account.kmcid}
-      ref={ref}
-    >
-      <i className="bi bi-heart-fill"></i>
+    <Link href={`/users/${like.account.kmcid}`} passHref>
+      <a
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title={like.account.kmcid}
+        ref={ref}
+      >
+        <i className="bi bi-heart-fill"></i>
+      </a>
     </Link>
   );
 };

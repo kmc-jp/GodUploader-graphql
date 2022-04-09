@@ -1,12 +1,17 @@
 import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
+import Link from "next/link";
 import React, { useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { useLazyLoadQuery } from "react-relay";
-import { Link, useParams } from "react-router-dom";
+import { LuseParams } from "react-router-dom";
 import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
+import {
+  ageRestirctionFromTags,
+  ArtworkInformationProvider,
+} from "../lib/contexts/ArtworkInformationContext";
 import { ArtworkComment } from "../src/components/ArtworkDetail/ArtworkComment";
 import { LikeList } from "../src/components/ArtworkDetail/ArtworkLikeList";
 import { DeleteArtworkButton } from "../src/components/ArtworkDetail/DeleteArtworkButton";
@@ -14,10 +19,6 @@ import { IllustCarousel } from "../src/components/ArtworkDetail/IllustCarousel";
 import { UpdateArtworkModal } from "../src/components/ArtworkDetail/UpdateArtworkForm";
 import { ShareButton } from "../src/components/ShareButton";
 import { SuspenseImage } from "../src/components/SuspenseImage";
-import {
-  ageRestirctionFromTags,
-  ArtworkInformationProvider,
-} from "../lib/contexts/ArtworkInformationContext";
 import { formatDateTime } from "../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 
@@ -138,7 +139,7 @@ const ArtworkDetail: React.VFC = () => {
           <h2>{artwork.title}</h2>
           <p>{autolink(artwork.caption)}</p>
           <p>
-            <Link to={`/users/${artwork.account?.kmcid}`}>
+            <Link href={`/users/${artwork.account?.kmcid}`}>
               {artwork.account?.name}
             </Link>
           </p>
@@ -166,7 +167,7 @@ const ArtworkDetail: React.VFC = () => {
 
                   return (
                     <li key={tag.id} className="text-center breadcrumb-item">
-                      <Link to={`/tagged_artworks/${tag.name}`}>
+                      <Link href={`/tagged_artworks/${tag.name}`}>
                         #{tag.name}
                       </Link>
                     </li>
@@ -203,50 +204,51 @@ const ArtworkDetail: React.VFC = () => {
             >
               {next && (
                 <li className="page-item">
-                  <Link className="page-link h-100" to={`/artwork/${next.id}`}>
-                    <div className="d-none d-sm-block">
-                      <SuspenseImage
-                        src={
-                          next.nsfw
-                            ? CensoredThumbnailImage
-                            : next.topIllust?.thumbnailUrl
-                        }
-                        style={{ maxWidth: 186 }}
-                      />
-                    </div>
-                    <span aria-hidden="true">&laquo; </span>
-                    {next.title}
-                    {next.nsfw && (
-                      <div className="d-block d-sm-none text-danger">
-                        (NSFW)
+                  <Link href={`/artwork/${next.id}`} passHref>
+                    <a className="page-link h-100">
+                      <div className="d-none d-sm-block">
+                        <SuspenseImage
+                          src={
+                            next.nsfw
+                              ? CensoredThumbnailImage
+                              : next.topIllust?.thumbnailUrl
+                          }
+                          style={{ maxWidth: 186 }}
+                        />
                       </div>
-                    )}
+                      <span aria-hidden="true">&laquo; </span>
+                      {next.title}
+                      {next.nsfw && (
+                        <div className="d-block d-sm-none text-danger">
+                          (NSFW)
+                        </div>
+                      )}
+                    </a>
                   </Link>
                 </li>
               )}
               {previous && (
                 <li className="page-item">
-                  <Link
-                    className="page-link h-100"
-                    to={`/artwork/${previous.id}`}
-                  >
-                    <div className="d-none d-sm-block">
-                      <SuspenseImage
-                        src={
-                          previous.nsfw
-                            ? CensoredThumbnailImage
-                            : previous.topIllust?.thumbnailUrl
-                        }
-                        style={{ maxWidth: 186 }}
-                      />
-                    </div>
-                    {previous.title}
-                    <span aria-hidden="true"> &raquo;</span>
-                    {previous.nsfw && (
-                      <div className="d-block d-sm-none text-danger">
-                        (NSFW)
+                  <Link href={`/artwork/${previous.id}`} passHref>
+                    <a className="page-link h-100">
+                      <div className="d-none d-sm-block">
+                        <SuspenseImage
+                          src={
+                            previous.nsfw
+                              ? CensoredThumbnailImage
+                              : previous.topIllust?.thumbnailUrl
+                          }
+                          style={{ maxWidth: 186 }}
+                        />
                       </div>
-                    )}
+                      {previous.title}
+                      <span aria-hidden="true"> &raquo;</span>
+                      {previous.nsfw && (
+                        <div className="d-block d-sm-none text-danger">
+                          (NSFW)
+                        </div>
+                      )}
+                    </a>
                   </Link>
                 </li>
               )}
