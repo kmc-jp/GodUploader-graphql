@@ -68,10 +68,10 @@ const defaultValue = {
 };
 
 // nginxのclient_max_body_sizeに合わせる
-export const MAX_FILESIZE_MB = 40
+export const MAX_FILESIZE_MB = 40;
 
 // client_max_body_sizeより厳しめに制限する
-const MAX_FILESIZE = (MAX_FILESIZE_MB * 0.95) * 1024 * 1024;
+const MAX_FILESIZE = MAX_FILESIZE_MB * 0.95 * 1024 * 1024;
 
 export const UploadArtworkContext =
   createContext<UplaodArtworkContextValue>(defaultValue);
@@ -136,6 +136,10 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
           }
 
           history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
+        },
+        onError: (error) => {
+          setIsUploading(false);
+          setUploadErrors([error]);
         },
       });
     },
