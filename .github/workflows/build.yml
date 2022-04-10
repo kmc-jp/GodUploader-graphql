@@ -53,6 +53,12 @@ jobs:
 
   build-front:
     runs-on: ubuntu-latest
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v2
 
