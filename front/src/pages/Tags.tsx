@@ -44,7 +44,7 @@ export const Tags: React.VFC = () => {
                     className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between flex-fill"
                   >
                     <div className="me-auto">#{node.name}</div>
-                    <div className="badge rounded-pill bg-secondary">
+                    <div className="badge rounded-pill bg-secondary ms-1">
                       {node.artworksCount}
                     </div>
                   </Link>
