@@ -2,6 +2,7 @@ name: API
 
 env:
   TZ: Asia/Tokyo
+  PYTHON_VERSION: '3.10'
 
 on:
   push:
@@ -43,7 +44,7 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
           cache-dependency-path: ./api/poetry.lock
 
@@ -54,9 +55,9 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: api/.venv
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          key: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
-            ${{ runner.os }}-poetry-
+            ${{ runner.os }}-${{ env.PYTHON_VERSION }}-poetry-
 
       - run: poetry install
         working-directory: ./api
