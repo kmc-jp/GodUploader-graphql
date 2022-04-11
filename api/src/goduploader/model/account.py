@@ -32,3 +32,10 @@ class Account(Base):
     artworks = relationship("Artwork", backref="account")
     comments = relationship("Comment", backref="account")
     likes = relationship("Like", backref="account")
+
+    @property
+    @classmethod
+    def unknown_user(cls):
+        # avoid circular import
+        from goduploader.db import session
+        return session.query(cls).filter_by(kmcid="unknown_user").first()
