@@ -27,11 +27,6 @@ jobs:
         env:
           MYSQL_DATABASE: goduploader_test
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-        options: >-
-          --health-cmd "mysqladmin ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     env:
       DB_URL: mysql+mysqlconnector://root@localhost:3306/goduploader_test
       MYSQL_USER: root
