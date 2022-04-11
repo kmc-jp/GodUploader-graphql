@@ -6,7 +6,6 @@ import { RelayEnvironmentProvider } from "react-relay/hooks";
 
 import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";
-import reportWebVitals from "./reportWebVitals";
 import { Router } from "./router/Router";
 
 // opt-out Strict mode of React. ref: https://github.com/ReactTraining/react-router/issues/7870
@@ -19,8 +18,3 @@ ReactDOM.render(
   </RelayEnvironmentProvider>,
   document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
