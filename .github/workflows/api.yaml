@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}
+      IMAGE_NAME: goduploader
     permissions:
       contents: read
       packages: write
@@ -41,7 +41,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=api-{{sha}}-{{date 'YYYYMMDDHHmmss'}}
+            type=raw,value={{sha}}-{{date 'YYYYMMDDHHmmss'}}
 
       - name: Build and push
         uses: docker/build-push-action@v2.10.0
