@@ -51,7 +51,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: api/.venv
-          key: ${{ runner.os }}-${{ hashFiles('api/**/poetry.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - run: poetry install
         working-directory: ./api
