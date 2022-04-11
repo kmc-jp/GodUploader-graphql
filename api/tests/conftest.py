@@ -42,6 +42,7 @@ def mock_http_request():
 
 @pytest.fixture(scope="function", autouse=True)
 def client():
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
     # prepare unknown_user
@@ -52,5 +53,4 @@ def client():
         yield client
     finally:
         session.rollback()
-        Base.metadata.drop_all(engine)
         session.remove()
