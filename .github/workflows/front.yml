@@ -10,10 +10,39 @@ on:
     paths:
       - .github/workflows/front.yml
       - front/**
+  pull_request:
+    paths:
+      - .github/workflows/front.yml
+      - front/**
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+          cache-dependency-path: front/yarn.lock
+
+      - run: yarn install --frozen-lockfile
+        working-directory: ./front
+
+      - run: yarn run tsc --noEmit
+        working-directory: ./front
+
+      - run: yarn run eslint
+        working-directory: ./front
+
+      - run: yarn test
+        working-directory: ./front
+
   build:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [test]
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
