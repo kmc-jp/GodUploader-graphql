@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "🌳 root",
+      "path": "."
+    },
+    {
+      "name": "🐍 API",
+      "path": "api"
+    },
+    {
+      "name": "🛡️ frontend",
+      "path": "front"
+    }
+  ],
+  "settings": {}
+}
