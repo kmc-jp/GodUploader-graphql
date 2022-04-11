@@ -39,6 +39,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # ref: api/Dockerfile
+      - name: install deps
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends imagemagick webp
+
       - uses: actions/setup-python@v2
         with:
           python-version: '3.10'
