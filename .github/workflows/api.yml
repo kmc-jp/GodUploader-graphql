@@ -31,7 +31,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
+    env:
+      DB_URL: mysql+mysqlconnector://root@db/goduploader_test
     steps:
       - uses: actions/checkout@v2
 
