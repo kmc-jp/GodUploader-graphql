@@ -19,7 +19,6 @@ class Artwork(SQLAlchemyObjectType):
     class Meta:
         model = ArtworkModel
         interfaces = (relay.Node,)
-        exclude_fields = ("top_illust_id",)
 
     account = graphene.Field(Account)
 
