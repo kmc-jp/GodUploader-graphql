@@ -1,8 +1,6 @@
 from faker import Faker
 from goduploader.db import session
 from goduploader.model import Account, Artwork, Illust, Tag
-from goduploader.tag import update_tag_relation
-from goduploader.viewer import viewer
 
 fake = Faker()
 
@@ -13,7 +11,7 @@ class MockContext:
 
 
 def mock_context(kmcid=None):
-    user = viewer(kmcid)
+    user = Account.find_or_create_by_kmcid(kmcid)
     return MockContext(user)
 
 
@@ -57,7 +55,7 @@ def create_artwork(**args):
 
     for illust in illusts:
         artwork.illusts.append(illust)
-    update_tag_relation(artwork, tags)
+    artwork.update_tag_relation(tags)
 
     session.add(artwork)
     session.commit()

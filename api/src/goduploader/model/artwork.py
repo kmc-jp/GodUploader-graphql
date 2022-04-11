@@ -48,3 +48,18 @@ class Artwork(Base):
 
     def user_can_edit(self, user: Account):
         return self.account_id == user.id
+
+    def update_tag_relation(self, new_tag_names):
+        # avoid circular import
+        from goduploader.model.tag import Tag
+
+        old_tags = self.tags
+
+        for old_tag in old_tags:
+            self.tags.remove(old_tag)
+            old_tag.artworks_count -= 1
+
+        new_tags = Tag.find_or_create(new_tag_names)
+        for new_tag in new_tags:
+            self.tags.append(new_tag)
+            new_tag.artworks_count += 1

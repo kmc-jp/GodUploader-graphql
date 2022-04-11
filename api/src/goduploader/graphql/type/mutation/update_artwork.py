@@ -4,8 +4,9 @@ import graphene
 from goduploader.db import session
 from goduploader.graphql.type.artwork import Artwork
 from goduploader.model.artwork import Artwork as ArtworkModel
-from goduploader.tag import has_nsfw_tag, update_tag_relation
 from graphene import relay
+
+from goduploader.model.tag import has_nsfw_tag
 
 
 class UpdateArtwork(graphene.ClientIDMutation):
@@ -39,7 +40,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
         artwork.caption = input["caption"]
         artwork.nsfw = has_nsfw_tag(input["tags"])
 
-        update_tag_relation(artwork, input["tags"])
+        artwork.update_tag_relation(input["tags"])
 
         session.commit()
 

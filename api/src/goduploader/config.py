@@ -2,15 +2,24 @@ import os
 import re
 from typing import List
 
-from goduploader.util import bool_from_env_var
-
 VARIABLE_PATTERN = re.compile(r"[a-z][0-9a-z_]*")
+
+
+def _bool_from_env_var(from_env_var: str) -> bool:
+    lowered = from_env_var.lower()
+    if lowered == "true":
+        return True
+
+    if lowered.isdigit() and bool(int(lowered)):
+        return True
+
+    return False
 
 
 def _create_property(env_var_name, default_value, var_type="str"):
     def getter(self):
         if var_type == "bool":
-            return bool_from_env_var(os.environ.get(env_var_name, ""))
+            return _bool_from_env_var(os.environ.get(env_var_name, ""))
         elif var_type == "int":
             return int(os.environ.get(env_var_name, default_value))
         else:

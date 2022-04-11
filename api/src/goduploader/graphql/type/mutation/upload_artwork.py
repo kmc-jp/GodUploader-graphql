@@ -11,9 +11,10 @@ from goduploader.image.thumbnail import generate_thumbnail
 from goduploader.image.webp import generate_webp
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Illust as IllustModel
-from goduploader.tag import has_nsfw_tag, update_tag_relation
 from graphene_file_upload.scalars import Upload
 from werkzeug.datastructures import FileStorage
+
+from goduploader.model.tag import has_nsfw_tag
 
 
 class SlackShareOptionEnum(graphene.Enum):
@@ -84,7 +85,7 @@ class UploadArtwork(graphene.ClientIDMutation):
             session.add(illust)
             artwork.illusts.append(illust)
 
-        update_tag_relation(artwork, input["tags"])
+        artwork.update_tag_relation(input["tags"])
 
         current_user.artworks_count += 1
 
