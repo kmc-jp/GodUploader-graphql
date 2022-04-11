@@ -25,12 +25,8 @@ jobs:
         ports:
           - 3306:3306
         env:
+          MYSQL_DATABASE: goduploader_test
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-        options: >-
-          --health-cmd "mysqladmin ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     env:
       DB_URL: mysql+mysqlconnector://root@localhost:3306/goduploader_test
       MYSQL_USER: root
@@ -65,9 +61,8 @@ jobs:
       - run: poetry install
         working-directory: ./api
 
-      - name: init DB
-        run: |
-          echo 'CREATE DATABASE goduploader_test' | mysql --protocol=tcp -u $MYSQL_USER -h $MYSQL_HOST -P $MYSQL_PORT
+      - name: wait for mysql container to be ready
+        run: ./script/wait-for-it.sh -h $MYSQL_HOST -p $MYSQL_PORT
         working-directory: ./api
 
       - run: poetry run pytest
