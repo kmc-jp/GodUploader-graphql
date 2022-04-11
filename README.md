@@ -87,3 +87,21 @@ $ yarn test
 ## デプロイする
 
 mainブランチに変更がマージされると、GitHub ActionsでDockerイメージがbuildされて、GitHub Container Registryにpushされます。イメージがpushされてちょっと待つとデプロイされます。
+
+### DBのマイグレーションを行う
+
+APIがデプロイされ、Podが作成されたら、godillustuploader-api-serverの適当なPod内でマイグレーションスクリプトを実行してください。
+
+```console
+$ kubectl get pods
+# (godillustuploader-api-server- から始まるPodの名前をメモする)
+
+$ kubectl exec (godillustuploader-api-serverのPod) -it -- bash
+# Podに入る
+# TODO: DB_URLを指定せずに、直接マイグレーションスクリプトを打てば終わるようにしたい
+$ export DB_URL=mysql+mysqlconnector://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}
+$ poetry run alembic upgrade head
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 9a509324aa66 -> f4631d335c43, drop column artwork.top_illust_id
+```
