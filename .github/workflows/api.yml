@@ -33,6 +33,7 @@ jobs:
           --health-retries 5
     env:
       DB_URL: mysql+mysqlconnector://root@localhost:3306/goduploader_test
+      MYSQL_USER: root
       MYSQL_HOST: localhost
       MYSQL_PORT: 3306
     steps:
