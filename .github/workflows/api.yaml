@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: goduploader-graphql
+      IMAGE_NAME: kmc-jp/goduploader-graphql
     permissions:
       contents: read
       packages: write
