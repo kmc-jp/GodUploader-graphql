@@ -27,8 +27,6 @@ class Artwork(Base):
         )
 
     nsfw = Column(Boolean, nullable=False)
-    # XXX: 消したい
-    top_illust_id = Column(Integer)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(
