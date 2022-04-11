@@ -67,7 +67,7 @@ jobs:
         working-directory: ./api
 
       - name: wait for mysql container to be ready
-        run: ./wait-for-it.sh -h $MYSQL_HOST -p $MYSQL_PORT
+        run: ./script/wait-for-it.sh -h $MYSQL_HOST -p $MYSQL_PORT
         working-directory: ./api
 
       - run: poetry run pytest
