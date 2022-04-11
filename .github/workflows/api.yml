@@ -48,6 +48,12 @@ jobs:
       - run: poetry install
         working-directory: ./api
 
+      - run: script/init_db.sh
+        working-directory: ./api
+
+      - run: poetry run pytest
+        working-directory: ./api
+
   build:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     needs: [test]
