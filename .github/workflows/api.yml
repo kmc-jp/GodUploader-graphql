@@ -48,6 +48,9 @@ jobs:
       - run: poetry install
         working-directory: ./api
 
+      - run: script/init_db.sh
+        working-directory: ./api
+
       - run: poetry run pytest
         working-directory: ./api
 
