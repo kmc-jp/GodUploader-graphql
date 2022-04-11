@@ -10,10 +10,74 @@ on:
     paths:
       - .github/workflows/api.yml
       - api/**
+  pull_request:
+    paths:
+      - .github/workflows/api.yml
+      - api/**
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:8.0.28
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DB_URL: mysql+mysqlconnector://root@localhost:3306/goduploader_test
+      MYSQL_USER: root
+      MYSQL_HOST: localhost
+      MYSQL_PORT: 3306
+    steps:
+      - uses: actions/checkout@v2
+
+      # ref: api/Dockerfile
+      - name: install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends imagemagick webp
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+          cache-dependency-path: ./api/poetry.lock
+
+      - uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: '1.1.13'
+
+      - uses: actions/cache@v3
+        with:
+          path: api/.venv
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      - run: poetry install
+        working-directory: ./api
+
+      - name: init DB
+        run: |
+          echo 'CREATE DATABASE goduploader_test' | mysql --protocol=tcp -u $MYSQL_USER -h $MYSQL_HOST -P $MYSQL_PORT
+        working-directory: ./api
+
+      - run: poetry run pytest
+        working-directory: ./api
+        env:
+          DB_URL: mysql+mysqlconnector://root@localhost:3306/goduploader_test
+
   build:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [test]
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
