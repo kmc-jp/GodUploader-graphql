@@ -66,15 +66,6 @@ http://localhost:5000/api/ping にアクセスして `{"ok":true}` というJSON
 $ poetry run pytest
 ```
 
-#### 初期データを投入する
-
-本番環境のGodUploader-graphqlからデータを手元に持ってくることもできます。ちょっと時間がかかるかもしれません。
-
-```
-$ cd api
-$ BASE="utgw@kmc.gr.jp:~passenger/GodUploader-graphql" poetry run python script/init.py
-```
-
 ### front
 
 yarnを入れたら以下で動くはずです。
