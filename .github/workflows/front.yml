@@ -8,6 +8,7 @@ on:
     branches:
       - main
     paths:
+      - .github/workflows/front.yaml
       - front/**
   workflow_dispatch:
 
@@ -16,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: goduploader-graphql-front
+      IMAGE_NAME: kmc-jp/goduploader-graphql-front
     permissions:
       contents: read
       packages: write
