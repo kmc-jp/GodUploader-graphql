@@ -8,8 +8,8 @@ MYSQL_HOST=${MYSQL_HOST:-db}
 MYSQL_PORT=${MYSQL_PORTL-3306}
 ./wait-for-it.sh -h $MYSQL_HOST -p $MYSQL_PORT
 
-echo 'CREATE DATABASE IF NOT EXISTS goduploader' | mysql -u $MYSQL_USER -h $MYSQL_HOST -P $MYSQL_PORT
-echo 'CREATE DATABASE IF NOT EXISTS goduploader_test' | mysql -u $MYSQL_USER -h $MYSQL_HOST -P $MYSQL_PORT
+echo 'CREATE DATABASE IF NOT EXISTS goduploader' | mysql --protocol=tcp -u $MYSQL_USER -h $MYSQL_HOST -P $MYSQL_PORT
+echo 'CREATE DATABASE IF NOT EXISTS goduploader_test' | mysql --protocol=tcp -u $MYSQL_USER -h $MYSQL_HOST -P $MYSQL_PORT
 
 cd -
 
