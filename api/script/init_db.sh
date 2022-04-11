@@ -3,8 +3,8 @@ set -eux
 
 cd $(dirname $0)
 
-MYSQL_HOST=db
-MYSQL_PORT=3306
+MYSQL_HOST=${MYSQL_HOST:-db}
+MYSQL_PORT=${MYSQL_PORTL-3306}
 ./wait-for-it.sh -h $MYSQL_HOST -p $MYSQL_PORT
 
 echo 'CREATE DATABASE IF NOT EXISTS goduploader' | mysql -h $MYSQL_HOST -P $MYSQL_PORT
