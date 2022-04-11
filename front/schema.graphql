@@ -57,6 +57,7 @@ type Artwork implements Node {
   title: String!
   caption: String!
   nsfw: Boolean!
+  rating: ArtworkRatingEnum!
   createdAt: DateTime!
   updatedAt: DateTime!
   illusts(before: String, after: String, first: Int, last: Int): IllustConnection
@@ -94,6 +95,13 @@ type ArtworkEdge {
 }
 
 """An enumeration."""
+enum ArtworkRatingEnum {
+  SAFE
+  R_18
+  R_18G
+}
+
+"""An enumeration."""
 enum ArtworkSortEnum {
   ID_ASC
   ID_DESC
@@ -105,6 +113,8 @@ enum ArtworkSortEnum {
   CAPTION_DESC
   NSFW_ASC
   NSFW_DESC
+  RATING_ASC
+  RATING_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
