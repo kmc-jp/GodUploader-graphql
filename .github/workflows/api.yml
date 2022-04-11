@@ -10,10 +10,50 @@ on:
     paths:
       - .github/workflows/api.yml
       - api/**
+  pull_request:
+    paths:
+      - .github/workflows/api.yml
+      - api/**
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:8.0.28
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+          cache-dependency-path: ./api/poetry.lock
+
+      - uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: '1.1.13'
+
+      - run: poetry install
+        working-directory: ./api
+
+      - run: poetry run pytest
+        working-directory: ./api
+
   build:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [test]
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
