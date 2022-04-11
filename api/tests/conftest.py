@@ -2,6 +2,9 @@ import tempfile
 from pathlib import Path
 import os
 
+if os.environ.get('DB_URL_TEST'):
+    os.environ['DB_URL'] = os.environ['DB_URL_TEST']
+
 import httpretty
 import pytest
 from goduploader.config import app_config
@@ -40,9 +43,6 @@ def mock_http_request():
 @pytest.fixture(scope="function", autouse=True)
 def client():
     Base.metadata.create_all(engine)
-
-    if os.environ.get('DB_URL_TEST'):
-        app_config.db_url = os.environ['DB_URL_TEST']
 
     # prepare unknown_user
     create_account(kmcid="unknown_user", name="unknown_user")
