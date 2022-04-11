@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum as PyEnum, auto
 from urllib.parse import urljoin
 
 from goduploader.config import app_config
@@ -8,8 +9,14 @@ from goduploader.model.relation import artwork_tag_relation
 from graphene.relay import Node
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import Boolean, DateTime, Integer, String, Text
+from sqlalchemy.sql.schema import ForeignKey, Index
+from sqlalchemy.sql.sqltypes import Boolean, DateTime, Enum, Integer, String, Text
+
+
+class ArtworkRatingEnum(str, PyEnum):
+    safe = auto()
+    r_18 = auto()
+    r_18g = auto()
 
 
 class Artwork(Base):
@@ -26,12 +33,16 @@ class Artwork(Base):
             app_config.base_url, f"artwork/{Node.to_global_id('Artwork', self.id)}"
         )
 
+    # TODO: ratingカラムが使えるようになったらnfswカラムを消す
     nsfw = Column(Boolean, nullable=False)
+    rating = Column("rating", Enum(ArtworkRatingEnum), nullable=False, server_default=ArtworkRatingEnum.safe.name)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)
     updated_at = Column(
         DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
     )
+
+    index_rating_created_at = Index("rating_created_at", rating, created_at)
 
     @property
     def top_illust(self):
