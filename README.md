@@ -95,15 +95,4 @@ $ yarn test
 
 ## デプロイする
 
-### api
-
 mainブランチに変更がマージされると、GitHub ActionsでDockerイメージがbuildされて、GitHub Container Registryにpushされます。イメージがpushされてちょっと待つとデプロイされます。
-
-### front
-
-hatsuneの `~passenger/GodUploader-graphql` ディレクトリで以下のコマンドを実行してください。
-
-```
-$ git pull
-$ make front-k8s
-```
