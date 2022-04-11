@@ -18,7 +18,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
         tags = graphene.List(
             graphene.NonNull(graphene.String), description="更新後のタグ", required=True
         )
-        rating = ArtworkRatingEnum(description="更新後の年齢制限。未指定のときは更新しない")
+        rating = ArtworkRatingEnum(description="更新後の年齢制限 (2022/4/12時点では指定しても何も起こらない)")
 
     artwork = graphene.Field(Artwork)
 
@@ -41,8 +41,6 @@ class UpdateArtwork(graphene.ClientIDMutation):
         artwork.title = input["title"]
         artwork.caption = input["caption"]
         artwork.nsfw = has_nsfw_tag(input["tags"])
-        if "rating" in input:
-            artwork.rating = ArtworkRatingEnum.get(input["rating"])
 
         artwork.update_tag_relation(input["tags"])
 
