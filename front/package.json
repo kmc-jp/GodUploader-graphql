@@ -38,8 +38,7 @@
     "react-use": "^17.2.4",
     "relay-runtime": "^13.0.1",
     "typescript": "^4.4.3",
-    "use-measure": "^0.3.0",
-    "web-vitals": "^1.0.1"
+    "use-measure": "^0.3.0"
   },
   "scripts": {
     "start": "env REACT_APP_REVISION=`git rev-parse HEAD` REACT_APP_BUILT_AT=`date +%s` react-scripts start",
