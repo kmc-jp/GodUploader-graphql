@@ -1,3 +1,4 @@
+from typing import List
 import unicodedata
 from datetime import datetime
 from urllib.parse import urljoin
@@ -48,6 +49,40 @@ class Tag(Base):
         return urljoin(app_config.base_url, f"tagged_artworks/{self.name}")
 
     @classmethod
+    def find_or_create(cls, tag_names: List[str]):
+        # avoid circulary import
+        from goduploader.db import session
+
+        if not tag_names:
+            return []
+
+        canonicalized_tag_names = [Tag.canonicalize(tn) for tn in tag_names]
+        found_tags = session.query(Tag).filter(
+            Tag.canonical_name.in_(canonicalized_tag_names)
+        )
+
+        found_tag_by_name = {t.canonical_name: t for t in found_tags}
+        not_found_tag_names = [
+            tn for tn in tag_names if Tag.canonicalize(tn) not in found_tag_by_name
+        ]
+
+        # create not-found tags
+        created_tags = []
+        for new_tag_name in not_found_tag_names:
+            new_tag = Tag(
+                canonical_name=Tag.canonicalize(new_tag_name),
+                name=new_tag_name,
+                artworks_count=0,
+            )
+            session.add(new_tag)
+            created_tags.append(new_tag)
+
+        # merge (preserve order)
+        merged_tags = list(found_tags) + created_tags
+        tag_by_name = {tag.canonical_name: tag for tag in merged_tags}
+        return [tag_by_name[name] for name in canonicalized_tag_names]
+
+    @classmethod
     def canonicalize(cls, name: str) -> str:
         """
         タグ名の正規化を行う
@@ -56,3 +91,7 @@ class Tag(Base):
         3. 小文字化する
         """
         return unicodedata.normalize("NFKC", name).strip().lower()
+
+def has_nsfw_tag(tag_names: List[str]) -> bool:
+    tag_names_casei = [Tag.canonicalize(t) for t in tag_names]
+    return "r-18" in tag_names_casei or "r-18g" in tag_names_casei

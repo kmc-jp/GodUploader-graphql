@@ -1,9 +1,9 @@
 from goduploader.db import engine, session
-from goduploader.tag import find_or_create_tags
+from goduploader.model.tag import Tag
 
 engine.echo = True
 
 with session.begin():
-    tags = find_or_create_tags(["R-18", "R-18G"])
+    tags = Tag.find_or_create(["R-18", "R-18G"])
     for tag in tags:
         tag.edit_freezed = True

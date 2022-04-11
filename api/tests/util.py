@@ -1,7 +1,6 @@
 from faker import Faker
 from goduploader.db import session
 from goduploader.model import Account, Artwork, Illust, Tag
-from goduploader.tag import update_tag_relation
 
 fake = Faker()
 
@@ -56,7 +55,7 @@ def create_artwork(**args):
 
     for illust in illusts:
         artwork.illusts.append(illust)
-    update_tag_relation(artwork, tags)
+    artwork.update_tag_relation(tags)
 
     session.add(artwork)
     session.commit()
