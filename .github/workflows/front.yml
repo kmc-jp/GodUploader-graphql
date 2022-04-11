@@ -30,9 +30,11 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: front/yarn.lock
 
-      - run: cd front && yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile
+        working-directory: ./front
 
-      - run: cd front && yarn build
+      - run: yarn build
+        working-directory: ./front
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
