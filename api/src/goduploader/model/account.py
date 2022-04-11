@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 from urllib.parse import urljoin
 
 from goduploader.config import app_config
@@ -33,9 +34,26 @@ class Account(Base):
     comments = relationship("Comment", backref="account")
     likes = relationship("Like", backref="account")
 
-    @property
     @classmethod
     def unknown_user(cls):
         # avoid circular import
         from goduploader.db import session
         return session.query(cls).filter_by(kmcid="unknown_user").first()
+
+    @classmethod
+    def find_or_create_by_kmcid(cls, kmcid: Optional[str]):
+        # avoid circular import
+        from goduploader.db import session
+
+        if not kmcid:
+            return Account.unknown_user()
+
+        account = session.query(Account).filter_by(kmcid=kmcid).first()
+        if account:
+            return account
+
+        account = Account(kmcid=kmcid, name=kmcid)
+        session.add(account)
+        session.commit()
+
+        return account
