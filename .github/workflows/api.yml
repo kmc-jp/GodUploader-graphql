@@ -25,6 +25,7 @@ jobs:
         ports:
           - 3306:3306
         env:
+          MYSQL_DATABASE: goduploader_test
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         options: >-
           --health-cmd "mysqladmin ping"
@@ -63,11 +64,6 @@ jobs:
             ${{ runner.os }}-poetry-
 
       - run: poetry install
-        working-directory: ./api
-
-      - name: init DB
-        run: |
-          echo 'CREATE DATABASE goduploader_test' | mysql --protocol=tcp -u $MYSQL_USER -h $MYSQL_HOST -P $MYSQL_PORT
         working-directory: ./api
 
       - run: poetry run pytest
