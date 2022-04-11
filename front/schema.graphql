@@ -57,7 +57,6 @@ type Artwork implements Node {
   title: String!
   caption: String!
   nsfw: Boolean!
-  rating: ArtworkRatingEnum!
   createdAt: DateTime!
   updatedAt: DateTime!
   illusts(before: String, after: String, first: Int, last: Int): IllustConnection
@@ -65,6 +64,7 @@ type Artwork implements Node {
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
   tags(before: String, after: String, first: Int, last: Int): TagConnection
   account: Account
+  rating: ArtworkRatingEnum!
   topIllust: Illust
 
   """この作品より1つ新しい、同じユーザーの作品を返す"""
@@ -94,11 +94,11 @@ type ArtworkEdge {
   cursor: String!
 }
 
-"""An enumeration."""
+"""作品の年齢制限 (全年齢/R-18/R-18G) を表すenum"""
 enum ArtworkRatingEnum {
-  SAFE
-  R_18
-  R_18G
+  safe
+  r_18
+  r_18g
 }
 
 """An enumeration."""
@@ -113,8 +113,6 @@ enum ArtworkSortEnum {
   CAPTION_DESC
   NSFW_ASC
   NSFW_DESC
-  RATING_ASC
-  RATING_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
@@ -397,6 +395,9 @@ input UpdateArtworkInput {
 
   """更新後のタグ"""
   tags: [String!]!
+
+  """更新後の年齢制限。未指定のときは更新しない"""
+  rating: ArtworkRatingEnum
   clientMutationId: String
 }
 
@@ -434,6 +435,9 @@ input UploadArtworkInput {
 
   """作品に付けるタグ"""
   tags: [String!]!
+
+  """更新後の年齢制限。未指定のときはタグに基づいたratingが反映される"""
+  rating: ArtworkRatingEnum
 
   """作品をSlackにシェアするかどうか"""
   shareOption: SlackShareOptionEnum

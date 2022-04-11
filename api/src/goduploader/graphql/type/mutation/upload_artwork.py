@@ -7,6 +7,7 @@ from goduploader.db import session
 from goduploader.external_service.slack import ShareOption as ShareOptionEnum
 from goduploader.external_service.slack import share_to_slack
 from goduploader.graphql.type.artwork import Artwork
+from goduploader.graphql.type.artwork_rating_enum import ArtworkRatingEnum
 from goduploader.image.thumbnail import generate_thumbnail
 from goduploader.image.webp import generate_webp
 from goduploader.model import Artwork as ArtworkModel
@@ -31,6 +32,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         tags = graphene.List(
             graphene.NonNull(graphene.String), description="作品に付けるタグ", required=True
         )
+        rating = ArtworkRatingEnum(description="更新後の年齢制限。未指定のときはタグに基づいたratingが反映される")
         share_option = SlackShareOptionEnum(description="作品をSlackにシェアするかどうか")
         channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID")
         files = graphene.List(
@@ -55,6 +57,8 @@ class UploadArtwork(graphene.ClientIDMutation):
             caption=input["caption"],
             nsfw=has_nsfw_tag(input["tags"]),
         )
+        if "rating" in input:
+            artwork.rating = ArtworkRatingEnum.get(input["rating"])
         artwork.account = current_user
         session.add(artwork)
 

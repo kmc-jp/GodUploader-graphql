@@ -3,6 +3,7 @@ from typing import Optional
 import graphene
 from goduploader.db import session
 from goduploader.graphql.type.artwork import Artwork
+from goduploader.graphql.type.artwork_rating_enum import ArtworkRatingEnum
 from goduploader.model.artwork import Artwork as ArtworkModel
 from graphene import relay
 
@@ -17,6 +18,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
         tags = graphene.List(
             graphene.NonNull(graphene.String), description="更新後のタグ", required=True
         )
+        rating = ArtworkRatingEnum(description="更新後の年齢制限。未指定のときは更新しない")
 
     artwork = graphene.Field(Artwork)
 
@@ -39,6 +41,8 @@ class UpdateArtwork(graphene.ClientIDMutation):
         artwork.title = input["title"]
         artwork.caption = input["caption"]
         artwork.nsfw = has_nsfw_tag(input["tags"])
+        if "rating" in input:
+            artwork.rating = ArtworkRatingEnum.get(input["rating"])
 
         artwork.update_tag_relation(input["tags"])
 

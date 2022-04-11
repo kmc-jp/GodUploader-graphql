@@ -11,6 +11,8 @@ from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyObjectType
 from sqlalchemy.sql.expression import and_, desc
 
+from goduploader.graphql.type.artwork_rating_enum import ArtworkRatingEnum
+
 account_loader = AccountLoader()
 illust_loader = IllustLoader()
 
@@ -19,6 +21,12 @@ class Artwork(SQLAlchemyObjectType):
     class Meta:
         model = ArtworkModel
         interfaces = (relay.Node,)
+        exclude_fields = ('rating',)
+
+    rating = ArtworkRatingEnum(required=True)
+
+    def resolve_rating(root: ArtworkModel):
+        return root.rating
 
     account = graphene.Field(Account)
 
