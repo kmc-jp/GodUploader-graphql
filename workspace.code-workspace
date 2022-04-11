@@ -7,6 +7,10 @@
     {
       "name": "🛡️ frontend",
       "path": "front"
+    },
+    {
+      "name": "🌳 root",
+      "path": ".",
     }
   ],
   "settings": {}

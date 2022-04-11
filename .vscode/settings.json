@@ -14,4 +14,8 @@
     "[typescriptreact]": {
       "editor.formatOnSave": true,
     },
+    "files.exclude": {
+      "api/**": true,
+      "front/**": true
+    },
 }
