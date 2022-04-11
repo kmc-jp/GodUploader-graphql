@@ -8,7 +8,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/api.yaml
+      - .github/workflows/api.yml
       - api/**
   workflow_dispatch:
 
