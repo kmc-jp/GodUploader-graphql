@@ -16,6 +16,7 @@ def test_artworks_rating_safe(client):
             edges {
                 node {
                     title
+                    nsfw
                 }
             }
         }
@@ -25,7 +26,7 @@ def test_artworks_rating_safe(client):
     assert result == {
         "data": {
             "safeArtworks": {
-                "edges": [{"node": {"title": safe_artwork.title}}],
+                "edges": [{"node": {"title": safe_artwork.title, "nsfw": True}}],
             },
         },
     }, "only fetch safe artworks"
@@ -41,6 +42,7 @@ def test_artworks_rating_unsafe(client):
             edges {
                 node {
                     title
+                    nsfw
                 }
             }
         }
@@ -51,8 +53,8 @@ def test_artworks_rating_unsafe(client):
         "data": {
             "safeArtworks": {
                 "edges": [
-                    {"node": {"title": r_18_artwork.title}},
-                    {"node": {"title": r_18g_artwork.title}},
+                    {"node": {"title": r_18_artwork.title, "nsfw": True}},
+                    {"node": {"title": r_18g_artwork.title, "nsfw": True}},
                 ],
             },
         },
@@ -69,6 +71,7 @@ def test_artworks_rating_all(client):
             edges {
                 node {
                     title
+                    nsfw
                 }
             }
         }
@@ -79,9 +82,9 @@ def test_artworks_rating_all(client):
         "data": {
             "safeArtworks": {
                 "edges": [
-                    {"node": {"title": safe_artwork.title}},
-                    {"node": {"title": r_18_artwork.title}},
-                    {"node": {"title": r_18g_artwork.title}},
+                    {"node": {"title": safe_artwork.title, "nsfw": False}},
+                    {"node": {"title": r_18_artwork.title, "nsfw": True}},
+                    {"node": {"title": r_18g_artwork.title, "nsfw": True}},
                 ],
             },
         },
@@ -97,6 +100,7 @@ def test_safe_artworks_deprecated(client):
             edges {
                 node {
                     title
+                    nsfw
                 }
             }
         }
@@ -106,7 +110,7 @@ def test_safe_artworks_deprecated(client):
     assert result == {
         "data": {
             "safeArtworks": {
-                "edges": [{"node": {"title": safe_artwork.title}}],
+                    {"node": {"title": safe_artwork.title, "nsfw": False}},
             },
         },
     }, "only fetch safe artworks"
