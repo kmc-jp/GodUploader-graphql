@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<514081fadaf2c70cd887c97c445b9273>>
+ * @generated SignedSource<<67d7708c4c3be59a2b9e684fcc170519>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,11 +9,13 @@
 // @ts-nocheck
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
+export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type UpdateArtworkForm_artwork$data = {
   readonly id: string;
   readonly title: string;
   readonly caption: string;
+  readonly rating: ArtworkRatingEnum;
   readonly tags: {
     readonly edges: ReadonlyArray<{
       readonly node: {
@@ -54,6 +56,13 @@ const node: ReaderFragment = {
       "args": null,
       "kind": "ScalarField",
       "name": "caption",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "rating",
       "storageKey": null
     },
     {
@@ -101,6 +110,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "8dee8ca99b7ccb3a71db45e5ebd29adf";
+(node as any).hash = "968e05fd935b0d1d4659f273c429f3f7";
 
 export default node;

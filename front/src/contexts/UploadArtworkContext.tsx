@@ -13,7 +13,7 @@ import { PayloadError } from "relay-runtime";
 
 import { useArtworkInformation } from "../hooks/useArtworkInformation";
 import { commitUploadArtworkMutation } from "../mutation/UploadArtwork";
-import { tagWithAgeRestriction } from "./ArtworkInformationContext";
+import { ageRestirctionToRating } from "./ArtworkInformationContext";
 
 type UplaodArtworkContextValue = {
   isUploading: boolean;
@@ -107,14 +107,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
           : "SHARE_TO_SLACK"
         : "NONE";
 
-      const rating =
-        ageRestriction === "SAFE"
-          ? "safe"
-          : ageRestriction === "R-18"
-          ? "r_18"
-          : ageRestriction === "R-18G"
-          ? "r_18g"
-          : null;
+      const rating = ageRestirctionToRating(ageRestriction);
 
       if (rating === null) {
         return;
@@ -130,7 +123,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
           input: {
             title,
             caption,
-            tags: tagWithAgeRestriction(tags, ageRestriction),
+            tags,
             files: Array.from(files, (_, i) => null),
             shareOption,
             rating,
