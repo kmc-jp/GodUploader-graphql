@@ -5,7 +5,7 @@ from goduploader.db import session
 from goduploader.graphql.dataloader import AccountLoader, IllustLoader
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.illust import Illust
-from goduploader.model import Account as AccountModel
+from goduploader.model.artwork import Account as AccountModel, ArtworkRatingEnum as ArtworkRatingEnumType
 from goduploader.model import Artwork as ArtworkModel
 from graphene import relay
 from graphene_sqlalchemy import SQLAlchemyObjectType
@@ -21,7 +21,12 @@ class Artwork(SQLAlchemyObjectType):
     class Meta:
         model = ArtworkModel
         interfaces = (relay.Node,)
-        exclude_fields = ('rating',)
+        exclude_fields = ('nsfw', 'rating',)
+
+    nsfw = graphene.Boolean(required=True)
+
+    def resolve_nsfw(root: ArtworkModel, info):
+        return root.rating != ArtworkRatingEnumType.safe
 
     rating = ArtworkRatingEnum(required=True)
 

@@ -1,4 +1,5 @@
 from graphene.relay.node import Node
+from goduploader.model.artwork import ArtworkRatingEnum
 from tests.util import create_account, create_artwork, create_illust, mock_context
 
 ARTWORK_WITH_BIDIRECTIONAL_QUERY = """
@@ -204,3 +205,47 @@ def test_top_illust(client):
         "Illust",
         str(artwork.illusts[0].id),
     )
+
+
+NSFW_QUERY = """
+    query RatingQuery($id: ID!) {
+        node(id: $id) {
+            ... on Artwork {
+                nsfw
+            }
+        }
+    }
+"""
+
+
+def test_nsfw_field_safe(client):
+    safe_artwork = create_artwork(rating=ArtworkRatingEnum.safe)
+
+    result = client.execute(
+        NSFW_QUERY,
+        variable_values={"id": Node.to_global_id("Artwork", safe_artwork.id)},
+    )
+
+    assert not result["data"]["node"]["nsfw"]
+
+
+def test_nsfw_field_r_18(client):
+    safe_artwork = create_artwork(rating=ArtworkRatingEnum.r_18)
+
+    result = client.execute(
+        NSFW_QUERY,
+        variable_values={"id": Node.to_global_id("Artwork", safe_artwork.id)},
+    )
+
+    assert result["data"]["node"]["nsfw"]
+
+
+def test_nsfw_field_r_18g(client):
+    safe_artwork = create_artwork(rating=ArtworkRatingEnum.r_18g)
+
+    result = client.execute(
+        NSFW_QUERY,
+        variable_values={"id": Node.to_global_id("Artwork", safe_artwork.id)},
+    )
+
+    assert result["data"]["node"]["nsfw"]
