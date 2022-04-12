@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<13a2413aa7547563551b22bb261c7972>>
+ * @generated SignedSource<<958b4b52bdd70a5575adbe9577b25955>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -30,8 +30,10 @@ var v0 = [
   },
   {
     "kind": "Literal",
-    "name": "safeOnly",
-    "value": true
+    "name": "rating",
+    "value": [
+      "safe"
+    ]
   },
   {
     "kind": "Literal",
@@ -200,14 +202,14 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": "artworks(first:40,safeOnly:true,sort:[\"CREATED_AT_DESC\"])"
+        "storageKey": "artworks(first:40,rating:[\"safe\"],sort:[\"CREATED_AT_DESC\"])"
       },
       {
         "alias": null,
         "args": (v0/*: any*/),
         "filters": [
           "sort",
-          "safeOnly"
+          "rating"
         ],
         "handle": "connection",
         "key": "RecentArtworks_artworks",
@@ -217,12 +219,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7514bc108454aa274af73b0393255b21",
+    "cacheID": "f69771c93fb312f2fe4c4d041b0da4e0",
     "id": null,
     "metadata": {},
     "name": "RecentArtworksQuery",
     "operationKind": "query",
-    "text": "query RecentArtworksQuery {\n  ...RecentArtworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks on Query {\n  artworks(first: 40, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query RecentArtworksQuery {\n  ...RecentArtworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks on Query {\n  artworks(first: 40, sort: [CREATED_AT_DESC], rating: [safe]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

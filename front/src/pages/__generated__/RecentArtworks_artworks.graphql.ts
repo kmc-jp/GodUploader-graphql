@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cc65bd5c030c7e13859cd1fd67b507ab>>
+ * @generated SignedSource<<af1145119ff49034013adad9b727bada>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -43,9 +43,11 @@ return {
       "name": "cursor"
     },
     {
-      "defaultValue": true,
+      "defaultValue": [
+        "safe"
+      ],
       "kind": "LocalArgument",
-      "name": "safeOnly"
+      "name": "rating"
     }
   ],
   "kind": "Fragment",
@@ -78,8 +80,8 @@ return {
       "args": [
         {
           "kind": "Variable",
-          "name": "safeOnly",
-          "variableName": "safeOnly"
+          "name": "rating",
+          "variableName": "rating"
         },
         {
           "kind": "Literal",
@@ -169,6 +171,6 @@ return {
 };
 })();
 
-(node as any).hash = "e6db0821f3726ed002772ce16cb36d3c";
+(node as any).hash = "b12395370df29c4cfc67430b244e16d5";
 
 export default node;

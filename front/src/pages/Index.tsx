@@ -23,7 +23,7 @@ export const Index: React.VFC = () => {
         safeArtworks: artworks(
           first: 8
           sort: [CREATED_AT_DESC]
-          safeOnly: true
+          rating: [safe]
         ) @connection(key: "Index_safeArtworks") {
           __id
           edges {
