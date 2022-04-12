@@ -38,7 +38,7 @@ def test_artworks_rating_unsafe(client):
     r_18g_artwork = create_artwork(rating=ArtworkRatingEnum.r_18g)
     query = """
     {
-        safeArtworks: artworks(first: 8, rating: [r_18, r_18g], sort: [ID_ASC]) {
+        unsafeArtworks: artworks(first: 8, rating: [r_18, r_18g], sort: [ID_ASC]) {
             edges {
                 node {
                     title
@@ -51,7 +51,7 @@ def test_artworks_rating_unsafe(client):
     result = client.execute(query)
     assert result == {
         "data": {
-            "safeArtworks": {
+            "unsafeArtworks": {
                 "edges": [
                     {"node": {"title": r_18_artwork.title, "nsfw": True}},
                     {"node": {"title": r_18g_artwork.title, "nsfw": True}},
@@ -67,7 +67,7 @@ def test_artworks_rating_all(client):
     r_18g_artwork = create_artwork(rating=ArtworkRatingEnum.r_18g)
     query = """
     {
-        safeArtworks: artworks(first: 8, sort: [ID_ASC]) {
+        artworks(first: 8, sort: [ID_ASC]) {
             edges {
                 node {
                     title
@@ -80,7 +80,7 @@ def test_artworks_rating_all(client):
     result = client.execute(query)
     assert result == {
         "data": {
-            "safeArtworks": {
+            "artworks": {
                 "edges": [
                     {"node": {"title": safe_artwork.title, "nsfw": False}},
                     {"node": {"title": r_18_artwork.title, "nsfw": True}},
