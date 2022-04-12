@@ -12,6 +12,8 @@ from graphene.types.objecttype import ObjectType
 from graphene_sqlalchemy import SQLAlchemyConnectionField
 from sqlalchemy.sql.expression import and_, desc
 
+from goduploader.model.artwork import ArtworkRatingEnum
+
 
 class SlackChannel(ObjectType):
     id = graphene.NonNull(graphene.String)
@@ -30,7 +32,7 @@ class Query(ObjectType):
         artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
         artworks = artwork_query
         if args.get("safe_only"):
-            artworks = artworks.filter(ArtworkModel.nsfw == False)
+            artworks = artworks.filter(ArtworkModel.rating == ArtworkRatingEnum.safe)
 
         return artworks
 

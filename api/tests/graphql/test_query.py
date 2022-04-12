@@ -2,16 +2,19 @@ import re
 from pathlib import Path
 
 import httpretty
-from graphene.relay.node import Node
+from goduploader.model.artwork import ArtworkRatingEnum
 from tests.util import create_artwork
 
 
 def test_safe_artworks(client):
     safe_artwork = create_artwork(
-        nsfw=False,
+        rating=ArtworkRatingEnum.safe
     )
-    unsafe_artwork = create_artwork(
-        nsfw=True,
+    create_artwork(
+        rating=ArtworkRatingEnum.r_18
+    )
+    create_artwork(
+        rating=ArtworkRatingEnum.r_18g
     )
     query = """
     {
