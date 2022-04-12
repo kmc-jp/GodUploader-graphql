@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<19270120ea147916d9e5b9522c3d1112>>
+ * @generated SignedSource<<d252dfb75a7ec78cb1509e4ef54a847a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,7 @@ export type UploadArtworkInput = {
   title: string;
   caption: string;
   tags: ReadonlyArray<string>;
-  rating?: ArtworkRatingEnum | null;
+  rating: ArtworkRatingEnum;
   shareOption?: SlackShareOptionEnum | null;
   channelId?: string | null;
   files: ReadonlyArray<null>;

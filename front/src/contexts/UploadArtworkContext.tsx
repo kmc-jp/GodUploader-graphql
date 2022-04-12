@@ -116,6 +116,10 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
           ? "r_18g"
           : null;
 
+      if (rating === null) {
+        return;
+      }
+
       setIsUploading(true);
       const uploadables = Object.fromEntries<File | Blob>(
         Array.from(files, (file, i) => [`variables.input.files.${i}`, file])

@@ -41,6 +41,8 @@ class UpdateArtwork(graphene.ClientIDMutation):
         artwork.title = input["title"]
         artwork.caption = input["caption"]
         artwork.nsfw = has_nsfw_tag(input["tags"])
+        if input.get("rating") is not None:
+            artwork.rating = ArtworkRatingEnum.get(input["rating"])
 
         artwork.update_tag_relation(input["tags"])
 

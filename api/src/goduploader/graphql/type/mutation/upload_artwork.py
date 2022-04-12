@@ -32,7 +32,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         tags = graphene.List(
             graphene.NonNull(graphene.String), description="作品に付けるタグ", required=True
         )
-        rating = ArtworkRatingEnum(description="更新後の年齢制限 (2022/4/12時点では指定しても何も起こらない)")
+        rating = ArtworkRatingEnum(description="更新後の年齢制限", required=True)
         share_option = SlackShareOptionEnum(description="作品をSlackにシェアするかどうか")
         channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID")
         files = graphene.List(
@@ -56,6 +56,7 @@ class UploadArtwork(graphene.ClientIDMutation):
             title=input["title"],
             caption=input["caption"],
             nsfw=has_nsfw_tag(input["tags"]),
+            rating=ArtworkRatingEnum.get(input["rating"]),
         )
         artwork.account = current_user
         session.add(artwork)
