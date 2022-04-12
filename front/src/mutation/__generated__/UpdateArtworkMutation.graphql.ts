@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f9ded6bcff93c08ef18aad87b517d918>>
+ * @generated SignedSource<<95259d398071baa8127ab0d5c77b5815>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,11 +9,13 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
+export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
 export type UpdateArtworkInput = {
   id: string;
   title: string;
   caption: string;
   tags: ReadonlyArray<string>;
+  rating?: ArtworkRatingEnum | null;
   clientMutationId?: string | null;
 };
 export type UpdateArtworkMutation$variables = {
