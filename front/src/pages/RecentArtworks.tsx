@@ -1,30 +1,50 @@
 import { graphql } from "babel-plugin-relay/macro";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { ChangeEventHandler, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { RecentArtworkListPaginationQuery } from "./__generated__/RecentArtworkListPaginationQuery.graphql";
-import type { RecentArtworksQuery } from "./__generated__/RecentArtworksQuery.graphql";
+import type {
+  ArtworkRatingEnum,
+  RecentArtworksQuery,
+} from "./__generated__/RecentArtworksQuery.graphql";
 import { RecentArtworks_artworks$key } from "./__generated__/RecentArtworks_artworks.graphql";
+
+const useRatingParam = (): [string, ArtworkRatingEnum[]] => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  switch (queryParams.get("mode")) {
+    case "all":
+      return ["all", ["safe", "r_18", "r_18g"]];
+    case "r_18":
+      return ["r_18", ["r_18"]];
+    case "r_18g":
+      return ["r_18g", ["r_18g"]];
+    default:
+      return ["safe", ["safe"]];
+  }
+};
 
 const ArtworkList: React.VFC<{
   artworks: RecentArtworks_artworks$key;
-  includeNsfw: boolean;
-}> = ({ artworks: queryRef, includeNsfw }) => {
+}> = ({ artworks: queryRef }) => {
   const {
     data: { artworks },
-    refetch,
     loadNext,
     hasNext,
     isLoadingNext,
-  } = usePaginationFragment<RecentArtworkListPaginationQuery, RecentArtworks_artworks$key>(
+  } = usePaginationFragment<
+    RecentArtworkListPaginationQuery,
+    RecentArtworks_artworks$key
+  >(
     graphql`
       fragment RecentArtworks_artworks on Query
       @argumentDefinitions(
         cursor: { type: "String" }
         count: { type: "Int", defaultValue: 40 }
-        rating: { type: "[ArtworkRatingEnum!]", defaultValue: [safe] }
       )
       @refetchable(queryName: "RecentArtworkListPaginationQuery") {
         artworks(
@@ -43,10 +63,6 @@ const ArtworkList: React.VFC<{
     `,
     queryRef
   );
-
-  useEffect(() => {
-    refetch({ rating: includeNsfw ? ['safe', 'r_18', 'r_18g'] : ['safe'] });
-  }, [includeNsfw, refetch]);
 
   const handleLoadArtworks = useCallback(() => {
     if (!hasNext || isLoadingNext) {
@@ -86,41 +102,48 @@ const ArtworkList: React.VFC<{
 };
 
 export const RecentArtworks: React.VFC = () => {
+  const [selectedRating, rating] = useRatingParam();
+  console.log(rating);
   const artworks = useLazyLoadQuery<RecentArtworksQuery>(
     graphql`
-      query RecentArtworksQuery {
+      query RecentArtworksQuery($rating: [ArtworkRatingEnum!]!) {
         ...RecentArtworks_artworks
       }
     `,
-    {},
+    { rating },
     { fetchPolicy: "store-and-network" }
   );
-
-  const [includeNsfw, setIncludeNsfw] = useState(false);
+  const history = useHistory();
+  const handleChangeRating = useCallback<ChangeEventHandler<HTMLSelectElement>>(
+    (e) => {
+      history.push(`artworks?mode=${e.target.value}`);
+    },
+    [history]
+  );
 
   return (
     <div>
       <div className="card">
         <div className="card-header">
-          <h2 className="text-center">最新の絵</h2>
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexSwitchCheckDefault"
-              checked={includeNsfw}
-              onChange={(e) => setIncludeNsfw(e.target.checked)}
-            />
-            <label
-              className="form-check-label"
-              htmlFor="flexSwitchCheckDefault"
-            >
-              NSFWなイラストを含める
-            </label>
+          <h2 className="text-center flex-fill">最新の絵</h2>
+          <div className="d-flex justify-content-end">
+            <div>
+              <select
+                id="rating-select"
+                className="form-select"
+                value={selectedRating}
+                onChange={handleChangeRating}
+              >
+                <option value="safe">全年齢</option>
+                <option value="r_18">R-18</option>
+                <option value="r_18g">R-18G</option>
+                <option value="all">全て (NSFW含む)</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="card-body">
-          <ArtworkList artworks={artworks} includeNsfw={includeNsfw} />
+          <ArtworkList artworks={artworks} />
         </div>
       </div>
     </div>

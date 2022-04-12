@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<958b4b52bdd70a5575adbe9577b25955>>
+ * @generated SignedSource<<ca34f804c7889fa8dadf881d730e43ee>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,10 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type RecentArtworksQuery$variables = {};
+export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
+export type RecentArtworksQuery$variables = {
+  rating: ReadonlyArray<ArtworkRatingEnum>;
+};
 export type RecentArtworksQueryVariables = RecentArtworksQuery$variables;
 export type RecentArtworksQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
@@ -24,16 +27,21 @@ export type RecentArtworksQuery = {
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "rating"
+  }
+],
+v1 = [
+  {
     "kind": "Literal",
     "name": "first",
     "value": 40
   },
   {
-    "kind": "Literal",
+    "kind": "Variable",
     "name": "rating",
-    "value": [
-      "safe"
-    ]
+    "variableName": "rating"
   },
   {
     "kind": "Literal",
@@ -43,7 +51,7 @@ var v0 = [
     ]
   }
 ],
-v1 = {
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -52,7 +60,7 @@ v1 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "RecentArtworksQuery",
@@ -68,13 +76,13 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "RecentArtworksQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v0/*: any*/),
+        "args": (v1/*: any*/),
         "concreteType": "ArtworkConnection",
         "kind": "LinkedField",
         "name": "artworks",
@@ -96,7 +104,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v1/*: any*/),
+                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -133,7 +141,7 @@ return {
                         "name": "thumbnailUrl",
                         "storageKey": null
                       },
-                      (v1/*: any*/)
+                      (v2/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -152,7 +160,7 @@ return {
                         "name": "name",
                         "storageKey": null
                       },
-                      (v1/*: any*/)
+                      (v2/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -202,11 +210,11 @@ return {
             "storageKey": null
           }
         ],
-        "storageKey": "artworks(first:40,rating:[\"safe\"],sort:[\"CREATED_AT_DESC\"])"
+        "storageKey": null
       },
       {
         "alias": null,
-        "args": (v0/*: any*/),
+        "args": (v1/*: any*/),
         "filters": [
           "sort",
           "rating"
@@ -219,16 +227,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f69771c93fb312f2fe4c4d041b0da4e0",
+    "cacheID": "cb34425ff8ce7f4921315fa0b593ec81",
     "id": null,
     "metadata": {},
     "name": "RecentArtworksQuery",
     "operationKind": "query",
-    "text": "query RecentArtworksQuery {\n  ...RecentArtworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks on Query {\n  artworks(first: 40, sort: [CREATED_AT_DESC], rating: [safe]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query RecentArtworksQuery(\n  $rating: [ArtworkRatingEnum!]!\n) {\n  ...RecentArtworks_artworks\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks on Query {\n  artworks(first: 40, sort: [CREATED_AT_DESC], rating: $rating) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "22345b5c530e7ede196c2e16602ffe8f";
+(node as any).hash = "5c5928ee2e27a682b894ae47d22fe683";
 
 export default node;
