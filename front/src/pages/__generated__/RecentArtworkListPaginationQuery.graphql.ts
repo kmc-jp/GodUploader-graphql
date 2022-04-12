@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f2309f0c66065a134c345340c3951b38>>
+ * @generated SignedSource<<63f19559245f2d1bd24f9ff198ed000f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,10 +10,11 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
+export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
 export type RecentArtworkListPaginationQuery$variables = {
   count?: number | null;
   cursor?: string | null;
-  safeOnly?: boolean | null;
+  rating?: ReadonlyArray<ArtworkRatingEnum> | null;
 };
 export type RecentArtworkListPaginationQueryVariables = RecentArtworkListPaginationQuery$variables;
 export type RecentArtworkListPaginationQuery$data = {
@@ -38,15 +39,17 @@ var v0 = [
     "name": "cursor"
   },
   {
-    "defaultValue": true,
+    "defaultValue": [
+      "safe"
+    ],
     "kind": "LocalArgument",
-    "name": "safeOnly"
+    "name": "rating"
   }
 ],
 v1 = {
   "kind": "Variable",
-  "name": "safeOnly",
-  "variableName": "safeOnly"
+  "name": "rating",
+  "variableName": "rating"
 },
 v2 = [
   {
@@ -246,7 +249,7 @@ return {
         "args": (v2/*: any*/),
         "filters": [
           "sort",
-          "safeOnly"
+          "rating"
         ],
         "handle": "connection",
         "key": "RecentArtworks_artworks",
@@ -256,16 +259,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "6ac4fee2d8ffc72bac05f95bce9f4eaf",
+    "cacheID": "492f89273d76582c9fdc0364b87b2b02",
     "id": null,
     "metadata": {},
     "name": "RecentArtworkListPaginationQuery",
     "operationKind": "query",
-    "text": "query RecentArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $safeOnly: Boolean = true\n) {\n  ...RecentArtworks_artworks_1MgKj9\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks_1MgKj9 on Query {\n  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], safeOnly: $safeOnly) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query RecentArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $rating: [ArtworkRatingEnum!] = [safe]\n) {\n  ...RecentArtworks_artworks_2Q72RG\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks_2Q72RG on Query {\n  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], rating: $rating) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e6db0821f3726ed002772ce16cb36d3c";
+(node as any).hash = "b12395370df29c4cfc67430b244e16d5";
 
 export default node;

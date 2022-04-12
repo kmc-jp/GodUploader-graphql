@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<403252b870e33787e34f035063c15eb6>>
+ * @generated SignedSource<<167b23a70b155a7e8d3a7818eb8eab4f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -112,8 +112,10 @@ v2 = {
 },
 v3 = {
   "kind": "Literal",
-  "name": "safeOnly",
-  "value": true
+  "name": "rating",
+  "value": [
+    "safe"
+  ]
 },
 v4 = {
   "kind": "Literal",
@@ -233,7 +235,7 @@ return {
           (v7/*: any*/),
           (v8/*: any*/)
         ],
-        "storageKey": "__Index_safeArtworks_connection(safeOnly:true,sort:[\"CREATED_AT_DESC\"])"
+        "storageKey": "__Index_safeArtworks_connection(rating:[\"safe\"],sort:[\"CREATED_AT_DESC\"])"
       }
     ],
     "type": "Query",
@@ -335,14 +337,14 @@ return {
           (v7/*: any*/),
           (v8/*: any*/)
         ],
-        "storageKey": "artworks(first:8,safeOnly:true,sort:[\"CREATED_AT_DESC\"])"
+        "storageKey": "artworks(first:8,rating:[\"safe\"],sort:[\"CREATED_AT_DESC\"])"
       },
       {
         "alias": "safeArtworks",
         "args": (v9/*: any*/),
         "filters": [
           "sort",
-          "safeOnly"
+          "rating"
         ],
         "handle": "connection",
         "key": "Index_safeArtworks",
@@ -352,7 +354,7 @@ return {
     ]
   },
   "params": {
-    "cacheID": "03df590ce7fe810527078a8bc62b777d",
+    "cacheID": "8d0be21904ae895a20bc80a3e606ea69",
     "id": null,
     "metadata": {
       "connection": [
@@ -368,11 +370,11 @@ return {
     },
     "name": "IndexQuery",
     "operationKind": "query",
-    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], safeOnly: true) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
+    "text": "query IndexQuery {\n  activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {\n    edges {\n      node {\n        id\n        kmcid\n        name\n        artworksCount\n      }\n    }\n  }\n  safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], rating: [safe]) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "0d15df74246e9a73e057a8af622afb3c";
+(node as any).hash = "1472c7bcaae8a52da3cc6c5ee1b8e168";
 
 export default node;

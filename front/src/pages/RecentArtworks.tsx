@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
+import { RecentArtworkListPaginationQuery } from "./__generated__/RecentArtworkListPaginationQuery.graphql";
 import type { RecentArtworksQuery } from "./__generated__/RecentArtworksQuery.graphql";
 import { RecentArtworks_artworks$key } from "./__generated__/RecentArtworks_artworks.graphql";
 
@@ -17,20 +18,20 @@ const ArtworkList: React.VFC<{
     loadNext,
     hasNext,
     isLoadingNext,
-  } = usePaginationFragment(
+  } = usePaginationFragment<RecentArtworkListPaginationQuery, RecentArtworks_artworks$key>(
     graphql`
       fragment RecentArtworks_artworks on Query
       @argumentDefinitions(
         cursor: { type: "String" }
         count: { type: "Int", defaultValue: 40 }
-        safeOnly: { type: "Boolean", defaultValue: true }
+        rating: { type: "[ArtworkRatingEnum!]", defaultValue: [safe] }
       )
       @refetchable(queryName: "RecentArtworkListPaginationQuery") {
         artworks(
           first: $count
           after: $cursor
           sort: [CREATED_AT_DESC]
-          safeOnly: $safeOnly
+          rating: $rating
         ) @connection(key: "RecentArtworks_artworks") {
           edges {
             node {
@@ -44,7 +45,7 @@ const ArtworkList: React.VFC<{
   );
 
   useEffect(() => {
-    refetch({ safeOnly: !includeNsfw });
+    refetch({ rating: includeNsfw ? ['safe', 'r_18', 'r_18g'] : ['safe'] });
   }, [includeNsfw, refetch]);
 
   const handleLoadArtworks = useCallback(() => {
