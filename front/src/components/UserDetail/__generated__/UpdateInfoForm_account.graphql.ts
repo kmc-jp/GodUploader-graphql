@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5f876ea2854c29a211ec385cfc4e9fa6>>
+ * @generated SignedSource<<9c85f9f8220d7be9f52c0d5325bba67e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,7 +15,6 @@ export type UpdateInfoForm_account$data = {
   readonly name: string;
   readonly " $fragmentType": "UpdateInfoForm_account";
 };
-export type UpdateInfoForm_account = UpdateInfoForm_account$data;
 export type UpdateInfoForm_account$key = {
   readonly " $data"?: UpdateInfoForm_account$data;
   readonly " $fragmentSpreads": FragmentRefs<"UpdateInfoForm_account">;

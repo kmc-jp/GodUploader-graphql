@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<947a40bff63c1a40f6465d188a05108d>>
+ * @generated SignedSource<<dec4e96adc1cbcfb5ea5ac9f2f11c8ec>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -23,7 +23,6 @@ export type IllustCarousel_illusts$data = {
   } | null;
   readonly " $fragmentType": "IllustCarousel_illusts";
 };
-export type IllustCarousel_illusts = IllustCarousel_illusts$data;
 export type IllustCarousel_illusts$key = {
   readonly " $data"?: IllustCarousel_illusts$data;
   readonly " $fragmentSpreads": FragmentRefs<"IllustCarousel_illusts">;

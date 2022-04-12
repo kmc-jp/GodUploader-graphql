@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b664167ebf7dc6f20c492963a9405782>>
+ * @generated SignedSource<<855095a872de988d395d3069f150d6d3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,6 @@ import { FragmentRefs } from "relay-runtime";
 export type UserDetailQuery$variables = {
   kmcid: string;
 };
-export type UserDetailQueryVariables = UserDetailQuery$variables;
 export type UserDetailQuery$data = {
   readonly user: {
     readonly id: string;
@@ -23,9 +22,8 @@ export type UserDetailQuery$data = {
     readonly " $fragmentSpreads": FragmentRefs<"UpdateInfoForm_account" | "UserDetail_artworks">;
   } | null;
 };
-export type UserDetailQueryResponse = UserDetailQuery$data;
 export type UserDetailQuery = {
-  variables: UserDetailQueryVariables;
+  variables: UserDetailQuery$variables;
   response: UserDetailQuery$data;
 };
 

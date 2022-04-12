@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<448d5e5e500cff362f468f98100ad8f8>>
+ * @generated SignedSource<<8068613aecd0c021a54e061686d45398>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -26,7 +26,6 @@ export type ArtworkComment_comments$data = {
   } | null;
   readonly " $fragmentType": "ArtworkComment_comments";
 };
-export type ArtworkComment_comments = ArtworkComment_comments$data;
 export type ArtworkComment_comments$key = {
   readonly " $data"?: ArtworkComment_comments$data;
   readonly " $fragmentSpreads": FragmentRefs<"ArtworkComment_comments">;

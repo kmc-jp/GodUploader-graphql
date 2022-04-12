@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d252dfb75a7ec78cb1509e4ef54a847a>>
+ * @generated SignedSource<<43f3aa360036b2a4d8991087045f6498>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -25,7 +25,6 @@ export type UploadArtworkMutation$variables = {
   connections: ReadonlyArray<string>;
   input: UploadArtworkInput;
 };
-export type UploadArtworkMutationVariables = UploadArtworkMutation$variables;
 export type UploadArtworkMutation$data = {
   readonly uploadArtwork: {
     readonly artwork: {
@@ -33,9 +32,8 @@ export type UploadArtworkMutation$data = {
     } | null;
   } | null;
 };
-export type UploadArtworkMutationResponse = UploadArtworkMutation$data;
 export type UploadArtworkMutation = {
-  variables: UploadArtworkMutationVariables;
+  variables: UploadArtworkMutation$variables;
   response: UploadArtworkMutation$data;
 };
 

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9a56885cb1e3b482960fad2653ad039f>>
+ * @generated SignedSource<<de4422eb05b40dd74d0ee269be88a4b8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,7 +14,6 @@ export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value
 export type ArtworkDetailQuery$variables = {
   id: string;
 };
-export type ArtworkDetailQueryVariables = ArtworkDetailQuery$variables;
 export type ArtworkDetailQuery$data = {
   readonly artworkWithBidirectional: {
     readonly __typename: "Artwork";
@@ -60,9 +59,8 @@ export type ArtworkDetailQuery$data = {
     readonly __typename: "%other";
   } | null;
 };
-export type ArtworkDetailQueryResponse = ArtworkDetailQuery$data;
 export type ArtworkDetailQuery = {
-  variables: ArtworkDetailQueryVariables;
+  variables: ArtworkDetailQuery$variables;
   response: ArtworkDetailQuery$data;
 };
 

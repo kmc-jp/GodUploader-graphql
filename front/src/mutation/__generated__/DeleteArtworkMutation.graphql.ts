@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2effdd78f4a3b7e878189e72d6c31727>>
+ * @generated SignedSource<<f19f30b1a95ec134f32a0cefe2f8e15d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,15 +17,13 @@ export type DeleteArtworkMutation$variables = {
   connections: ReadonlyArray<string>;
   input: DeleteArtworkInput;
 };
-export type DeleteArtworkMutationVariables = DeleteArtworkMutation$variables;
 export type DeleteArtworkMutation$data = {
   readonly deleteArtwork: {
     readonly deletedArtworkId: string | null;
   } | null;
 };
-export type DeleteArtworkMutationResponse = DeleteArtworkMutation$data;
 export type DeleteArtworkMutation = {
-  variables: DeleteArtworkMutationVariables;
+  variables: DeleteArtworkMutation$variables;
   response: DeleteArtworkMutation$data;
 };
 
