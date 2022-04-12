@@ -15,6 +15,7 @@ UPLOAD_ARTWORK_QUERY = """
         $title: String!,
         $caption: String!,
         $tags: [String!]!
+        $rating: ArtworkRatingEnum!,
         $shareOption: SlackShareOptionEnum = NONE,
         $channelId: String
     ) {
@@ -23,6 +24,7 @@ UPLOAD_ARTWORK_QUERY = """
             title: $title,
             caption: $caption,
             tags: $tags,
+            rating: $rating,
             shareOption: $shareOption,
             channelId: $channelId
         }) {
@@ -53,6 +55,7 @@ def test_upload_artwork(client):
             "title": "title",
             "caption": "caption",
             "tags": ["tag"],
+            "rating": "safe",
         },
         context_value=mock_context(kmcid=account.kmcid),
     )
@@ -105,6 +108,7 @@ def test_upload_artwork_filetype(client, source_file: str, can_upload: bool):
             "title": "title",
             "caption": "caption",
             "tags": ["tag"],
+            "rating": "safe",
         },
         context_value=mock_context(kmcid=account.kmcid),
     )
@@ -128,6 +132,7 @@ def test_upload_artwork_share_option_shate_to_slack_none(client):
             "title": "title",
             "caption": "caption",
             "tags": ["tag"],
+            "rating": "safe",
             "shareOption": "NONE",
         },
         context_value=mock_context(kmcid=account.kmcid),
@@ -155,6 +160,7 @@ def test_upload_artwork_share_option_shate_to_slack(client):
             "title": "title",
             "caption": "caption",
             "tags": ["tag"],
+            "rating": "safe",
             "shareOption": "SHARE_TO_SLACK",
         },
         context_value=mock_context(kmcid=account.kmcid),
@@ -183,6 +189,7 @@ def test_upload_artwork_share_option_shate_to_slack_with_image(client):
             "title": "title",
             "caption": "caption",
             "tags": ["tag"],
+            "rating": "safe",
             "shareOption": "SHARE_TO_SLACK_WITH_IMAGE",
         },
         context_value=mock_context(kmcid=account.kmcid),

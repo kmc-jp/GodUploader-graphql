@@ -437,7 +437,7 @@ input UploadArtworkInput {
   tags: [String!]!
 
   """更新後の年齢制限"""
-  rating: ArtworkRatingEnum
+  rating: ArtworkRatingEnum!
 
   """作品をSlackにシェアするかどうか"""
   shareOption: SlackShareOptionEnum
