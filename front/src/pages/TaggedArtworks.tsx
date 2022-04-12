@@ -1,7 +1,7 @@
 import { graphql } from "babel-plugin-relay/macro";
 import React from "react";
 import { useLazyLoadQuery } from "react-relay";
-import { useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateTagModal } from "../components/TaggedArtworks/UpdateTagModal";
@@ -9,6 +9,19 @@ import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql
 
 export const TaggedArtworks: React.VFC = () => {
   const { tag } = useParams<{ tag: string }>();
+
+  if (tag === "R-18") {
+    return <Redirect to="/artworks?mode=r_18" />;
+  }
+
+  if (tag === "R-18G") {
+    return <Redirect to="/artworks?mode=r_18" />;
+  }
+
+  return <Inner tag={tag} />;
+};
+
+const Inner: React.VFC<{ tag: string }> = ({ tag }) => {
   const { tagByName, taggedArtworks } = useLazyLoadQuery<TaggedArtworksQuery>(
     graphql`
       query TaggedArtworksQuery($tag: String!) {
