@@ -58,6 +58,7 @@ const ArtworkDetail: React.VFC = () => {
             caption
             createdAt
             editable
+            rating
             account {
               id
               kmcid
@@ -158,6 +159,15 @@ const ArtworkDetail: React.VFC = () => {
           {artwork.tags?.edges && artwork.tags.edges.length > 0 && (
             <div className="row">
               <ul className="breadcrumb px-2 py-2 bg-light">
+                {artwork.rating !== "safe" && (
+                  <li>
+                    {artwork.rating === "r_18" ? (
+                      <Link to={`/artworks?mode=r_18`}>R-18</Link>
+                    ) : artwork.rating === "r_18g" ? (
+                      <Link to={`/artworks?mode=r_18g`}>R-18G</Link>
+                    ) : null}
+                  </li>
+                )}
                 {artwork.tags.edges.map((edge) => {
                   const tag = edge?.node;
                   if (!tag) {
