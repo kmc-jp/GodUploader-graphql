@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c45d3d532bd7b8cc3cd7ebe33a8ef6ae>>
+ * @generated SignedSource<<977374015570a7f9686ac12defc4244c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,15 +12,13 @@ import { ConcreteRequest, Query } from 'relay-runtime';
 export type RedirectFolderToArtworkQuery$variables = {
   folderId: number;
 };
-export type RedirectFolderToArtworkQueryVariables = RedirectFolderToArtworkQuery$variables;
 export type RedirectFolderToArtworkQuery$data = {
   readonly artworkByFolderId: {
     readonly id: string;
   } | null;
 };
-export type RedirectFolderToArtworkQueryResponse = RedirectFolderToArtworkQuery$data;
 export type RedirectFolderToArtworkQuery = {
-  variables: RedirectFolderToArtworkQueryVariables;
+  variables: RedirectFolderToArtworkQuery$variables;
   response: RedirectFolderToArtworkQuery$data;
 };
 

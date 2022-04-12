@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<458933453898e700a644c02779f55c5f>>
+ * @generated SignedSource<<d87d8eba21d6496dfeb8d9bd290584f0>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,6 @@ export type UpdateAccountInput = {
 export type UpdateAccountMutation$variables = {
   input: UpdateAccountInput;
 };
-export type UpdateAccountMutationVariables = UpdateAccountMutation$variables;
 export type UpdateAccountMutation$data = {
   readonly updateAccount: {
     readonly account: {
@@ -26,9 +25,8 @@ export type UpdateAccountMutation$data = {
     } | null;
   } | null;
 };
-export type UpdateAccountMutationResponse = UpdateAccountMutation$data;
 export type UpdateAccountMutation = {
-  variables: UpdateAccountMutationVariables;
+  variables: UpdateAccountMutation$variables;
   response: UpdateAccountMutation$data;
 };
 

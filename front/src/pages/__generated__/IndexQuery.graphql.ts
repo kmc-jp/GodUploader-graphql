@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<167b23a70b155a7e8d3a7818eb8eab4f>>
+ * @generated SignedSource<<7c9bc2c022cf9b4de9a5a6fe6837c24e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,6 @@
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type IndexQuery$variables = {};
-export type IndexQueryVariables = IndexQuery$variables;
 export type IndexQuery$data = {
   readonly activeAccounts: {
     readonly edges: ReadonlyArray<{
@@ -32,9 +31,8 @@ export type IndexQuery$data = {
     } | null>;
   } | null;
 };
-export type IndexQueryResponse = IndexQuery$data;
 export type IndexQuery = {
-  variables: IndexQueryVariables;
+  variables: IndexQuery$variables;
   response: IndexQuery$data;
 };
 

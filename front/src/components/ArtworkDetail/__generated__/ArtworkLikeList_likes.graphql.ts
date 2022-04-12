@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<91ab610fd6132fd6fde9ede7083288ed>>
+ * @generated SignedSource<<aad47e76d4f45e491aa021b3446eb231>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -25,7 +25,6 @@ export type ArtworkLikeList_likes$data = {
   } | null;
   readonly " $fragmentType": "ArtworkLikeList_likes";
 };
-export type ArtworkLikeList_likes = ArtworkLikeList_likes$data;
 export type ArtworkLikeList_likes$key = {
   readonly " $data"?: ArtworkLikeList_likes$data;
   readonly " $fragmentSpreads": FragmentRefs<"ArtworkLikeList_likes">;

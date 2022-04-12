@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8d6fdc2d5787438eef00f8c6e907910d>>
+ * @generated SignedSource<<b3090b6391ce56a63615fd7e9a1b03d8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,15 +10,13 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type RedirectToMyPageQuery$variables = {};
-export type RedirectToMyPageQueryVariables = RedirectToMyPageQuery$variables;
 export type RedirectToMyPageQuery$data = {
   readonly viewer: {
     readonly kmcid: string;
   } | null;
 };
-export type RedirectToMyPageQueryResponse = RedirectToMyPageQuery$data;
 export type RedirectToMyPageQuery = {
-  variables: RedirectToMyPageQueryVariables;
+  variables: RedirectToMyPageQuery$variables;
   response: RedirectToMyPageQuery$data;
 };
 

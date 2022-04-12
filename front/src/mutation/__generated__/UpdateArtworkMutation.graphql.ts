@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<34b490c3dbeda7c5cff97f50393b6b9d>>
+ * @generated SignedSource<<06f9cba054e97e20cfa6516f9a73a447>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,7 +21,6 @@ export type UpdateArtworkInput = {
 export type UpdateArtworkMutation$variables = {
   input: UpdateArtworkInput;
 };
-export type UpdateArtworkMutationVariables = UpdateArtworkMutation$variables;
 export type UpdateArtworkMutation$data = {
   readonly updateArtwork: {
     readonly artwork: {
@@ -39,9 +38,8 @@ export type UpdateArtworkMutation$data = {
     } | null;
   } | null;
 };
-export type UpdateArtworkMutationResponse = UpdateArtworkMutation$data;
 export type UpdateArtworkMutation = {
-  variables: UpdateArtworkMutationVariables;
+  variables: UpdateArtworkMutation$variables;
   response: UpdateArtworkMutation$data;
 };
 

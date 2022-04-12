@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<666be1d663599305d4203cfd559b6ea0>>
+ * @generated SignedSource<<d0ee6e4b61826cfeabb773b7471045bd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,6 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type TagsInputQuery$variables = {};
-export type TagsInputQueryVariables = TagsInputQuery$variables;
 export type TagsInputQuery$data = {
   readonly allTags: {
     readonly edges: ReadonlyArray<{
@@ -21,9 +20,8 @@ export type TagsInputQuery$data = {
     } | null>;
   } | null;
 };
-export type TagsInputQueryResponse = TagsInputQuery$data;
 export type TagsInputQuery = {
-  variables: TagsInputQueryVariables;
+  variables: TagsInputQuery$variables;
   response: TagsInputQuery$data;
 };
 

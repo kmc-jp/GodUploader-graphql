@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6915b520308ed338bfbf32b9574ab05e>>
+ * @generated SignedSource<<2267b467b438dafe9a3a2278d44903f4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,7 +21,6 @@ export type UserDetail_artworks$data = {
   readonly id: string;
   readonly " $fragmentType": "UserDetail_artworks";
 };
-export type UserDetail_artworks = UserDetail_artworks$data;
 export type UserDetail_artworks$key = {
   readonly " $data"?: UserDetail_artworks$data;
   readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
