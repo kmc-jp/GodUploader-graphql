@@ -6,16 +6,91 @@ from goduploader.model.artwork import ArtworkRatingEnum
 from tests.util import create_artwork
 
 
-def test_safe_artworks(client):
-    safe_artwork = create_artwork(
-        rating=ArtworkRatingEnum.safe
-    )
-    create_artwork(
-        rating=ArtworkRatingEnum.r_18
-    )
-    create_artwork(
-        rating=ArtworkRatingEnum.r_18g
-    )
+def test_artworks_rating_safe(client):
+    safe_artwork = create_artwork(rating=ArtworkRatingEnum.safe)
+    create_artwork(rating=ArtworkRatingEnum.r_18)
+    create_artwork(rating=ArtworkRatingEnum.r_18g)
+    query = """
+    {
+        safeArtworks: artworks(first: 8, rating: [safe]) {
+            edges {
+                node {
+                    title
+                }
+            }
+        }
+    }
+    """
+    result = client.execute(query)
+    assert result == {
+        "data": {
+            "safeArtworks": {
+                "edges": [{"node": {"title": safe_artwork.title}}],
+            },
+        },
+    }, "only fetch safe artworks"
+
+
+def test_artworks_rating_unsafe(client):
+    create_artwork(rating=ArtworkRatingEnum.safe)
+    r_18_artwork = create_artwork(rating=ArtworkRatingEnum.r_18)
+    r_18g_artwork = create_artwork(rating=ArtworkRatingEnum.r_18g)
+    query = """
+    {
+        safeArtworks: artworks(first: 8, rating: [r_18, r_18g], sort: [ID_ASC]) {
+            edges {
+                node {
+                    title
+                }
+            }
+        }
+    }
+    """
+    result = client.execute(query)
+    assert result == {
+        "data": {
+            "safeArtworks": {
+                "edges": [
+                    {"node": {"title": r_18_artwork.title}},
+                    {"node": {"title": r_18g_artwork.title}},
+                ],
+            },
+        },
+    }, "only fetch unsafe artworks"
+
+
+def test_artworks_rating_all(client):
+    safe_artwork = create_artwork(rating=ArtworkRatingEnum.safe)
+    r_18_artwork = create_artwork(rating=ArtworkRatingEnum.r_18)
+    r_18g_artwork = create_artwork(rating=ArtworkRatingEnum.r_18g)
+    query = """
+    {
+        safeArtworks: artworks(first: 8, sort: [ID_ASC]) {
+            edges {
+                node {
+                    title
+                }
+            }
+        }
+    }
+    """
+    result = client.execute(query)
+    assert result == {
+        "data": {
+            "safeArtworks": {
+                "edges": [
+                    {"node": {"title": safe_artwork.title}},
+                    {"node": {"title": r_18_artwork.title}},
+                    {"node": {"title": r_18g_artwork.title}},
+                ],
+            },
+        },
+    }, "fetch all artworks"
+
+def test_safe_artworks_deprecated(client):
+    safe_artwork = create_artwork(rating=ArtworkRatingEnum.safe)
+    create_artwork(rating=ArtworkRatingEnum.r_18)
+    create_artwork(rating=ArtworkRatingEnum.r_18g)
     query = """
     {
         safeArtworks: artworks(first: 8, safeOnly: true) {

@@ -1,8 +1,9 @@
+from typing import List
 import graphene
 from goduploader.db import session
 from goduploader.external_service.slack import get_all_public_channels
 from goduploader.graphql.type.account import Account
-from goduploader.graphql.type.artwork import Artwork
+from goduploader.graphql.type.artwork import Artwork, ArtworkRatingEnum
 from goduploader.graphql.type.tag import Tag
 from goduploader.model import Account as AccountModel
 from goduploader.model import Artwork as ArtworkModel
@@ -12,7 +13,7 @@ from graphene.types.objecttype import ObjectType
 from graphene_sqlalchemy import SQLAlchemyConnectionField
 from sqlalchemy.sql.expression import and_, desc
 
-from goduploader.model.artwork import ArtworkRatingEnum
+from goduploader.graphql.type.artwork_rating_enum import ArtworkRatingEnum as ArtworkRatingEnumType
 
 
 class SlackChannel(ObjectType):
@@ -25,7 +26,9 @@ class Query(ObjectType):
     accounts = SQLAlchemyConnectionField(Account.connection)
 
     artworks = SQLAlchemyConnectionField(
-        Artwork.connection, safe_only=graphene.Boolean()
+        Artwork.connection,
+        safe_only=graphene.Boolean(description="deprecated: ratingパラメータで絞り込んでください"),
+        rating=graphene.List(graphene.NonNull(ArtworkRatingEnumType), description="取得する作品の年齢制限。複数指定できる。空リストは指定できない"),
     )
 
     def resolve_artworks(root, info, **args):
@@ -33,6 +36,13 @@ class Query(ObjectType):
         artworks = artwork_query
         if args.get("safe_only"):
             artworks = artworks.filter(ArtworkModel.rating == ArtworkRatingEnum.safe)
+
+        if args.get("rating"):
+            rating: List[ArtworkRatingEnum] = args["rating"]
+            if not rating:
+                raise ValueError("ratingに空リストを指定できません")
+
+            artworks = artworks.filter(ArtworkModel.rating.in_(rating))
 
         return artworks
 
