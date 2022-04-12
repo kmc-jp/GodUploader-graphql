@@ -30,7 +30,7 @@ class Artwork(SQLAlchemyObjectType):
 
     rating = ArtworkRatingEnum(required=True)
 
-    def resolve_rating(root: ArtworkModel):
+    def resolve_rating(root: ArtworkModel, info):
         return root.rating
 
     account = graphene.Field(Account)
