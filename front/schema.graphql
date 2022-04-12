@@ -396,7 +396,7 @@ input UpdateArtworkInput {
   """更新後のタグ"""
   tags: [String!]!
 
-  """更新後の年齢制限。未指定のときは更新しない"""
+  """更新後の年齢制限 (2022/4/12時点では指定しても何も起こらない)"""
   rating: ArtworkRatingEnum
   clientMutationId: String
 }
@@ -436,7 +436,7 @@ input UploadArtworkInput {
   """作品に付けるタグ"""
   tags: [String!]!
 
-  """更新後の年齢制限。未指定のときはタグに基づいたratingが反映される"""
+  """更新後の年齢制限"""
   rating: ArtworkRatingEnum
 
   """作品をSlackにシェアするかどうか"""
