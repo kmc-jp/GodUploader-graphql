@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f07067ce7cce6d94f78e722818f7bc24>>
+ * @generated SignedSource<<224265f82589194b79ac0d529cbd7d21>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,7 +18,6 @@ export type CreateCommentMutation$variables = {
   connections: ReadonlyArray<string>;
   input: CreateCommentInput;
 };
-export type CreateCommentMutationVariables = CreateCommentMutation$variables;
 export type CreateCommentMutation$data = {
   readonly createComment: {
     readonly comment: {
@@ -30,9 +29,8 @@ export type CreateCommentMutation$data = {
     } | null;
   } | null;
 };
-export type CreateCommentMutationResponse = CreateCommentMutation$data;
 export type CreateCommentMutation = {
-  variables: CreateCommentMutationVariables;
+  variables: CreateCommentMutation$variables;
   response: CreateCommentMutation$data;
 };
 

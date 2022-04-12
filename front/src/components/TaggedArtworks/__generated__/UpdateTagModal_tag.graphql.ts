@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<82aac954fe2536ade9e0645919934479>>
+ * @generated SignedSource<<9cff92b214719f6e1951536051b18b4e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,7 +16,6 @@ export type UpdateTagModal_tag$data = {
   readonly canonicalName: string;
   readonly " $fragmentType": "UpdateTagModal_tag";
 };
-export type UpdateTagModal_tag = UpdateTagModal_tag$data;
 export type UpdateTagModal_tag$key = {
   readonly " $data"?: UpdateTagModal_tag$data;
   readonly " $fragmentSpreads": FragmentRefs<"UpdateTagModal_tag">;

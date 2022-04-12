@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e0ec0f4b72b2c4b749c451ff48dce6e3>>
+ * @generated SignedSource<<8691a71cf7bf51dece766b89cbf3f40b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,6 @@ export type LikeArtworkMutation$variables = {
   connections: ReadonlyArray<string>;
   input: LikeArtworkInput;
 };
-export type LikeArtworkMutationVariables = LikeArtworkMutation$variables;
 export type LikeArtworkMutation$data = {
   readonly likeArtwork: {
     readonly like: {
@@ -29,9 +28,8 @@ export type LikeArtworkMutation$data = {
     } | null;
   } | null;
 };
-export type LikeArtworkMutationResponse = LikeArtworkMutation$data;
 export type LikeArtworkMutation = {
-  variables: LikeArtworkMutationVariables;
+  variables: LikeArtworkMutation$variables;
   response: LikeArtworkMutation$data;
 };
 

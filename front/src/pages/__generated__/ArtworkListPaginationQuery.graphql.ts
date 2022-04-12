@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<db6f712087b3009eb2379c69b3862ffe>>
+ * @generated SignedSource<<38b65400e06876987d54d42af222fb62>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,15 +15,13 @@ export type ArtworkListPaginationQuery$variables = {
   cursor?: string | null;
   id: string;
 };
-export type ArtworkListPaginationQueryVariables = ArtworkListPaginationQuery$variables;
 export type ArtworkListPaginationQuery$data = {
   readonly node: {
     readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
   } | null;
 };
-export type ArtworkListPaginationQueryResponse = ArtworkListPaginationQuery$data;
 export type ArtworkListPaginationQuery = {
-  variables: ArtworkListPaginationQueryVariables;
+  variables: ArtworkListPaginationQuery$variables;
   response: ArtworkListPaginationQuery$data;
 };
 

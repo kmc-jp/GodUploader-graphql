@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<67d7708c4c3be59a2b9e684fcc170519>>
+ * @generated SignedSource<<9e6d52f264788cc18e94be098d3d0c20>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -25,7 +25,6 @@ export type UpdateArtworkForm_artwork$data = {
   } | null;
   readonly " $fragmentType": "UpdateArtworkForm_artwork";
 };
-export type UpdateArtworkForm_artwork = UpdateArtworkForm_artwork$data;
 export type UpdateArtworkForm_artwork$key = {
   readonly " $data"?: UpdateArtworkForm_artwork$data;
   readonly " $fragmentSpreads": FragmentRefs<"UpdateArtworkForm_artwork">;

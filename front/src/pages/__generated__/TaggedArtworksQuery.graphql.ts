@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<087c64f7d3a534461ebd0d7b2ddf233e>>
+ * @generated SignedSource<<af3e5d94f605949475fb940864fa5d78>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,6 @@ import { FragmentRefs } from "relay-runtime";
 export type TaggedArtworksQuery$variables = {
   tag: string;
 };
-export type TaggedArtworksQueryVariables = TaggedArtworksQuery$variables;
 export type TaggedArtworksQuery$data = {
   readonly tagByName: {
     readonly editFreezed: boolean;
@@ -27,9 +26,8 @@ export type TaggedArtworksQuery$data = {
     } | null>;
   } | null;
 };
-export type TaggedArtworksQueryResponse = TaggedArtworksQuery$data;
 export type TaggedArtworksQuery = {
-  variables: TaggedArtworksQueryVariables;
+  variables: TaggedArtworksQuery$variables;
   response: TaggedArtworksQuery$data;
 };
 

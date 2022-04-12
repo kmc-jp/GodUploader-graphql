@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ca34f804c7889fa8dadf881d730e43ee>>
+ * @generated SignedSource<<84c5d400c75fd9ec9daebf87afa008c1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,13 +14,11 @@ export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value
 export type RecentArtworksQuery$variables = {
   rating: ReadonlyArray<ArtworkRatingEnum>;
 };
-export type RecentArtworksQueryVariables = RecentArtworksQuery$variables;
 export type RecentArtworksQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
 };
-export type RecentArtworksQueryResponse = RecentArtworksQuery$data;
 export type RecentArtworksQuery = {
-  variables: RecentArtworksQueryVariables;
+  variables: RecentArtworksQuery$variables;
   response: RecentArtworksQuery$data;
 };
 

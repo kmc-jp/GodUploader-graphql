@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<dfb1a27f567ed9e6b16d3c3828b56edc>>
+ * @generated SignedSource<<631022ed037eab2b728ea744f5a4f0ff>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,6 @@ export type UpdateTagInput = {
 export type UpdateTagMutation$variables = {
   input: UpdateTagInput;
 };
-export type UpdateTagMutationVariables = UpdateTagMutation$variables;
 export type UpdateTagMutation$data = {
   readonly updateTag: {
     readonly tag: {
@@ -26,9 +25,8 @@ export type UpdateTagMutation$data = {
     } | null;
   } | null;
 };
-export type UpdateTagMutationResponse = UpdateTagMutation$data;
 export type UpdateTagMutation = {
-  variables: UpdateTagMutationVariables;
+  variables: UpdateTagMutation$variables;
   response: UpdateTagMutation$data;
 };
 

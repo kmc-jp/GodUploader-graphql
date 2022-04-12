@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d5e0833f53386ab056ff1a865b2fb67f>>
+ * @generated SignedSource<<addf0226895c5fc47d87958d5fbe3192>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,13 +16,11 @@ export type RecentArtworkListPaginationQuery$variables = {
   cursor?: string | null;
   rating?: ReadonlyArray<ArtworkRatingEnum> | null;
 };
-export type RecentArtworkListPaginationQueryVariables = RecentArtworkListPaginationQuery$variables;
 export type RecentArtworkListPaginationQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
 };
-export type RecentArtworkListPaginationQueryResponse = RecentArtworkListPaginationQuery$data;
 export type RecentArtworkListPaginationQuery = {
-  variables: RecentArtworkListPaginationQueryVariables;
+  variables: RecentArtworkListPaginationQuery$variables;
   response: RecentArtworkListPaginationQuery$data;
 };
 

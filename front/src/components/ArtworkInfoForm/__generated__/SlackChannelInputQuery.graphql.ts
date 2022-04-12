@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b6fdddf063157c24061b7b0734eb6051>>
+ * @generated SignedSource<<62c0c55ab972e483d4623dd526e60e86>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,16 +10,14 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 export type SlackChannelInputQuery$variables = {};
-export type SlackChannelInputQueryVariables = SlackChannelInputQuery$variables;
 export type SlackChannelInputQuery$data = {
   readonly allSlackChannels: ReadonlyArray<{
     readonly id: string;
     readonly name: string;
   } | null>;
 };
-export type SlackChannelInputQueryResponse = SlackChannelInputQuery$data;
 export type SlackChannelInputQuery = {
-  variables: SlackChannelInputQueryVariables;
+  variables: SlackChannelInputQuery$variables;
   response: SlackChannelInputQuery$data;
 };
 

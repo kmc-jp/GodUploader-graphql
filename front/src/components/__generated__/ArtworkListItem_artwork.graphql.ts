@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<6ea5fb83795fb0500fafbb7c64f1f194>>
+ * @generated SignedSource<<002d19deb16dbc2cf1f88cefd2d8db24>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -23,7 +23,6 @@ export type ArtworkListItem_artwork$data = {
   } | null;
   readonly " $fragmentType": "ArtworkListItem_artwork";
 };
-export type ArtworkListItem_artwork = ArtworkListItem_artwork$data;
 export type ArtworkListItem_artwork$key = {
   readonly " $data"?: ArtworkListItem_artwork$data;
   readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
