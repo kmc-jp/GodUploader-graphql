@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<63f19559245f2d1bd24f9ff198ed000f>>
+ * @generated SignedSource<<d5e0833f53386ab056ff1a865b2fb67f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -39,19 +39,12 @@ var v0 = [
     "name": "cursor"
   },
   {
-    "defaultValue": [
-      "safe"
-    ],
+    "defaultValue": null,
     "kind": "LocalArgument",
     "name": "rating"
   }
 ],
-v1 = {
-  "kind": "Variable",
-  "name": "rating",
-  "variableName": "rating"
-},
-v2 = [
+v1 = [
   {
     "kind": "Variable",
     "name": "after",
@@ -62,7 +55,11 @@ v2 = [
     "name": "first",
     "variableName": "count"
   },
-  (v1/*: any*/),
+  {
+    "kind": "Variable",
+    "name": "rating",
+    "variableName": "rating"
+  },
   {
     "kind": "Literal",
     "name": "sort",
@@ -71,7 +68,7 @@ v2 = [
     ]
   }
 ],
-v3 = {
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -96,8 +93,7 @@ return {
             "kind": "Variable",
             "name": "cursor",
             "variableName": "cursor"
-          },
-          (v1/*: any*/)
+          }
         ],
         "kind": "FragmentSpread",
         "name": "RecentArtworks_artworks"
@@ -114,7 +110,7 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v2/*: any*/),
+        "args": (v1/*: any*/),
         "concreteType": "ArtworkConnection",
         "kind": "LinkedField",
         "name": "artworks",
@@ -136,7 +132,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v3/*: any*/),
+                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -173,7 +169,7 @@ return {
                         "name": "thumbnailUrl",
                         "storageKey": null
                       },
-                      (v3/*: any*/)
+                      (v2/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -192,7 +188,7 @@ return {
                         "name": "name",
                         "storageKey": null
                       },
-                      (v3/*: any*/)
+                      (v2/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -246,7 +242,7 @@ return {
       },
       {
         "alias": null,
-        "args": (v2/*: any*/),
+        "args": (v1/*: any*/),
         "filters": [
           "sort",
           "rating"
@@ -259,16 +255,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "492f89273d76582c9fdc0364b87b2b02",
+    "cacheID": "613394103cb23a71fd0bc87f79d97ef9",
     "id": null,
     "metadata": {},
     "name": "RecentArtworkListPaginationQuery",
     "operationKind": "query",
-    "text": "query RecentArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $rating: [ArtworkRatingEnum!] = [safe]\n) {\n  ...RecentArtworks_artworks_2Q72RG\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks_2Q72RG on Query {\n  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], rating: $rating) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query RecentArtworkListPaginationQuery(\n  $count: Int = 40\n  $cursor: String\n  $rating: [ArtworkRatingEnum!]\n) {\n  ...RecentArtworks_artworks_1G22uz\n}\n\nfragment ArtworkListItem_artwork on Artwork {\n  id\n  title\n  caption\n  nsfw\n  topIllust {\n    thumbnailUrl\n    id\n  }\n  account {\n    name\n    id\n  }\n}\n\nfragment RecentArtworks_artworks_1G22uz on Query {\n  artworks(first: $count, after: $cursor, sort: [CREATED_AT_DESC], rating: $rating) {\n    edges {\n      node {\n        ...ArtworkListItem_artwork\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b12395370df29c4cfc67430b244e16d5";
+(node as any).hash = "1b159a6ec54b3d298fedc3caafae6001";
 
 export default node;
