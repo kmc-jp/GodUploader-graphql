@@ -110,7 +110,9 @@ def test_safe_artworks_deprecated(client):
     assert result == {
         "data": {
             "safeArtworks": {
+                "edges": [
                     {"node": {"title": safe_artwork.title, "nsfw": False}},
+                ],
             },
         },
     }, "only fetch safe artworks"
