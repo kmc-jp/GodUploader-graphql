@@ -103,7 +103,6 @@ const ArtworkList: React.VFC<{
 
 export const RecentArtworks: React.VFC = () => {
   const [selectedRating, rating] = useRatingParam();
-  console.log(rating);
   const artworks = useLazyLoadQuery<RecentArtworksQuery>(
     graphql`
       query RecentArtworksQuery($rating: [ArtworkRatingEnum!]!) {

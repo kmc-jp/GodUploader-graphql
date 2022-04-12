@@ -12,7 +12,6 @@ export const Router: React.FC = ({ children }) => {
   // 暫定的に、5分おきにページ遷移時に再読み込みされるようにする
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      console.log("force refresh requested");
       setForceRefresh(true);
     }, 5 * 60 * 1000);
 

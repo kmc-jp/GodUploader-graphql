@@ -92,7 +92,6 @@ const UploadArtworkForm = () => {
       }
       const oldIndex = images.indexOf(active.id);
       const newIndex = images.indexOf(over.id);
-      console.log(oldIndex, newIndex);
       setFiles((files) => arrayMove(files, oldIndex, newIndex));
     },
     [images, setFiles]
