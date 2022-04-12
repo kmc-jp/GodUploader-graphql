@@ -26,7 +26,7 @@ def test_artworks_rating_safe(client):
     assert result == {
         "data": {
             "safeArtworks": {
-                "edges": [{"node": {"title": safe_artwork.title, "nsfw": True}}],
+                "edges": [{"node": {"title": safe_artwork.title, "nsfw": False}}],
             },
         },
     }, "only fetch safe artworks"
