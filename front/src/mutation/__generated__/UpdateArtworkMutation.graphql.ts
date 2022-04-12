@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f9ded6bcff93c08ef18aad87b517d918>>
+ * @generated SignedSource<<34b490c3dbeda7c5cff97f50393b6b9d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,11 +9,13 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
+export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
 export type UpdateArtworkInput = {
   id: string;
   title: string;
   caption: string;
   tags: ReadonlyArray<string>;
+  rating?: ArtworkRatingEnum | null;
   clientMutationId?: string | null;
 };
 export type UpdateArtworkMutation$variables = {
@@ -26,6 +28,7 @@ export type UpdateArtworkMutation$data = {
       readonly id: string;
       readonly title: string;
       readonly caption: string;
+      readonly rating: ArtworkRatingEnum;
       readonly tags: {
         readonly edges: ReadonlyArray<{
           readonly node: {
@@ -82,6 +85,13 @@ v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "rating",
+  "storageKey": null
+},
+v6 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 };
@@ -111,6 +121,7 @@ return {
               (v2/*: any*/),
               (v3/*: any*/),
               (v4/*: any*/),
+              (v5/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -135,7 +146,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v5/*: any*/)
+                          (v6/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -180,6 +191,7 @@ return {
               (v2/*: any*/),
               (v3/*: any*/),
               (v4/*: any*/),
+              (v5/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -204,7 +216,7 @@ return {
                         "name": "node",
                         "plural": false,
                         "selections": [
-                          (v5/*: any*/),
+                          (v6/*: any*/),
                           (v2/*: any*/)
                         ],
                         "storageKey": null
@@ -224,16 +236,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "612df7b175d46805a7d877e9e910c2fd",
+    "cacheID": "7ee0513f40b884341cf553a200b6dc3c",
     "id": null,
     "metadata": {},
     "name": "UpdateArtworkMutation",
     "operationKind": "mutation",
-    "text": "mutation UpdateArtworkMutation(\n  $input: UpdateArtworkInput!\n) {\n  updateArtwork(input: $input) {\n    artwork {\n      id\n      title\n      caption\n      tags {\n        edges {\n          node {\n            name\n            id\n          }\n        }\n      }\n    }\n  }\n}\n"
+    "text": "mutation UpdateArtworkMutation(\n  $input: UpdateArtworkInput!\n) {\n  updateArtwork(input: $input) {\n    artwork {\n      id\n      title\n      caption\n      rating\n      tags {\n        edges {\n          node {\n            name\n            id\n          }\n        }\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "2c5e52ea4e7237bb4d73542b36beb01f";
+(node as any).hash = "2780761dd232ff8520d718d00f433808";
 
 export default node;

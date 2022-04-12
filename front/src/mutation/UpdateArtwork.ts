@@ -15,6 +15,7 @@ export const commitUpdateArtworkMutation = (
             id
             title
             caption
+            rating
             tags {
               edges {
                 node {

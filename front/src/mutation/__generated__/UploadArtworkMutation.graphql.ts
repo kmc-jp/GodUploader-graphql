@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4a7c4967d05f03f2bc52f2519e1ca54c>>
+ * @generated SignedSource<<19270120ea147916d9e5b9522c3d1112>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,11 +9,13 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
+export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
 export type SlackShareOptionEnum = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
 export type UploadArtworkInput = {
   title: string;
   caption: string;
   tags: ReadonlyArray<string>;
+  rating?: ArtworkRatingEnum | null;
   shareOption?: SlackShareOptionEnum | null;
   channelId?: string | null;
   files: ReadonlyArray<null>;

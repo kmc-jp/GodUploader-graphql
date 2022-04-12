@@ -89,6 +89,16 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
   const handleUpdate = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
+
+      const rating =
+        ageRestriction === "SAFE"
+          ? "safe"
+          : ageRestriction === "R-18"
+          ? "r_18"
+          : ageRestriction === "R-18G"
+          ? "r_18g"
+          : null;
+
       commitUpdateArtworkMutation(environment, {
         variables: {
           input: {
@@ -97,6 +107,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
             title,
             caption,
             tags: tagWithAgeRestriction(tags, ageRestriction),
+            rating,
           },
         },
         onCompleted: () => {

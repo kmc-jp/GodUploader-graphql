@@ -107,6 +107,15 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
           : "SHARE_TO_SLACK"
         : "NONE";
 
+      const rating =
+        ageRestriction === "SAFE"
+          ? "safe"
+          : ageRestriction === "R-18"
+          ? "r_18"
+          : ageRestriction === "R-18G"
+          ? "r_18g"
+          : null;
+
       setIsUploading(true);
       const uploadables = Object.fromEntries<File | Blob>(
         Array.from(files, (file, i) => [`variables.input.files.${i}`, file])
@@ -120,6 +129,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
             tags: tagWithAgeRestriction(tags, ageRestriction),
             files: Array.from(files, (_, i) => null),
             shareOption,
+            rating,
             channelId: slackChannel,
           },
         },
