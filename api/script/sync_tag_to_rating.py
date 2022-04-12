@@ -12,11 +12,15 @@ def sync_tag_to_rating():
 
         for artwork in all_artworks:
             artwork: Artwork
-            tags: List[Tag] = artwork.tags
-            canonical_tag_names: List[str] = [t.canonical_name for t in tags]
 
+            # rating != safe なら https://github.com/kmc-jp/GodUploader-graphql/pull/141 のリリース以降に投稿され、
+            # ratingカラムの値が有効なのでスキップする
             if artwork.rating != ArtworkRatingEnum.safe:
                 continue
+
+            # rating == safe なら、ratingカラムの値がタグと同期されていないので同期する
+            tags: List[Tag] = artwork.tags
+            canonical_tag_names: List[str] = [t.canonical_name for t in tags]
 
             if 'r-18g' in canonical_tag_names:
                 rating = ArtworkRatingEnum.r_18g
