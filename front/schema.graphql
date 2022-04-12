@@ -56,7 +56,6 @@ type Artwork implements Node {
   accountId: Int!
   title: String!
   caption: String!
-  nsfw: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
   illusts(before: String, after: String, first: Int, last: Int): IllustConnection
@@ -64,6 +63,7 @@ type Artwork implements Node {
   likes(before: String, after: String, first: Int, last: Int): LikeConnection
   tags(before: String, after: String, first: Int, last: Int): TagConnection
   account: Account
+  nsfw: Boolean!
   rating: ArtworkRatingEnum!
   topIllust: Illust
 
@@ -111,8 +111,6 @@ enum ArtworkSortEnum {
   TITLE_DESC
   CAPTION_ASC
   CAPTION_DESC
-  NSFW_ASC
-  NSFW_DESC
   CREATED_AT_ASC
   CREATED_AT_DESC
   UPDATED_AT_ASC
