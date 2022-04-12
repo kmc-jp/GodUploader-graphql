@@ -301,7 +301,18 @@ type Query {
     id: ID!
   ): Node
   accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
-  artworks(safeOnly: Boolean, sort: [ArtworkSortEnum], before: String, after: String, first: Int, last: Int): ArtworkConnection
+  artworks(
+    """deprecated: ratingパラメータで絞り込んでください"""
+    safeOnly: Boolean
+
+    """取得する作品の年齢制限。複数指定できる。空リストは指定できない"""
+    rating: [ArtworkRatingEnum!]
+    sort: [ArtworkSortEnum]
+    before: String
+    after: String
+    first: Int
+    last: Int
+  ): ArtworkConnection
 
   """for compatibility"""
   artworkByFolderId(folderId: Int!): Artwork
