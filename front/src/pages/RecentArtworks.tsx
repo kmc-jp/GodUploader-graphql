@@ -125,9 +125,9 @@ export const RecentArtworks: React.VFC = () => {
     <div>
       <div className="card">
         <div className="card-header">
-          <div className="d-flex justify-content-between">
-            <h2 className="text-center flex-fill">最新の絵</h2>
-            <div className="form-check form-switch">
+          <h2 className="text-center flex-fill">最新の絵</h2>
+          <div className="d-flex justify-content-end">
+            <div>
               <select
                 id="rating-select"
                 className="form-select"
