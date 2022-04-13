@@ -161,7 +161,7 @@ const ArtworkDetail: React.VFC = () => {
             <div className="row">
               <ul className="breadcrumb px-2 py-2 bg-light">
                 {artwork.rating !== "safe" && (
-                  <li>
+                  <li className="text-center breadcrumb-item">
                     {artwork.rating === "r_18" ? (
                       <Link to={`/artworks?mode=r_18`}>R-18</Link>
                     ) : artwork.rating === "r_18g" ? (
