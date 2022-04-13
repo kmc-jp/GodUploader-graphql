@@ -8,8 +8,8 @@ import { CaptionInput } from "../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";
 import {
-  ageRestirctionFromTags,
-  tagWithAgeRestriction,
+  ageRestirctionToRating,
+  ratingToAgeRestriction,
 } from "../../contexts/ArtworkInformationContext";
 import { useArtworkInformation } from "../../hooks/useArtworkInformation";
 import { commitUpdateArtworkMutation } from "../../mutation/UpdateArtwork";
@@ -26,6 +26,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
         id
         title
         caption
+        rating
         tags {
           edges {
             node {
@@ -63,9 +64,10 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
     setTitle(artwork.title || "");
     setCaption(artwork.caption || "");
     setTags(initialTagList);
-    setAgeRestriction(ageRestirctionFromTags(initialTagList));
+    setAgeRestriction(ratingToAgeRestriction(artwork.rating));
   }, [
     artwork.caption,
+    artwork.rating,
     artwork.title,
     initialTagList,
     setAgeRestriction,
@@ -90,14 +92,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
     (e: React.FormEvent) => {
       e.preventDefault();
 
-      const rating =
-        ageRestriction === "SAFE"
-          ? "safe"
-          : ageRestriction === "R-18"
-          ? "r_18"
-          : ageRestriction === "R-18G"
-          ? "r_18g"
-          : null;
+      const rating = ageRestirctionToRating(ageRestriction);
 
       commitUpdateArtworkMutation(environment, {
         variables: {
@@ -106,7 +101,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
             id: artwork.id!,
             title,
             caption,
-            tags: tagWithAgeRestriction(tags, ageRestriction),
+            tags,
             rating,
           },
         },

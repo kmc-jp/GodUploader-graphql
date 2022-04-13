@@ -1,5 +1,7 @@
 import React, { createContext, useState } from "react";
 
+import { ArtworkRatingEnum } from "../mutation/__generated__/UpdateArtworkMutation.graphql";
+
 type AgeRestriction =
   | "UNSELECTED" // 選択していない (この設定では作品を投稿できない)
   | "SAFE" // 全年齢
@@ -81,43 +83,32 @@ export const ArtworkInformationProvider: React.FC<ArtworkInformationProviderProp
     );
   };
 
-// タグ一覧の先頭に、指定されたタグを足して返す。
-// 既にタグ一覧に指定されたタグが含まれているなら先頭に持ってきて返す。
-const prependTag = (tags: string[], newTag: string) => {
-  const filteredTags = tags.filter((t) => t !== newTag);
-  return [newTag, ...filteredTags];
-};
-
-// タグ一覧から年齢制限を計算する
-export const ageRestirctionFromTags = (tags: string[]): AgeRestriction => {
-  for (const tag of tags) {
-    if (tag === "R-18") {
-      return "R-18";
-    }
-    if (tag === "R-18G") {
-      return "R-18G";
-    }
+export const ageRestirctionToRating = (
+  r: AgeRestriction
+): ArtworkRatingEnum | null => {
+  switch (r) {
+    case "SAFE":
+      return "safe";
+    case "R-18":
+      return "r_18";
+    case "R-18G":
+      return "r_18g";
+    default:
+      return null;
   }
-  return "SAFE";
 };
 
-// 作品のタグに年齢制限タグを加えて返す
-export const tagWithAgeRestriction = (
-  tags: string[],
-  ageRestriction: AgeRestriction
-) => {
-  // 年齢制限にまつわるタグは予め取り除いておく
-  const tagsWithoutAgeRestriction = tags.filter(
-    (t) => t.toLowerCase() !== "r-18" && t.toLowerCase() !== "r-18g"
-  );
-
-  if (ageRestriction === "SAFE") {
-    return tagsWithoutAgeRestriction;
-  } else if (ageRestriction === "R-18") {
-    return prependTag(tagsWithoutAgeRestriction, "R-18");
-  } else if (ageRestriction === "R-18G") {
-    return prependTag(tagsWithoutAgeRestriction, "R-18G");
-  } else {
-    throw new Error(`Unknown age restriction: ${ageRestriction}`);
+export const ratingToAgeRestriction = (
+  r: ArtworkRatingEnum
+): AgeRestriction => {
+  switch (r) {
+    case "safe":
+      return "SAFE";
+    case "r_18":
+      return "R-18";
+    case "r_18g":
+      return "R-18G";
+    default:
+      return "UNSELECTED";
   }
 };

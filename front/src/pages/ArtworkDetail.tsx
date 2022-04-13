@@ -15,8 +15,8 @@ import { UpdateArtworkModal } from "../components/ArtworkDetail/UpdateArtworkFor
 import { ShareButton } from "../components/ShareButton";
 import { SuspenseImage } from "../components/SuspenseImage";
 import {
-  ageRestirctionFromTags,
   ArtworkInformationProvider,
+  ratingToAgeRestriction,
 } from "../contexts/ArtworkInformationContext";
 import { formatDateTime } from "../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
@@ -149,7 +149,7 @@ const ArtworkDetail: React.VFC = () => {
               initialTitle={artwork.title}
               initialCaption={artwork.caption}
               initialTags={tags}
-              initialAgeRestriction={ageRestirctionFromTags(tags)}
+              initialAgeRestriction={ratingToAgeRestriction(artwork.rating)}
             >
               <UpdateArtworkModal artworkKey={artwork} />
             </ArtworkInformationProvider>
