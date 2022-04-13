@@ -34,54 +34,16 @@ interface CaptionProps {
 }
 
 const Caption: React.VFC<CaptionProps> = ({ caption }) => {
-  const [showMore, setShowMore] = useState(
-    () => !caption.includes("\n<!-- more -->\n")
-  );
-
-  const lines = useMemo(() => {
-    const lines = caption.split("\n");
-
-    if (showMore) {
-      return lines.map((line, i) => (
-        <Fragment key={i}>
-          {autolink(line)}
-          <br />
-        </Fragment>
-      ));
-    }
-
-    const showMoreLine = lines.findIndex((l) => l === "<!-- more -->");
-    if (showMoreLine === -1) {
-      return lines.map((line, i) => (
-        <Fragment key={i}>
-          {autolink(line)}
-          <br />
-        </Fragment>
-      ));
-    }
-
-    return lines.slice(0, showMoreLine).map((line, i) => (
-      <Fragment key={i}>
-        {autolink(line)}
-        <br />
-      </Fragment>
-    ));
-  }, [caption, showMore]);
+  const lines = caption.split("\n");
 
   return (
     <p>
-      {lines}
-      {!showMore && (
-        <a
-          href="#more"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowMore(true);
-          }}
-        >
-          続きを読む
-        </a>
-      )}
+      {lines.map((line, i) => (
+        <Fragment key={i}>
+          {autolink(line)}
+          <br />
+        </Fragment>
+      ))}
     </p>
   );
 };
