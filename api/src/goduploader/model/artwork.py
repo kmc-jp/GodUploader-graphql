@@ -33,8 +33,6 @@ class Artwork(Base):
             app_config.base_url, f"artwork/{Node.to_global_id('Artwork', self.id)}"
         )
 
-    # TODO: アプリケーションからnsfwカラムを参照しなくなったら消す
-    nsfw = Column(Boolean, nullable=True)
     rating = Column("rating", Enum(ArtworkRatingEnum), nullable=False, server_default=ArtworkRatingEnum.safe.name)
 
     created_at = Column(DateTime, nullable=False, default=datetime.now)

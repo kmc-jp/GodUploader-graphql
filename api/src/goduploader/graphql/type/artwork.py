@@ -21,7 +21,7 @@ class Artwork(SQLAlchemyObjectType):
     class Meta:
         model = ArtworkModel
         interfaces = (relay.Node,)
-        exclude_fields = ('nsfw', 'rating',)
+        exclude_fields = ('rating',)
 
     nsfw = graphene.Boolean(required=True)
 
