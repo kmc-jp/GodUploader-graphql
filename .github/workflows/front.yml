@@ -67,6 +67,8 @@ jobs:
 
       - run: yarn build
         working-directory: ./front
+        env:
+          REACT_APP_REVISION: ${{ github.sha }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -96,7 +98,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            revision=${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
