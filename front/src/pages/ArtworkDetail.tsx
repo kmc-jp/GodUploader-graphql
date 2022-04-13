@@ -1,6 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
-import React, { useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { useLazyLoadQuery } from "react-relay";
 import { Link, useParams } from "react-router-dom";
@@ -27,6 +27,24 @@ const autolink = (caption: string) => {
       {match}
     </a>
   ));
+};
+
+interface CaptionProps {
+  caption: string;
+}
+
+const Caption: React.VFC<CaptionProps> = ({ caption }) => {
+  const lines = useMemo(
+    () =>
+      caption.split("\n").map((line, i) => (
+        <Fragment key={i}>
+          {autolink(line)}
+          <br />
+        </Fragment>
+      )),
+    [caption]
+  );
+  return <p>{lines}</p>;
 };
 
 const ArtworkDetail: React.VFC = () => {
@@ -137,7 +155,7 @@ const ArtworkDetail: React.VFC = () => {
       <div className="card">
         <div className="card-header text-center">
           <h2>{artwork.title}</h2>
-          <p>{autolink(artwork.caption)}</p>
+          <Caption caption={artwork.caption} />
           <p>
             <Link to={`/users/${artwork.account?.kmcid}`}>
               {artwork.account?.name}
