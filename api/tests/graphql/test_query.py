@@ -90,33 +90,6 @@ def test_artworks_rating_all(client):
         },
     }, "fetch all artworks"
 
-def test_safe_artworks_deprecated(client):
-    safe_artwork = create_artwork(rating=ArtworkRatingEnum.safe)
-    create_artwork(rating=ArtworkRatingEnum.r_18)
-    create_artwork(rating=ArtworkRatingEnum.r_18g)
-    query = """
-    {
-        safeArtworks: artworks(first: 8, safeOnly: true) {
-            edges {
-                node {
-                    title
-                    nsfw
-                }
-            }
-        }
-    }
-    """
-    result = client.execute(query)
-    assert result == {
-        "data": {
-            "safeArtworks": {
-                "edges": [
-                    {"node": {"title": safe_artwork.title, "nsfw": False}},
-                ],
-            },
-        },
-    }, "only fetch safe artworks"
-
 
 def test_tagged_artworks(client):
     artworks = [

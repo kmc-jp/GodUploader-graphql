@@ -27,15 +27,12 @@ class Query(ObjectType):
 
     artworks = SQLAlchemyConnectionField(
         Artwork.connection,
-        safe_only=graphene.Boolean(description="deprecated: ratingパラメータで絞り込んでください"),
         rating=graphene.List(graphene.NonNull(ArtworkRatingEnumType), description="取得する作品の年齢制限。複数指定できる。空リストは指定できない"),
     )
 
     def resolve_artworks(root, info, **args):
         artwork_query = SQLAlchemyConnectionField.get_query(ArtworkModel, info, **args)
         artworks = artwork_query
-        if args.get("safe_only"):
-            artworks = artworks.filter(ArtworkModel.rating == ArtworkRatingEnum.safe)
 
         if args.get("rating"):
             rating: List[ArtworkRatingEnum] = args["rating"]
