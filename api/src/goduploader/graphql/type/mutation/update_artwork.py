@@ -18,7 +18,7 @@ class UpdateArtwork(graphene.ClientIDMutation):
         tags = graphene.List(
             graphene.NonNull(graphene.String), description="更新後のタグ", required=True
         )
-        rating = ArtworkRatingEnum(description="更新後の年齢制限 (2022/4/12時点では指定しても何も起こらない)")
+        rating = ArtworkRatingEnum(description="更新後の年齢制限")
 
     artwork = graphene.Field(Artwork)
 
