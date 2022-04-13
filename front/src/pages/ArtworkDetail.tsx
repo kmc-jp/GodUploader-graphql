@@ -156,7 +156,8 @@ const ArtworkDetail: React.VFC = () => {
           )}
         </div>
         <div className="card-body">
-          {artwork.tags?.edges && artwork.tags.edges.length > 0 && (
+          {((artwork.tags?.edges && artwork.tags.edges.length > 0) ||
+            artwork.rating !== "safe") && (
             <div className="row">
               <ul className="breadcrumb px-2 py-2 bg-light">
                 {artwork.rating !== "safe" && (
@@ -168,20 +169,22 @@ const ArtworkDetail: React.VFC = () => {
                     ) : null}
                   </li>
                 )}
-                {artwork.tags.edges.map((edge) => {
-                  const tag = edge?.node;
-                  if (!tag) {
-                    return null;
-                  }
+                {artwork.tags?.edges &&
+                  artwork.tags.edges.length > 0 &&
+                  artwork.tags.edges.map((edge) => {
+                    const tag = edge?.node;
+                    if (!tag) {
+                      return null;
+                    }
 
-                  return (
-                    <li key={tag.id} className="text-center breadcrumb-item">
-                      <Link to={`/tagged_artworks/${tag.name}`}>
-                        #{tag.name}
-                      </Link>
-                    </li>
-                  );
-                })}
+                    return (
+                      <li key={tag.id} className="text-center breadcrumb-item">
+                        <Link to={`/tagged_artworks/${tag.name}`}>
+                          #{tag.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
           )}
