@@ -2,8 +2,8 @@ import tempfile
 from pathlib import Path
 import os
 
-if os.environ.get('DB_URL_TEST'):
-    os.environ['DB_URL'] = os.environ['DB_URL_TEST']
+if os.environ.get("DB_URL_TEST"):
+    os.environ["DB_URL"] = os.environ["DB_URL_TEST"]
 
 import httpretty
 import pytest
@@ -40,17 +40,22 @@ def mock_http_request():
         yield
 
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="function")
 def client():
-    Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
-
-    # prepare unknown_user
-    create_account(kmcid="unknown_user", name="unknown_user")
-
     client = Client(schema)
+    yield client
+
+
+@pytest.fixture(scope="function", autouse=True)
+def init_db():
     try:
-        yield client
+        Base.metadata.drop_all(engine)
+        Base.metadata.create_all(engine)
+
+        # prepare unknown_user
+        create_account(kmcid="unknown_user", name="unknown_user")
+
+        yield
     finally:
         session.rollback()
         session.remove()
