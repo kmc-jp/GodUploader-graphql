@@ -39,9 +39,6 @@ def create_artwork(**args):
     if "account" not in args:
         args["account"] = create_account()
 
-    if "nsfw" not in args:
-        args["nsfw"] = False
-
     tags = args.pop("tags", [])
     for idx, tag in enumerate(tags):
         if isinstance(tag, Tag):

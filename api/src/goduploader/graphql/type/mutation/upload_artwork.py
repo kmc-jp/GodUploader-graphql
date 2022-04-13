@@ -55,7 +55,6 @@ class UploadArtwork(graphene.ClientIDMutation):
         artwork = ArtworkModel(
             title=input["title"],
             caption=input["caption"],
-            nsfw=has_nsfw_tag(input["tags"]),
             rating=ArtworkRatingEnum.get(input["rating"]),
         )
         artwork.account = current_user
