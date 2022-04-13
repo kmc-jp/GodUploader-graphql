@@ -1,6 +1,6 @@
 import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
-import React, { Fragment, useMemo } from "react";
+import React, { Fragment, useMemo, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useLazyLoadQuery } from "react-relay";
 import { Link, useParams } from "react-router-dom";
@@ -34,17 +34,56 @@ interface CaptionProps {
 }
 
 const Caption: React.VFC<CaptionProps> = ({ caption }) => {
-  const lines = useMemo(
-    () =>
-      caption.split("\n").map((line, i) => (
+  const [showMore, setShowMore] = useState(
+    () => !caption.includes("\n<!-- more -->\n")
+  );
+
+  const lines = useMemo(() => {
+    const lines = caption.split("\n");
+
+    if (showMore) {
+      return lines.map((line, i) => (
         <Fragment key={i}>
           {autolink(line)}
           <br />
         </Fragment>
-      )),
-    [caption]
+      ));
+    }
+
+    const showMoreLine = lines.findIndex((l) => l === "<!-- more -->");
+    if (showMoreLine === -1) {
+      return lines.map((line, i) => (
+        <Fragment key={i}>
+          {autolink(line)}
+          <br />
+        </Fragment>
+      ));
+    }
+
+    return lines.slice(0, showMoreLine).map((line, i) => (
+      <Fragment key={i}>
+        {autolink(line)}
+        <br />
+      </Fragment>
+    ));
+  }, [caption, showMore]);
+
+  return (
+    <p>
+      {lines}
+      {!showMore && (
+        <a
+          href="#more"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowMore(true);
+          }}
+        >
+          続きを読む
+        </a>
+      )}
+    </p>
   );
-  return <p>{lines}</p>;
 };
 
 const ArtworkDetail: React.VFC = () => {
