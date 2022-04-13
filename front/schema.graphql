@@ -300,9 +300,6 @@ type Query {
   ): Node
   accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
   artworks(
-    """deprecated: ratingパラメータで絞り込んでください"""
-    safeOnly: Boolean
-
     """取得する作品の年齢制限。複数指定できる。空リストは指定できない"""
     rating: [ArtworkRatingEnum!]
     sort: [ArtworkSortEnum]
@@ -405,7 +402,7 @@ input UpdateArtworkInput {
   """更新後のタグ"""
   tags: [String!]!
 
-  """更新後の年齢制限 (2022/4/12時点では指定しても何も起こらない)"""
+  """更新後の年齢制限"""
   rating: ArtworkRatingEnum
   clientMutationId: String
 }
