@@ -10,8 +10,7 @@ export const CaptionInput: React.VFC = () => {
       <label htmlFor="caption" className="form-label">
         キャプション
       </label>
-      <input
-        type="text"
+      <textarea
         id="caption"
         className="form-control"
         value={caption}
