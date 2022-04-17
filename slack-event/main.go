@@ -235,6 +235,17 @@ func collectURLs(ev *slackevents.LinkSharedEvent) []string {
 	return urls
 }
 
+func parseEvent(body []byte) (slackevents.EventsAPIEvent, error) {
+	rawJSON := json.RawMessage(body)
+	opts := slackevents.OptionVerifyToken(
+		slackevents.TokenComparator{
+			VerificationToken: slackVerificationToken,
+		},
+	)
+
+	return slackevents.ParseEvent(rawJSON, opts)
+}
+
 // POST /api/event
 func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
@@ -264,13 +275,7 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rawJSON := json.RawMessage(rawReqBody)
-	opts := slackevents.OptionVerifyToken(
-		slackevents.TokenComparator{
-			VerificationToken: slackVerificationToken,
-		},
-	)
-	event, err := slackevents.ParseEvent(rawJSON, opts)
+	event, err := parseEvent(rawReqBody)
 	if err != nil {
 		respondStatusBadRequest(w, err)
 		return
