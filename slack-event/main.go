@@ -185,7 +185,15 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 				urls = append(urls, link.URL)
 			}
 			respondToLinkSharedEvent(w, urls, innerEv.Channel, innerEv.MessageTimeStamp)
+		default:
+			log.Printf("Unknown inner event: %s", ev.InnerEvent.Type)
+			w.WriteHeader(http.StatusBadRequest)
 		}
+	case slackevents.EventsAPIAppRateLimited:
+		log.Printf("Rate limited: minute_rate_limited=%d", ev.MinuteRateLimited)
+		w.WriteHeader(http.StatusTooManyRequests)
+	default:
+		log.Printf("Unknown event: %s", event.Type)
 	}
 }
 
