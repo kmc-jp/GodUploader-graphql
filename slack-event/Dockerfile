@@ -1,14 +1,10 @@
-FROM golang:1.17 AS builder
+FROM golang:1.17
 
 WORKDIR /app
+ENV GOOS=linux
+ENV GOARCH=amd64
 COPY ./go.mod ./go.sum ./
 COPY ./main.go ./
 RUN go build -o ./slack-event-handler
 
-FROM alpine:3.15.4
-RUN apk --no-cache add ca-certificates
-
-WORKDIR /app
-COPY --from=builder /app/slack-event-handler ./
-
-CMD ["./slack-event-handler"]
+CMD ["/app/slack-event-handler"]
