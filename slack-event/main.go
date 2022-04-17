@@ -137,14 +137,8 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reqBody, err := r.GetBody()
-	if err != nil {
-		respondStatusBadRequest(w, err)
-		return
-	}
-	defer reqBody.Close()
-
-	rawReqBody, err := io.ReadAll(reqBody)
+	rawReqBody, err := io.ReadAll(r.Body)
+	defer r.Body.Close()
 	if err != nil {
 		respondStatusBadRequest(w, err)
 		return
