@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -78,31 +79,37 @@ func convertToInternalURL(externalURL string) string {
 	return strings.Replace(externalURL, externalURLBase, internalURLBase, 1)
 }
 
-// urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
-func unfurlURL(rawURL, channelID, timestamp string) {
+func extractArtworkIDFromPath(rawURL string) (string, error) {
 	parsedURL, err := url.Parse(rawURL)
 	if err != nil {
-		log.Print(err)
-		return
+		return "", err
 	}
 
 	submatches := artworkPathPattern.FindStringSubmatchIndex(parsedURL.Path)
 	if len(submatches) == 0 {
-		log.Printf("no submatches for %s (raw URL: %s)", parsedURL.Path, rawURL)
-		return
+		return "", fmt.Errorf("no submatches for %s (raw URL: %s)", parsedURL.Path, rawURL)
 	}
 
 	var artworkIDbyte []byte
 	artworkIDbyte = artworkPathPattern.ExpandString(artworkIDbyte, artworkPathTemplate, parsedURL.Path, submatches)
 
-	artworkID := string(artworkIDbyte)
+	return string(artworkIDbyte), nil
+}
+
+// urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
+func unfurlURL(rawURL, channelID, timestamp string) {
+	artworkID, err := extractArtworkIDFromPath(rawURL)
+	if err != nil {
+		log.Print(err)
+		return
+	}
 
 	var artworkInfoQuery struct {
 		Node struct {
 			Artwork struct {
-				Title   graphql.String
-				Caption graphql.String
-				Nsfw    graphql.Boolean
+				Title     graphql.String
+				Caption   graphql.String
+				Nsfw      graphql.Boolean
 				TopIllust struct {
 					ThumbnailUrl graphql.String
 				}
@@ -129,7 +136,7 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 	if !bool(artworkInfoQuery.Node.Artwork.Nsfw) {
 		gyazoResp, err := gyazoClient.Upload(resp.Body, &gyazo.UploadMetadata{
 			Title: string(artworkInfoQuery.Node.Artwork.Title),
-			Desc: string(artworkInfoQuery.Node.Artwork.Caption),
+			Desc:  string(artworkInfoQuery.Node.Artwork.Caption),
 		})
 		if err != nil {
 			log.Print(err)
@@ -140,8 +147,8 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 
 	unfurls := make(map[string]slack.Attachment)
 	unfurls[rawURL] = slack.Attachment{
-		Title: string(artworkInfoQuery.Node.Artwork.Title),
-		Text:  string(artworkInfoQuery.Node.Artwork.Caption),
+		Title:    string(artworkInfoQuery.Node.Artwork.Title),
+		Text:     string(artworkInfoQuery.Node.Artwork.Caption),
 		ImageURL: imageURL,
 	}
 	_, _, _, err = slackClient.UnfurlMessage(channelID, timestamp, unfurls)
