@@ -24,7 +24,7 @@ var graphqlClient *graphql.Client
 var artworkPathPattern regexp.Regexp
 var artworkPathTemplate = "$artworkID"
 
-func init() {
+func prepareConfig() {
 	bindAddress = os.Getenv("BIND_ADDRESS")
 	if bindAddress == "" {
 		log.Fatal("BIND_ADDRESS not set")
@@ -103,6 +103,7 @@ func unfurlURL(channelID, timestamp, rawURL string) {
 
 // GET /api/ping
 func handleApiPing(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(`{"ok":true}`))
 }
@@ -110,6 +111,7 @@ func handleApiPing(w http.ResponseWriter, r *http.Request) {
 func respondStatusBadRequest(w http.ResponseWriter, err error) {
 	log.Println(err)
 	w.WriteHeader(http.StatusBadRequest)
+	w.Header().Add("Content-Type", "application/json")
 	w.Write([]byte(`{"status":"Bad Request"}`))
 }
 
@@ -197,6 +199,8 @@ func NewServeMux() *http.ServeMux {
 }
 
 func main() {
+	prepareConfig()
+
 	mux := NewServeMux()
 
 	log.Fatal(http.ListenAndServe(bindAddress, mux))
