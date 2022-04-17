@@ -10,10 +10,39 @@ on:
     paths:
       - .github/workflows/slack-event.yml
       - slack-event/**
+  pull_request:
+    paths:
+      - .github/workflows/slack-event.yml
+      - slack-event/**
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '1.17'
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - run: go build
+        working-directory: ./slack-event
+
+      - run: go test -v ./...
+        working-directory: ./slack-event
+
   build:
+    needs: [test]
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     env:
