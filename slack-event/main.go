@@ -83,8 +83,8 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 	var artworkInfoQuery struct {
 		Node struct {
 			Artwork struct {
-				Title       graphql.String
-				Description graphql.String
+				Title   graphql.String
+				Caption graphql.String
 			} `graphql:"... on Artwork"`
 		} `graphql:"node(id: $id)"`
 	}
@@ -99,7 +99,7 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 	unfurls := make(map[string]slack.Attachment)
 	unfurls[rawURL] = slack.Attachment{
 		Title: string(artworkInfoQuery.Node.Artwork.Title),
-		Text:  string(artworkInfoQuery.Node.Artwork.Description),
+		Text:  string(artworkInfoQuery.Node.Artwork.Caption),
 	}
 	_, _, _, err = slackClient.UnfurlMessage(channelID, timestamp, unfurls)
 	if err != nil {
