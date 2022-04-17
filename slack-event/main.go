@@ -62,7 +62,7 @@ func prepareConfig() {
 }
 
 // urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
-func unfurlURL(channelID, timestamp, rawURL string) {
+func unfurlURL(rawURL, channelID, timestamp string) {
 	parsedURL, err := url.Parse(rawURL)
 	if err != nil {
 		log.Print(err)
@@ -71,6 +71,7 @@ func unfurlURL(channelID, timestamp, rawURL string) {
 
 	submatches := artworkPathPattern.FindStringSubmatchIndex(parsedURL.Path)
 	if len(submatches) == 0 {
+		log.Printf("no submatches for %s (raw URL: %s)", parsedURL.Path, rawURL)
 		return
 	}
 
