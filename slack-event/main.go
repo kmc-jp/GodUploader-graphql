@@ -40,11 +40,11 @@ func prepareConfig() {
 		log.Fatal("SLACK_SIGNING_SECRET not set")
 	}
 
-	slackAPIToken := os.Getenv("SLACK_API_TOKEN")
-	if slackAPIToken == "" {
-		log.Fatal("SLACK_API_TOKEN not set")
+	slackToken := os.Getenv("SLACK_TOKEN")
+	if slackToken == "" {
+		log.Fatal("SLACK_TOKEN not set")
 	}
-	slackClient = slack.New(slackAPIToken)
+	slackClient = slack.New(slackToken)
 
 	graphqlAPIEndpoint := os.Getenv("GRAPHQL_API_ENDPOINT")
 	if graphqlAPIEndpoint == "" {
