@@ -13,5 +13,12 @@
       "path": ".",
     }
   ],
-  "settings": {}
+  "settings": {
+    "files.exclude": {
+      // multi-root workspaceのとき、root workspaceから各workspaceのディレクトリが見えないようにする
+      // 素朴に .vscode/settings.json に書いてしまうと、workspaceを開いていないときにディレクトリが見えなくなってしまう
+      "api/**": true,
+      "front/**": true,
+    }
+  }
 }
