@@ -143,10 +143,24 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rawReqBody, err := io.ReadAll(r.Body)
-	defer r.Body.Close()
+	verifier, err := slack.NewSecretsVerifier(r.Header, slackSiginingSecret)
 	if err != nil {
 		respondStatusBadRequest(w, err)
+		return
+	}
+
+	defer r.Body.Close()
+	bodyReader := io.TeeReader(r.Body, &verifier)
+	rawReqBody, err := io.ReadAll(bodyReader)
+	if err != nil {
+		respondStatusBadRequest(w, err)
+		return
+	}
+
+	if err := verifier.Ensure(); err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte(`{"status":"Unauthorized"}`))
 		return
 	}
 
