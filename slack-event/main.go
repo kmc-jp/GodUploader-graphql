@@ -135,7 +135,7 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 			log.Print(err)
 			return
 		}
-		imageURL = gyazoResp.PermalinkURL
+		imageURL = gyazoResp.URL
 	}
 
 	unfurls := make(map[string]slack.Attachment)
