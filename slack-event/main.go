@@ -163,11 +163,11 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch ev := event.Data.(type) {
-	case slackevents.EventsAPIURLVerificationEvent:
+	case *slackevents.EventsAPIURLVerificationEvent:
 		respondToURLVerificationEvent(w, ev.Challenge)
-	case slackevents.EventsAPIEvent:
+	case *slackevents.EventsAPIEvent:
 		switch innerEv := ev.InnerEvent.Data.(type) {
-		case slackevents.LinkSharedEvent:
+		case *slackevents.LinkSharedEvent:
 			var urls []string
 			for _, link := range innerEv.Links {
 				if link.Domain != targetDomain {
@@ -189,7 +189,7 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 			log.Printf("Unknown inner event: %s", ev.InnerEvent.Type)
 			w.WriteHeader(http.StatusBadRequest)
 		}
-	case slackevents.EventsAPIAppRateLimited:
+	case *slackevents.EventsAPIAppRateLimited:
 		log.Printf("Rate limited: minute_rate_limited=%d", ev.MinuteRateLimited)
 		w.WriteHeader(http.StatusTooManyRequests)
 	default:
