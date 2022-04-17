@@ -126,7 +126,7 @@ func fetchArtworkInfo(artworkID string) (*DtoArtwork, error) {
 
 	return &DtoArtwork{
 		Title:        string(artworkInfoQuery.Node.Artwork.Title),
-		Caption:      string(artworkInfoQuery.Node.Artwork.Title),
+		Caption:      string(artworkInfoQuery.Node.Artwork.Caption),
 		Nsfw:         bool(artworkInfoQuery.Node.Artwork.Nsfw),
 		ThumbnailUrl: string(artworkInfoQuery.Node.Artwork.TopIllust.ThumbnailUrl),
 	}, nil
