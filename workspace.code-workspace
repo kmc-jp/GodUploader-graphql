@@ -13,5 +13,11 @@
       "path": ".",
     }
   ],
-  "settings": {}
+  "settings": {
+    "files.exclude": {
+      // multi-root workspaceのとき、root workspaceから各workspaceのディレクトリが見えないようにする
+      "api/**": true,
+      "front/**": true,
+    }
+  }
 }
