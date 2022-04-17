@@ -96,14 +96,14 @@ func extractArtworkIDFromPath(rawURL string) (string, error) {
 	return string(artworkIDbyte), nil
 }
 
-// urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
-func unfurlURL(rawURL, channelID, timestamp string) {
-	artworkID, err := extractArtworkIDFromPath(rawURL)
-	if err != nil {
-		log.Print(err)
-		return
-	}
+type DtoArtwork struct {
+	Title        string
+	Caption      string
+	Nsfw         bool
+	ThumbnailUrl string
+}
 
+func fetchArtworkInfo(artworkID string) (*DtoArtwork, error) {
 	var artworkInfoQuery struct {
 		Node struct {
 			Artwork struct {
@@ -116,15 +116,37 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 			} `graphql:"... on Artwork"`
 		} `graphql:"node(id: $id)"`
 	}
-	err = graphqlClient.Query(context.Background(), &artworkInfoQuery, map[string]interface{}{
+
+	err := graphqlClient.Query(context.Background(), &artworkInfoQuery, map[string]interface{}{
 		"id": graphql.ID(artworkID),
 	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &DtoArtwork{
+		Title:        string(artworkInfoQuery.Node.Artwork.Title),
+		Caption:      string(artworkInfoQuery.Node.Artwork.Title),
+		Nsfw:         bool(artworkInfoQuery.Node.Artwork.Nsfw),
+		ThumbnailUrl: string(artworkInfoQuery.Node.Artwork.TopIllust.ThumbnailUrl),
+	}, nil
+}
+
+// urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
+func unfurlURL(rawURL, channelID, timestamp string) {
+	artworkID, err := extractArtworkIDFromPath(rawURL)
 	if err != nil {
 		log.Print(err)
 		return
 	}
 
-	imageDownloadURL := convertToInternalURL(string(artworkInfoQuery.Node.Artwork.TopIllust.ThumbnailUrl))
+	artwork, err := fetchArtworkInfo(artworkID)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+
+	imageDownloadURL := convertToInternalURL(string(artwork.ThumbnailUrl))
 	resp, err := http.Get(imageDownloadURL)
 	if err != nil {
 		log.Print(err)
@@ -133,10 +155,10 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 
 	defer resp.Body.Close()
 	var imageURL string
-	if !bool(artworkInfoQuery.Node.Artwork.Nsfw) {
+	if !bool(artwork.Nsfw) {
 		gyazoResp, err := gyazoClient.Upload(resp.Body, &gyazo.UploadMetadata{
-			Title: string(artworkInfoQuery.Node.Artwork.Title),
-			Desc:  string(artworkInfoQuery.Node.Artwork.Caption),
+			Title: string(artwork.Title),
+			Desc:  string(artwork.Caption),
 		})
 		if err != nil {
 			log.Print(err)
@@ -147,8 +169,8 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 
 	unfurls := make(map[string]slack.Attachment)
 	unfurls[rawURL] = slack.Attachment{
-		Title:    string(artworkInfoQuery.Node.Artwork.Title),
-		Text:     string(artworkInfoQuery.Node.Artwork.Caption),
+		Title:    string(artwork.Title),
+		Text:     string(artwork.Caption),
 		ImageURL: imageURL,
 	}
 	_, _, _, err = slackClient.UnfurlMessage(channelID, timestamp, unfurls)
