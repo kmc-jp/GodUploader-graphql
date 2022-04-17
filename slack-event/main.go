@@ -185,6 +185,11 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 	}
 }
 
+func toStatusJSON(status int) []byte {
+	statusMessage := http.StatusText(status)
+	return []byte(fmt.Sprintf(`{"status":"%s"}`, statusMessage))
+}
+
 // GET /api/ping
 func handleApiPing(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
@@ -196,7 +201,7 @@ func respondStatusBadRequest(w http.ResponseWriter, err error) {
 	log.Println(err)
 	w.WriteHeader(http.StatusBadRequest)
 	w.Header().Add("Content-Type", "application/json")
-	w.Write([]byte(`{"status":"Bad Request"}`))
+	w.Write(toStatusJSON(http.StatusBadRequest))
 }
 
 func respondToURLVerificationEvent(w http.ResponseWriter, challenge string) {
@@ -250,7 +255,7 @@ func parseEvent(body []byte) (slackevents.EventsAPIEvent, error) {
 func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		w.Write([]byte(`{"status":"Method Not Allowed"}`))
+		w.Write(toStatusJSON(http.StatusMethodNotAllowed))
 		return
 	}
 
@@ -271,7 +276,7 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	if err := verifier.Ensure(); err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte(`{"status":"Unauthorized"}`))
+		w.Write(toStatusJSON(http.StatusUnauthorized))
 		return
 	}
 
