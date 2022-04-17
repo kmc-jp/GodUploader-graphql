@@ -136,6 +136,28 @@ func respondToLinkSharedEvent(w http.ResponseWriter, urls []string, channelID, t
 	}
 }
 
+func collectURLs(ev *slackevents.LinkSharedEvent) []string {
+	var urls []string
+
+	for _, link := range ev.Links {
+		if link.Domain != targetDomain {
+			continue
+		}
+		rawURL := link.URL
+		url, err := url.Parse(rawURL)
+		if err != nil {
+			log.Print(err)
+			continue
+		}
+		if !strings.HasPrefix(url.Path, "/artwork/") {
+			continue
+		}
+		urls = append(urls, link.URL)
+	}
+
+	return urls
+}
+
 // POST /api/event
 func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
@@ -183,22 +205,7 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	case *slackevents.EventsAPICallbackEvent:
 		switch innerEv := event.InnerEvent.Data.(type) {
 		case *slackevents.LinkSharedEvent:
-			var urls []string
-			for _, link := range innerEv.Links {
-				if link.Domain != targetDomain {
-					continue
-				}
-				rawURL := link.URL
-				url, err := url.Parse(rawURL)
-				if err != nil {
-					log.Print(err)
-					continue
-				}
-				if !strings.HasPrefix(url.Path, "/artwork/") {
-					continue
-				}
-				urls = append(urls, link.URL)
-			}
+			urls := collectURLs(innerEv)
 			respondToLinkSharedEvent(w, urls, innerEv.Channel, innerEv.MessageTimeStamp)
 		default:
 			log.Printf("Unknown inner event: %v", innerEv)
