@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/hasura/go-graphql-client"
+	"github.com/nna774/gyazo"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 )
@@ -20,8 +21,11 @@ var bindAddress string
 var targetDomain string
 var slackSiginingSecret string
 var slackVerificationToken string
+var externalURLBase string
+var internalURLBase string
 var slackClient *slack.Client
 var graphqlClient *graphql.Client
+var gyazoClient *gyazo.Oauth2Client
 var artworkPathPattern regexp.Regexp
 var artworkPathTemplate = "$artworkID"
 
@@ -52,6 +56,12 @@ func prepareConfig() {
 	}
 	slackClient = slack.New(slackToken)
 
+	gyazoToken := os.Getenv("GYAZO_ACCESS_TOKEN")
+	if gyazoToken == "" {
+		log.Fatal("GYAZO_ACCESS_TOKEN not set")
+	}
+	gyazoClient = gyazo.NewOauth2Client(gyazoToken)
+
 	graphqlAPIEndpoint := os.Getenv("GRAPHQL_API_ENDPOINT")
 	if graphqlAPIEndpoint == "" {
 		log.Fatal("GRAPHQL_API_ENDPOINT not set")
@@ -59,6 +69,13 @@ func prepareConfig() {
 	graphqlClient = graphql.NewClient(graphqlAPIEndpoint, nil)
 
 	artworkPathPattern = *regexp.MustCompile(`(?m)/artwork/(?P<artworkID>[0-9a-zA-Z=]+)`)
+
+	externalURLBase = os.Getenv("EXTERNAL_URL_BASE")
+	internalURLBase = os.Getenv("INTERNAL_URL_BASE")
+}
+
+func convertToInternalURL(externalURL string) string {
+	return strings.Replace(externalURL, externalURLBase, internalURLBase, 1)
 }
 
 // urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
@@ -85,6 +102,10 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 			Artwork struct {
 				Title   graphql.String
 				Caption graphql.String
+				Nsfw    graphql.Boolean
+				TopIllust struct {
+					ThumbnailUrl graphql.String
+				}
 			} `graphql:"... on Artwork"`
 		} `graphql:"node(id: $id)"`
 	}
@@ -96,10 +117,32 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 		return
 	}
 
+	imageDownloadURL := convertToInternalURL(string(artworkInfoQuery.Node.Artwork.TopIllust.ThumbnailUrl))
+	resp, err := http.Get(imageDownloadURL)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+
+	defer resp.Body.Close()
+	var imageURL string
+	if !bool(artworkInfoQuery.Node.Artwork.Nsfw) {
+		gyazoResp, err := gyazoClient.Upload(resp.Body, &gyazo.UploadMetadata{
+			Title: string(artworkInfoQuery.Node.Artwork.Title),
+			Desc: string(artworkInfoQuery.Node.Artwork.Caption),
+		})
+		if err != nil {
+			log.Print(err)
+			return
+		}
+		imageURL = gyazoResp.PermalinkURL
+	}
+
 	unfurls := make(map[string]slack.Attachment)
 	unfurls[rawURL] = slack.Attachment{
 		Title: string(artworkInfoQuery.Node.Artwork.Title),
 		Text:  string(artworkInfoQuery.Node.Artwork.Caption),
+		ImageURL: imageURL,
 	}
 	_, _, _, err = slackClient.UnfurlMessage(channelID, timestamp, unfurls)
 	if err != nil {

@@ -39,7 +39,10 @@ services:
     environment:
       - BIND_ADDRESS=:5001
       - TARGET_DOMAIN=godillustuploader.kmc.gr.jp
+      - EXTERNAL_URL_BASE=http://localhost:3000
+      - INTERNAL_URL_BASE=http://api:5000
       - GRAPHQL_API_ENDPOINT=http://api:5000/api/graphql
+      - GYAZO_ACCESS_TOKEN=${GYAZO_ACCESS_TOKEN}
       - SLACK_SIGNING_SECRET=${SLACK_SIGNING_SECRET}
       - SLACK_VERIFICATION_TOKEN=${SLACK_VERIFICATION_TOKEN}
       - SLACK_TOKEN=${SLACK_TOKEN}
