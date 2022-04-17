@@ -10,6 +10,10 @@ on:
     paths:
       - .github/workflows/slack-event.yml
       - slack-event/**
+  pull_request:
+    paths:
+      - .github/workflows/slack-event.yml
+      - slack-event/**
   workflow_dispatch:
 
 jobs:
