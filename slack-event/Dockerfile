@@ -1,6 +1,7 @@
 FROM golang:1.17 AS builder
 
 WORKDIR /app
+COPY ./go.mod ./go.sum ./
 COPY ./main.go ./
 RUN go build -o ./slack-event-handler
 
