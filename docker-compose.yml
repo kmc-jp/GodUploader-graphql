@@ -41,6 +41,7 @@ services:
       - TARGET_DOMAIN=godillustuploader.kmc.gr.jp
       - GRAPHQL_API_ENDPOINT=http://api:5000/api/graphql
       - SLACK_SIGNING_SECRET=${SLACK_SIGNING_SECRET}
+      - SLACK_VERIFICATION_TOKEN=${SLACK_VERIFICATION_TOKEN}
       - SLACK_TOKEN=${SLACK_TOKEN}
     depends_on:
       - api

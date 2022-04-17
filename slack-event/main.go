@@ -19,6 +19,7 @@ import (
 var bindAddress string
 var targetDomain string
 var slackSiginingSecret string
+var slackVerificationToken string
 var slackClient *slack.Client
 var graphqlClient *graphql.Client
 var artworkPathPattern regexp.Regexp
@@ -38,6 +39,11 @@ func prepareConfig() {
 	slackSiginingSecret = os.Getenv("SLACK_SIGNING_SECRET")
 	if slackSiginingSecret == "" {
 		log.Fatal("SLACK_SIGNING_SECRET not set")
+	}
+
+	slackVerificationToken = os.Getenv("SLACK_VERIFICATION_TOKEN")
+	if slackVerificationToken == "" {
+		log.Fatal("SLACK_VERIFICATION_TOKEN not set")
 	}
 
 	slackToken := os.Getenv("SLACK_TOKEN")
@@ -147,7 +153,7 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	rawJSON := json.RawMessage(rawReqBody)
 	opts := slackevents.OptionVerifyToken(
 		slackevents.TokenComparator{
-			VerificationToken: slackSiginingSecret,
+			VerificationToken: slackVerificationToken,
 		},
 	)
 	event, err := slackevents.ParseEvent(rawJSON, opts)
