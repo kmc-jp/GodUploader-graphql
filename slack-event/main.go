@@ -132,6 +132,12 @@ func fetchArtworkInfo(artworkID string) (*DtoArtwork, error) {
 	}, nil
 }
 
+func downloadImage(url string) (*http.Response, error) {
+	imageDownloadURL := convertToInternalURL(url)
+
+	return http.Get(imageDownloadURL)
+}
+
 // urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
 func unfurlURL(rawURL, channelID, timestamp string) {
 	artworkID, err := extractArtworkIDFromPath(rawURL)
@@ -146,14 +152,13 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 		return
 	}
 
-	imageDownloadURL := convertToInternalURL(artwork.ThumbnailUrl)
-	resp, err := http.Get(imageDownloadURL)
+	resp, err := downloadImage(artwork.ThumbnailUrl)
 	if err != nil {
 		log.Print(err)
 		return
 	}
-
 	defer resp.Body.Close()
+
 	var imageURL string
 	if !bool(artwork.Nsfw) {
 		gyazoResp, err := gyazoClient.Upload(resp.Body, &gyazo.UploadMetadata{
