@@ -146,7 +146,7 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 		return
 	}
 
-	imageDownloadURL := convertToInternalURL(string(artwork.ThumbnailUrl))
+	imageDownloadURL := convertToInternalURL(artwork.ThumbnailUrl)
 	resp, err := http.Get(imageDownloadURL)
 	if err != nil {
 		log.Print(err)
@@ -157,8 +157,8 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 	var imageURL string
 	if !bool(artwork.Nsfw) {
 		gyazoResp, err := gyazoClient.Upload(resp.Body, &gyazo.UploadMetadata{
-			Title: string(artwork.Title),
-			Desc:  string(artwork.Caption),
+			Title: artwork.Title,
+			Desc:  artwork.Caption,
 		})
 		if err != nil {
 			log.Print(err)
@@ -169,8 +169,8 @@ func unfurlURL(rawURL, channelID, timestamp string) {
 
 	unfurls := make(map[string]slack.Attachment)
 	unfurls[rawURL] = slack.Attachment{
-		Title:    string(artwork.Title),
-		Text:     string(artwork.Caption),
+		Title:    artwork.Title,
+		Text:     artwork.Caption,
 		ImageURL: imageURL,
 	}
 	_, _, _, err = slackClient.UnfurlMessage(channelID, timestamp, unfurls)
