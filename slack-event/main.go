@@ -179,8 +179,8 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	switch ev := event.Data.(type) {
 	case *slackevents.EventsAPIURLVerificationEvent:
 		respondToURLVerificationEvent(w, ev.Challenge)
-	case *slackevents.EventsAPIEvent:
-		switch innerEv := ev.InnerEvent.Data.(type) {
+	case *slackevents.EventsAPICallbackEvent:
+		switch innerEv := event.InnerEvent.Data.(type) {
 		case *slackevents.LinkSharedEvent:
 			var urls []string
 			for _, link := range innerEv.Links {
@@ -200,7 +200,7 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 			}
 			respondToLinkSharedEvent(w, urls, innerEv.Channel, innerEv.MessageTimeStamp)
 		default:
-			log.Printf("Unknown inner event: %s", ev.InnerEvent.Type)
+			log.Printf("Unknown inner event: %v", innerEv)
 			w.WriteHeader(http.StatusBadRequest)
 		}
 	case *slackevents.EventsAPIAppRateLimited:
