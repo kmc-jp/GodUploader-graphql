@@ -45,11 +45,15 @@ const UploadArtworkForm = () => {
     files,
     showThumbnail,
     notifySlack,
+    notifyTwitter,
+    twitterUserName,
     uploadErrors,
     filesizeLimitExceeded,
     setFiles,
     setShowThumbnail,
     setNotifySlack,
+    setNotifyTwitter,
+    setTwitterUserName,
     handleSubmit,
   } = useUploadArtworkContext();
 
@@ -184,6 +188,26 @@ const UploadArtworkForm = () => {
               onChange={(e) => setNotifySlack(e.target.checked)}
             />
           </div>
+          <div className="mb-3">
+            <label htmlFor="notify_twitter">Twitterにも投稿する (KMCのアカウントで公開されるので注意)</label>
+            <input
+              type="checkbox"
+              id="notify_twitter"
+              checked={notifyTwitter}
+              onChange={(e) => setNotifyTwitter(e.target.checked)}
+            />
+          </div>
+          {notifyTwitter &&
+            <div className="mb-3 px-3">
+              Twitter投稿時のユーザー名
+              <input
+                type="text"
+                id="twitter_name"
+                value={twitterUserName}
+                onChange={(e) => setTwitterUserName(e.target.value)}
+              />
+            </div>
+          }
           <div className="mb-3">
             <label htmlFor="show_thumbnail">
               サムネイルを表示する (Gyazoに自動的に投稿されます)

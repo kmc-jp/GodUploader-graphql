@@ -18,6 +18,8 @@ import { ageRestirctionToRating } from "./ArtworkInformationContext";
 type UplaodArtworkContextValue = {
   isUploading: boolean;
   notifySlack: boolean;
+  notifyTwitter: boolean;
+  twitterUserName: string;
   showThumbnail: boolean;
   slackChannel: string;
   files: (File | Blob)[];
@@ -26,7 +28,9 @@ type UplaodArtworkContextValue = {
 
   setIsUploading: (b: boolean) => void;
   setNotifySlack: (b: boolean) => void;
+  setNotifyTwitter: (b: boolean) => void;
   setShowThumbnail: (b: boolean) => void;
+  setTwitterUserName: (n: string) => void;
   setSlackChannel: (ch: string) => void;
   setFiles: Dispatch<SetStateAction<File[] | Blob[]>>;
   setUploadErrors: (errors: PayloadError[] | null | undefined) => void;
@@ -37,6 +41,8 @@ type UplaodArtworkContextValue = {
 const defaultValue = {
   isUploading: false,
   notifySlack: false,
+  notifyTwitter: false,
+  twitterUserName: "",
   showThumbnail: false,
   slackChannel: "",
   files: [],
@@ -47,6 +53,12 @@ const defaultValue = {
     /* noop */
   },
   setNotifySlack: () => {
+    /* noop */
+  },
+  setNotifyTwitter: () => {
+    /* noop */
+  },
+  setTwitterUserName: () => {
     /* noop */
   },
   setShowThumbnail: () => {
@@ -88,6 +100,8 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
   }, [files]);
 
   const [notifySlack, setNotifySlack] = useState(false);
+  const [notifyTwitter, setNotifyTwitter] = useState(false);
+  const [twitterUserName, setTwitterUserName] = useState("");
   const [showThumbnail, setShowThumbnail] = useState(true);
   const [slackChannel, setSlackChannel] = useState("C039TN7Q1"); // #graphics
   const [uploadErrors, setUploadErrors] = useState<
@@ -106,6 +120,10 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
           ? "SHARE_TO_SLACK_WITH_IMAGE"
           : "SHARE_TO_SLACK"
         : "NONE";
+      const twitterShareOption = {
+        share: notifyTwitter,
+        userName: twitterUserName,
+      }
 
       const rating = ageRestirctionToRating(ageRestriction);
 
@@ -126,6 +144,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
             tags,
             files: Array.from(files, (_, i) => null),
             shareOption,
+            twitterShareOption,
             rating,
             channelId: slackChannel,
           },
@@ -157,6 +176,8 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
       files,
       history,
       notifySlack,
+      notifyTwitter,
+      twitterUserName,
       showThumbnail,
       slackChannel,
       tags,
@@ -170,6 +191,8 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
         isUploading,
         files,
         notifySlack,
+        notifyTwitter,
+        twitterUserName,
         showThumbnail,
         slackChannel,
         uploadErrors,
@@ -177,6 +200,8 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
         setIsUploading,
         setFiles,
         setNotifySlack,
+        setNotifyTwitter,
+        setTwitterUserName,
         setShowThumbnail,
         setSlackChannel,
         setUploadErrors,
