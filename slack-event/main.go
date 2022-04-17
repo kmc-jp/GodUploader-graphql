@@ -187,11 +187,17 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
+func NewServeMux() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/api/ping", handleApiPing)
 	mux.HandleFunc("/api/event", handleApiEvent)
+
+	return mux
+}
+
+func main() {
+	mux := NewServeMux()
 
 	log.Fatal(http.ListenAndServe(bindAddress, mux))
 }
