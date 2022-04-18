@@ -6,6 +6,7 @@ import graphene
 from goduploader.db import session
 from goduploader.external_service.slack import ShareOption as ShareOptionEnum
 from goduploader.external_service.slack import share_to_slack
+from goduploader.external_service.twitter import post_tweet
 from goduploader.graphql.type.artwork import Artwork
 from goduploader.graphql.type.artwork_rating_enum import ArtworkRatingEnum
 from goduploader.image.thumbnail import generate_thumbnail
@@ -108,4 +109,11 @@ class UploadArtwork(graphene.ClientIDMutation):
             input.get("channel_id"),
         )
 
+        if input.get("twitter_share_option") and input["twitter_share_option"]["share"]:
+            message = _build_twitter_share_message(input["twitter_share_option"]["username"] or current_user.kmcid)
+            post_tweet(message, top_illust.image_path("full"))
+
         return UploadArtwork(artwork=artwork)
+
+def _build_twitter_share_message(username: str) -> str:
+    return f'{username}さんがイラストをアップロードしました！ #KMC_GodIllustUploader'
