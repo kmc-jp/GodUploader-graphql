@@ -25,6 +25,11 @@ class SlackShareOptionEnum(graphene.Enum):
         description = "画像をアップロードする際にSlackに共有するかどうかを表すenum"
 
 
+class TwitterShareOption(graphene.InputObjectType):
+    share = graphene.Boolean(description="作品をTwitterに共有するかどうか。falseのときは共有されず、他のフィールドも無視される。", required=True)
+    username = graphene.String(description="Twitterに共有する際の投稿者の表示名。nullのときはKMCIDが使われる")
+
+
 class UploadArtwork(graphene.ClientIDMutation):
     class Input:
         title = graphene.String(description="作品のタイトル", required=True)
@@ -35,6 +40,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         rating = ArtworkRatingEnum(description="更新後の年齢制限", required=True)
         share_option = SlackShareOptionEnum(description="作品をSlackにシェアするかどうか")
         channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID")
+        twitter_share_option = TwitterShareOption(description="Twitterへの共有設定。nullのときは共有しない")
         files = graphene.List(
             graphene.NonNull(Upload),
             description="アップロードする画像 (GIF/PNG/JPEG形式)",

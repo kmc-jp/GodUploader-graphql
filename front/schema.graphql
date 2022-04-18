@@ -379,6 +379,14 @@ enum TagSortEnum {
   UPDATED_AT_DESC
 }
 
+input TwitterShareOption {
+  """作品をTwitterに共有するかどうか。falseのときは共有されず、他のフィールドも無視される。"""
+  share: Boolean!
+
+  """Twitterに共有する際の投稿者の表示名。nullのときはKMCIDが使われる"""
+  username: String
+}
+
 input UpdateAccountInput {
   name: String!
   clientMutationId: String
@@ -450,6 +458,9 @@ input UploadArtworkInput {
 
   """投稿したことを共有するSlackチャンネルのID"""
   channelId: String
+
+  """Twitterへの共有設定。nullのときは共有しない"""
+  twitterShareOption: TwitterShareOption
 
   """アップロードする画像 (GIF/PNG/JPEG形式)"""
   files: [Upload!]!
