@@ -11,6 +11,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"sync"
 
 	"github.com/hasura/go-graphql-client"
 	"github.com/nna774/gyazo"
@@ -97,16 +98,34 @@ func extractArtworkIDFromPath(rawURL string) (string, error) {
 }
 
 type DtoArtwork struct {
+	ArtworkURL   string
 	Title        string
 	Caption      string
 	Nsfw         bool
 	ThumbnailUrl string
 }
 
-func fetchArtworkInfo(artworkID string) (*DtoArtwork, error) {
+func fetchBatchArtworkInfo(artworkURLs []string) ([]*DtoArtwork, error) {
+	var validArtworkURLs []string
+	var artworkIDs []string
+	for _, url := range artworkURLs {
+		id, err := extractArtworkIDFromPath(url)
+		if err != nil {
+			log.Print(err)
+			continue
+		}
+		artworkIDs = append(artworkIDs, id)
+		validArtworkURLs = append(validArtworkURLs, url)
+	}
+
+	if len(artworkIDs) == 0 {
+		log.Println("No artworks to unfurl")
+		return nil, nil
+	}
 	var artworkInfoQuery struct {
-		Node struct {
-			Artwork struct {
+		Nodes []*struct {
+			Artwork *struct {
+				ID        interface{}
 				Title     graphql.String
 				Caption   graphql.String
 				Nsfw      graphql.Boolean
@@ -114,22 +133,38 @@ func fetchArtworkInfo(artworkID string) (*DtoArtwork, error) {
 					ThumbnailUrl graphql.String
 				}
 			} `graphql:"... on Artwork"`
-		} `graphql:"node(id: $id)"`
+		} `graphql:"nodes(ids: $ids)"`
+	}
+
+	var artworkGraphQLIDs []graphql.ID
+	for _, id := range artworkIDs {
+		artworkGraphQLIDs = append(artworkGraphQLIDs, graphql.ID(id))
 	}
 
 	err := graphqlClient.Query(context.Background(), &artworkInfoQuery, map[string]interface{}{
-		"id": graphql.ID(artworkID),
+		"ids": artworkGraphQLIDs,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &DtoArtwork{
-		Title:        string(artworkInfoQuery.Node.Artwork.Title),
-		Caption:      string(artworkInfoQuery.Node.Artwork.Caption),
-		Nsfw:         bool(artworkInfoQuery.Node.Artwork.Nsfw),
-		ThumbnailUrl: string(artworkInfoQuery.Node.Artwork.TopIllust.ThumbnailUrl),
-	}, nil
+	var dtoArtworks []*DtoArtwork
+	for i, node := range artworkInfoQuery.Nodes {
+		if node == nil || node.Artwork == nil {
+			continue
+		}
+		artworkURL := validArtworkURLs[i]
+
+		dtoArtworks = append(dtoArtworks, &DtoArtwork{
+			ArtworkURL:   artworkURL,
+			Title:        string(node.Artwork.Title),
+			Caption:      string(node.Artwork.Caption),
+			Nsfw:         bool(node.Artwork.Nsfw),
+			ThumbnailUrl: string(node.Artwork.TopIllust.ThumbnailUrl),
+		})
+	}
+
+	return dtoArtworks, nil
 }
 
 func downloadImage(url string) (*http.Response, error) {
@@ -138,45 +173,70 @@ func downloadImage(url string) (*http.Response, error) {
 	return http.Get(imageDownloadURL)
 }
 
-// urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
-func unfurlURL(rawURL, channelID, timestamp string) {
-	artworkID, err := extractArtworkIDFromPath(rawURL)
-	if err != nil {
-		log.Print(err)
-		return
-	}
-
-	artwork, err := fetchArtworkInfo(artworkID)
-	if err != nil {
-		log.Print(err)
-		return
-	}
-
-	resp, err := downloadImage(artwork.ThumbnailUrl)
-	if err != nil {
-		log.Print(err)
-		return
-	}
-	defer resp.Body.Close()
-
-	var imageURL string
-	if !bool(artwork.Nsfw) {
-		gyazoResp, err := gyazoClient.Upload(resp.Body, &gyazo.UploadMetadata{
-			Title: artwork.Title,
-			Desc:  artwork.Caption,
-		})
+func unfurlURLs(rawURLs []string, channelID, timestamp string) {
+	var artworkIDs []string
+	for _, url := range rawURLs {
+		id, err := extractArtworkIDFromPath(url)
 		if err != nil {
 			log.Print(err)
-			return
+			continue
 		}
-		imageURL = gyazoResp.URL
+		artworkIDs = append(artworkIDs, id)
 	}
 
+	if len(artworkIDs) == 0 {
+		log.Println("No artworks to unfurl")
+		return
+	}
+
+	artworks, err := fetchBatchArtworkInfo(artworkIDs)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+
+	var sMapArtworkURLToGyazoURL sync.Map
+	wg := &sync.WaitGroup{}
+	for _, artwork := range artworks {
+		wg.Add(1)
+		go func(artwork *DtoArtwork) {
+			defer wg.Done()
+
+			resp, err := downloadImage(artwork.ThumbnailUrl)
+			if err != nil {
+				log.Print(err)
+				return
+			}
+			defer resp.Body.Close()
+
+			var imageURL string
+			if !artwork.Nsfw {
+				gyazoResp, err := gyazoClient.Upload(resp.Body, &gyazo.UploadMetadata{
+					Title: artwork.Title,
+					Desc:  artwork.Caption,
+				})
+				if err != nil {
+					log.Print(err)
+					return
+				}
+				imageURL = gyazoResp.URL
+			}
+			sMapArtworkURLToGyazoURL.Store(artwork.ArtworkURL, imageURL)
+		}(artwork)
+	}
+	wg.Wait()
+
 	unfurls := make(map[string]slack.Attachment)
-	unfurls[rawURL] = slack.Attachment{
-		Title:    artwork.Title,
-		Text:     artwork.Caption,
-		ImageURL: imageURL,
+	for _, artwork := range artworks {
+		imageURL, ok := sMapArtworkURLToGyazoURL.Load(artwork.ArtworkURL)
+		if !ok {
+			continue
+		}
+		unfurls[artwork.ArtworkURL] = slack.Attachment{
+			Title:    artwork.Title,
+			Text:     artwork.Caption,
+			ImageURL: imageURL.(string),
+		}
 	}
 	_, _, _, err = slackClient.UnfurlMessage(channelID, timestamp, unfurls)
 	if err != nil {
@@ -213,9 +273,7 @@ func respondToURLVerificationEvent(w http.ResponseWriter, challenge string) {
 func respondToLinkSharedEvent(w http.ResponseWriter, urls []string, channelID, timestamp string) {
 	w.WriteHeader(http.StatusOK)
 
-	for _, url := range urls {
-		go unfurlURL(url, channelID, timestamp)
-	}
+	go unfurlURLs(urls, channelID, timestamp)
 }
 
 func collectURLs(ev *slackevents.LinkSharedEvent) []string {
