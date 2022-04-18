@@ -66,6 +66,11 @@ class AppConfig(ConfigFromEnvironmentVariable):
     public_folder = os.path.join(os.path.dirname(__file__), "../../public")
     slack_token = ""
 
+    twitter_consumer_key = ""
+    twitter_consumer_secret = ""
+    twitter_access_token = ""
+    twitter_access_token_secret = ""
+
     testing = False
 
 
