@@ -173,8 +173,6 @@ def test_nodes(client):
         }
     }
     """
-    engine.echo = True
-
     result = client.execute(
         query,
         variables={
