@@ -6,6 +6,7 @@ import pytest
 from goduploader.db import session
 from goduploader.model import Account, Artwork, Illust, Tag
 from graphene.relay.node import Node
+from tests.httpmock import TwitterAPIMock
 from tests.util import create_account, mock_context
 from werkzeug.datastructures import FileStorage
 
@@ -17,6 +18,7 @@ UPLOAD_ARTWORK_QUERY = """
         $tags: [String!]!
         $rating: ArtworkRatingEnum!,
         $shareOption: SlackShareOptionEnum = NONE,
+        $twitterShareOption: TwitterShareOption,
         $channelId: String
     ) {
         uploadArtwork(input: {
@@ -26,7 +28,8 @@ UPLOAD_ARTWORK_QUERY = """
             tags: $tags,
             rating: $rating,
             shareOption: $shareOption,
-            channelId: $channelId
+            channelId: $channelId,
+            twitterShareOption: $twitterShareOption,
         }) {
             artwork {
                 id
@@ -202,3 +205,93 @@ def test_upload_artwork_share_option_shate_to_slack_with_image(client):
     assert latest_requests[0].path == "/api/upload"
     assert latest_requests[2].host == "www.slack.com"
     assert latest_requests[2].path == "/api/chat.postMessage"
+
+
+def test_upload_artwork_twitter_share_option_false(client):
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "rating": "safe",
+            "twitterShareOption": {
+                "share": False,
+            },
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+
+
+def test_upload_artwork_twitter_share_option_true(client):
+    mock = TwitterAPIMock()
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "rating": "safe",
+            "twitterShareOption": {
+                "share": True,
+            },
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+    latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
+    assert latest_requests[0].url == 'https://upload.twitter.com/1.1/media/upload.json'
+    assert latest_requests[2].url.startswith('https://api.twitter.com/1.1/statuses/update.json')
+
+
+def test_upload_artwork_twitter_share_option_true_username(client):
+    mock = TwitterAPIMock()
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "rating": "safe",
+            "twitterShareOption": {
+                "share": True,
+                "username": "utgwkk",
+            },
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+    latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
+    assert latest_requests[0].url == 'https://upload.twitter.com/1.1/media/upload.json'
+    assert latest_requests[2].url.startswith('https://api.twitter.com/1.1/statuses/update.json')
