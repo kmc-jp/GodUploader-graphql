@@ -28,7 +28,7 @@ class SlackShareOptionEnum(graphene.Enum):
 
 class TwitterShareOption(graphene.InputObjectType):
     share = graphene.Boolean(description="作品をTwitterに共有するかどうか。falseのときは共有されず、他のフィールドも無視される。", required=True)
-    username = graphene.String(description="Twitterに共有する際の投稿者の表示名。nullのときはKMCIDが使われる")
+    username = graphene.String(description="Twitterに共有する際の投稿者の表示名。空文字やnullのときはKMCIDが使われる")
 
 
 class UploadArtwork(graphene.ClientIDMutation):
