@@ -149,7 +149,7 @@ func fetchBatchArtworkInfo(artworkURLs []string) ([]*DtoArtwork, error) {
 
 	var dtoArtworks []*DtoArtwork
 	for i, node := range artworkInfoQuery.Nodes {
-		if node == nil || node.Artwork == nil {
+		if node == nil {
 			continue
 		}
 		artworkURL := validArtworkURLs[i]
