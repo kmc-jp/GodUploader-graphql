@@ -124,7 +124,7 @@ func fetchBatchArtworkInfo(artworkURLs []string) ([]*DtoArtwork, error) {
 	}
 	var artworkInfoQuery struct {
 		Nodes []*struct {
-			Artwork *struct {
+			Artwork struct {
 				Title     graphql.String
 				Caption   graphql.String
 				Nsfw      graphql.Boolean
