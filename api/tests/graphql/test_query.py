@@ -1,9 +1,12 @@
 import re
 from pathlib import Path
+import graphene
 
 import httpretty
+from goduploader.db import engine
+from goduploader.model import artwork
 from goduploader.model.artwork import ArtworkRatingEnum
-from tests.util import create_artwork
+from tests.util import create_account, create_artwork
 
 
 def test_artworks_rating_safe(client):
@@ -154,6 +157,38 @@ def test_all_slack_channels(client):
                     "name": "general",
                 },
                 {"id": "C061EG9T2", "name": "random"},
+            ]
+        }
+    }
+
+
+def test_nodes(client):
+    account = create_account()
+    artwork = create_artwork()
+
+    query = """
+    query NodesQuery($ids: [ID!]!){
+        nodes(ids: $ids) {
+            id
+        }
+    }
+    """
+    engine.echo = True
+
+    result = client.execute(
+        query,
+        variables={
+            "ids": [
+                graphene.Node.to_global_id("Account", account.id),
+                graphene.Node.to_global_id("Artwork", artwork.id),
+            ]
+        },
+    )
+    assert result == {
+        "data": {
+            "nodes": [
+                {"id": graphene.Node.to_global_id("Account", account.id)},
+                {"id": graphene.Node.to_global_id("Artwork", artwork.id)},
             ]
         }
     }
