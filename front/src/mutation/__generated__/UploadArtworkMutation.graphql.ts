@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<43f3aa360036b2a4d8991087045f6498>>
+ * @generated SignedSource<<662e47a1b6938dcf2856f4d23b29e1bb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,8 +18,13 @@ export type UploadArtworkInput = {
   rating: ArtworkRatingEnum;
   shareOption?: SlackShareOptionEnum | null;
   channelId?: string | null;
+  twitterShareOption?: TwitterShareOption | null;
   files: ReadonlyArray<null>;
   clientMutationId?: string | null;
+};
+export type TwitterShareOption = {
+  share: boolean;
+  username?: string | null;
 };
 export type UploadArtworkMutation$variables = {
   connections: ReadonlyArray<string>;
