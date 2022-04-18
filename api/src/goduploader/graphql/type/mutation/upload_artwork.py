@@ -1,4 +1,5 @@
 import imghdr
+import logging
 import uuid
 from typing import List
 
@@ -111,7 +112,10 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         if input.get("twitter_share_option") and input["twitter_share_option"]["share"]:
             message = _build_twitter_share_message(input["twitter_share_option"].get("username") or current_user.kmcid)
-            post_tweet(message, top_illust.image_path("full"))
+            try:
+                post_tweet(message, top_illust.image_path("full"))
+            except Exception as e:
+                logging.error(e)
 
         return UploadArtwork(artwork=artwork)
 
