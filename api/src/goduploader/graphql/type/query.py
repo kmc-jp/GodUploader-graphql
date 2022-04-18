@@ -26,7 +26,7 @@ class Query(ObjectType):
     node = relay.Node.Field()
 
     nodes = graphene.Field(
-        graphene.List(graphene.NonNull(relay.Node)),
+        graphene.NonNull(graphene.List(relay.Node)),
         ids=graphene.List(
             graphene.NonNull(graphene.ID),
             required=True,
