@@ -298,6 +298,10 @@ type Query {
     """The ID of the object"""
     id: ID!
   ): Node
+  nodes(
+    """The IDs of the object"""
+    ids: [ID!]!
+  ): [Node]!
   accounts(sort: [AccountSortEnum], before: String, after: String, first: Int, last: Int): AccountConnection
   artworks(
     """取得する作品の年齢制限。複数指定できる。空リストは指定できない"""

@@ -11,9 +11,10 @@ from goduploader.model import Tag as TagModel
 from graphene import relay
 from graphene.types.objecttype import ObjectType
 from graphene_sqlalchemy import SQLAlchemyConnectionField
-from sqlalchemy.sql.expression import and_, desc
 
-from goduploader.graphql.type.artwork_rating_enum import ArtworkRatingEnum as ArtworkRatingEnumType
+from goduploader.graphql.type.artwork_rating_enum import (
+    ArtworkRatingEnum as ArtworkRatingEnumType,
+)
 
 
 class SlackChannel(ObjectType):
@@ -23,11 +24,29 @@ class SlackChannel(ObjectType):
 
 class Query(ObjectType):
     node = relay.Node.Field()
+
+    nodes = graphene.Field(
+        graphene.NonNull(graphene.List(relay.Node)),
+        ids=graphene.List(
+            graphene.NonNull(graphene.ID),
+            required=True,
+            description="The IDs of the object",
+        ),
+    )
+
+    def resolve_nodes(root, info, **args):
+        ids = args["ids"]
+        # TODO: N+1クエリ
+        return [graphene.relay.Node.node_resolver(None, root, info, id) for id in ids]
+
     accounts = SQLAlchemyConnectionField(Account.connection)
 
     artworks = SQLAlchemyConnectionField(
         Artwork.connection,
-        rating=graphene.List(graphene.NonNull(ArtworkRatingEnumType), description="取得する作品の年齢制限。複数指定できる。空リストは指定できない"),
+        rating=graphene.List(
+            graphene.NonNull(ArtworkRatingEnumType),
+            description="取得する作品の年齢制限。複数指定できる。空リストは指定できない",
+        ),
     )
 
     def resolve_artworks(root, info, **args):
