@@ -189,7 +189,7 @@ func unfurlURLs(rawURLs []string, channelID, timestamp string) {
 		return
 	}
 
-	artworks, err := fetchBatchArtworkInfo(artworkIDs)
+	artworks, err := fetchBatchArtworkInfo(rawURLs)
 	if err != nil {
 		log.Print(err)
 		return
