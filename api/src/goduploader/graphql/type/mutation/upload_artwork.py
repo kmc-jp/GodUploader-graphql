@@ -110,7 +110,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         )
 
         if input.get("twitter_share_option") and input["twitter_share_option"]["share"]:
-            message = _build_twitter_share_message(input["twitter_share_option"]["username"] or current_user.kmcid)
+            message = _build_twitter_share_message(input["twitter_share_option"].get("username") or current_user.kmcid)
             post_tweet(message, top_illust.image_path("full"))
 
         return UploadArtwork(artwork=artwork)
