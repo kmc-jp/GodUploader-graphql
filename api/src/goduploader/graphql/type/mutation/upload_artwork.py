@@ -117,8 +117,11 @@ class UploadArtwork(graphene.ClientIDMutation):
         )
 
         if input.get("twitter_share_option") and input["twitter_share_option"]["share"]:
+            username: str = (
+                input["twitter_share_option"].get("username", "").strip() or current_user.kmcid
+            )
             message = _build_twitter_share_message(
-                input["twitter_share_option"].get("username") or current_user.kmcid,
+                username,
                 artwork.title,
             )
             try:
@@ -139,6 +142,6 @@ def _build_twitter_share_message(username: str, title: str) -> str:
     # オーバーしてたら省略
     if rest_length <= len(title):
         over_length = len(title) - rest_length
-        title = title[:-over_length] + '…'
+        title = title[:-over_length] + "…"
 
     return f"{username}さんがイラストをアップロードしました！\nタイトル: {title}\n#KMC_GodIllustUploader"
