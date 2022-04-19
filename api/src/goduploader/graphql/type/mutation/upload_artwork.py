@@ -146,7 +146,7 @@ def _share_to_twitter(input, current_user, artwork):
 
 def _build_twitter_share_message(username: str, title: str) -> str:
     build_message_impl = (
-        lambda username, title: f"{username}さんがイラストをアップロードしました！\nタイトル: {title}\n#KMC_GodIllustUploader"
+        lambda username, title: f"{username}さんがイラストをアップロードしました！\nタイトル: {title}\n#KMC_Graphics"
     )
     base_message = build_message_impl(username, "")
 
