@@ -145,7 +145,10 @@ def _share_to_twitter(input, current_user, artwork):
 
 
 def _build_twitter_share_message(username: str, title: str) -> str:
-    base_message = f"{username}さんがイラストをアップロードしました！\nタイトル: \n#KMC_GodIllustUploader"
+    build_message_impl = (
+        lambda username, title: f"{username}さんがイラストをアップロードしました！\nタイトル: {title}\n#KMC_GodIllustUploader"
+    )
+    base_message = build_message_impl(username, "")
 
     # すごく雑な近似で残り文字数を計算しています
     # https://developer.twitter.com/en/docs/counting-characters
@@ -156,4 +159,4 @@ def _build_twitter_share_message(username: str, title: str) -> str:
         over_length = len(title) - rest_length
         title = title[:-over_length] + "…"
 
-    return f"{username}さんがイラストをアップロードしました！\nタイトル: {title}\n#KMC_GodIllustUploader"
+    return build_message_impl(username, title)
