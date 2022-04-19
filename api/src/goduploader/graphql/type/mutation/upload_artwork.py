@@ -117,23 +117,31 @@ class UploadArtwork(graphene.ClientIDMutation):
             input.get("channel_id"),
         )
 
-        if input.get("twitter_share_option") and input["twitter_share_option"]["share"]:
-            if ArtworkRatingEnum.get(input["rating"]) != ArtworkRatingEnumType.safe:
-                raise Exception("年齢制限のある作品をTwitterに共有することはできません")
-
-            username: str = (
-                input["twitter_share_option"].get("username", "").strip() or current_user.kmcid
-            )
-            message = _build_twitter_share_message(
-                username,
-                artwork.title,
-            )
-            try:
-                post_tweet(message, top_illust.image_path("full"))
-            except Exception as e:
-                logging.error(e)
+        _share_to_twitter(input, current_user, artwork)
 
         return UploadArtwork(artwork=artwork)
+
+
+def _share_to_twitter(input, current_user, artwork):
+    if not (
+        input.get("twitter_share_option") and input["twitter_share_option"]["share"]
+    ):
+        return
+
+    if artwork.rating != ArtworkRatingEnumType.safe:
+        raise Exception("年齢制限のある作品をTwitterに共有することはできません")
+
+    username: str = (
+        input["twitter_share_option"].get("username", "").strip() or current_user.kmcid
+    )
+    message = _build_twitter_share_message(
+        username,
+        artwork.title,
+    )
+    try:
+        post_tweet(message, artwork.top_illust.image_path("full"))
+    except Exception as e:
+        logging.error(e)
 
 
 def _build_twitter_share_message(username: str, title: str) -> str:
