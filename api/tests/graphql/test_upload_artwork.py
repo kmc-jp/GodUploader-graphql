@@ -261,8 +261,10 @@ def test_upload_artwork_twitter_share_option_true(client):
     )
     assert "errors" not in result
     latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
-    assert latest_requests[0].url == 'https://upload.twitter.com/1.1/media/upload.json'
-    assert latest_requests[2].url.startswith('https://api.twitter.com/1.1/statuses/update.json')
+    assert latest_requests[0].url == "https://upload.twitter.com/1.1/media/upload.json"
+    assert latest_requests[2].url.startswith(
+        "https://api.twitter.com/1.1/statuses/update.json"
+    )
 
 
 def test_upload_artwork_twitter_share_option_true_username(client):
@@ -293,5 +295,53 @@ def test_upload_artwork_twitter_share_option_true_username(client):
     )
     assert "errors" not in result
     latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
-    assert latest_requests[0].url == 'https://upload.twitter.com/1.1/media/upload.json'
-    assert latest_requests[2].url.startswith('https://api.twitter.com/1.1/statuses/update.json')
+    assert latest_requests[0].url == "https://upload.twitter.com/1.1/media/upload.json"
+    assert latest_requests[2].url.startswith(
+        "https://api.twitter.com/1.1/statuses/update.json"
+    )
+
+
+@pytest.mark.parametrize(
+    "rating",
+    [
+        "r_18",
+        "r_18g",
+    ],
+)
+def test_upload_artwork_twitter_share_nsfw(client, rating):
+    mock = TwitterAPIMock()
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "rating": rating,
+            "twitterShareOption": {
+                "share": True,
+            },
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" in result
+    assert result["errors"][0]["message"] == "年齢制限のある作品をTwitterに共有することはできません"
+
+    latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
+    latest_request_urls = [req.url for req in latest_requests]
+    assert (
+        "https://upload.twitter.com/1.1/media/upload.json" not in latest_request_urls
+    ), "Twitterに画像がアップロードされていない"
+    assert all(
+        url.startswith("https://api.twitter.com/1.1/statuses/update.json")
+        for url in latest_request_urls
+    ), "Twitterにツイートされていない"

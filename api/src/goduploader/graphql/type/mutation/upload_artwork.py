@@ -14,6 +14,7 @@ from goduploader.image.thumbnail import generate_thumbnail
 from goduploader.image.webp import generate_webp
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Illust as IllustModel
+from goduploader.model.artwork import ArtworkRatingEnum as ArtworkRatingEnumType
 from graphene_file_upload.scalars import Upload
 from werkzeug.datastructures import FileStorage
 
@@ -117,6 +118,9 @@ class UploadArtwork(graphene.ClientIDMutation):
         )
 
         if input.get("twitter_share_option") and input["twitter_share_option"]["share"]:
+            if ArtworkRatingEnum.get(input["rating"]) != ArtworkRatingEnumType.safe:
+                raise Exception("年齢制限のある作品をTwitterに共有することはできません")
+
             username: str = (
                 input["twitter_share_option"].get("username", "").strip() or current_user.kmcid
             )
