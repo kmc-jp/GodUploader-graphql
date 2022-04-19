@@ -28,8 +28,12 @@ class SlackShareOptionEnum(graphene.Enum):
 
 
 class TwitterShareOption(graphene.InputObjectType):
-    share = graphene.Boolean(description="作品をTwitterに共有するかどうか。falseのときは共有されず、他のフィールドも無視される。", required=True)
-    username = graphene.String(description="Twitterに共有する際の投稿者の表示名。空文字やnullのときはKMCIDが使われる")
+    share = graphene.Boolean(
+        description="作品をTwitterに共有するかどうか。falseのときは共有されず、他のフィールドも無視される。", required=True
+    )
+    username = graphene.String(
+        description="Twitterに共有する際の投稿者の表示名。空文字やnullのときはKMCIDが使われる"
+    )
 
 
 class UploadArtwork(graphene.ClientIDMutation):
@@ -42,7 +46,9 @@ class UploadArtwork(graphene.ClientIDMutation):
         rating = ArtworkRatingEnum(description="更新後の年齢制限", required=True)
         share_option = SlackShareOptionEnum(description="作品をSlackにシェアするかどうか")
         channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID")
-        twitter_share_option = TwitterShareOption(description="Twitterへの共有設定。nullのときは共有しない")
+        twitter_share_option = TwitterShareOption(
+            description="Twitterへの共有設定。nullのときは共有しない"
+        )
         files = graphene.List(
             graphene.NonNull(Upload),
             description="アップロードする画像 (GIF/PNG/JPEG形式)",
@@ -111,7 +117,10 @@ class UploadArtwork(graphene.ClientIDMutation):
         )
 
         if input.get("twitter_share_option") and input["twitter_share_option"]["share"]:
-            message = _build_twitter_share_message(input["twitter_share_option"].get("username") or current_user.kmcid)
+            message = _build_twitter_share_message(
+                input["twitter_share_option"].get("username") or current_user.kmcid,
+                artwork.title,
+            )
             try:
                 post_tweet(message, top_illust.image_path("full"))
             except Exception as e:
@@ -119,5 +128,17 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         return UploadArtwork(artwork=artwork)
 
-def _build_twitter_share_message(username: str) -> str:
-    return f'{username}さんがイラストをアップロードしました！ #KMC_GodIllustUploader'
+
+def _build_twitter_share_message(username: str, title: str) -> str:
+    base_message = f"{username}さんがイラストをアップロードしました！\nタイトル: \n#KMC_GodIllustUploader"
+
+    # すごく雑な近似で残り文字数を計算しています
+    # https://developer.twitter.com/en/docs/counting-characters
+    rest_length = 160 - len(base_message) - 23
+
+    # オーバーしてたら省略
+    if rest_length <= len(title):
+        over_length = len(title) - rest_length
+        title = title[:-over_length] + '…'
+
+    return f"{username}さんがイラストをアップロードしました！\nタイトル: {title}\n#KMC_GodIllustUploader"
