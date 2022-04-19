@@ -105,7 +105,7 @@ type DtoArtwork struct {
 	ThumbnailUrl string
 }
 
-func fetchBatchArtworkInfo(artworkURLs []string) ([]*DtoArtwork, error) {
+func fetchBatchArtworkInfo(ctx context.Context, artworkURLs []string) ([]*DtoArtwork, error) {
 	var validArtworkURLs []string
 	var artworkIDs []string
 	for _, url := range artworkURLs {
@@ -140,7 +140,7 @@ func fetchBatchArtworkInfo(artworkURLs []string) ([]*DtoArtwork, error) {
 		artworkGraphQLIDs = append(artworkGraphQLIDs, graphql.ID(id))
 	}
 
-	err := graphqlClient.Query(context.Background(), &artworkInfoQuery, map[string]interface{}{
+	err := graphqlClient.Query(ctx, &artworkInfoQuery, map[string]interface{}{
 		"ids": artworkGraphQLIDs,
 	})
 	if err != nil {
@@ -166,13 +166,17 @@ func fetchBatchArtworkInfo(artworkURLs []string) ([]*DtoArtwork, error) {
 	return dtoArtworks, nil
 }
 
-func downloadImage(url string) (*http.Response, error) {
+func downloadImage(ctx context.Context, url string) (*http.Response, error) {
 	imageDownloadURL := convertToInternalURL(url)
 
-	return http.Get(imageDownloadURL)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, imageDownloadURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	return http.DefaultClient.Do(req)
 }
 
-func unfurlURLs(rawURLs []string, channelID, timestamp string) {
+func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp string) {
 	var artworkIDs []string
 	for _, url := range rawURLs {
 		id, err := extractArtworkIDFromPath(url)
@@ -188,7 +192,7 @@ func unfurlURLs(rawURLs []string, channelID, timestamp string) {
 		return
 	}
 
-	artworks, err := fetchBatchArtworkInfo(rawURLs)
+	artworks, err := fetchBatchArtworkInfo(ctx, rawURLs)
 	if err != nil {
 		log.Print(err)
 		return
@@ -201,7 +205,7 @@ func unfurlURLs(rawURLs []string, channelID, timestamp string) {
 		go func(artwork *DtoArtwork) {
 			defer wg.Done()
 
-			resp, err := downloadImage(artwork.ThumbnailUrl)
+			resp, err := downloadImage(ctx, artwork.ThumbnailUrl)
 			if err != nil {
 				log.Print(err)
 				return
@@ -237,7 +241,7 @@ func unfurlURLs(rawURLs []string, channelID, timestamp string) {
 			ImageURL: imageURL.(string),
 		}
 	}
-	_, _, _, err = slackClient.UnfurlMessage(channelID, timestamp, unfurls)
+	_, _, _, err = slackClient.UnfurlMessageContext(ctx, channelID, timestamp, unfurls)
 	if err != nil {
 		log.Print(err)
 		return
@@ -263,16 +267,16 @@ func respondStatusBadRequest(w http.ResponseWriter, err error) {
 	w.Write(toStatusJSON(http.StatusBadRequest))
 }
 
-func respondToURLVerificationEvent(w http.ResponseWriter, challenge string) {
+func respondToURLVerificationEvent(ctx context.Context, w http.ResponseWriter, challenge string) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Add("Content-Type", "text/plain")
 	w.Write([]byte(challenge))
 }
 
-func respondToLinkSharedEvent(w http.ResponseWriter, urls []string, channelID, timestamp string) {
+func respondToLinkSharedEvent(ctx context.Context, w http.ResponseWriter, urls []string, channelID, timestamp string) {
 	w.WriteHeader(http.StatusOK)
 
-	go unfurlURLs(urls, channelID, timestamp)
+	go unfurlURLs(ctx, urls, channelID, timestamp)
 }
 
 func collectURLs(ev *slackevents.LinkSharedEvent) []string {
@@ -343,14 +347,16 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := context.Background()
+
 	switch ev := event.Data.(type) {
 	case *slackevents.EventsAPIURLVerificationEvent:
-		respondToURLVerificationEvent(w, ev.Challenge)
+		respondToURLVerificationEvent(ctx, w, ev.Challenge)
 	case *slackevents.EventsAPICallbackEvent:
 		switch innerEv := event.InnerEvent.Data.(type) {
 		case *slackevents.LinkSharedEvent:
 			urls := collectURLs(innerEv)
-			respondToLinkSharedEvent(w, urls, innerEv.Channel, innerEv.MessageTimeStamp)
+			respondToLinkSharedEvent(ctx, w, urls, innerEv.Channel, innerEv.MessageTimeStamp)
 		default:
 			log.Printf("Unknown inner event: %v", innerEv)
 			w.WriteHeader(http.StatusBadRequest)
