@@ -1,5 +1,6 @@
 from datetime import datetime
 from enum import Enum as PyEnum, auto
+from typing import List
 from urllib.parse import urljoin
 
 from goduploader.config import app_config
@@ -58,7 +59,10 @@ class Artwork(Base):
     def user_can_edit(self, user: Account):
         return self.account_id == user.id
 
-    def update_tag_relation(self, new_tag_names):
+    def update_tag_relation(self, new_tag_names: List[str]):
+        if len(new_tag_names) > 10:
+            raise Exception("1つの作品に付けられるタグは10個までです")
+
         # avoid circular import
         from goduploader.model.tag import Tag
 
