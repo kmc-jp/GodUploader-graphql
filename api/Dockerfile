@@ -18,7 +18,7 @@ RUN chmod 755 $POETRY_HOME/bin/poetry
 
 COPY ./poetry.toml ./
 COPY ./pyproject.toml ./poetry.lock ./
-RUN poetry install
+RUN --mount=type=cache,target=/app/.venv poetry install
 
 COPY ./alembic.ini ./pytest.ini ./.env.test ./
 COPY ./script ./script
