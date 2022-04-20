@@ -249,12 +249,6 @@ const UploadArtworkForm = () => {
               )}
             </ArtworkInformationContext.Consumer>
           }
-          {/* {notifyTwitter && (
-            <>
-
-              {}
-            </>
-          )} */}
           <div className="mb-3">
             <label htmlFor="show_thumbnail">
               サムネイルを表示する (Gyazoに自動的に投稿されます)
