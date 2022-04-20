@@ -23,8 +23,7 @@ var bindAddress string
 var targetDomain string
 var slackSiginingSecret string
 var slackVerificationToken string
-var externalURLBase string
-var internalURLBase string
+var imageDownloader ImageDownloader
 var slackClient *slack.Client
 var graphqlClient *graphql.Client
 var gyazoClient *gyazo.Oauth2Client
@@ -72,12 +71,12 @@ func prepareConfig() {
 
 	artworkPathPattern = *regexp.MustCompile(`(?m)/artwork/(?P<artworkID>[0-9a-zA-Z=]+)`)
 
-	externalURLBase = os.Getenv("EXTERNAL_URL_BASE")
-	internalURLBase = os.Getenv("INTERNAL_URL_BASE")
-}
-
-func convertToInternalURL(externalURL string) string {
-	return strings.Replace(externalURL, externalURLBase, internalURLBase, 1)
+	externalURLBase := os.Getenv("EXTERNAL_URL_BASE")
+	internalURLBase := os.Getenv("INTERNAL_URL_BASE")
+	imageDownloader = &internalImageDownloader{
+		externalURLBase: externalURLBase,
+		internalURLBase: internalURLBase,
+	}
 }
 
 func extractArtworkIDFromPath(rawURL string) (string, error) {
@@ -166,16 +165,6 @@ func fetchBatchArtworkInfo(ctx context.Context, artworkURLs []string) ([]*DtoArt
 	return dtoArtworks, nil
 }
 
-func downloadImage(ctx context.Context, url string) (*http.Response, error) {
-	imageDownloadURL := convertToInternalURL(url)
-
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, imageDownloadURL, nil)
-	if err != nil {
-		return nil, err
-	}
-	return http.DefaultClient.Do(req)
-}
-
 func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp string) {
 	var artworkIDs []string
 	for _, url := range rawURLs {
@@ -205,7 +194,7 @@ func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp stri
 		go func(artwork *DtoArtwork) {
 			defer wg.Done()
 
-			resp, err := downloadImage(ctx, artwork.ThumbnailUrl)
+			resp, err := imageDownloader.Download(ctx, artwork.ThumbnailUrl)
 			if err != nil {
 				log.Print(err)
 				return
