@@ -342,6 +342,6 @@ def test_upload_artwork_twitter_share_nsfw(client, rating):
         "https://upload.twitter.com/1.1/media/upload.json" not in latest_request_urls
     ), "Twitterに画像がアップロードされていない"
     assert all(
-        url.startswith("https://api.twitter.com/1.1/statuses/update.json")
+        not url.startswith("https://api.twitter.com/1.1/statuses/update.json")
         for url in latest_request_urls
     ), "Twitterにツイートされていない"
