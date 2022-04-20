@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { graphql } from "babel-plugin-relay/macro";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useLazyLoadQuery } from "react-relay";
 
 import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";
@@ -115,7 +115,12 @@ const UploadArtworkForm = () => {
     {},
     { fetchPolicy: "store-or-network" }
   );
-  setTwitterUserName(viewer == null ? "" : viewer.kmcid);
+  useEffect(
+    () => {
+      setTwitterUserName(viewer == null ? "" : viewer.kmcid);
+    },
+    []
+  )
 
   return (
     <div className="card">
