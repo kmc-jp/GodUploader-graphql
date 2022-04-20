@@ -231,7 +231,7 @@ const UploadArtworkForm = () => {
                   </div>
 
                   {artworkInformation.ageRestriction === "SAFE" ? (
-                    <div className="mb-3 px-3">
+                    <div className="mb-3">
                       Twitter投稿時のユーザー名
                       <input
                         type="text"
