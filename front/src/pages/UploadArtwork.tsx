@@ -224,15 +224,17 @@ const UploadArtworkForm = () => {
                 />
               </div>
               {ageRestriction === "SAFE" ? (
-                <div className="mb-3">
-                  Twitter投稿時のユーザー名
-                  <input
-                    type="text"
-                    id="twitter_name"
-                    value={twitterUserName}
-                    onChange={(e) => setTwitterUserName(e.target.value)}
-                  />
-                </div>
+                notifyTwitter && (
+                  <div className="mb-3">
+                    Twitter投稿時のユーザー名
+                    <input
+                      type="text"
+                      id="twitter_name"
+                      value={twitterUserName}
+                      onChange={(e) => setTwitterUserName(e.target.value)}
+                    />
+                  </div>
+                )
               ) : (
                 <p className="mb-3 text-danger">
                   年齢制限のある作品をTwitterに共有することはできません
