@@ -24,7 +24,10 @@ import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
-import { ArtworkInformationProvider } from "../contexts/ArtworkInformationContext";
+import {
+  ArtworkInformationContext,
+  ArtworkInformationProvider,
+} from "../contexts/ArtworkInformationContext";
 import {
   MAX_FILESIZE_MB,
   UploadArtworkProvider,
@@ -115,12 +118,9 @@ const UploadArtworkForm = () => {
     {},
     { fetchPolicy: "store-or-network" }
   );
-  useEffect(
-    () => {
-      setTwitterUserName(viewer == null ? "" : viewer.kmcid);
-    },
-    []
-  )
+  useEffect(() => {
+    setTwitterUserName(viewer == null ? "" : viewer.kmcid);
+  }, []);
 
   return (
     <div className="card">
@@ -210,7 +210,9 @@ const UploadArtworkForm = () => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="notify_twitter">Twitterにも投稿する (KMCのアカウントで公開されるので注意)</label>
+            <label htmlFor="notify_twitter">
+              Twitterにも投稿する (KMCのアカウントで公開されるので注意)
+            </label>
             <input
               type="checkbox"
               id="notify_twitter"
@@ -218,17 +220,30 @@ const UploadArtworkForm = () => {
               onChange={(e) => setNotifyTwitter(e.target.checked)}
             />
           </div>
-          {notifyTwitter &&
-            <div className="mb-3 px-3">
-              Twitter投稿時のユーザー名
-              <input
-                type="text"
-                id="twitter_name"
-                value={twitterUserName}
-                onChange={(e) => setTwitterUserName(e.target.value)}
-              />
-            </div>
-          }
+          {notifyTwitter && (
+            <>
+              <div className="px-3">
+                Twitter投稿時のユーザー名
+                <input
+                  type="text"
+                  id="twitter_name"
+                  value={twitterUserName}
+                  onChange={(e) => setTwitterUserName(e.target.value)}
+                />
+              </div>
+              {
+                <ArtworkInformationContext.Consumer>
+                  {(artworkInformation) =>
+                    artworkInformation.ageRestriction !== "SAFE" && (
+                      <p className="mb-3 px-3 text-danger">
+                        年齢制限のある作品をTwitterに共有することはできません
+                      </p>
+                    )
+                  }
+                </ArtworkInformationContext.Consumer>
+              }
+            </>
+          )}
           <div className="mb-3">
             <label htmlFor="show_thumbnail">
               サムネイルを表示する (Gyazoに自動的に投稿されます)
