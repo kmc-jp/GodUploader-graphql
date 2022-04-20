@@ -209,7 +209,6 @@ const UploadArtworkForm = () => {
               onChange={(e) => setNotifySlack(e.target.checked)}
             />
           </div>
-
           {
             <>
               <div className="mb-3">
@@ -224,7 +223,6 @@ const UploadArtworkForm = () => {
                   onChange={(e) => setNotifyTwitter(e.target.checked)}
                 />
               </div>
-
               {ageRestriction === "SAFE" ? (
                 <div className="mb-3">
                   Twitter投稿時のユーザー名
