@@ -209,41 +209,52 @@ const UploadArtworkForm = () => {
               onChange={(e) => setNotifySlack(e.target.checked)}
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="notify_twitter">
-              Twitterにも投稿する (KMCのアカウントで公開されるので注意)
-            </label>
-            <input
-              type="checkbox"
-              id="notify_twitter"
-              checked={notifyTwitter}
-              onChange={(e) => setNotifyTwitter(e.target.checked)}
-            />
-          </div>
-          {notifyTwitter && (
+
+          {
+            <ArtworkInformationContext.Consumer>
+              {(artworkInformation) => (
+                <>
+                  <div className="mb-3">
+                    <label htmlFor="notify_twitter">
+                      Twitterにも投稿する (KMCのアカウントで公開されるので注意)
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="notify_twitter"
+                      checked={
+                        artworkInformation.ageRestriction === "SAFE" &&
+                        notifyTwitter
+                      }
+                      readOnly={artworkInformation.ageRestriction !== "SAFE"}
+                      onChange={(e) => setNotifyTwitter(e.target.checked)}
+                    />
+                  </div>
+
+                  {artworkInformation.ageRestriction === "SAFE" ? (
+                    <div className="mb-3 px-3">
+                      Twitter投稿時のユーザー名
+                      <input
+                        type="text"
+                        id="twitter_name"
+                        value={twitterUserName}
+                        onChange={(e) => setTwitterUserName(e.target.value)}
+                      />
+                    </div>
+                  ) : (
+                    <p className="mb-3 text-danger">
+                      年齢制限のある作品をTwitterに共有することはできません
+                    </p>
+                  )}
+                </>
+              )}
+            </ArtworkInformationContext.Consumer>
+          }
+          {/* {notifyTwitter && (
             <>
-              <div className="px-3">
-                Twitter投稿時のユーザー名
-                <input
-                  type="text"
-                  id="twitter_name"
-                  value={twitterUserName}
-                  onChange={(e) => setTwitterUserName(e.target.value)}
-                />
-              </div>
-              {
-                <ArtworkInformationContext.Consumer>
-                  {(artworkInformation) =>
-                    artworkInformation.ageRestriction !== "SAFE" && (
-                      <p className="mb-3 px-3 text-danger">
-                        年齢制限のある作品をTwitterに共有することはできません
-                      </p>
-                    )
-                  }
-                </ArtworkInformationContext.Consumer>
-              }
+
+              {}
             </>
-          )}
+          )} */}
           <div className="mb-3">
             <label htmlFor="show_thumbnail">
               サムネイルを表示する (Gyazoに自動的に投稿されます)
