@@ -223,7 +223,7 @@ const UploadArtworkForm = () => {
                   type="checkbox"
                   id="notify_twitter"
                   checked={ageRestriction === "SAFE" && notifyTwitter}
-                  readOnly={ageRestriction !== "SAFE"}
+                  disabled={ageRestriction !== "SAFE"}
                   onChange={(e) => setNotifyTwitter(e.target.checked)}
                 />
               </div>
