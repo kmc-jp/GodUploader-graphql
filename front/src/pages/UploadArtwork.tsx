@@ -30,7 +30,7 @@ import {
   UploadArtworkProvider,
 } from "../contexts/UploadArtworkContext";
 import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
-import { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
+import { UploadArtworkQuery } from "./__generated__/UploadArtworkQuery.graphql";
 
 export const UploadArtwork: React.VFC = () => {
   return (
@@ -104,9 +104,9 @@ const UploadArtworkForm = () => {
     [images, setFiles]
   );
 
-  const { viewer } = useLazyLoadQuery<RedirectToMyPageQuery>(
+  const { viewer } = useLazyLoadQuery<UploadArtworkQuery>(
     graphql`
-      query RedirectToMyPageQuery {
+      query UploadArtworkQuery {
         viewer {
           kmcid
         }
