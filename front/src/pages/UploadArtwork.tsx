@@ -24,10 +24,7 @@ import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
-import {
-  ArtworkInformationContext,
-  ArtworkInformationProvider,
-} from "../contexts/ArtworkInformationContext";
+import { ArtworkInformationProvider } from "../contexts/ArtworkInformationContext";
 import {
   MAX_FILESIZE_MB,
   UploadArtworkProvider,
