@@ -122,8 +122,8 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
         : "NONE";
       const twitterShareOption = {
         share: notifyTwitter,
-        userName: twitterUserName,
-      }
+        username: twitterUserName,
+      };
 
       const rating = ageRestirctionToRating(ageRestriction);
 
