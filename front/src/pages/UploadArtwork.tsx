@@ -32,6 +32,7 @@ import {
   MAX_FILESIZE_MB,
   UploadArtworkProvider,
 } from "../contexts/UploadArtworkContext";
+import { useArtworkInformation } from "../hooks/useArtworkInformation";
 import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
 import { UploadArtworkQuery } from "./__generated__/UploadArtworkQuery.graphql";
 
@@ -122,6 +123,8 @@ const UploadArtworkForm = () => {
     setTwitterUserName(viewer == null ? "" : viewer.kmcid);
   }, []);
 
+  const { ageRestriction } = useArtworkInformation();
+
   return (
     <div className="card">
       <div className="card-header">画像のアップロード</div>
@@ -211,43 +214,36 @@ const UploadArtworkForm = () => {
           </div>
 
           {
-            <ArtworkInformationContext.Consumer>
-              {(artworkInformation) => (
-                <>
-                  <div className="mb-3">
-                    <label htmlFor="notify_twitter">
-                      Twitterにも投稿する (KMCのアカウントで公開されるので注意)
-                    </label>
-                    <input
-                      type="checkbox"
-                      id="notify_twitter"
-                      checked={
-                        artworkInformation.ageRestriction === "SAFE" &&
-                        notifyTwitter
-                      }
-                      readOnly={artworkInformation.ageRestriction !== "SAFE"}
-                      onChange={(e) => setNotifyTwitter(e.target.checked)}
-                    />
-                  </div>
+            <>
+              <div className="mb-3">
+                <label htmlFor="notify_twitter">
+                  Twitterにも投稿する (KMCのアカウントで公開されるので注意)
+                </label>
+                <input
+                  type="checkbox"
+                  id="notify_twitter"
+                  checked={ageRestriction === "SAFE" && notifyTwitter}
+                  readOnly={ageRestriction !== "SAFE"}
+                  onChange={(e) => setNotifyTwitter(e.target.checked)}
+                />
+              </div>
 
-                  {artworkInformation.ageRestriction === "SAFE" ? (
-                    <div className="mb-3">
-                      Twitter投稿時のユーザー名
-                      <input
-                        type="text"
-                        id="twitter_name"
-                        value={twitterUserName}
-                        onChange={(e) => setTwitterUserName(e.target.value)}
-                      />
-                    </div>
-                  ) : (
-                    <p className="mb-3 text-danger">
-                      年齢制限のある作品をTwitterに共有することはできません
-                    </p>
-                  )}
-                </>
+              {ageRestriction === "SAFE" ? (
+                <div className="mb-3">
+                  Twitter投稿時のユーザー名
+                  <input
+                    type="text"
+                    id="twitter_name"
+                    value={twitterUserName}
+                    onChange={(e) => setTwitterUserName(e.target.value)}
+                  />
+                </div>
+              ) : (
+                <p className="mb-3 text-danger">
+                  年齢制限のある作品をTwitterに共有することはできません
+                </p>
               )}
-            </ArtworkInformationContext.Consumer>
+            </>
           }
           <div className="mb-3">
             <label htmlFor="show_thumbnail">
