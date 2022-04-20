@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -10,8 +11,10 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"sync"
 
 	"github.com/hasura/go-graphql-client"
+	"github.com/nna774/gyazo"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 )
@@ -20,8 +23,11 @@ var bindAddress string
 var targetDomain string
 var slackSiginingSecret string
 var slackVerificationToken string
+var externalURLBase string
+var internalURLBase string
 var slackClient *slack.Client
 var graphqlClient *graphql.Client
+var gyazoClient *gyazo.Oauth2Client
 var artworkPathPattern regexp.Regexp
 var artworkPathTemplate = "$artworkID"
 
@@ -52,6 +58,12 @@ func prepareConfig() {
 	}
 	slackClient = slack.New(slackToken)
 
+	gyazoToken := os.Getenv("GYAZO_ACCESS_TOKEN")
+	if gyazoToken == "" {
+		log.Fatal("GYAZO_ACCESS_TOKEN not set")
+	}
+	gyazoClient = gyazo.NewOauth2Client(gyazoToken)
+
 	graphqlAPIEndpoint := os.Getenv("GRAPHQL_API_ENDPOINT")
 	if graphqlAPIEndpoint == "" {
 		log.Fatal("GRAPHQL_API_ENDPOINT not set")
@@ -59,53 +71,186 @@ func prepareConfig() {
 	graphqlClient = graphql.NewClient(graphqlAPIEndpoint, nil)
 
 	artworkPathPattern = *regexp.MustCompile(`(?m)/artwork/(?P<artworkID>[0-9a-zA-Z=]+)`)
+
+	externalURLBase = os.Getenv("EXTERNAL_URL_BASE")
+	internalURLBase = os.Getenv("INTERNAL_URL_BASE")
 }
 
-// urlは https://(APP_HOST)/artwork/(ARTWORK_ID) という形式になっていることを前提とする
-func unfurlURL(rawURL, channelID, timestamp string) {
+func convertToInternalURL(externalURL string) string {
+	return strings.Replace(externalURL, externalURLBase, internalURLBase, 1)
+}
+
+func extractArtworkIDFromPath(rawURL string) (string, error) {
 	parsedURL, err := url.Parse(rawURL)
 	if err != nil {
-		log.Print(err)
-		return
+		return "", err
 	}
 
 	submatches := artworkPathPattern.FindStringSubmatchIndex(parsedURL.Path)
 	if len(submatches) == 0 {
-		log.Printf("no submatches for %s (raw URL: %s)", parsedURL.Path, rawURL)
-		return
+		return "", fmt.Errorf("no submatches for %s (raw URL: %s)", parsedURL.Path, rawURL)
 	}
 
 	var artworkIDbyte []byte
 	artworkIDbyte = artworkPathPattern.ExpandString(artworkIDbyte, artworkPathTemplate, parsedURL.Path, submatches)
 
-	artworkID := string(artworkIDbyte)
+	return string(artworkIDbyte), nil
+}
 
-	var artworkInfoQuery struct {
-		Node struct {
-			Artwork struct {
-				Title   graphql.String
-				Caption graphql.String
-			} `graphql:"... on Artwork"`
-		} `graphql:"node(id: $id)"`
+type DtoArtwork struct {
+	ArtworkURL   string
+	Title        string
+	Caption      string
+	Nsfw         bool
+	ThumbnailUrl string
+}
+
+func fetchBatchArtworkInfo(ctx context.Context, artworkURLs []string) ([]*DtoArtwork, error) {
+	var validArtworkURLs []string
+	var artworkIDs []string
+	for _, url := range artworkURLs {
+		id, err := extractArtworkIDFromPath(url)
+		if err != nil {
+			log.Print(err)
+			continue
+		}
+		artworkIDs = append(artworkIDs, id)
+		validArtworkURLs = append(validArtworkURLs, url)
 	}
-	err = graphqlClient.Query(context.Background(), &artworkInfoQuery, map[string]interface{}{
-		"id": graphql.ID(artworkID),
+
+	if len(artworkIDs) == 0 {
+		log.Println("No artworks to unfurl")
+		return nil, nil
+	}
+	var artworkInfoQuery struct {
+		Nodes []*struct {
+			Artwork struct {
+				Title     graphql.String
+				Caption   graphql.String
+				Nsfw      graphql.Boolean
+				TopIllust struct {
+					ThumbnailUrl graphql.String
+				}
+			} `graphql:"... on Artwork"`
+		} `graphql:"nodes(ids: $ids)"`
+	}
+
+	var artworkGraphQLIDs []graphql.ID
+	for _, id := range artworkIDs {
+		artworkGraphQLIDs = append(artworkGraphQLIDs, graphql.ID(id))
+	}
+
+	err := graphqlClient.Query(ctx, &artworkInfoQuery, map[string]interface{}{
+		"ids": artworkGraphQLIDs,
 	})
 	if err != nil {
-		log.Print(err)
+		return nil, err
+	}
+
+	var dtoArtworks []*DtoArtwork
+	for i, node := range artworkInfoQuery.Nodes {
+		if node == nil {
+			continue
+		}
+		artworkURL := validArtworkURLs[i]
+
+		dtoArtworks = append(dtoArtworks, &DtoArtwork{
+			ArtworkURL:   artworkURL,
+			Title:        string(node.Artwork.Title),
+			Caption:      string(node.Artwork.Caption),
+			Nsfw:         bool(node.Artwork.Nsfw),
+			ThumbnailUrl: string(node.Artwork.TopIllust.ThumbnailUrl),
+		})
+	}
+
+	return dtoArtworks, nil
+}
+
+func downloadImage(ctx context.Context, url string) (*http.Response, error) {
+	imageDownloadURL := convertToInternalURL(url)
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, imageDownloadURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	return http.DefaultClient.Do(req)
+}
+
+func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp string) {
+	var artworkIDs []string
+	for _, url := range rawURLs {
+		id, err := extractArtworkIDFromPath(url)
+		if err != nil {
+			log.Print(err)
+			continue
+		}
+		artworkIDs = append(artworkIDs, id)
+	}
+
+	if len(artworkIDs) == 0 {
+		log.Println("No artworks to unfurl")
 		return
 	}
 
-	unfurls := make(map[string]slack.Attachment)
-	unfurls[rawURL] = slack.Attachment{
-		Title: string(artworkInfoQuery.Node.Artwork.Title),
-		Text:  string(artworkInfoQuery.Node.Artwork.Caption),
-	}
-	_, _, _, err = slackClient.UnfurlMessage(channelID, timestamp, unfurls)
+	artworks, err := fetchBatchArtworkInfo(ctx, rawURLs)
 	if err != nil {
 		log.Print(err)
 		return
 	}
+
+	var sMapArtworkURLToGyazoURL sync.Map
+	wg := &sync.WaitGroup{}
+	for _, artwork := range artworks {
+		wg.Add(1)
+		go func(artwork *DtoArtwork) {
+			defer wg.Done()
+
+			resp, err := downloadImage(ctx, artwork.ThumbnailUrl)
+			if err != nil {
+				log.Print(err)
+				return
+			}
+			defer resp.Body.Close()
+
+			var imageURL string
+			if !artwork.Nsfw {
+				gyazoResp, err := gyazoClient.Upload(resp.Body, &gyazo.UploadMetadata{
+					Title: artwork.Title,
+					Desc:  artwork.Caption,
+				})
+				if err != nil {
+					log.Print(err)
+					return
+				}
+				imageURL = gyazoResp.URL
+			}
+			sMapArtworkURLToGyazoURL.Store(artwork.ArtworkURL, imageURL)
+		}(artwork)
+	}
+	wg.Wait()
+
+	unfurls := make(map[string]slack.Attachment)
+	for _, artwork := range artworks {
+		imageURL, ok := sMapArtworkURLToGyazoURL.Load(artwork.ArtworkURL)
+		if !ok {
+			continue
+		}
+		unfurls[artwork.ArtworkURL] = slack.Attachment{
+			Title:    artwork.Title,
+			Text:     artwork.Caption,
+			ImageURL: imageURL.(string),
+		}
+	}
+	_, _, _, err = slackClient.UnfurlMessageContext(ctx, channelID, timestamp, unfurls)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+}
+
+func toStatusJSON(status int) []byte {
+	statusMessage := http.StatusText(status)
+	return []byte(fmt.Sprintf(`{"status":"%s"}`, statusMessage))
 }
 
 // GET /api/ping
@@ -119,21 +264,19 @@ func respondStatusBadRequest(w http.ResponseWriter, err error) {
 	log.Println(err)
 	w.WriteHeader(http.StatusBadRequest)
 	w.Header().Add("Content-Type", "application/json")
-	w.Write([]byte(`{"status":"Bad Request"}`))
+	w.Write(toStatusJSON(http.StatusBadRequest))
 }
 
-func respondToURLVerificationEvent(w http.ResponseWriter, challenge string) {
+func respondToURLVerificationEvent(ctx context.Context, w http.ResponseWriter, challenge string) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Add("Content-Type", "text/plain")
 	w.Write([]byte(challenge))
 }
 
-func respondToLinkSharedEvent(w http.ResponseWriter, urls []string, channelID, timestamp string) {
+func respondToLinkSharedEvent(ctx context.Context, w http.ResponseWriter, urls []string, channelID, timestamp string) {
 	w.WriteHeader(http.StatusOK)
 
-	for _, url := range urls {
-		go unfurlURL(url, channelID, timestamp)
-	}
+	go unfurlURLs(ctx, urls, channelID, timestamp)
 }
 
 func collectURLs(ev *slackevents.LinkSharedEvent) []string {
@@ -158,11 +301,22 @@ func collectURLs(ev *slackevents.LinkSharedEvent) []string {
 	return urls
 }
 
+func parseEvent(body []byte) (slackevents.EventsAPIEvent, error) {
+	rawJSON := json.RawMessage(body)
+	opts := slackevents.OptionVerifyToken(
+		slackevents.TokenComparator{
+			VerificationToken: slackVerificationToken,
+		},
+	)
+
+	return slackevents.ParseEvent(rawJSON, opts)
+}
+
 // POST /api/event
 func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		w.Write([]byte(`{"status":"Method Not Allowed"}`))
+		w.Write(toStatusJSON(http.StatusMethodNotAllowed))
 		return
 	}
 
@@ -183,30 +337,26 @@ func handleApiEvent(w http.ResponseWriter, r *http.Request) {
 	if err := verifier.Ensure(); err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte(`{"status":"Unauthorized"}`))
+		w.Write(toStatusJSON(http.StatusUnauthorized))
 		return
 	}
 
-	rawJSON := json.RawMessage(rawReqBody)
-	opts := slackevents.OptionVerifyToken(
-		slackevents.TokenComparator{
-			VerificationToken: slackVerificationToken,
-		},
-	)
-	event, err := slackevents.ParseEvent(rawJSON, opts)
+	event, err := parseEvent(rawReqBody)
 	if err != nil {
 		respondStatusBadRequest(w, err)
 		return
 	}
 
+	ctx := context.Background()
+
 	switch ev := event.Data.(type) {
 	case *slackevents.EventsAPIURLVerificationEvent:
-		respondToURLVerificationEvent(w, ev.Challenge)
+		respondToURLVerificationEvent(ctx, w, ev.Challenge)
 	case *slackevents.EventsAPICallbackEvent:
 		switch innerEv := event.InnerEvent.Data.(type) {
 		case *slackevents.LinkSharedEvent:
 			urls := collectURLs(innerEv)
-			respondToLinkSharedEvent(w, urls, innerEv.Channel, innerEv.MessageTimeStamp)
+			respondToLinkSharedEvent(ctx, w, urls, innerEv.Channel, innerEv.MessageTimeStamp)
 		default:
 			log.Printf("Unknown inner event: %v", innerEv)
 			w.WriteHeader(http.StatusBadRequest)

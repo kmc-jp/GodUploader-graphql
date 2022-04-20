@@ -78,6 +78,24 @@ $ yarn start
 
 http://localhost:3000/ にアクセスして閲覧できればOKです。
 
+#### GraphQLスキーマを更新する
+
+APIサーバーを立ち上げた状態で以下のコマンドを叩くと、GraphQLスキーマ (front/schema.graphql) を更新できます。
+
+```
+$ cd front
+$ yarn codegen
+```
+
+#### GraphQLクエリを更新する
+
+GraphQLクエリ (`graphql` で囲んでいる箇所) の内容を書き換えた場合、relay-compilerのコンパイルが必要になります。
+
+```
+$ cd front
+$ yarn relay-compiler
+```
+
 #### テスト
 
 ```
