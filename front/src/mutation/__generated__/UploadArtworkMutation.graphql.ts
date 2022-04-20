@@ -11,17 +11,12 @@
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
 export type SlackShareOptionEnum = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
-export type TwitterShareOption = {
-  share: boolean,
-  userName: string,
-}
 export type UploadArtworkInput = {
   title: string;
   caption: string;
   tags: ReadonlyArray<string>;
   rating: ArtworkRatingEnum;
   shareOption?: SlackShareOptionEnum | null;
-  twitterShareOption: TwitterShareOption;
   channelId?: string | null;
   twitterShareOption?: TwitterShareOption | null;
   files: ReadonlyArray<null>;
