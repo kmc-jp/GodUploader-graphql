@@ -15,7 +15,9 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback, useMemo } from "react";
+import { useLazyLoadQuery } from "react-relay";
 
 import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
@@ -28,6 +30,7 @@ import {
   UploadArtworkProvider,
 } from "../contexts/UploadArtworkContext";
 import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
+import { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
 
 export const UploadArtwork: React.VFC = () => {
   return (
@@ -100,6 +103,19 @@ const UploadArtworkForm = () => {
     },
     [images, setFiles]
   );
+
+  const { viewer } = useLazyLoadQuery<RedirectToMyPageQuery>(
+    graphql`
+      query RedirectToMyPageQuery {
+        viewer {
+          kmcid
+        }
+      }
+    `,
+    {},
+    { fetchPolicy: "store-or-network" }
+  );
+  setTwitterUserName(viewer == null ? "" : viewer.kmcid);
 
   return (
     <div className="card">
