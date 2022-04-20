@@ -15,7 +15,9 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import React, { useCallback, useMemo } from "react";
+import { graphql } from "babel-plugin-relay/macro";
+import React, { useCallback, useEffect, useMemo } from "react";
+import { useLazyLoadQuery } from "react-relay";
 
 import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
@@ -27,7 +29,9 @@ import {
   MAX_FILESIZE_MB,
   UploadArtworkProvider,
 } from "../contexts/UploadArtworkContext";
+import { useArtworkInformation } from "../hooks/useArtworkInformation";
 import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
+import { UploadArtworkQuery } from "./__generated__/UploadArtworkQuery.graphql";
 
 export const UploadArtwork: React.VFC = () => {
   return (
@@ -45,11 +49,15 @@ const UploadArtworkForm = () => {
     files,
     showThumbnail,
     notifySlack,
+    notifyTwitter,
+    twitterUserName,
     uploadErrors,
     filesizeLimitExceeded,
     setFiles,
     setShowThumbnail,
     setNotifySlack,
+    setNotifyTwitter,
+    setTwitterUserName,
     handleSubmit,
   } = useUploadArtworkContext();
 
@@ -96,6 +104,23 @@ const UploadArtworkForm = () => {
     },
     [images, setFiles]
   );
+
+  const { viewer } = useLazyLoadQuery<UploadArtworkQuery>(
+    graphql`
+      query UploadArtworkQuery {
+        viewer {
+          kmcid
+        }
+      }
+    `,
+    {},
+    { fetchPolicy: "store-or-network" }
+  );
+  useEffect(() => {
+    setTwitterUserName(viewer === null ? "" : viewer.kmcid);
+  }, []);
+
+  const { ageRestriction } = useArtworkInformation();
 
   return (
     <div className="card">
@@ -184,6 +209,39 @@ const UploadArtworkForm = () => {
               onChange={(e) => setNotifySlack(e.target.checked)}
             />
           </div>
+          {
+            <>
+              <div className="mb-3">
+                <label htmlFor="notify_twitter">
+                  Twitterにも投稿する (KMCのアカウントで公開されるので注意)
+                </label>
+                <input
+                  type="checkbox"
+                  id="notify_twitter"
+                  checked={ageRestriction === "SAFE" && notifyTwitter}
+                  disabled={ageRestriction !== "SAFE"}
+                  onChange={(e) => setNotifyTwitter(e.target.checked)}
+                />
+              </div>
+              {ageRestriction === "SAFE" ? (
+                notifyTwitter && (
+                  <div className="mb-3">
+                    Twitter投稿時のユーザー名
+                    <input
+                      type="text"
+                      id="twitter_name"
+                      value={twitterUserName}
+                      onChange={(e) => setTwitterUserName(e.target.value)}
+                    />
+                  </div>
+                )
+              ) : (
+                <p className="mb-3 text-danger">
+                  年齢制限のある作品をTwitterに共有することはできません
+                </p>
+              )}
+            </>
+          }
           <div className="mb-3">
             <label htmlFor="show_thumbnail">
               サムネイルを表示する (Gyazoに自動的に投稿されます)

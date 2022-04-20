@@ -1,14 +1,18 @@
+import { graphql } from "babel-plugin-relay/macro";
 import { Modal } from "bootstrap";
 import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
+import { useLazyLoadQuery } from "react-relay";
 
+import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
+import { useArtworkInformation } from "../../hooks/useArtworkInformation";
+import { useUploadArtworkContext } from "../../hooks/useUploadArtworkContext";
 import { AgeRestrictionInput } from "../ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../ArtworkInfoForm/CaptionInput";
 import { SlackChannelInput } from "../ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../ArtworkInfoForm/TitleInput";
-import { useUploadArtworkContext } from "../../hooks/useUploadArtworkContext";
-import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
+import { UploadArtworkModalQuery } from "./__generated__/UploadArtworkModalQuery.graphql";
 
 interface Props {
   blob?: Blob;
@@ -19,9 +23,13 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
     isUploading,
     showThumbnail,
     notifySlack,
+    notifyTwitter,
+    twitterUserName,
     setFiles,
     setShowThumbnail,
     setNotifySlack,
+    setNotifyTwitter,
+    setTwitterUserName,
     handleSubmit,
   } = useUploadArtworkContext();
   const { setIsPosting } = useContext(DrawingContext);
@@ -70,6 +78,23 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
     };
   }, [blob, setIsPosting]);
 
+  const { viewer } = useLazyLoadQuery<UploadArtworkModalQuery>(
+    graphql`
+      query UploadArtworkModalQuery {
+        viewer {
+          kmcid
+        }
+      }
+    `,
+    {},
+    { fetchPolicy: "store-or-network" }
+  );
+  useEffect(() => {
+    setTwitterUserName(viewer === null ? "" : viewer.kmcid);
+  }, []);
+
+  const { ageRestriction } = useArtworkInformation();
+
   return (
     <>
       <div
@@ -112,6 +137,40 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
                     onChange={(e) => setNotifySlack(e.target.checked)}
                   />
                 </div>
+                {
+                  <>
+                    <div className="mb-3">
+                      <label htmlFor="notify_twitter">
+                        Twitterにも投稿する
+                        (KMCのアカウントで公開されるので注意)
+                      </label>
+                      <input
+                        type="checkbox"
+                        id="notify_twitter"
+                        checked={ageRestriction === "SAFE" && notifyTwitter}
+                        disabled={ageRestriction !== "SAFE"}
+                        onChange={(e) => setNotifyTwitter(e.target.checked)}
+                      />
+                    </div>
+                    {ageRestriction === "SAFE" ? (
+                      notifyTwitter && (
+                        <div className="mb-3">
+                          Twitter投稿時のユーザー名
+                          <input
+                            type="text"
+                            id="twitter_name"
+                            value={twitterUserName}
+                            onChange={(e) => setTwitterUserName(e.target.value)}
+                          />
+                        </div>
+                      )
+                    ) : (
+                      <p className="mb-3 text-danger">
+                        年齢制限のある作品をTwitterに共有することはできません
+                      </p>
+                    )}
+                  </>
+                }
                 <div className="mb-3">
                   <label htmlFor="show_thumbnail">
                     サムネイルを表示する (Gyazoに自動的に投稿されます)
