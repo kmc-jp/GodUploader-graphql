@@ -108,14 +108,14 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         top_illust = artwork.illusts[0]
 
-        session.commit()
-
         share_to_slack(
             artwork,
             top_illust.image_path("thumbnail"),
             share_option,
             input.get("channel_id"),
         )
+
+        session.commit()
 
         _share_to_twitter(input, current_user, artwork)
 
