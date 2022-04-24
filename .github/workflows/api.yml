@@ -29,7 +29,7 @@ jobs:
           MYSQL_DATABASE: goduploader_test
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     env:
-      DB_URL_TEST: mysql+mysqlconnector://root@localhost:3306/goduploader_test
+      DB_URL: mysql+mysqlconnector://root@localhost:3306/goduploader_test
       MYSQL_USER: root
       MYSQL_HOST: localhost
       MYSQL_PORT: 3306
