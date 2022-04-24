@@ -20,7 +20,7 @@ COPY ./poetry.toml ./
 COPY ./pyproject.toml ./poetry.lock ./
 RUN --mount=type=cache,target=/app/.venv poetry install
 
-COPY ./alembic.ini ./pytest.ini ./.env.test ./
+COPY ./alembic.ini ./pytest.ini ./
 COPY ./script ./script
 COPY ./src ./src
 RUN poetry install
