@@ -108,14 +108,18 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         top_illust = artwork.illusts[0]
 
-        share_to_slack(
-            artwork,
-            top_illust.image_path("thumbnail"),
-            share_option,
-            input.get("channel_id"),
-        )
-
         session.commit()
+
+        # 外部サービスへの共有時には Artwork.id に有効な値が設定されている必要があるのでcommit後に共有します
+        try:
+            share_to_slack(
+                artwork,
+                top_illust.image_path("thumbnail"),
+                share_option,
+                input.get("channel_id"),
+            )
+        except Exception as e:
+            logging.error(e)
 
         _share_to_twitter(input, current_user, artwork)
 
