@@ -1,14 +1,13 @@
-import os
 import tempfile
 from pathlib import Path
+import os
+
+if os.environ.get("DB_URL_TEST"):
+    os.environ["DB_URL"] = os.environ["DB_URL_TEST"]
 
 import httpretty
 import pytest
 from goduploader.config import app_config
-
-if os.environ.get("DB_URL_TEST"):
-    app_config.db_url = os.environ["DB_URL_TEST"]
-
 from goduploader.db import engine, session
 from goduploader.graphql.schema import schema
 from goduploader.model import Base
@@ -16,7 +15,6 @@ from graphene.test import Client
 from tests.httpmock import mock_requests
 from tests.util import create_account
 
-app_config.base_url = "http://localhost:3000/test/"
 app_config.testing = True
 
 
