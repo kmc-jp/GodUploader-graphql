@@ -40,7 +40,7 @@ jobs:
       - name: install deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libjpeg-dev libwebp-dev
+          sudo apt-get install -y --no-install-recommends libjpeg-dev libwebp-dev imagemagick webp
 
       - uses: actions/setup-python@v2
         with:
