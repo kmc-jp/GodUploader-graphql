@@ -44,7 +44,6 @@ jobs:
         working-directory: ./front
 
   build:
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     needs: [test]
     runs-on: ubuntu-latest
     env:
@@ -55,6 +54,10 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v2
+
+      - name: Determine whether to push
+        id: determine-push
+        run: echo ::set-output name=push::${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
 
       - uses: actions/setup-node@v3
         with:
@@ -96,7 +99,7 @@ jobs:
         uses: docker/build-push-action@v2.10.0
         with:
           context: ./front
-          push: true
+          push: ${{ steps.determine-push.outputs.push }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=front
