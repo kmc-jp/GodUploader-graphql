@@ -14,7 +14,7 @@ def generate_thumbnail(illust_path, thumbnail_path):
 
 def _is_animated_gif(illust_path):
     with Image.open(illust_path) as img:
-        return img.is_animated
+        return getattr(img, "is_animated", False)
 
 
 def _generate_normal_thumbnail(illust_path, thumbnail_path):
