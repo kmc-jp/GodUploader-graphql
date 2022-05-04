@@ -19,7 +19,9 @@ def _is_animated_gif(illust_path):
 
 def _generate_normal_thumbnail(illust_path, thumbnail_path):
     with Image.open(illust_path) as img:
-        img.thumbnail((THUMBNAIL_HEIGHT, THUMBNAIL_HEIGHT), resample=Image.Resampling.HAMMING)
+        img.thumbnail(
+            (THUMBNAIL_HEIGHT, THUMBNAIL_HEIGHT), resample=Image.Resampling.HAMMING
+        )
         img.save(thumbnail_path)
 
 
