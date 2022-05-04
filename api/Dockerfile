@@ -5,7 +5,7 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq
 
-RUN apt-get install -y -qq --no-install-recommends imagemagick webp default-mysql-client
+RUN apt-get install -y -qq --no-install-recommends libjpeg-dev libwebp-dev imagemagick webp default-mysql-client
 
 # poetry
 ENV PIP_NO_CACHE_DIR=yes

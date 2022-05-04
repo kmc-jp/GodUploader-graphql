@@ -1,5 +1,7 @@
 import subprocess
 
+from PIL import Image
+
 THUMBNAIL_HEIGHT = 186
 
 
@@ -11,16 +13,16 @@ def generate_thumbnail(illust_path, thumbnail_path):
 
 
 def _is_animated_gif(illust_path):
-    identify = subprocess.run(
-        ["identify", illust_path], encoding="utf-8", capture_output=True
-    )
-    return identify.stdout.count("\n") > 1
+    with Image.open(illust_path) as img:
+        return getattr(img, "is_animated", False)
 
 
 def _generate_normal_thumbnail(illust_path, thumbnail_path):
-    subprocess.run(
-        ["convert", "-resize", f"x{THUMBNAIL_HEIGHT}", illust_path, thumbnail_path]
-    ).check_returncode()
+    with Image.open(illust_path) as img:
+        img.thumbnail(
+            (THUMBNAIL_HEIGHT, THUMBNAIL_HEIGHT), resample=Image.Resampling.HAMMING
+        )
+        img.save(thumbnail_path)
 
 
 def _generate_animated_thumbnail(illust_path, thumbnail_path):
