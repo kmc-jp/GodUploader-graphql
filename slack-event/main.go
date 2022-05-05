@@ -13,7 +13,6 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/hasura/go-graphql-client"
 	"github.com/nna774/gyazo"
 	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
@@ -25,7 +24,7 @@ var slackSiginingSecret string
 var slackVerificationToken string
 var imageDownloader ImageDownloader
 var slackClient *slack.Client
-var graphqlClient *graphql.Client
+var artworkInfoFetcher ArtworkInfoFetcher
 var gyazoClient *gyazo.Oauth2Client
 var artworkPathPattern regexp.Regexp
 var artworkPathTemplate = "$artworkID"
@@ -67,7 +66,7 @@ func prepareConfig() {
 	if graphqlAPIEndpoint == "" {
 		log.Fatal("GRAPHQL_API_ENDPOINT not set")
 	}
-	graphqlClient = graphql.NewClient(graphqlAPIEndpoint, nil)
+	artworkInfoFetcher = newGraphQLFetcher(graphqlAPIEndpoint)
 
 	artworkPathPattern = *regexp.MustCompile(`(?m)/artwork/(?P<artworkID>[0-9a-zA-Z=]+)`)
 
@@ -77,92 +76,6 @@ func prepareConfig() {
 		externalURLBase: externalURLBase,
 		internalURLBase: internalURLBase,
 	}
-}
-
-func extractArtworkIDFromPath(rawURL string) (string, error) {
-	parsedURL, err := url.Parse(rawURL)
-	if err != nil {
-		return "", err
-	}
-
-	submatches := artworkPathPattern.FindStringSubmatchIndex(parsedURL.Path)
-	if len(submatches) == 0 {
-		return "", fmt.Errorf("no submatches for %s (raw URL: %s)", parsedURL.Path, rawURL)
-	}
-
-	var artworkIDbyte []byte
-	artworkIDbyte = artworkPathPattern.ExpandString(artworkIDbyte, artworkPathTemplate, parsedURL.Path, submatches)
-
-	return string(artworkIDbyte), nil
-}
-
-type DtoArtwork struct {
-	ArtworkURL   string
-	Title        string
-	Caption      string
-	Nsfw         bool
-	ThumbnailUrl string
-}
-
-func fetchBatchArtworkInfo(ctx context.Context, artworkURLs []string) ([]*DtoArtwork, error) {
-	var validArtworkURLs []string
-	var artworkIDs []string
-	for _, url := range artworkURLs {
-		id, err := extractArtworkIDFromPath(url)
-		if err != nil {
-			log.Print(err)
-			continue
-		}
-		artworkIDs = append(artworkIDs, id)
-		validArtworkURLs = append(validArtworkURLs, url)
-	}
-
-	if len(artworkIDs) == 0 {
-		log.Println("No artworks to unfurl")
-		return nil, nil
-	}
-	var artworkInfoQuery struct {
-		Nodes []*struct {
-			Artwork struct {
-				Title     graphql.String
-				Caption   graphql.String
-				Nsfw      graphql.Boolean
-				TopIllust struct {
-					ThumbnailUrl graphql.String
-				}
-			} `graphql:"... on Artwork"`
-		} `graphql:"nodes(ids: $ids)"`
-	}
-
-	var artworkGraphQLIDs []graphql.ID
-	for _, id := range artworkIDs {
-		artworkGraphQLIDs = append(artworkGraphQLIDs, graphql.ID(id))
-	}
-
-	err := graphqlClient.Query(ctx, &artworkInfoQuery, map[string]interface{}{
-		"ids": artworkGraphQLIDs,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	var dtoArtworks []*DtoArtwork
-	for i, node := range artworkInfoQuery.Nodes {
-		if node == nil {
-			continue
-		}
-		artworkURL := validArtworkURLs[i]
-
-		dtoArtworks = append(dtoArtworks, &DtoArtwork{
-			ArtworkURL:   artworkURL,
-			Title:        string(node.Artwork.Title),
-			Caption:      string(node.Artwork.Caption),
-			Nsfw:         bool(node.Artwork.Nsfw),
-			ThumbnailUrl: string(node.Artwork.TopIllust.ThumbnailUrl),
-		})
-	}
-
-	return dtoArtworks, nil
 }
 
 func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp string) {
@@ -181,7 +94,7 @@ func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp stri
 		return
 	}
 
-	artworks, err := fetchBatchArtworkInfo(ctx, rawURLs)
+	artworks, err := artworkInfoFetcher.fetchArtworkInfoByURLs(ctx, rawURLs)
 	if err != nil {
 		log.Print(err)
 		return
