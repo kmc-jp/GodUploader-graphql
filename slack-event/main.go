@@ -25,7 +25,7 @@ var slackVerificationToken string
 var imageDownloader ImageDownloader
 var slackClient *slack.Client
 var artworkInfoFetcher ArtworkInfoFetcher
-var gyazoClient *gyazo.Oauth2Client
+var gyazoClient gyazo.Uploader
 var artworkPathPattern regexp.Regexp
 var artworkPathTemplate = "$artworkID"
 
