@@ -67,7 +67,6 @@ const UploadArtworkForm = () => {
         setFiles((files) =>
           e.target.files ? [...files, ...Array.from(e.target.files)] : files
         );
-        e.target.value = "";
       },
       [setFiles]
     );
