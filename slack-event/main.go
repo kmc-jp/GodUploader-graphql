@@ -23,7 +23,7 @@ var targetDomain string
 var slackSiginingSecret string
 var slackVerificationToken string
 var imageDownloader ImageDownloader
-var slackClient *slack.Client
+var slackClient SlackUnfurlClient
 var artworkInfoFetcher ArtworkInfoFetcher
 var gyazoClient gyazo.Uploader
 var artworkPathPattern regexp.Regexp
@@ -54,7 +54,7 @@ func prepareConfig() {
 	if slackToken == "" {
 		log.Fatal("SLACK_TOKEN not set")
 	}
-	slackClient = slack.New(slackToken)
+	slackClient = &realSlackUnfurlClient{client: slack.New(slackToken)}
 
 	gyazoToken := os.Getenv("GYAZO_ACCESS_TOKEN")
 	if gyazoToken == "" {
@@ -128,7 +128,7 @@ func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp stri
 			ImageURL: imageURL.(string),
 		}
 	}
-	_, _, _, err = slackClient.UnfurlMessageContext(ctx, channelID, timestamp, unfurls)
+	err = slackClient.UnfurlMessage(ctx, channelID, timestamp, unfurls)
 	if err != nil {
 		log.Print(err)
 		return
