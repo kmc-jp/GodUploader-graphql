@@ -6,7 +6,7 @@ ENV GOARCH=amd64
 COPY ./go.mod ./go.sum ./
 RUN go mod download
 
-COPY ./main.go ./
+COPY ./ ./
 RUN go build -o ./slack-event-handler
 
 CMD ["/app/slack-event-handler"]
