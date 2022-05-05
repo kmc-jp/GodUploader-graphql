@@ -79,21 +79,6 @@ func prepareConfig() {
 }
 
 func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp string) {
-	var artworkIDs []string
-	for _, url := range rawURLs {
-		id, err := extractArtworkIDFromPath(url)
-		if err != nil {
-			log.Print(err)
-			continue
-		}
-		artworkIDs = append(artworkIDs, id)
-	}
-
-	if len(artworkIDs) == 0 {
-		log.Println("No artworks to unfurl")
-		return
-	}
-
 	artworks, err := artworkInfoFetcher.fetchArtworkInfoByURLs(ctx, rawURLs)
 	if err != nil {
 		log.Print(err)
