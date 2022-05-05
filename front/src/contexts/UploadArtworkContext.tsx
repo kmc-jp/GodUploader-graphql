@@ -24,6 +24,7 @@ type UplaodArtworkContextValue = {
   slackChannel: string;
   files: (File | Blob)[];
   uploadErrors: PayloadError[] | null | undefined;
+  totalFilesize: number;
   filesizeLimitExceeded: boolean;
 
   setIsUploading: (b: boolean) => void;
@@ -38,7 +39,7 @@ type UplaodArtworkContextValue = {
   handleSubmit: FormEventHandler;
 };
 
-const defaultValue = {
+const defaultValue: UplaodArtworkContextValue = {
   isUploading: false,
   notifySlack: false,
   notifyTwitter: false,
@@ -46,6 +47,7 @@ const defaultValue = {
   showThumbnail: false,
   slackChannel: "",
   files: [],
+  totalFilesize: 0,
   uploadErrors: null,
   filesizeLimitExceeded: false,
 
@@ -83,7 +85,7 @@ const defaultValue = {
 export const MAX_FILESIZE_MB = 40;
 
 // client_max_body_sizeより厳しめに制限する
-const MAX_FILESIZE = MAX_FILESIZE_MB * 0.95 * 1024 * 1024;
+export const MAX_FILESIZE = MAX_FILESIZE_MB * 0.95 * 1024 * 1024;
 
 export const UploadArtworkContext =
   createContext<UplaodArtworkContextValue>(defaultValue);
@@ -92,12 +94,13 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
   const { title, caption, tags, ageRestriction } = useArtworkInformation();
   const [isUploading, setIsUploading] = useState(false);
   const [files, setFiles] = useState<File[] | Blob[]>([]);
+  const totalFilesize = useMemo(
+    () => files.map((file) => file.size).reduce((a, b) => a + b, 0),
+    [files]
+  );
   const filesizeLimitExceeded = useMemo(() => {
-    const totalFileSize = files
-      .map((file) => file.size)
-      .reduce((a, b) => a + b, 0);
-    return totalFileSize >= MAX_FILESIZE;
-  }, [files]);
+    return totalFilesize >= MAX_FILESIZE;
+  }, [totalFilesize]);
 
   const [notifySlack, setNotifySlack] = useState(false);
   const [notifyTwitter, setNotifyTwitter] = useState(false);
@@ -196,6 +199,7 @@ export const UploadArtworkProvider: React.FC = ({ children }) => {
         showThumbnail,
         slackChannel,
         uploadErrors,
+        totalFilesize,
         filesizeLimitExceeded,
         setIsUploading,
         setFiles,

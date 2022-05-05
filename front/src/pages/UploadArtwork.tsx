@@ -21,11 +21,13 @@ import { useLazyLoadQuery } from "react-relay";
 
 import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
+import { FilesizeBar } from "../components/ArtworkInfoForm/FilesizeBar";
 import { SlackChannelInput } from "../components/ArtworkInfoForm/SlackChannelInput";
 import { TagsInput } from "../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../components/ArtworkInfoForm/TitleInput";
 import { ArtworkInformationProvider } from "../contexts/ArtworkInformationContext";
 import {
+  MAX_FILESIZE,
   MAX_FILESIZE_MB,
   UploadArtworkProvider,
 } from "../contexts/UploadArtworkContext";
@@ -52,6 +54,7 @@ const UploadArtworkForm = () => {
     notifyTwitter,
     twitterUserName,
     uploadErrors,
+    totalFilesize,
     filesizeLimitExceeded,
     setFiles,
     setShowThumbnail,
@@ -143,6 +146,7 @@ const UploadArtworkForm = () => {
               style={{ display: "none" }}
               onChange={handleFileChange}
             />
+            <FilesizeBar filesize={totalFilesize} maxFilesize={MAX_FILESIZE} />
             {filesizeLimitExceeded && (
               <div className="alert alert-danger mt-3" role="alert">
                 アップロードするファイルのサイズが大きすぎます
