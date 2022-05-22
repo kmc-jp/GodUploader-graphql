@@ -9,16 +9,18 @@ import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql
 
 export const TaggedArtworks: React.VFC = () => {
   const { tag } = useParams<{ tag: string }>();
+  // NOTE: # などの文字列がパーセントエンコードされているのでデコードしておく
+  const decodedTag = decodeURIComponent(tag);
 
-  if (tag === "R-18") {
+  if (decodedTag === "R-18") {
     return <Redirect to="/artworks?mode=r_18" />;
   }
 
-  if (tag === "R-18G") {
+  if (decodedTag === "R-18G") {
     return <Redirect to="/artworks?mode=r_18" />;
   }
 
-  return <Inner tag={tag} />;
+  return <Inner tag={decodedTag} />;
 };
 
 const Inner: React.VFC<{ tag: string }> = ({ tag }) => {
