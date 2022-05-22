@@ -56,6 +56,9 @@ class Tag(Base):
         if not tag_names:
             return []
 
+        for name in tag_names:
+            Tag.validate_name(name)
+
         canonicalized_tag_names = [Tag.canonicalize(tn) for tn in tag_names]
         found_tags = session.query(Tag).filter(
             Tag.canonical_name.in_(canonicalized_tag_names)
@@ -91,6 +94,17 @@ class Tag(Base):
         3. 小文字化する
         """
         return unicodedata.normalize("NFKC", name).strip().lower()
+
+    @classmethod
+    def validate_name(cls, name: str):
+        restricted_chars = ['#']
+        for ch in restricted_chars:
+            if ch in name:
+                raise TagNameValidationError(f"タグに利用できない文字 `{ch}` が含まれています ({name})")
+
+
+class TagNameValidationError(Exception):
+    pass
 
 def has_nsfw_tag(tag_names: List[str]) -> bool:
     tag_names_casei = [Tag.canonicalize(t) for t in tag_names]

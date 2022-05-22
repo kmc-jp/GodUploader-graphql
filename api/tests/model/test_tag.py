@@ -1,3 +1,4 @@
+from goduploader.model.tag import TagNameValidationError
 import pytest
 from goduploader.model import Tag
 from goduploader.db import session
@@ -44,3 +45,14 @@ def test_find_or_create():
 )
 def test_canonicalize(tag_name, expected):
     assert Tag.canonicalize(tag_name) == expected
+
+@pytest.mark.parametrize(
+    "tag_name",
+    [
+        ("#本田とじゃんけん"),
+        ("#本田とじゃんけん#"),
+    ],
+)
+def test_validate_name_ng(tag_name):
+    with pytest.raises(TagNameValidationError):
+        Tag.validate_name(tag_name)
