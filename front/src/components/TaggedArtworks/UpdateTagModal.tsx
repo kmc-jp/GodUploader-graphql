@@ -68,7 +68,11 @@ export const UpdateTagModal: React.VFC<UpdateTagModalProps> = ({ tagKey }) => {
 
           const modal = Modal.getInstance(ref.current);
           modal?.hide();
-          history.replace(`/tagged_artworks/${response.updateTag?.tag?.name}`);
+          history.replace(
+            `/tagged_artworks/${encodeURIComponent(
+              response.updateTag?.tag?.name ?? ""
+            )}`
+          );
         },
       });
     },
