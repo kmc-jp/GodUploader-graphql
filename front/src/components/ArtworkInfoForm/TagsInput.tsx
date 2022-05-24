@@ -90,21 +90,26 @@ export const TagsInput: React.VFC = () => {
       <div className="row g-2">
         <TagList />
         <div className="col-lg">
-          <input
-            type="text"
-            id="tags"
-            list="tagSuggestionList"
-            className="form-control"
-            onCompositionStart={() =>
-              (isCompositionFinishedJustBefore.current = false)
-            }
-            onCompositionEnd={() =>
-              (isCompositionFinishedJustBefore.current = true)
-            }
-            onKeyDown={handleKeyDown}
-            value={currentInput}
-            onChange={(e) => setCurrentInput(e.target.value)}
-          />
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text">#</span>
+            </div>
+            <input
+              type="text"
+              id="tags"
+              list="tagSuggestionList"
+              className="form-control"
+              onCompositionStart={() =>
+                (isCompositionFinishedJustBefore.current = false)
+              }
+              onCompositionEnd={() =>
+                (isCompositionFinishedJustBefore.current = true)
+              }
+              onKeyDown={handleKeyDown}
+              value={currentInput}
+              onChange={(e) => setCurrentInput(e.target.value)}
+            />
+          </div>
         </div>
       </div>
       <Suspense fallback={null}>
@@ -135,7 +140,7 @@ const TagList: React.VFC = () => {
             aria-label="Close"
             onClick={() => removeTag(tag)}
           ></button>
-          {tag}
+          #{tag}
         </li>
       ))}
     </ul>
