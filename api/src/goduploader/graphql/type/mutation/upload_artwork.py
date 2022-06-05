@@ -115,7 +115,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         try:
             share_to_slack(
                 artwork,
-                top_illust.image_path("thumbnail"),
+                top_illust.image_path("full"),
                 share_option,
                 input.get("channel_id"),
             )
