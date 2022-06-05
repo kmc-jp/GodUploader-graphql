@@ -98,11 +98,11 @@ func extractArtworkIDFromPath(rawURL string) (string, error) {
 }
 
 type DtoArtwork struct {
-	ArtworkURL   string
-	Title        string
-	Caption      string
-	Nsfw         bool
-	ThumbnailUrl string
+	ArtworkURL string
+	Title      string
+	Caption    string
+	Nsfw       bool
+	ImageURL   string
 }
 
 func fetchBatchArtworkInfo(ctx context.Context, artworkURLs []string) ([]*DtoArtwork, error) {
@@ -129,7 +129,7 @@ func fetchBatchArtworkInfo(ctx context.Context, artworkURLs []string) ([]*DtoArt
 				Caption   graphql.String
 				Nsfw      graphql.Boolean
 				TopIllust struct {
-					ThumbnailUrl graphql.String
+					ImageUrl graphql.String
 				}
 			} `graphql:"... on Artwork"`
 		} `graphql:"nodes(ids: $ids)"`
@@ -155,11 +155,11 @@ func fetchBatchArtworkInfo(ctx context.Context, artworkURLs []string) ([]*DtoArt
 		artworkURL := validArtworkURLs[i]
 
 		dtoArtworks = append(dtoArtworks, &DtoArtwork{
-			ArtworkURL:   artworkURL,
-			Title:        string(node.Artwork.Title),
-			Caption:      string(node.Artwork.Caption),
-			Nsfw:         bool(node.Artwork.Nsfw),
-			ThumbnailUrl: string(node.Artwork.TopIllust.ThumbnailUrl),
+			ArtworkURL: artworkURL,
+			Title:      string(node.Artwork.Title),
+			Caption:    string(node.Artwork.Caption),
+			Nsfw:       bool(node.Artwork.Nsfw),
+			ImageURL:   string(node.Artwork.TopIllust.ImageUrl),
 		})
 	}
 
@@ -205,7 +205,7 @@ func unfurlURLs(ctx context.Context, rawURLs []string, channelID, timestamp stri
 		go func(artwork *DtoArtwork) {
 			defer wg.Done()
 
-			resp, err := downloadImage(ctx, artwork.ThumbnailUrl)
+			resp, err := downloadImage(ctx, artwork.ImageURL)
 			if err != nil {
 				log.Print(err)
 				return
