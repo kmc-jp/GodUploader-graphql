@@ -1,7 +1,7 @@
 import imghdr
 import logging
 import uuid
-from typing import List
+from typing import List, Optional
 
 import graphene
 from goduploader.db import session
@@ -14,6 +14,7 @@ from goduploader.image.thumbnail import generate_thumbnail
 from goduploader.image.webp import generate_webp
 from goduploader.model import Artwork as ArtworkModel
 from goduploader.model import Illust as IllustModel
+from goduploader.model import Account as AccountModel
 from goduploader.model.artwork import ArtworkRatingEnum as ArtworkRatingEnumType
 from graphene_file_upload.scalars import Upload
 from werkzeug.datastructures import FileStorage
@@ -60,7 +61,7 @@ class UploadArtwork(graphene.ClientIDMutation):
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, files: List[FileStorage], **input):
-        current_user = info.context.user
+        current_user: Optional[AccountModel] = info.context.user
         if current_user is None:
             raise Exception("Please login")
 
@@ -106,7 +107,7 @@ class UploadArtwork(graphene.ClientIDMutation):
 
         current_user.artworks_count += 1
 
-        top_illust = artwork.illusts[0]
+        top_illust: IllustModel = artwork.illusts[0]
 
         session.commit()
 
@@ -126,7 +127,7 @@ class UploadArtwork(graphene.ClientIDMutation):
         return UploadArtwork(artwork=artwork)
 
 
-def _share_to_twitter(input, current_user, artwork):
+def _share_to_twitter(input, current_user: AccountModel, artwork: ArtworkModel):
     if not (
         input.get("twitter_share_option") and input["twitter_share_option"]["share"]
     ):
