@@ -90,7 +90,13 @@ export const MAX_FILESIZE = MAX_FILESIZE_MB * 0.95 * 1024 * 1024;
 export const UploadArtworkContext =
   createContext<UplaodArtworkContextValue>(defaultValue);
 
-export const UploadArtworkProvider: React.FC = ({ children }) => {
+interface UploadArtworkProviderProps {
+  children: React.ReactNode;
+}
+
+export const UploadArtworkProvider: React.VFC<UploadArtworkProviderProps> = ({
+  children,
+}) => {
   const { title, caption, tags, ageRestriction } = useArtworkInformation();
   const [isUploading, setIsUploading] = useState(false);
   const [files, setFiles] = useState<File[] | Blob[]>([]);

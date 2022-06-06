@@ -43,14 +43,15 @@ const defaultInformation: ArtworkInformationContextValue = {
 export const ArtworkInformationContext =
   createContext<ArtworkInformationContextValue>(defaultInformation);
 
-type ArtworkInformationProviderProps = {
+interface ArtworkInformationProviderProps {
   initialTitle?: string;
   initialCaption?: string;
   initialTags?: string[];
   initialAgeRestriction?: AgeRestriction;
-};
+  children: React.ReactNode;
+}
 
-export const ArtworkInformationProvider: React.FC<ArtworkInformationProviderProps> =
+export const ArtworkInformationProvider: React.VFC<ArtworkInformationProviderProps> =
   ({
     initialTitle,
     initialCaption,

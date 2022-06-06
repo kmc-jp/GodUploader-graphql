@@ -38,7 +38,11 @@ export const PaintStackContext = createContext<PaintStackContextValue>({
   /* eslint-enable @typescript-eslint/no-empty-function */
 });
 
-export const PaintStackContextProvider: React.FC = ({ children }) => {
+interface PaintStackContextProviderProps {
+  children: React.ReactNode
+}
+
+export const PaintStackContextProvider: React.VFC<PaintStackContextProviderProps> = ({ children }) => {
   const [paints, setPaints] = useState<Drawing[]>([]);
   const {
     append,

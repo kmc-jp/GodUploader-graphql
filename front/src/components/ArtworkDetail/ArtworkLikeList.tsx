@@ -11,7 +11,7 @@ interface Props {
   artwork: ArtworkLikeList_likes$key;
 }
 
-export const LikeList: React.FC<Props> = ({ artwork }) => {
+export const LikeList: React.VFC<Props> = ({ artwork }) => {
   const { artworkId, likes } = useFragment<ArtworkLikeList_likes$key>(
     graphql`
       fragment ArtworkLikeList_likes on Artwork {
@@ -83,14 +83,16 @@ export const LikeList: React.FC<Props> = ({ artwork }) => {
   );
 };
 
-const LikeIcon: React.FC<{
+interface LikeIconProps {
   like: {
     readonly account: {
       readonly id: string;
       readonly kmcid: string;
     } | null;
   };
-}> = ({ like }) => {
+}
+
+const LikeIcon: React.VFC<LikeIconProps> = ({ like }) => {
   const ref = useTooltip<HTMLAnchorElement>();
 
   if (!like.account) {

@@ -33,7 +33,13 @@ export const DrawingContext = React.createContext<DrawingContextValue>(
   defaultDrawingContextValue
 );
 
-export const DrawingProvider: React.FC = ({ children }) => {
+interface DrawingProviderProps {
+  children: React.ReactNode;
+}
+
+export const DrawingProvider: React.VFC<DrawingProviderProps> = ({
+  children,
+}) => {
   const [color, setColor] = useState("#000000");
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const [strokeWidth, setStrokeWidth] = useState(2);
