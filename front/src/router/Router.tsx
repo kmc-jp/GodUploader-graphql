@@ -6,7 +6,11 @@ const history = createBrowserHistory({
   basename: process.env.REACT_APP_BASENAME,
 });
 
-export const Router: React.FC = ({ children }) => {
+interface RouterProps {
+  children: React.ReactNode;
+}
+
+export const Router: React.VFC<RouterProps> = ({ children }) => {
   const [forceRefresh, setForceRefresh] = useState(false);
 
   // 暫定的に、5分おきにページ遷移時に再読み込みされるようにする

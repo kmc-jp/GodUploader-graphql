@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useState } from "react";
 
 import { ArtworkInformationProvider } from "../../contexts/ArtworkInformationContext";
-import { UploadArtworkProvider } from "../../contexts/UploadArtworkContext";
 import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
 import { PaintStackContext } from "../../contexts/TegakiDU/PaintStackContext";
+import { UploadArtworkProvider } from "../../contexts/UploadArtworkContext";
 import { UploadArtworkModal } from "./UploadArtworkModal";
 
 export const Sidebar: React.VFC = () => {

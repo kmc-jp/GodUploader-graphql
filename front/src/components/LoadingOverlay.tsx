@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./LoadingOverlay.module.css";
 
-export const LoadingOverlay: React.FC = () => {
+export const LoadingOverlay: React.VFC = () => {
   return (
     <div className={styles.Overlay}>
       <div className="position-absolute top-50 start-50 translate-middle">
