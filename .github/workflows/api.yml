@@ -117,3 +117,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=api
           cache-to: type=gha,mode=max,scope=api
+        env:
+          DOCKER_BUILDKIT: '1'
