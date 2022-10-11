@@ -52,6 +52,8 @@ def main() -> int:
     headers = {
         # リファラチェックがあるので渡しておく
         "Referer": f"{FRONTEND_URL}/",
+        # X-Forwarded-Userヘッダでアップロード元ユーザーを指定できる
+        "X-Forwarded-User": "upload_via_api_py",
     }
     resp = requests.post(
         GRAPHQL_API_ENDPOINT, data=payload, headers=headers, files=files
