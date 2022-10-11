@@ -7,6 +7,7 @@ from typing import List
 import requests
 
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:5000")
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 GRAPHQL_API_ENDPOINT = f"{BASE_URL}/api/graphql"
 UPLOAD_ARTWORK_MUTATION = """
 mutation UploadArtworkMutation($input: UploadArtworkInput!) {
@@ -49,17 +50,20 @@ def main() -> int:
     }
     files = {"variables.input.files.0": image_path.open("rb")}
     headers = {
-        # リファラチェックがあるので渡しておく (:5000 じゃなくて :3000 にしないといけないのであとで調整したい)
-        "Referer": 'http://localhost:3000/',
+        # リファラチェックがあるので渡しておく
+        "Referer": FRONTEND_URL,
     }
     resp = requests.post(
         GRAPHQL_API_ENDPOINT, data=payload, headers=headers, files=files
     )
 
-    print(resp.json())
+    resp_json = resp.json()
+    print(resp_json)
 
     if resp.status_code != 200:
         return 1
+
+    print(f"URL: {FRONTEND_URL}/artwork/{resp_json['data']['uploadArtwork']['artwork']['id']}")
 
     return 0
 
