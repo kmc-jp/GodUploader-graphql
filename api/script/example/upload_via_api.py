@@ -63,7 +63,9 @@ def main() -> int:
     if resp.status_code != 200 or "errors" in resp_json:
         return 1
 
-    print(f"URL: {FRONTEND_URL}/artwork/{resp_json['data']['uploadArtwork']['artwork']['id']}")
+    print(
+        f"URL: {FRONTEND_URL}/artwork/{resp_json['data']['uploadArtwork']['artwork']['id']}"
+    )
 
     return 0
 
