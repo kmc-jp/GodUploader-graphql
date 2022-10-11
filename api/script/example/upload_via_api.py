@@ -60,7 +60,7 @@ def main() -> int:
     resp_json = resp.json()
     print(resp_json)
 
-    if resp.status_code != 200:
+    if resp.status_code != 200 or "errors" in resp_json:
         return 1
 
     print(f"URL: {FRONTEND_URL}/artwork/{resp_json['data']['uploadArtwork']['artwork']['id']}")
