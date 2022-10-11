@@ -51,7 +51,7 @@ def main() -> int:
     files = {"variables.input.files.0": image_path.open("rb")}
     headers = {
         # リファラチェックがあるので渡しておく
-        "Referer": FRONTEND_URL,
+        "Referer": f"{FRONTEND_URL}/",
     }
     resp = requests.post(
         GRAPHQL_API_ENDPOINT, data=payload, headers=headers, files=files
