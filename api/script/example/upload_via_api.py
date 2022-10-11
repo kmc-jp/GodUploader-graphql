@@ -6,8 +6,8 @@ from typing import List
 
 import requests
 
-API_BASE_URL = os.environ.get("API_BASE_URL", "http://localhost:5000")
-GRAPHQL_API_ENDPOINT = f"{API_BASE_URL}/api/graphql"
+BASE_URL = os.environ.get("BASE_URL", "http://localhost:5000")
+GRAPHQL_API_ENDPOINT = f"{BASE_URL}/api/graphql"
 UPLOAD_ARTWORK_MUTATION = """
 mutation UploadArtworkMutation($input: UploadArtworkInput!) {
     uploadArtwork(input: $input) {
