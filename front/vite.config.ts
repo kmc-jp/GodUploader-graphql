@@ -6,6 +6,11 @@ import relay from "vite-plugin-relay";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), nodePolyfills({ protocolImports: true }), relay],
+  server: {
+    proxy: {
+      "/api": "http://localhost:5000",
+    },
+  },
   // workaround
   define: {
     global: "window",
