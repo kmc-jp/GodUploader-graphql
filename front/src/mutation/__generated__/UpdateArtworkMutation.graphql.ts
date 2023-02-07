@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<06f9cba054e97e20cfa6516f9a73a447>>
+ * @generated SignedSource<<679f3da4518ea75e4ae527f4f20006f6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,14 +9,14 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
+export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type UpdateArtworkInput = {
-  id: string;
-  title: string;
   caption: string;
-  tags: ReadonlyArray<string>;
-  rating?: ArtworkRatingEnum | null;
   clientMutationId?: string | null;
+  id: string;
+  rating?: ArtworkRatingEnum | null;
+  tags: ReadonlyArray<string>;
+  title: string;
 };
 export type UpdateArtworkMutation$variables = {
   input: UpdateArtworkInput;
@@ -24,9 +24,8 @@ export type UpdateArtworkMutation$variables = {
 export type UpdateArtworkMutation$data = {
   readonly updateArtwork: {
     readonly artwork: {
-      readonly id: string;
-      readonly title: string;
       readonly caption: string;
+      readonly id: string;
       readonly rating: ArtworkRatingEnum;
       readonly tags: {
         readonly edges: ReadonlyArray<{
@@ -35,12 +34,13 @@ export type UpdateArtworkMutation$data = {
           } | null;
         } | null>;
       } | null;
+      readonly title: string;
     } | null;
   } | null;
 };
 export type UpdateArtworkMutation = {
-  variables: UpdateArtworkMutation$variables;
   response: UpdateArtworkMutation$data;
+  variables: UpdateArtworkMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){

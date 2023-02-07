@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cc4fe781afba80d70ae0268999611631>>
+ * @generated SignedSource<<b01ae547cf051b30386fdd7194fd3c2a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,15 +14,15 @@ export type TagsQuery$data = {
   readonly allTags: {
     readonly edges: ReadonlyArray<{
       readonly node: {
-        readonly name: string;
         readonly artworksCount: number;
+        readonly name: string;
       } | null;
     } | null>;
   } | null;
 };
 export type TagsQuery = {
-  variables: TagsQuery$variables;
   response: TagsQuery$data;
+  variables: TagsQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

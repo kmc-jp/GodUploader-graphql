@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8068613aecd0c021a54e061686d45398>>
+ * @generated SignedSource<<27f7955b08e9726fa4bf9369b9752d6d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,11 +16,11 @@ export type ArtworkComment_comments$data = {
     readonly __id: string;
     readonly edges: ReadonlyArray<{
       readonly node: {
-        readonly text: string;
-        readonly createdAt: string;
         readonly account: {
           readonly kmcid: string;
         } | null;
+        readonly createdAt: string;
+        readonly text: string;
       } | null;
     } | null>;
   } | null;

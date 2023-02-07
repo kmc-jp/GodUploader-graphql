@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<38b65400e06876987d54d42af222fb62>>
+ * @generated SignedSource<<c9eae92f2f2708f1f7ab5ed09cd4d81f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,8 +21,8 @@ export type ArtworkListPaginationQuery$data = {
   } | null;
 };
 export type ArtworkListPaginationQuery = {
-  variables: ArtworkListPaginationQuery$variables;
   response: ArtworkListPaginationQuery$data;
+  variables: ArtworkListPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

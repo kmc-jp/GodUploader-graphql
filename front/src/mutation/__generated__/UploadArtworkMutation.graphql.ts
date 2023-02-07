@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<662e47a1b6938dcf2856f4d23b29e1bb>>
+ * @generated SignedSource<<f04580b64291fa0cbe4d6820ca35526e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,18 +9,18 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
+export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type SlackShareOptionEnum = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
 export type UploadArtworkInput = {
-  title: string;
   caption: string;
-  tags: ReadonlyArray<string>;
+  channelId?: string | null;
+  clientMutationId?: string | null;
+  files: ReadonlyArray<null>;
   rating: ArtworkRatingEnum;
   shareOption?: SlackShareOptionEnum | null;
-  channelId?: string | null;
+  tags: ReadonlyArray<string>;
+  title: string;
   twitterShareOption?: TwitterShareOption | null;
-  files: ReadonlyArray<null>;
-  clientMutationId?: string | null;
 };
 export type TwitterShareOption = {
   share: boolean;
@@ -38,8 +38,8 @@ export type UploadArtworkMutation$data = {
   } | null;
 };
 export type UploadArtworkMutation = {
-  variables: UploadArtworkMutation$variables;
   response: UploadArtworkMutation$data;
+  variables: UploadArtworkMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9cff92b214719f6e1951536051b18b4e>>
+ * @generated SignedSource<<4a10fd506c4de50120d5d0c3f6f13ea4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,9 +11,9 @@
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UpdateTagModal_tag$data = {
+  readonly canonicalName: string;
   readonly id: string;
   readonly name: string;
-  readonly canonicalName: string;
   readonly " $fragmentType": "UpdateTagModal_tag";
 };
 export type UpdateTagModal_tag$key = {

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<977374015570a7f9686ac12defc4244c>>
+ * @generated SignedSource<<b6bf47a5b4cc0d7c0d1b5b18a0cc2399>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,8 +18,8 @@ export type RedirectFolderToArtworkQuery$data = {
   } | null;
 };
 export type RedirectFolderToArtworkQuery = {
-  variables: RedirectFolderToArtworkQuery$variables;
   response: RedirectFolderToArtworkQuery$data;
+  variables: RedirectFolderToArtworkQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

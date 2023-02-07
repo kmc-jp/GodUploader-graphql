@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<dec4e96adc1cbcfb5ea5ac9f2f11c8ec>>
+ * @generated SignedSource<<86ae95eae4319ac4aba0560a39e9a509>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,8 +16,8 @@ export type IllustCarousel_illusts$data = {
       readonly node: {
         readonly id: string;
         readonly imageUrl: string;
-        readonly webpUrl: string;
         readonly thumbnailUrl: string;
+        readonly webpUrl: string;
       } | null;
     } | null>;
   } | null;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bada29d804d19101f4cf9bd9dbf94661>>
+ * @generated SignedSource<<d75def9a8e96ee2c8a80a1e9f18c75aa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -26,6 +26,7 @@ export type RecentArtworks_artworks$key = {
 };
 
 import RecentArtworkListPaginationQuery_graphql from './RecentArtworkListPaginationQuery.graphql';
+
 const node: ReaderFragment = (function(){
 var v0 = [
   "artworks"

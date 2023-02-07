@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<62c0c55ab972e483d4623dd526e60e86>>
+ * @generated SignedSource<<afb07f1ef8db7b386cad3a1928c28e98>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,8 +17,8 @@ export type SlackChannelInputQuery$data = {
   } | null>;
 };
 export type SlackChannelInputQuery = {
-  variables: SlackChannelInputQuery$variables;
   response: SlackChannelInputQuery$data;
+  variables: SlackChannelInputQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d87d8eba21d6496dfeb8d9bd290584f0>>
+ * @generated SignedSource<<c62f36ec50a9aa4a68f884c0bc94ee03>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,8 +10,8 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateAccountInput = {
-  name: string;
   clientMutationId?: string | null;
+  name: string;
 };
 export type UpdateAccountMutation$variables = {
   input: UpdateAccountInput;
@@ -26,8 +26,8 @@ export type UpdateAccountMutation$data = {
   } | null;
 };
 export type UpdateAccountMutation = {
-  variables: UpdateAccountMutation$variables;
   response: UpdateAccountMutation$data;
+  variables: UpdateAccountMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){

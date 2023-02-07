@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<af3e5d94f605949475fb940864fa5d78>>
+ * @generated SignedSource<<e295004222c776c6e04f8738b39fbef8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,8 +27,8 @@ export type TaggedArtworksQuery$data = {
   } | null;
 };
 export type TaggedArtworksQuery = {
-  variables: TaggedArtworksQuery$variables;
   response: TaggedArtworksQuery$data;
+  variables: TaggedArtworksQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
