@@ -12,7 +12,6 @@ export default defineConfig({
       "/api": "http://localhost:5000",
     },
   },
-  // workaround
   define: {
     "process.env": (() => {
       const reactAppEnv = Object.entries(process.env).filter(([k]) =>
