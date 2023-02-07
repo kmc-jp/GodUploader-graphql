@@ -71,6 +71,7 @@
     "schema": "./schema.graphql",
     "src": "./src",
     "language": "typescript",
+    "eagerEsModules": true,
     "customScalars": {
       "DateTime": "string",
       "Upload": "null"
