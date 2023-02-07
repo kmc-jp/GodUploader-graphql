@@ -86,7 +86,7 @@ jobs:
 
       - name: Determine whether to push
         id: determine-push
-        run: echo ::set-output name=push::${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+        run: echo "push=${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
