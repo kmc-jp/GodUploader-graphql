@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f19f30b1a95ec134f32a0cefe2f8e15d>>
+ * @generated SignedSource<<201446e68467582be723ba9d27a3fae8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,8 +10,8 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type DeleteArtworkInput = {
-  id: string;
   clientMutationId?: string | null;
+  id: string;
 };
 export type DeleteArtworkMutation$variables = {
   connections: ReadonlyArray<string>;
@@ -23,8 +23,8 @@ export type DeleteArtworkMutation$data = {
   } | null;
 };
 export type DeleteArtworkMutation = {
-  variables: DeleteArtworkMutation$variables;
   response: DeleteArtworkMutation$data;
+  variables: DeleteArtworkMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){

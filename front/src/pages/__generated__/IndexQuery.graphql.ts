@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7c9bc2c022cf9b4de9a5a6fe6837c24e>>
+ * @generated SignedSource<<adfae5449625a532ce3be885f807950a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,10 +15,10 @@ export type IndexQuery$data = {
   readonly activeAccounts: {
     readonly edges: ReadonlyArray<{
       readonly node: {
+        readonly artworksCount: number;
         readonly id: string;
         readonly kmcid: string;
         readonly name: string;
-        readonly artworksCount: number;
       } | null;
     } | null>;
   } | null;
@@ -32,8 +32,8 @@ export type IndexQuery$data = {
   } | null;
 };
 export type IndexQuery = {
-  variables: IndexQuery$variables;
   response: IndexQuery$data;
+  variables: IndexQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

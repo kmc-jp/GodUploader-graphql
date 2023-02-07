@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<addf0226895c5fc47d87958d5fbe3192>>
+ * @generated SignedSource<<2d77ef0290dac72ad5f99dd5ddcbcd94>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,7 +10,7 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
+export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type RecentArtworkListPaginationQuery$variables = {
   count?: number | null;
   cursor?: string | null;
@@ -20,8 +20,8 @@ export type RecentArtworkListPaginationQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
 };
 export type RecentArtworkListPaginationQuery = {
-  variables: RecentArtworkListPaginationQuery$variables;
   response: RecentArtworkListPaginationQuery$data;
+  variables: RecentArtworkListPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

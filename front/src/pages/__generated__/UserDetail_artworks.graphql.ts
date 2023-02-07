@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2267b467b438dafe9a3a2278d44903f4>>
+ * @generated SignedSource<<f58670435d829f97fee32f5ef9f66bf3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -25,6 +25,8 @@ export type UserDetail_artworks$key = {
   readonly " $data"?: UserDetail_artworks$data;
   readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
 };
+
+import ArtworkListPaginationQuery_graphql from './ArtworkListPaginationQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = [
@@ -65,7 +67,7 @@ return {
       "fragmentPathInResult": [
         "node"
       ],
-      "operation": require('./ArtworkListPaginationQuery.graphql'),
+      "operation": ArtworkListPaginationQuery_graphql,
       "identifierField": "id"
     }
   },

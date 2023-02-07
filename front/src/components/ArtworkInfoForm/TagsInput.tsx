@@ -1,5 +1,5 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { Suspense, useCallback, useRef, useState } from "react";
+import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 
 import { useArtworkInformation } from "../../hooks/useArtworkInformation";

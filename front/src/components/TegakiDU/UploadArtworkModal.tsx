@@ -1,7 +1,7 @@
-import { graphql } from "babel-plugin-relay/macro";
 import { Modal } from "bootstrap";
 import React, { useContext, useRef } from "react";
 import { useEffect } from "react";
+import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 
 import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";

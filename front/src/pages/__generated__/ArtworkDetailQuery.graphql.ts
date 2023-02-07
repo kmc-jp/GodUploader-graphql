@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1022d591a5fa2aa97652c9bcb390f306>>
+ * @generated SignedSource<<04dc5eb2ca1f81de2ec519560d0d5f70>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,40 +10,39 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ArtworkRatingEnum = "safe" | "r_18" | "r_18g" | "%future added value";
+export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type ArtworkDetailQuery$variables = {
   id: string;
 };
 export type ArtworkDetailQuery$data = {
   readonly artworkWithBidirectional: {
     readonly __typename: "Artwork";
-    readonly previousArtwork: {
-      readonly id: string;
-      readonly title: string;
-      readonly nsfw: boolean;
-      readonly topIllust: {
-        readonly thumbnailUrl: string;
-      } | null;
-    } | null;
-    readonly nextArtwork: {
-      readonly id: string;
-      readonly title: string;
-      readonly nsfw: boolean;
-      readonly topIllust: {
-        readonly thumbnailUrl: string;
-      } | null;
-    } | null;
-    readonly id: string;
-    readonly title: string;
-    readonly caption: string;
-    readonly createdAt: string;
-    readonly editable: boolean;
-    readonly rating: ArtworkRatingEnum;
     readonly account: {
       readonly id: string;
       readonly kmcid: string;
       readonly name: string;
     } | null;
+    readonly caption: string;
+    readonly createdAt: string;
+    readonly editable: boolean;
+    readonly id: string;
+    readonly nextArtwork: {
+      readonly id: string;
+      readonly nsfw: boolean;
+      readonly title: string;
+      readonly topIllust: {
+        readonly thumbnailUrl: string;
+      } | null;
+    } | null;
+    readonly previousArtwork: {
+      readonly id: string;
+      readonly nsfw: boolean;
+      readonly title: string;
+      readonly topIllust: {
+        readonly thumbnailUrl: string;
+      } | null;
+    } | null;
+    readonly rating: ArtworkRatingEnum;
     readonly tags: {
       readonly edges: ReadonlyArray<{
         readonly node: {
@@ -52,7 +51,8 @@ export type ArtworkDetailQuery$data = {
         } | null;
       } | null>;
     } | null;
-    readonly " $fragmentSpreads": FragmentRefs<"UpdateArtworkForm_artwork" | "IllustCarousel_illusts" | "ArtworkLikeList_likes" | "ArtworkComment_comments">;
+    readonly title: string;
+    readonly " $fragmentSpreads": FragmentRefs<"ArtworkComment_comments" | "ArtworkLikeList_likes" | "IllustCarousel_illusts" | "UpdateArtworkForm_artwork">;
   } | {
     // This will never be '%other', but we need some
     // value in case none of the concrete values match.
@@ -60,8 +60,8 @@ export type ArtworkDetailQuery$data = {
   } | null;
 };
 export type ArtworkDetailQuery = {
-  variables: ArtworkDetailQuery$variables;
   response: ArtworkDetailQuery$data;
+  variables: ArtworkDetailQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

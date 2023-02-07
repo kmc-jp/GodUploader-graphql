@@ -1,7 +1,7 @@
-import { graphql } from "babel-plugin-relay/macro";
 import { Carousel } from "bootstrap";
 import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { graphql } from "react-relay";
 import { useFragment } from "react-relay";
 
 import { SuspenseImage } from "../../components/SuspenseImage";

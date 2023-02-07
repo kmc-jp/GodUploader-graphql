@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<631022ed037eab2b728ea744f5a4f0ff>>
+ * @generated SignedSource<<1b476c1a7c6177aa9cac92226a0ef985>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,9 +10,9 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type UpdateTagInput = {
+  clientMutationId?: string | null;
   id: string;
   name: string;
-  clientMutationId?: string | null;
 };
 export type UpdateTagMutation$variables = {
   input: UpdateTagInput;
@@ -26,8 +26,8 @@ export type UpdateTagMutation$data = {
   } | null;
 };
 export type UpdateTagMutation = {
-  variables: UpdateTagMutation$variables;
   response: UpdateTagMutation$data;
+  variables: UpdateTagMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){

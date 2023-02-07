@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<855095a872de988d395d3069f150d6d3>>
+ * @generated SignedSource<<98cb2ad769c12e1c1e9dcffc2165fdf6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,15 +16,15 @@ export type UserDetailQuery$variables = {
 export type UserDetailQuery$data = {
   readonly user: {
     readonly id: string;
+    readonly isYou: boolean;
     readonly kmcid: string;
     readonly name: string;
-    readonly isYou: boolean;
     readonly " $fragmentSpreads": FragmentRefs<"UpdateInfoForm_account" | "UserDetail_artworks">;
   } | null;
 };
 export type UserDetailQuery = {
-  variables: UserDetailQuery$variables;
   response: UserDetailQuery$data;
+  variables: UserDetailQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

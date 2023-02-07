@@ -1,5 +1,5 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { useEffect, Suspense } from "react";
+import { graphql } from "react-relay";
 import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
 
 import { useUploadArtworkContext } from "../../hooks/useUploadArtworkContext";

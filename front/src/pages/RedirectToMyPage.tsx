@@ -1,4 +1,4 @@
-import { graphql } from "babel-plugin-relay/macro";
+import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 import { Redirect } from "react-router-dom";
 

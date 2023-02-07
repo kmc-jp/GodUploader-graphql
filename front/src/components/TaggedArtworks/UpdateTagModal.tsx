@@ -1,6 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
 import { Modal } from "bootstrap";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 import { useHistory } from "react-router-dom";
 import { PayloadError } from "relay-runtime";

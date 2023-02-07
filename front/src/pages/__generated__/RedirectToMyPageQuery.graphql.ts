@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b3090b6391ce56a63615fd7e9a1b03d8>>
+ * @generated SignedSource<<8684de938606c0b95e580c50d480ed89>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,8 +16,8 @@ export type RedirectToMyPageQuery$data = {
   } | null;
 };
 export type RedirectToMyPageQuery = {
-  variables: RedirectToMyPageQuery$variables;
   response: RedirectToMyPageQuery$data;
+  variables: RedirectToMyPageQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){

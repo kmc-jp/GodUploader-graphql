@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8691a71cf7bf51dece766b89cbf3f40b>>
+ * @generated SignedSource<<16efff4e1838212ac0b7489d5fcfcaaa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,17 +20,17 @@ export type LikeArtworkMutation$variables = {
 export type LikeArtworkMutation$data = {
   readonly likeArtwork: {
     readonly like: {
-      readonly id: string;
       readonly account: {
         readonly id: string;
         readonly kmcid: string;
       } | null;
+      readonly id: string;
     } | null;
   } | null;
 };
 export type LikeArtworkMutation = {
-  variables: LikeArtworkMutation$variables;
   response: LikeArtworkMutation$data;
+  variables: LikeArtworkMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
