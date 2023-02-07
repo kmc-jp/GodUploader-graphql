@@ -49,7 +49,7 @@ jobs:
           cache: 'pip'
           cache-dependency-path: ./api/poetry.lock
 
-      - uses: abatilo/actions-poetry@v2.0.0
+      - uses: abatilo/actions-poetry@v2.2.0
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
 
