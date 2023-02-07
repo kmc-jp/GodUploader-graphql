@@ -16,7 +16,7 @@ export default defineConfig({
   plugins: [react(), nodePolyfills({ protocolImports: true }), relay],
   server: {
     proxy: {
-      "/api": "https://godillustuploader.kmc.gr.jp",
+      "/api": "http://localhost:5000",
     },
   },
   define: {
