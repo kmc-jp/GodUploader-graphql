@@ -15,8 +15,8 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback, useEffect, useMemo } from "react";
+import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 
 import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";

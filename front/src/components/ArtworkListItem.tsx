@@ -1,5 +1,5 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { Suspense } from "react";
+import { graphql } from "react-relay";
 import { useFragment } from "react-relay/hooks";
 import { Link } from "react-router-dom";
 

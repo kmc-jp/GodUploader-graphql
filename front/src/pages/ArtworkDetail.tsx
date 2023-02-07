@@ -1,7 +1,7 @@
-import { graphql } from "babel-plugin-relay/macro";
 import clsx from "clsx";
 import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
+import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 import { Link, useParams } from "react-router-dom";
 import reactStringReplace from "react-string-replace";

@@ -1,5 +1,5 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback } from "react";
+import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 import { Link } from "react-router-dom";
 

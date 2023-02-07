@@ -1,6 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
 import { Modal } from "bootstrap";
 import React, { useCallback, useEffect, useRef } from "react";
+import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
 import { AgeRestrictionInput } from "../../components/ArtworkInfoForm/AgeRestrictionInput";

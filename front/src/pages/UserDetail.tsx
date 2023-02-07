@@ -1,6 +1,6 @@
-import { graphql } from "babel-plugin-relay/macro";
 import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
+import { graphql } from "react-relay";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { useParams } from "react-router-dom";
 

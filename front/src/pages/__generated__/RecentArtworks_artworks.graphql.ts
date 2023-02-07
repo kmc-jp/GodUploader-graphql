@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0c3a99ab00ffd9b3366eb3b6f4a5acdf>>
+ * @generated SignedSource<<bada29d804d19101f4cf9bd9dbf94661>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -25,6 +25,7 @@ export type RecentArtworks_artworks$key = {
   readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;
 };
 
+import RecentArtworkListPaginationQuery_graphql from './RecentArtworkListPaginationQuery.graphql';
 const node: ReaderFragment = (function(){
 var v0 = [
   "artworks"
@@ -66,7 +67,7 @@ return {
         "path": (v0/*: any*/)
       },
       "fragmentPathInResult": [],
-      "operation": require('./RecentArtworkListPaginationQuery.graphql')
+      "operation": RecentArtworkListPaginationQuery_graphql
     }
   },
   "name": "RecentArtworks_artworks",
