@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
@@ -13,8 +14,6 @@ export default defineConfig({
   },
   // workaround
   define: {
-    global: "window",
-    process: undefined,
     "process.env": (() => {
       const reactAppEnv = Object.entries(process.env).filter(([k]) =>
         k.startsWith("REACT_APP_")
@@ -27,5 +26,9 @@ export default defineConfig({
       // workaround: https://github.com/danbovey/react-infinite-scroller/issues/253
       "react-infinite-scroller": "react-infinite-scroller/index.js",
     },
+  },
+  test: {
+    globals: true,
+    environment: "happy-dom",
   },
 });
