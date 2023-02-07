@@ -16,7 +16,10 @@ export default defineConfig({
     global: "window",
     process: undefined,
     "process.env": (() => {
-      return {};
+      const reactAppEnv = Object.entries(process.env).filter(([k]) =>
+        k.startsWith("REACT_APP_")
+      );
+      return Object.fromEntries(reactAppEnv);
     })(),
   },
   resolve: {
