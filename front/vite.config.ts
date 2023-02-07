@@ -1,10 +1,11 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 import relay from "vite-plugin-relay";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), relay],
+  plugins: [react(), relay, nodePolyfills({ protocolImports: true })],
   // workaround
   define: {
     global: "window",
