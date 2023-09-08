@@ -1,6 +1,6 @@
 module github.com/kmc-jp/GodUploader-graphql/slack-event
 
-go 1.18
+go 1.21
 
 require (
 	github.com/hasura/go-graphql-client v0.6.5
