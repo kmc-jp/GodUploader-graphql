@@ -1,7 +1,7 @@
 from goduploader.db import session
 from goduploader.model import Artwork, Tag
-from graphene.relay import Node
 from goduploader.model.artwork import ArtworkRatingEnum
+from graphene.relay import Node
 from tests.util import create_account, create_artwork, mock_context
 
 UPDATE_ARTWORK_QUERY = """
@@ -95,3 +95,6 @@ def test_update_artwork_tag(client):
 
     tag_2 = session.query(Tag).filter_by(name="tag_2").first()
     assert tag_2.artworks_count == 1
+
+    after_artwork = session.query(Artwork).filter_by(id=artwork.id).first()
+    assert len(after_artwork.tags) == 1
