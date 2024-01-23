@@ -30,6 +30,19 @@ def test_find_or_create():
     assert created_tags[1].name == "BBB"
     assert created_tags[1].canonical_name == "bbb"
 
+    # COLLATE=utf8mb4_0900_ai_ci でひらがなカタカナを区別せず、タグが作れていなかったことに対するリグレッションテスト
+    created_tags = Tag.find_or_create(["ロリ"])
+    session.commit()
+
+    assert created_tags[0].name == "ロリ"
+    assert created_tags[0].canonical_name == "ロリ"
+
+    created_tags = Tag.find_or_create(["ろり"])
+    session.commit()
+
+    assert created_tags[0].name == "ろり"
+    assert created_tags[0].canonical_name == "ろり"
+
 
 @pytest.mark.parametrize(
     "tag_name, expected",
