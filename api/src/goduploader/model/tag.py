@@ -1,6 +1,6 @@
-from typing import List
 import unicodedata
 from datetime import datetime
+from typing import List
 from urllib.parse import urljoin
 
 from goduploader.config import app_config
@@ -25,12 +25,12 @@ class Tag(Base):
 
     # 正規化した (小文字に統一した) タグ名
     canonical_name = Column(
-        String(255),
+        String(255, collation='utf8mb4_general_ci'),
         nullable=False,
         unique=True,
     )
     # 表示されるタグ名
-    name = Column(String(255), nullable=False)
+    name = Column(String(255, collation='utf8mb4_general_ci'), nullable=False)
     artworks_count = Column(Integer, nullable=False, default=0)
 
     index_artworks_count = Index("tag_artworks_count", artworks_count)
