@@ -19,7 +19,7 @@ python-dotenv = "^0.17.1"
 alembic = "^1.6.5"
 mysql-connector-python = "8.0.30"
 tweepy = "^4.8.0"
-Pillow = "^10.2.0"
+Pillow = "^10.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
