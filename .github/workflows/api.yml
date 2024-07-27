@@ -35,7 +35,7 @@ jobs:
       MYSQL_HOST: localhost
       MYSQL_PORT: 3306
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # ref: api/Dockerfile
       - name: install deps
@@ -82,7 +82,7 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Determine whether to push
         id: determine-push
