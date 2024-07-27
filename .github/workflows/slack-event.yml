@@ -26,15 +26,6 @@ jobs:
         with:
           go-version-file: ./slack-event/go.mod
 
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go
-
       - run: go build
         working-directory: ./slack-event
 
