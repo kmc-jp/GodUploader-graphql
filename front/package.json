@@ -103,7 +103,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "graphql": "^15.5.0",
-    "happy-dom": "^8.2.6",
+    "happy-dom": "^15.10.1",
     "prettier": "^2.3.1",
     "react-test-renderer": "^18.2.0",
     "relay-compiler": "^14.1.0",
