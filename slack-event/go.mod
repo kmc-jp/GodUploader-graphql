@@ -1,6 +1,7 @@
 module github.com/kmc-jp/GodUploader-graphql/slack-event
 
 go 1.21
+toolchain go1.24.1
 
 require (
 	github.com/hasura/go-graphql-client v0.6.5
@@ -13,7 +14,7 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/klauspost/compress v1.10.3 // indirect
-	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/net v0.38.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d // indirect
 	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
