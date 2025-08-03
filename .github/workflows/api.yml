@@ -72,6 +72,44 @@ jobs:
         env:
           DB_URL: mysql+mysqlconnector://root@localhost:3306/goduploader_test
 
+  test-sqlite3:
+    runs-on: ubuntu-latest
+    env:
+      DB_URL: 'sqlite://:memory:'
+    steps:
+      - uses: actions/checkout@v4
+
+      # ref: api/Dockerfile
+      - name: install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libjpeg-dev libwebp-dev imagemagick webp
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+          cache-dependency-path: ./api/poetry.lock
+
+      - uses: abatilo/actions-poetry@v3
+        with:
+          poetry-version: ${{ env.POETRY_VERSION }}
+
+      - uses: actions/cache@v3
+        with:
+          path: api/.venv
+          key: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.PYTHON_VERSION }}-poetry-
+
+      - run: poetry install
+        working-directory: ./api
+
+      - run: poetry run pytest
+        working-directory: ./api
+        env:
+          DB_URL: 'sqlite://:memory:'
+
   build:
     needs: [test]
     runs-on: ubuntu-latest
