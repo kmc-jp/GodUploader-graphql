@@ -30,10 +30,6 @@ def test_find_or_create():
     assert created_tags[1].name == "BBB"
     assert created_tags[1].canonical_name == "bbb"
 
-def test_find_or_create_collation():
-    if engine.driver == 'mysqlconnector':
-        pytest.skip('model側のcollationを弄ったのでMySQLだとテストが通らない')
-
     # COLLATE=utf8mb4_0900_ai_ci でひらがなカタカナを区別せず、タグが作れていなかったことに対するリグレッションテスト
     created_tags = Tag.find_or_create(["ロリ"])
     session.commit()

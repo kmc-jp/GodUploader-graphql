@@ -76,6 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DB_URL: 'sqlite:///:memory:'
+      USE_SQLITE: 'true'
     steps:
       - uses: actions/checkout@v4
 
