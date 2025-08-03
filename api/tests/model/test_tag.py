@@ -1,7 +1,7 @@
 from goduploader.model.tag import TagNameValidationError
 import pytest
 from goduploader.model import Tag
-from goduploader.db import engine, session
+from goduploader.db import session
 
 
 def test_artwork_url():
