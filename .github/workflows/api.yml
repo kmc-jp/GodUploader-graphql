@@ -75,7 +75,7 @@ jobs:
   test-sqlite3:
     runs-on: ubuntu-latest
     env:
-      DB_URL: 'sqlite://:memory:'
+      DB_URL: 'sqlite:///:memory:'
     steps:
       - uses: actions/checkout@v4
 
@@ -108,7 +108,7 @@ jobs:
       - run: poetry run pytest
         working-directory: ./api
         env:
-          DB_URL: 'sqlite://:memory:'
+          DB_URL: 'sqlite:///:memory:'
 
   build:
     needs: [test]
