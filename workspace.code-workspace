@@ -9,10 +9,6 @@
       "path": "front"
     },
     {
-      "name": "🤖 Slack Event handler",
-      "path": "slack-event"
-    },
-    {
       "name": "🌳 root",
       "path": ".",
     }
@@ -23,7 +19,6 @@
       // 素朴に .vscode/settings.json に書いてしまうと、workspaceを開いていないときにディレクトリが見えなくなってしまう
       "api/**": true,
       "front/**": true,
-      "slack-event/**": true,
     }
   }
 }
