@@ -36,22 +36,5 @@ services:
       - mysql_data:/var/lib/mysql
     cap_add:
       - SYS_NICE
-  slack-event:
-    build:
-      context: ./slack-event
-    ports:
-      - 127.0.0.1:5001:5001
-    environment:
-      - BIND_ADDRESS=:5001
-      - TARGET_DOMAIN=godillustuploader.kmc.gr.jp
-      - EXTERNAL_URL_BASE=http://localhost:3000
-      - INTERNAL_URL_BASE=http://api:5000
-      - GRAPHQL_API_ENDPOINT=http://api:5000/api/graphql
-      - GYAZO_ACCESS_TOKEN=${GYAZO_ACCESS_TOKEN}
-      - SLACK_SIGNING_SECRET=${SLACK_SIGNING_SECRET}
-      - SLACK_VERIFICATION_TOKEN=${SLACK_VERIFICATION_TOKEN}
-      - SLACK_TOKEN=${SLACK_TOKEN}
-    depends_on:
-      - api
 volumes:
   mysql_data:
