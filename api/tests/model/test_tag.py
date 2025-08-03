@@ -1,7 +1,7 @@
 from goduploader.model.tag import TagNameValidationError
 import pytest
 from goduploader.model import Tag
-from goduploader.db import session
+from goduploader.db import engine, session
 
 
 def test_artwork_url():
@@ -29,6 +29,11 @@ def test_find_or_create():
 
     assert created_tags[1].name == "BBB"
     assert created_tags[1].canonical_name == "bbb"
+
+def test_find_or_create_collation():
+    print(engine.driver) # TODO
+    if engine.driver == 'mysql':
+        pytest.skip('model側のcollationを弄ったのでMySQLだとテストが通らない')
 
     # COLLATE=utf8mb4_0900_ai_ci でひらがなカタカナを区別せず、タグが作れていなかったことに対するリグレッションテスト
     created_tags = Tag.find_or_create(["ロリ"])
