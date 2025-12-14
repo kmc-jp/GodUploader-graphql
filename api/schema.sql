@@ -41,7 +41,7 @@ CREATE TABLE artwork_tag_relation (
   FOREIGN KEY(tag_id) REFERENCES tag (id)
 );
 
-CREATE TABLE comment (
+CREATE TABLE "comment" (
   id INTEGER NOT NULL,
   text TEXT NOT NULL,
   account_id INTEGER NOT NULL,
