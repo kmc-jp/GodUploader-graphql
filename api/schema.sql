@@ -43,7 +43,7 @@ CREATE TABLE artwork_tag_relation (
 
 CREATE TABLE "comment" (
   id INTEGER NOT NULL,
-  text TEXT NOT NULL,
+  "text" TEXT NOT NULL,
   account_id INTEGER NOT NULL,
   artwork_id INTEGER NOT NULL,
   created_at DATETIME NOT NULL,
