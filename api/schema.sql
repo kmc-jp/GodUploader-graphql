@@ -13,8 +13,8 @@ CREATE TABLE account (
 CREATE TABLE tag (
   id INTEGER NOT NULL,
   edit_freezed BOOLEAN NOT NULL,
-  canonical_name VARCHAR(255) COLLATE "utf8mb4_general_ci" NOT NULL,
-  name VARCHAR(255) COLLATE "utf8mb4_general_ci" NOT NULL,
+  canonical_name VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
   artworks_count INTEGER NOT NULL,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL,
