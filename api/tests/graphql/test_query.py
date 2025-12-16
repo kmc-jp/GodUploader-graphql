@@ -1,11 +1,11 @@
 import re
 from pathlib import Path
-import graphene
 
-import httpretty
+import graphene
 from goduploader.db import engine
 from goduploader.model import artwork
 from goduploader.model.artwork import ArtworkRatingEnum
+from mocket.plugins.httpretty import httpretty
 from tests.util import create_account, create_artwork
 
 
@@ -132,7 +132,7 @@ def _mock_slack_conversations_list():
     ).read_text()
     httpretty.register_uri(
         httpretty.POST,
-        re.compile(r"^https://(www[.])?slack[.]com/api/conversations[.]list$"),
+        "https://www.slack.com/api/conversations.list",
         body=body,
     )
 

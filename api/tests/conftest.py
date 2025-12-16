@@ -1,14 +1,14 @@
+import os
 import tempfile
 from pathlib import Path
-import os
 
-import httpretty
 import pytest
 from goduploader.config import app_config
 from goduploader.db import engine, session
 from goduploader.graphql.schema import schema
 from goduploader.model import Base
 from graphene.test import Client
+from mocket import Mocketizer
 from tests.httpmock import mock_requests
 from tests.util import create_account
 
@@ -32,7 +32,7 @@ def prepare_temporary_public_dir():
 
 @pytest.fixture(scope="function", autouse=True)
 def mock_http_request():
-    with httpretty.enabled(allow_net_connect=False):
+    with Mocketizer(strict_mode=True):
         mock_requests()
         yield
 

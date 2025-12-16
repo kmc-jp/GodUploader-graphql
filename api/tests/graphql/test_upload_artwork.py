@@ -1,11 +1,11 @@
 from pathlib import Path
 from typing import List
 
-import httpretty
 import pytest
 from goduploader.db import session
 from goduploader.model import Account, Artwork, Illust, Tag
 from graphene.relay.node import Node
+from mocket.plugins.httpretty import httpretty
 from tests.httpmock import TwitterAPIMock
 from tests.util import create_account, mock_context
 from werkzeug.datastructures import FileStorage
@@ -142,8 +142,7 @@ def test_upload_artwork_share_option_shate_to_slack_none(client):
     )
     assert "errors" not in result
 
-    last_request = httpretty.last_request()
-    assert isinstance(last_request, httpretty.HTTPrettyRequestEmpty)
+    assert len(httpretty.latest_requests) == 0
 
 
 def test_upload_artwork_share_option_shate_to_slack(client):
@@ -170,8 +169,8 @@ def test_upload_artwork_share_option_shate_to_slack(client):
     )
     assert "errors" not in result
 
-    last_request = httpretty.last_request()
-    assert last_request.host == "www.slack.com"
+    last_request = httpretty.last_request
+    assert last_request.headers['host'] == "www.slack.com"
     assert last_request.path == "/api/chat.postMessage"
 
 
@@ -199,12 +198,11 @@ def test_upload_artwork_share_option_shate_to_slack_with_image(client):
     )
     assert "errors" not in result
 
-    # XXX: なぜか2回ずつリクエストが送信されているように見える
-    latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
-    assert latest_requests[0].host == "upload.gyazo.com"
+    latest_requests = httpretty.latest_requests
+    assert latest_requests[0].headers['host'] == "upload.gyazo.com"
     assert latest_requests[0].path == "/api/upload"
-    assert latest_requests[2].host == "www.slack.com"
-    assert latest_requests[2].path == "/api/chat.postMessage"
+    assert latest_requests[1].headers['host'] == "www.slack.com"
+    assert latest_requests[1].path == "/api/chat.postMessage"
 
 
 def test_upload_artwork_twitter_share_option_false(client):
@@ -260,11 +258,11 @@ def test_upload_artwork_twitter_share_option_true(client):
         context_value=mock_context(kmcid=account.kmcid),
     )
     assert "errors" not in result
-    latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
-    assert latest_requests[0].url == "https://upload.twitter.com/1.1/media/upload.json"
-    assert latest_requests[2].url.startswith(
-        "https://api.twitter.com/1.1/statuses/update.json"
-    )
+    latest_requests = httpretty.latest_requests
+    assert latest_requests[0].headers['host'] == "upload.twitter.com"
+    assert latest_requests[0].path == "/1.1/media/upload.json"
+    assert latest_requests[1].headers['host'] == "api.twitter.com"
+    assert latest_requests[1].path.startswith("/1.1/statuses/update.json")
 
 
 def test_upload_artwork_twitter_share_option_true_username(client):
@@ -294,11 +292,11 @@ def test_upload_artwork_twitter_share_option_true_username(client):
         context_value=mock_context(kmcid=account.kmcid),
     )
     assert "errors" not in result
-    latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
-    assert latest_requests[0].url == "https://upload.twitter.com/1.1/media/upload.json"
-    assert latest_requests[2].url.startswith(
-        "https://api.twitter.com/1.1/statuses/update.json"
-    )
+    latest_requests = httpretty.latest_requests
+    assert latest_requests[0].headers['host'] == 'upload.twitter.com'
+    assert latest_requests[0].path == "/1.1/media/upload.json"
+    assert latest_requests[1].headers['host'] == 'api.twitter.com'
+    assert latest_requests[1].path.startswith("/1.1/statuses/update.json")
 
 
 @pytest.mark.parametrize(
@@ -336,10 +334,10 @@ def test_upload_artwork_twitter_share_nsfw(client, rating):
     assert "errors" in result
     assert result["errors"][0]["message"] == "年齢制限のある作品をTwitterに共有することはできません"
 
-    latest_requests: List[httpretty.core.HTTPrettyRequest] = httpretty.latest_requests()
+    latest_requests = httpretty.latest_requests
     latest_request_urls = [req.url for req in latest_requests]
-    assert (
-        "https://upload.twitter.com/1.1/media/upload.json" not in latest_request_urls
+    assert all(
+        [req.headers['host'] == 'upload.twitter.com' and req.path == '/1.1/media/upload.json' for req in latest_requests]
     ), "Twitterに画像がアップロードされていない"
     assert all(
         not url.startswith("https://api.twitter.com/1.1/statuses/update.json")
