@@ -5,7 +5,7 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq
 
-RUN apt-get install -y -qq --no-install-recommends libjpeg-dev libwebp-dev imagemagick webp default-mysql-client
+RUN apt-get install -y -qq --no-install-recommends libjpeg-dev libwebp-dev imagemagick webp
 
 # poetry
 ENV PIP_NO_CACHE_DIR=yes
@@ -27,7 +27,7 @@ COPY ./src ./src
 RUN poetry install
 
 ARG TARGETARCH
-ENV TINI_VERSION v0.19.0
+ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${TARGETARCH} /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]

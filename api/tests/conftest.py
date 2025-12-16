@@ -2,9 +2,6 @@ import tempfile
 from pathlib import Path
 import os
 
-if os.environ.get("DB_URL_TEST"):
-    os.environ["DB_URL"] = os.environ["DB_URL_TEST"]
-
 import httpretty
 import pytest
 from goduploader.config import app_config

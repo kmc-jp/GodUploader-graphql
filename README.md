@@ -12,7 +12,6 @@ GodUploader with GraphQL
 - ImageMagick 6.9.7-4
 - WebP
   - Debian系なら `apt install webp` でWebPのコマンド群をインストールすればOKです
-- MySQL 8.0.28
 
 ### api
 
@@ -28,13 +27,6 @@ $ docker-compose up --build
 -----
 
 以降のセクションに書いてあるコマンドは全て `api` ディレクトリ以下で、Docker環境外で実行してください。
-
-DBマイグレーションを作成する際や、Pythonの依存ライブラリを追加する際などは、docker-composeでMySQLコンテナを立ち上げたままDocker環境外で作業するのがおすすめです。
-`DB_URL` 環境変数を設定して、MySQLコンテナにつなぎに行くようにすると作業しやすいかもしれません。
-
-```
-$ DB_URL=mysql+mysqlconnector://root@localhost:3306/goduploader
-```
 
 #### 依存ライブラリをインストールする
 
@@ -108,11 +100,11 @@ mainブランチに変更がマージされると、GitHub ActionsでDockerイ�
 
 ### DBのマイグレーションを行う
 
-APIがデプロイされ、Podが作成されたら、godillustuploader-api-serverの適当なPod経由でマイグレーションスクリプトを実行してください。
+https://github.com/sqldef/sqldef からsqlite3defをインストールしておいてください。
+hatsuneのpassengerユーザー以下では、sqlite3defコマンドが使える状態になっているはずです (なっていなかったらインストールしておいてください)。
+
+apiディレクトリ以下で次のコマンドを叩くと、./schema.sql の内容に応じて ./db/god.db にあるSQLiteのDBに対してマイグレーションが実行されます。
 
 ```console
-$ kubectl get pods
-# (godillustuploader-api-server- から始まるPodの名前をメモする)
-
-$ kubectl exec (godillustuploader-api-serverのPod) -it -- /bin/sh /app/main.sh poetry run alembic upgrade head
+$ sqlite3def --file=./schema.sql ./db/god.db
 ```
