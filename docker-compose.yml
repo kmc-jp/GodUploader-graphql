@@ -13,8 +13,7 @@ services:
       - ./api/tests:/app/tests
       - ./api/db:/app/db
     environment:
-      - DB_URL=${DB_URL:-mysql+mysqlconnector://root@db/goduploader}
-      - DB_URL_TEST=${DB_URL_TEST:-mysql+mysqlconnector://root@db/goduploader_test}
+      - DB_URL=${DB_URL:-sqlite:///db/god.db}
       - FLASK_APP=src/goduploader/web
       - GYAZO_ACCESS_TOKEN=${GYAZO_ACCESS_TOKEN}
       - SLACK_TOKEN=${SLACK_TOKEN}
@@ -24,17 +23,3 @@ services:
       - TWITTER_ACCESS_TOKEN=${TWITTER_ACCESS_TOKEN}
       - TWITTER_ACCESS_TOKEN_SECRET=${TWITTER_ACCESS_TOKEN_SECRET}
       - USE_DEVELOPMENT_SERVER=1
-    depends_on:
-      - db
-  db:
-    image: mysql:8.0.30
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-    ports:
-      - 127.0.0.1:3306:3306
-    volumes:
-      - mysql_data:/var/lib/mysql
-    cap_add:
-      - SYS_NICE
-volumes:
-  mysql_data:

@@ -26,12 +26,12 @@ class Tag(Base):
 
     # 正規化した (小文字に統一した) タグ名
     canonical_name = Column(
-        String(255, collation=None if os.environ.get('USE_SQLITE') == 'true' else 'utf8mb4_general_ci'),
+        String(255),
         nullable=False,
         unique=True,
     )
     # 表示されるタグ名
-    name = Column(String(255, collation=None if os.environ.get('USE_SQLITE') == 'true' else 'utf8mb4_general_ci'), nullable=False)
+    name = Column(String(255), nullable=False)
     artworks_count = Column(Integer, nullable=False, default=0)
 
     index_artworks_count = Index("tag_artworks_count", artworks_count)

@@ -12,7 +12,6 @@ GodUploader with GraphQL
 - ImageMagick 6.9.7-4
 - WebP
   - Debian系なら `apt install webp` でWebPのコマンド群をインストールすればOKです
-- MySQL 8.0.28
 
 ### api
 
