@@ -100,6 +100,9 @@ mainブランチに変更がマージされると、GitHub ActionsでDockerイ�
 
 ### DBのマイグレーションを行う
 
+https://github.com/sqldef/sqldef からsqlite3defをインストールしておいてください。
+hatsuneのpassengerユーザー以下では、sqlite3defコマンドが使える状態になっているはずです (なっていなかったらインストールしておいてください)。
+
 apiディレクトリ以下で次のコマンドを叩くと、./schema.sql の内容に応じて ./db/god.db にあるSQLiteのDBに対してマイグレーションが実行されます。
 
 ```console
