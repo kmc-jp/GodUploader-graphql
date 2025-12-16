@@ -320,6 +320,18 @@ files = [
 toml = ["tomli"]
 
 [[package]]
+name = "decorator"
+version = "5.2.1"
+description = "Decorators for Humans"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "decorator-5.2.1-py3-none-any.whl", hash = "sha256:d316bb415a2d9e2d2b3abcc4084c6502fc09240e292cd76a76afc106a1c8e04a"},
+    {file = "decorator-5.2.1.tar.gz", hash = "sha256:65f266143752f734b0a7cc83c46f4618af75b8c5911b00ccb61d0ac9b6da0360"},
+]
+
+[[package]]
 name = "faker"
 version = "8.16.0"
 description = "Faker is a Python package that generates fake data for you."
@@ -571,6 +583,18 @@ docs = ["Sphinx", "furo"]
 test = ["objgraph", "psutil"]
 
 [[package]]
+name = "h11"
+version = "0.16.0"
+description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "h11-0.16.0-py3-none-any.whl", hash = "sha256:63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86"},
+    {file = "h11-0.16.0.tar.gz", hash = "sha256:4e35b956cf45792e4caa5885e69fba00bdbc6ffafbfa020300e549b208ee5ff1"},
+]
+
+[[package]]
 name = "httpretty"
 version = "1.1.4"
 description = "HTTP client mock for Python"
@@ -694,6 +718,30 @@ files = [
     {file = "MarkupSafe-2.1.2-cp39-cp39-win_amd64.whl", hash = "sha256:0576fe974b40a400449768941d5d0858cc624e3249dfd1e0c33674e5c7ca7aed"},
     {file = "MarkupSafe-2.1.2.tar.gz", hash = "sha256:abcabc8c2b26036d62d4c746381a6f7cf60aafcc653198ad678306986b09450d"},
 ]
+
+[[package]]
+name = "mocket"
+version = "3.14.0"
+description = "Socket Mock Framework - for all kinds of socket animals, web-clients included - with gevent/asyncio/SSL support"
+optional = false
+python-versions = ">=3.8"
+groups = ["dev"]
+files = [
+    {file = "mocket-3.14.0-py3-none-any.whl", hash = "sha256:42b5bd29f5eb5d961b3a6e073a79067dd284e0a7ee0b484dfaf0e9b669b8f65c"},
+    {file = "mocket-3.14.0.tar.gz", hash = "sha256:ebc6e347995fd6c2b14a1338a77166edf7fc1ef99393615dcf9dc2c1f1c8f50f"},
+]
+
+[package.dependencies]
+decorator = ">=4.0.0"
+h11 = "*"
+puremagic = "*"
+typing-extensions = "*"
+urllib3 = ">=1.25.3"
+
+[package.extras]
+pook = ["pook (>=0.2.1)"]
+speedups = ["xxhash", "xxhash-cffi"]
+test = ["aiohttp", "asgiref", "build", "fastapi", "flake8 (>5)", "gevent", "httpx", "mypy", "pipfile", "pre-commit", "psutil", "pytest", "pytest-asyncio", "pytest-cov", "redis", "requests", "sure", "trio", "types-decorator", "types-requests", "wait-for-it", "xxhash"]
 
 [[package]]
 name = "mypy-extensions"
@@ -883,6 +931,18 @@ six = "*"
 
 [package.extras]
 test = ["coveralls", "futures", "mock", "pytest (>=2.7.3)", "pytest-benchmark", "pytest-cov"]
+
+[[package]]
+name = "puremagic"
+version = "1.30"
+description = "Pure python implementation of magic file detection"
+optional = false
+python-versions = "*"
+groups = ["dev"]
+files = [
+    {file = "puremagic-1.30-py3-none-any.whl", hash = "sha256:5eeeb2dd86f335b9cfe8e205346612197af3500c6872dffebf26929f56e9d3c1"},
+    {file = "puremagic-1.30.tar.gz", hash = "sha256:f9ff7ac157d54e9cf3bff1addfd97233548e75e685282d84ae11e7ffee1614c9"},
+]
 
 [[package]]
 name = "py"
@@ -1379,7 +1439,6 @@ description = "Backported and Experimental Type Hints for Python 3.7+"
 optional = false
 python-versions = ">=3.7"
 groups = ["dev"]
-markers = "python_version < \"3.11\""
 files = [
     {file = "typing_extensions-4.4.0-py3-none-any.whl", hash = "sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e"},
     {file = "typing_extensions-4.4.0.tar.gz", hash = "sha256:1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa"},
@@ -1391,7 +1450,7 @@ version = "1.26.19"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
-groups = ["main"]
+groups = ["main", "dev"]
 files = [
     {file = "urllib3-1.26.19-py2.py3-none-any.whl", hash = "sha256:37a0344459b199fce0e80b0d3569837ec6b6937435c5244e7fd73fa6006830f3"},
     {file = "urllib3-1.26.19.tar.gz", hash = "sha256:3e3d753a8618b86d7de333b4223005f68720bcd6a7d2bcb9fbd2229ec7c1e429"},
@@ -1423,4 +1482,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "7ed4c7f51172598cd664c8db0366144672717aef3d0f3c598519110e91aa0d21"
+content-hash = "1545d20d5ae60fc149f7c5f4bc5480025b19d479a53029c58b1d3e420f176f24"
