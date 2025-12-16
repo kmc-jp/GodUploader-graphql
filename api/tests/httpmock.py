@@ -1,8 +1,7 @@
 import json
-import re
 from pathlib import Path
 
-import httpretty
+from mocket.plugins.httpretty import httpretty
 
 
 def _mock_gyazo_upload_request():
@@ -20,7 +19,7 @@ def _mock_slack_chat_postMessage():
     ).read_text()
     httpretty.register_uri(
         httpretty.POST,
-        re.compile(r"^https://(www[.])?slack[.]com/api/chat[.]postMessage$"),
+        "https://www.slack.com/api/chat.postMessage",
         body=body,
     )
 
@@ -36,32 +35,31 @@ class TwitterAPIMock:
         httpretty.register_uri(
             httpretty.POST,
             "https://upload.twitter.com/1.1/media/upload.json",
-            body=self._wrap_handler(self._handle_media_upload),
+            body=self._handle_media_upload(),
         )
         httpretty.register_uri(
             httpretty.POST,
             "https://api.twitter.com/1.1/statuses/update.json",
-            body=self._wrap_handler(self._handle_statuses_update),
+            body=self._handle_statuses_update(),
         )
 
     def _wrap_handler(self, handler):
         return lambda *args: handler(*args)
 
-    def _handle_media_upload(self, request, uri, response_headers):
+    def _handle_media_upload(self):
         # https://developer.twitter.com/en/docs/twitter-api/v1/media/upload-media/api-reference/post-media-upload
-        resp = {
+        return json.dumps({
             "media_id": 710511363345354753,
             "media_id_string": "710511363345354753",
             "media_key": "3_710511363345354753",
             "size": 11065,
             "expires_after_secs": 86400,
             "image": {"image_type": "image/jpeg", "w": 800, "h": 320},
-        }
-        return [200, response_headers, json.dumps(resp)]
+        })
 
-    def _handle_statuses_update(self, request, uri, response_headers):
+    def _handle_statuses_update(self):
         # https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update
-        resp = {
+        return json.dumps({
             "created_at": "Wed Oct 10 20:19:24 +0000 2018",
             "id": 1050118621198921700,
             "id_str": "1050118621198921728",
@@ -180,5 +178,4 @@ class TwitterAPIMock:
             "possibly_sensitive": False,
             "filter_level": "low",
             "lang": "en",
-        }
-        return [200, response_headers, json.dumps(resp)]
+        })
