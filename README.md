@@ -6,7 +6,6 @@ GodUploader with GraphQL
 以下の環境で動作確認済です。
 
 - Node.js v20.5.1
-- yarn 1.22.19
 - Python 3.14.2
 - poetry version 2.2.1
 - ImageMagick 6.9.7-4
@@ -60,12 +59,10 @@ $ poetry run pytest
 
 ### front
 
-yarnを入れたら以下で動くはずです。
-
 ```
 $ cd front
-$ yarn install --frozen-lockfile
-$ yarn start
+$ npm ci
+$ npm run start
 ```
 
 http://localhost:3000/ にアクセスして閲覧できればOKです。
@@ -76,7 +73,7 @@ APIサーバーを立ち上げた状態で以下のコマンドを叩くと、Gr
 
 ```
 $ cd front
-$ yarn codegen
+$ npm run codegen
 ```
 
 #### GraphQLクエリを更新する
@@ -85,13 +82,13 @@ GraphQLクエリ (`graphql` で囲んでいる箇所) の内容を書き換え�
 
 ```
 $ cd front
-$ yarn relay-compiler
+$ npm run relay-compiler
 ```
 
 #### テスト
 
 ```
-$ yarn test
+$ npm run test
 ```
 
 ## デプロイする
