@@ -21,7 +21,7 @@ Pillow = "^12.0.0"
 pyuwsgi = "^2.0.30"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
+pytest = "^9.0.2"
 pytest-dotenv = "^0.5.2"
 Faker = "^8.8.0"
 black = "^24.3"
