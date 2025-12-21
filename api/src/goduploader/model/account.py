@@ -30,7 +30,7 @@ class Account(Base):
 
     index_artworks_count = Index("account_artworks_count", artworks_count)
 
-    artworks = relationship("Artwork", backref="account")
+    artworks = relationship("Artwork", backref="account", cascade_backrefs=False)
     comments = relationship("Comment", backref="account")
     likes = relationship("Like", backref="account")
 
