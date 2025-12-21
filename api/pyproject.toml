@@ -17,8 +17,8 @@ slack-sdk = "^3.7.0"
 cacheout = "^0.13.1"
 python-dotenv = "^0.17.1"
 tweepy = "^4.8.0"
-Pillow = "^10.3.0"
-pyuwsgi = "^2.0.23.post0"
+Pillow = "^12.0.0"
+pyuwsgi = "^2.0.30"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
