@@ -1,12 +1,9 @@
-import re
 from pathlib import Path
 
 import graphene
-from goduploader.db import engine
-from goduploader.model import artwork
 from goduploader.model.artwork import ArtworkRatingEnum
 from mocket.plugins.httpretty import httpretty
-from tests.util import create_account, create_artwork
+from tests.util import create_account, create_artwork, create_tag
 
 
 def test_artworks_rating_safe(client):
@@ -188,5 +185,145 @@ def test_nodes(client):
                 {"id": graphene.Node.to_global_id("Account", account.id)},
                 {"id": graphene.Node.to_global_id("Artwork", artwork.id)},
             ]
+        }
+    }
+
+
+def test_all_tags(client):
+    no_artwork_tag = create_tag()
+    tag = create_tag()
+
+    create_artwork(tags=[tag.name])
+
+    query = """
+    query AllTagsQuery {
+        allTags {
+            edges {
+                node {
+                    id
+                }
+            }
+        }
+    }
+    """
+    result = client.execute(query)
+    assert result == {
+        "data": {
+            "allTags": {
+                "edges": [
+                    {
+                        "node": {
+                            "id": graphene.Node.to_global_id("Tag", tag.id)
+                        }
+                    }
+                ]
+            }
+        }
+    }
+
+
+def test_tag_by_name(client):
+    tag = create_tag()
+    query = """
+    query TagByNameQuery($name: String!) {
+        tagByName(name: $name) {
+            id
+        }
+    }
+    """
+    result = client.execute(
+        query,
+        variables={
+            "name": tag.name,
+        }
+    )
+    assert result == {
+        "data": {
+            "tagByName": {
+                "id": graphene.Node.to_global_id("Tag", tag.id)
+            }
+        }
+    }
+
+
+def test_account_by_kmcid(client):
+    account = create_account()
+    query = """
+    query ($kmcid: String!) {
+        accountByKmcid(kmcid: $kmcid) {
+            id
+        }
+    }
+    """
+    result = client.execute(
+        query,
+        variables={
+            "kmcid": account.kmcid,
+        }
+    )
+    assert result == {
+        "data": {
+            "accountByKmcid": {
+                "id": graphene.Node.to_global_id("Account", account.id)
+            }
+        }
+    }
+
+
+def test_active_accounts(client):
+    # 何も投稿していないので inactive
+    inactive_account = create_account()
+    # 1件以上投稿しているので active
+    account = create_account()
+    create_artwork(account=account)
+
+    query = """
+    query ActiveAccountsQuery {
+        activeAccounts {
+            edges {
+                node {
+                    id
+                }
+            }
+        }
+    }
+    """
+    result = client.execute(query)
+    assert result == {
+        "data": {
+            "activeAccounts": {
+                "edges": [
+                    {
+                        "node": {
+                            "id": graphene.Node.to_global_id("Account", account.id)
+                        }
+                    }
+                ]
+            }
+        }
+    }
+
+
+def test_artwork_by_folder_id(client):
+    artwork = create_artwork()
+
+    query = """
+    query ($folderId: Int!) {
+        artworkByFolderId(folderId: $folderId) {
+            id
+        }
+    }
+    """
+    result = client.execute(
+        query,
+        variables={
+            "folderId": artwork.id,
+        }
+    )
+    assert result == {
+        "data": {
+            "artworkByFolderId": {
+                "id": graphene.Node.to_global_id("Artwork", artwork.id),
+            }
         }
     }

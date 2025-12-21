@@ -69,7 +69,7 @@ def create_illust(artwork, filename=None):
 
     illust = Illust(
         artwork=artwork,
-        filename=fake.file_name(category="image"),
+        filename=filename,
     )
     session.add(illust)
     session.commit()
