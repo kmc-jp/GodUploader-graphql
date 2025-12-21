@@ -5,7 +5,7 @@ description = ""
 authors = ["utgwkk <utagawakiki@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.14"
 Flask = "^2.3.2"
 SQLAlchemy = "^1.4.14"
 graphene-sqlalchemy = "^2.3.0"
