@@ -41,7 +41,9 @@
     "build": "tsc && env REACT_APP_REVISION=`git rev-parse HEAD` REACT_APP_BUILT_AT=`date +%s` vite build",
     "test": "vitest",
     "codegen": "graphql-codegen",
-    "relay-compiler": "relay-compiler"
+    "relay-compiler": "relay-compiler",
+    "eslint": "eslint",
+    "tsc": "tsc"
   },
   "eslintConfig": {
     "plugins": [
