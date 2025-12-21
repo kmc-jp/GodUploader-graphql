@@ -55,9 +55,6 @@ class Query(ObjectType):
 
         if args.get("rating"):
             rating: List[ArtworkRatingEnum] = args["rating"]
-            if not rating:
-                raise ValueError("ratingに空リストを指定できません")
-
             artworks = artworks.filter(ArtworkModel.rating.in_(rating))
 
         return artworks
