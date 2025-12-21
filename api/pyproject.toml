@@ -18,7 +18,7 @@ cacheout = "^0.13.1"
 python-dotenv = "^0.17.1"
 tweepy = "^4.16.0"
 Pillow = "^12.0.0"
-pyuwsgi = "^2.0.30"
+pyuwsgi = {version = "^2.0.30", markers = "sys_platform == 'linux' or sys_platform == 'darwin'"}
 standard-imghdr = "^3.13.0"
 
 [tool.poetry.group.dev.dependencies]
