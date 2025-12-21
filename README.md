@@ -5,7 +5,7 @@ GodUploader with GraphQL
 
 以下の環境で動作確認済です。
 
-- Node.js v18.13.0
+- Node.js v20.5.1
 - yarn 1.22.19
 - Python 3.14.2
 - poetry version 2.2.1
