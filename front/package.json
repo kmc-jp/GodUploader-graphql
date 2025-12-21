@@ -33,8 +33,7 @@
     "react-router-dom": "5",
     "react-string-replace": "^0.4.4",
     "react-use": "^17.4.0",
-    "relay-runtime": "^14.1.0",
-    "typescript": "^4.4.3"
+    "relay-runtime": "^14.1.0"
   },
   "scripts": {
     "start": "env REACT_APP_REVISION=`git rev-parse HEAD` REACT_APP_BUILT_AT=`date +%s` vite",
@@ -108,6 +107,7 @@
     "prettier": "^2.3.1",
     "react-test-renderer": "^18.2.0",
     "relay-compiler": "^14.1.0",
+    "typescript": "^5.9.3",
     "vite": "^5.4.21",
     "vite-plugin-node-polyfills": "^0.24.0",
     "vite-plugin-relay": "^2.0.0",
