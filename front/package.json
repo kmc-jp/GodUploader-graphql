@@ -108,10 +108,10 @@
     "react-test-renderer": "^18.2.0",
     "relay-compiler": "^14.1.0",
     "typescript": "^5.9.3",
-    "vite": "^5.4.21",
+    "vite": "^7.3.0",
     "vite-plugin-node-polyfills": "^0.24.0",
     "vite-plugin-relay": "^2.0.0",
-    "vitest": "^0.28.4"
+    "vitest": "^4.0.16"
   },
   "resolutions": {
     "@types/relay-runtime": "~13.0.0"
