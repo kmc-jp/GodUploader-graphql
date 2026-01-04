@@ -12,18 +12,17 @@ const BASENAME = import.meta.env.VITE_BASENAME || "";
 const API_URL = `${BASENAME}/api/graphql`;
 
 const buildRequestUrl = (params: RequestParameters, variables: Variables) => {
-  let requestUrl = `${API_URL}?_trace_opname=${params.name}`;
+  const url = new URL(API_URL);
+  url.searchParams.set("_trace_opname", params.name);
   if (params.operationKind === "query") {
     Object.entries(variables).forEach(([k, v]) => {
-      requestUrl += `&_trace_variables.${k}=`;
-      if (typeof v === "object") {
-        requestUrl += encodeURI(JSON.stringify(v));
-      } else {
-        requestUrl += encodeURI(v);
-      }
+      url.searchParams.set(
+        `_trace_variables.${k}`,
+        typeof v === "object" ? JSON.stringify(v) : String(v)
+      );
     });
   }
-  return requestUrl;
+  return url;
 };
 
 const fetchRelay: FetchFunction = async (
