@@ -88,7 +88,7 @@
     ]
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^1.21.4",
+    "@graphql-codegen/cli": "^6.1.0",
     "@graphql-codegen/schema-ast": "^1.18.2",
     "@testing-library/react": "^11.1.0",
     "@testing-library/react-hooks": "^7.0.0",
