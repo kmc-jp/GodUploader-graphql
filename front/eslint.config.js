@@ -13,7 +13,7 @@ export default defineConfig(
     files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
     plugins: {
       react,
-      reactHooks,
+      "react-hooks": reactHooks,
       "jsx-a11y": jsxA11y,
     },
     languageOptions: {
