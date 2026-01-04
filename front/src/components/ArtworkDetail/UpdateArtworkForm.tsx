@@ -97,7 +97,6 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
       commitUpdateArtworkMutation(environment, {
         variables: {
           input: {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             id: artwork.id!,
             title,
             caption,
@@ -106,7 +105,6 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
           },
         },
         onCompleted: () => {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const modal = Modal.getInstance(ref.current!);
           modal?.hide();
         },

@@ -17,7 +17,7 @@ const cache = {
             resolve(this.__data.get(src));
           };
           img.src = src;
-        }).then((img) => {
+        }).then(() => {
           this.__data.set(src, true);
         })
       );
@@ -45,6 +45,6 @@ export const SuspenseImage: React.VFC<
   }
 
   cache.read(src, timeout || 2000);
-  // eslint-disable-next-line jsx-a11y/alt-text
+
   return <img src={src} {...rest} />;
 };

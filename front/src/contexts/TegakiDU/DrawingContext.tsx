@@ -20,13 +20,12 @@ const defaultDrawingContextValue = {
   strokeWidth: 2,
   stageRef: null,
   isPosting: false,
-  /* eslint-disable @typescript-eslint/no-empty-function*/
+
   setColor: () => {},
   setBackgroundColor: () => {},
   setStrokeWidth: () => {},
   setIsPosting: () => {},
   toBlob: async () => null,
-  /* eslint-enable @typescript-eslint/no-empty-function*/
 };
 
 export const DrawingContext = React.createContext<DrawingContextValue>(
