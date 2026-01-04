@@ -36,8 +36,8 @@
     "relay-runtime": "^14.1.0"
   },
   "scripts": {
-    "start": "env REACT_APP_REVISION=`git rev-parse HEAD` REACT_APP_BUILT_AT=`date +%s` vite",
-    "build": "tsc && env REACT_APP_REVISION=`git rev-parse HEAD` REACT_APP_BUILT_AT=`date +%s` vite build",
+    "start": "env VITE_REVISION=`git rev-parse HEAD` VITE_BUILT_AT=`date +%s` vite",
+    "build": "tsc && env VITE_REVISION=`git rev-parse HEAD` VITE_BUILT_AT=`date +%s` vite build",
     "test": "vitest",
     "codegen": "graphql-codegen",
     "relay-compiler": "relay-compiler",

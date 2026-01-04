@@ -4,13 +4,6 @@ import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import relay from "vite-plugin-relay";
 
-const collectReactAppEnv = () => {
-  const reactAppEnv = Object.entries(process.env)
-    .filter(([k]) => k.startsWith("REACT_APP_"))
-    .map(([k, v]) => [`process.env.${k}`, JSON.stringify(v)]);
-  return Object.fromEntries(reactAppEnv);
-};
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), nodePolyfills({ protocolImports: true }), relay],
@@ -18,9 +11,6 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:5000",
     },
-  },
-  define: {
-    ...collectReactAppEnv(),
   },
   resolve: {
     alias: {

@@ -1,11 +1,11 @@
 import React from "react";
 
 export const Footer: React.VFC = () => {
-  const builtAt = process.env.REACT_APP_BUILT_AT
-    ? new Date(Number(process.env.REACT_APP_BUILT_AT) * 1000)
+  const builtAt = import.meta.env.VITE_BUILT_AT
+    ? new Date(Number(import.meta.env.VITE_BUILT_AT) * 1000)
     : null;
 
-  const revision = process.env.REACT_APP_REVISION;
+  const revision = import.meta.env.VITE_REVISION;
 
   return (
     <footer className="mt-3 py-3">
