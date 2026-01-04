@@ -40,7 +40,7 @@
     "build": "tsc && env VITE_REVISION=`git rev-parse HEAD` VITE_BUILT_AT=`date +%s` vite build",
     "test": "vitest",
     "codegen": "graphql-codegen",
-    "relay-compiler": "relay-compiler",
+    "relay-compiler": "node node_modules/relay-compiler/cli.js",
     "eslint": "eslint",
     "tsc": "tsc"
   },
