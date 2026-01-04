@@ -211,7 +211,7 @@ const ArtworkDetail: React.VFC = () => {
             <LikeList artwork={artwork} />
             <ShareButton
               title={artwork.title}
-              url={`${process.env.PUBLIC_URL}/artwork/${artwork.id}`}
+              url={`${import.meta.env.PUBLIC_URL}/artwork/${artwork.id}`}
             />
           </div>
           <IllustCarousel artwork={artwork} />
