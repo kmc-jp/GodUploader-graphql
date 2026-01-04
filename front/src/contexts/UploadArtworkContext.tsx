@@ -151,7 +151,7 @@ export const UploadArtworkProvider: React.VFC<UploadArtworkProviderProps> = ({
             title,
             caption,
             tags,
-            files: Array.from(files, (_, i) => null),
+            files: Array.from(files, () => null),
             shareOption,
             twitterShareOption,
             rating,

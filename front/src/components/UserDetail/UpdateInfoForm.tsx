@@ -51,7 +51,6 @@ export const UpdateAccountModal: React.VFC<Props> = ({ account: _account }) => {
           },
         },
         onCompleted: () => {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const modal = Modal.getInstance(ref.current!);
           modal?.hide();
         },

@@ -30,47 +30,47 @@ export const PaintStackContext = createContext<PaintStackContextValue>({
   paints: [],
   undoable: false,
   redoable: false,
-  /* eslint-disable @typescript-eslint/no-empty-function */
+
   setPaints: () => {},
   append: () => {},
   undo: () => {},
   redo: () => {},
-  /* eslint-enable @typescript-eslint/no-empty-function */
 });
 
 interface PaintStackContextProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export const PaintStackContextProvider: React.VFC<PaintStackContextProviderProps> = ({ children }) => {
-  const [paints, setPaints] = useState<Drawing[]>([]);
-  const {
-    append,
-    undo: undoStack,
-    redo: redoStack,
-    undoable,
-    redoable,
-  } = useUndoableStack<Drawing[]>([]);
+export const PaintStackContextProvider: React.VFC<PaintStackContextProviderProps> =
+  ({ children }) => {
+    const [paints, setPaints] = useState<Drawing[]>([]);
+    const {
+      append,
+      undo: undoStack,
+      redo: redoStack,
+      undoable,
+      redoable,
+    } = useUndoableStack<Drawing[]>([]);
 
-  const undo = useCallback(() => {
-    const undoValue = undoStack();
-    if (undoValue) {
-      setPaints(undoValue);
-    }
-  }, [undoStack]);
+    const undo = useCallback(() => {
+      const undoValue = undoStack();
+      if (undoValue) {
+        setPaints(undoValue);
+      }
+    }, [undoStack]);
 
-  const redo = useCallback(() => {
-    const redoValue = redoStack();
-    if (redoValue) {
-      setPaints(redoValue);
-    }
-  }, [redoStack]);
+    const redo = useCallback(() => {
+      const redoValue = redoStack();
+      if (redoValue) {
+        setPaints(redoValue);
+      }
+    }, [redoStack]);
 
-  return (
-    <PaintStackContext.Provider
-      value={{ paints, setPaints, append, undo, redo, undoable, redoable }}
-    >
-      {children}
-    </PaintStackContext.Provider>
-  );
-};
+    return (
+      <PaintStackContext.Provider
+        value={{ paints, setPaints, append, undo, redo, undoable, redoable }}
+      >
+        {children}
+      </PaintStackContext.Provider>
+    );
+  };

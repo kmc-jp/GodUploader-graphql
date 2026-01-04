@@ -9,7 +9,7 @@ import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";
 
 // opt-out Strict mode of React. ref: https://github.com/ReactTraining/react-router/issues/7870
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
 ReactDOM.render(
   <RelayEnvironmentProvider environment={RelayEnvironment}>
     <BrowserRouter>
