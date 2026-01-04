@@ -8,7 +8,7 @@ import {
   Variables,
 } from "relay-runtime";
 
-const BASENAME = process.env.REACT_APP_BASENAME || "";
+const BASENAME = import.meta.env.VITE_BASENAME || "";
 const API_URL = `${BASENAME}/api/graphql`;
 
 const buildRequestUrl = (params: RequestParameters, variables: Variables) => {
