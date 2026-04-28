@@ -15,7 +15,7 @@ python-gyazo = "^2.1.0"
 requests = "^2.33.0"
 slack-sdk = "^3.7.0"
 cacheout = "^0.13.1"
-python-dotenv = "^0.17.1"
+python-dotenv = ">=0.17.1,<1.3.0"
 tweepy = "^4.16.0"
 Pillow = "^12.1.1"
 pyuwsgi = {version = "^2.0.30", markers = "sys_platform == 'linux' or sys_platform == 'darwin'"}
