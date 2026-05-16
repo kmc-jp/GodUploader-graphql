@@ -5,7 +5,7 @@ from goduploader.graphql.type.account import Account
 
 class UpdateAccount(graphene.ClientIDMutation):
     class Input:
-        name = graphene.String(desciption="更新後の表示名", required=True)
+        name = graphene.String(description="更新後の表示名", required=True)
 
     account = graphene.Field(Account)
 
