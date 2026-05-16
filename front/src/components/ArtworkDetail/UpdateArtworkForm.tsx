@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
@@ -7,6 +7,7 @@ import { AgeRestrictionInput } from "../../components/ArtworkInfoForm/AgeRestric
 import { CaptionInput } from "../../components/ArtworkInfoForm/CaptionInput";
 import { TagsInput } from "../../components/ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../../components/ArtworkInfoForm/TitleInput";
+import { ModalForm } from "../../components/ModalForm";
 import {
   ageRestirctionToRating,
   ratingToAgeRestriction,
@@ -111,32 +112,26 @@ export const UpdateArtworkModal: React.FC<Props> = ({ artworkKey }) => {
       <Button variant="primary" onClick={() => setShow(true)}>
         情報の編集
       </Button>
-      <Modal show={show} onHide={handleHide} size="xl">
-        <form onSubmit={handleUpdate}>
-          <Modal.Header closeButton>
-            <Modal.Title>神絵の情報編集</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="mb-3">
-              <TitleInput />
-            </div>
-            <div className="mb-3">
-              <CaptionInput />
-            </div>
-            <div className="mb-3">
-              <TagsInput />
-            </div>
-            <div className="mb-3">
-              <AgeRestrictionInput />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type="submit" variant="primary" className="w-100">
-              保存する
-            </Button>
-          </Modal.Footer>
-        </form>
-      </Modal>
+      <ModalForm
+        show={show}
+        onHide={handleHide}
+        onSubmit={handleUpdate}
+        title="神絵の情報編集"
+        size="xl"
+      >
+        <div className="mb-3">
+          <TitleInput />
+        </div>
+        <div className="mb-3">
+          <CaptionInput />
+        </div>
+        <div className="mb-3">
+          <TagsInput />
+        </div>
+        <div className="mb-3">
+          <AgeRestrictionInput />
+        </div>
+      </ModalForm>
     </>
   );
 };
