@@ -7,6 +7,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
+  { ignores: ["src/mocks/__generated__/", "public/mockServiceWorker.js"] },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {

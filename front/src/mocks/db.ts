@@ -6,8 +6,6 @@ import {
   TagFactory,
 } from "./factories";
 
-// buildDb の返り値から型を推論させる
-// eslint-disable-next-line @typescript-eslint/no-use-before-define
 let _db: Awaited<ReturnType<typeof buildDb>> | null = null;
 
 export async function getDb() {
