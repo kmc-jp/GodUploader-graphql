@@ -6,6 +6,7 @@ from typing import List, Optional
 
 import graphene
 from goduploader.db import session
+from goduploader.external_service.gyazo import upload_image
 from goduploader.external_service.slack import ArtworkSlackInfo, ShareOption as ShareOptionEnum, TagSlackInfo
 from goduploader.external_service.slack import share_to_slack
 from goduploader.external_service.twitter import post_tweet
@@ -119,6 +120,12 @@ class UploadArtwork(graphene.ClientIDMutation):
         session.commit()
 
         # 外部サービスへの共有時には Artwork.id に有効な値が設定されている必要があるのでcommit後に共有します
+        image_path = top_illust.image_path("full")
+        image_url = None
+        if share_option == ShareOptionEnum.SHARE_TO_SLACK_WITH_IMAGE:
+            uploaded_image = upload_image(artwork.account.name, artwork.account.user_page_url, image_path)
+            image_url = uploaded_image.url
+
         artwork_info = ArtworkSlackInfo(
             title=artwork.title,
             caption=artwork.caption,
@@ -126,12 +133,12 @@ class UploadArtwork(graphene.ClientIDMutation):
             account_name=artwork.account.name,
             account_user_page_url=artwork.account.user_page_url,
             tags=[TagSlackInfo(name=t.name, artworks_url=t.artworks_url) for t in artwork.tags],
+            image_url=image_url,
         )
-        image_path = top_illust.image_path("full")
 
         def _post_to_channel(ch_id):
             try:
-                share_to_slack(artwork_info, image_path, share_option, ch_id)
+                share_to_slack(artwork_info, share_option, ch_id)
             except Exception as e:
                 logging.error(e)
 

@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 from cacheout import Cache
 from goduploader.config import app_config
-from goduploader.external_service.gyazo import upload_image
 from slack_sdk.web.client import WebClient
 
 
@@ -31,21 +30,19 @@ class ArtworkSlackInfo:
     account_name: str
     account_user_page_url: str
     tags: List[TagSlackInfo]
+    image_url: Optional[str] = None
 
 
 def _build_web_client():
     return WebClient(token=app_config.slack_token)
 
 def share_to_slack(
-    artwork_info: ArtworkSlackInfo, image_path: str, share_option=ShareOption.NONE, channel_id=None
+    artwork_info: ArtworkSlackInfo, share_option=ShareOption.NONE, channel_id=None
 ):
     if share_option == ShareOption.NONE:
         return
 
-    image_url = None
-    if share_option == ShareOption.SHARE_TO_SLACK_WITH_IMAGE:
-        uploaded_image = upload_image(artwork_info.account_name, artwork_info.account_user_page_url, image_path)
-        image_url = uploaded_image.url
+    image_url = artwork_info.image_url
 
     text = f"<{artwork_info.artwork_url}|*{artwork_info.title}*>"
     if artwork_info.caption:
