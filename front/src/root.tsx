@@ -1,6 +1,6 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
 import {
   Links,
@@ -15,7 +15,6 @@ import { ErrorBoundary as AppErrorBoundary } from "./components/ErrorBoundary";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { LoadingOverlay } from "./components/LoadingOverlay";
-import { LoadingPresence } from "./components/LoadingPresence";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
