@@ -13,15 +13,15 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=yes
 ENV POETRY_HOME="/opt/poetry"
 ENV POETRY_NO_INTERACTION=1
 ENV PATH="$POETRY_HOME/bin:$PATH"
-ENV POETRY_VERSION=1.8.3
+ENV POETRY_VERSION=2.2.1
 RUN curl -sSL https://install.python-poetry.org | python3 -
 RUN chmod 755 $POETRY_HOME/bin/poetry
 
 COPY ./poetry.toml ./
 COPY ./pyproject.toml ./poetry.lock ./
-RUN poetry install
+RUN poetry install --no-root
 
-COPY ./alembic.ini ./pytest.ini ./.env.test ./
+COPY ./pytest.ini ./.env.test ./
 COPY ./script ./script
 COPY ./src ./src
 RUN poetry install
