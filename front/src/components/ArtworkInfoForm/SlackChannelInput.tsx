@@ -1,5 +1,5 @@
 import React, { useEffect, Suspense } from "react";
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
 
@@ -26,41 +26,58 @@ export const SlackChannelInput: React.FC = () => {
     loadQuery({}, { fetchPolicy: "store-and-network" });
   }, [loadQuery]);
 
+  const handleChannelChange = (index: number, value: string) => {
+    const updated = slackChannels.slice();
+    updated[index] = value;
+    setSlackChannels(updated);
+  };
+
+  const handleAddChannel = () => {
+    setSlackChannels([...slackChannels, slackChannels[0] ?? ""]);
+  };
+
+  const handleRemoveChannel = (index: number) => {
+    setSlackChannels(slackChannels.filter((_, i) => i !== index));
+  };
+
   return (
     <>
-      <Form.Label htmlFor="channel_ids">
-        投稿先のチャンネル(迷惑厳禁！、複数選択可)
-      </Form.Label>
-      <div className="row g-2">
-        <div className="col-lg">
-          <Form.Select
-            id="channel_ids"
-            multiple
-            value={slackChannels}
-            disabled={!notifySlack}
-            onChange={(e) => {
-              const selected = Array.from(
-                e.target.selectedOptions,
-                (opt) => opt.value,
-              );
-              setSlackChannels(selected);
-            }}
-          >
-            <Suspense fallback={null}>
-              {notifySlack && queryRef && (
-                <ChannelSuggestion queryRef={queryRef} />
-              )}
-            </Suspense>
-          </Form.Select>
-        </div>
-      </div>
+      <Form.Label>投稿先のチャンネル(迷惑厳禁！)</Form.Label>
+      <Suspense fallback={null}>
+        {notifySlack && queryRef && (
+          <ChannelRows
+            queryRef={queryRef}
+            slackChannels={slackChannels}
+            notifySlack={notifySlack}
+            onChannelChange={handleChannelChange}
+            onRemove={handleRemoveChannel}
+            onAdd={handleAddChannel}
+          />
+        )}
+        {!notifySlack && <ChannelRowsDisabled />}
+      </Suspense>
     </>
   );
 };
 
-const ChannelSuggestion: React.FC<{
+const ChannelRowsDisabled: React.FC = () => (
+  <div className="row g-2 mb-2">
+    <div className="col-lg">
+      <Form.Select disabled>
+        <option />
+      </Form.Select>
+    </div>
+  </div>
+);
+
+const ChannelRows: React.FC<{
   queryRef: PreloadedQuery<SlackChannelInputQuery>;
-}> = ({ queryRef }) => {
+  slackChannels: string[];
+  notifySlack: boolean;
+  onChannelChange: (index: number, value: string) => void;
+  onRemove: (index: number) => void;
+  onAdd: () => void;
+}> = ({ queryRef, slackChannels, onChannelChange, onRemove, onAdd }) => {
   const { allSlackChannels } = usePreloadedQuery<SlackChannelInputQuery>(
     slackChannelInputQuery,
     queryRef,
@@ -72,16 +89,40 @@ const ChannelSuggestion: React.FC<{
 
   return (
     <>
-      {sortedChannels.map((channel, i) => {
-        if (!channel) {
-          return null;
-        }
-        return (
-          <option key={i} value={channel.id}>
-            {channel.name}
-          </option>
-        );
-      })}
+      {slackChannels.map((channelId, index) => (
+        <div key={index} className="row g-2 mb-2">
+          <div className="col-lg">
+            <Form.Select
+              id={index === 0 ? "channel_id" : undefined}
+              value={channelId}
+              onChange={(e) => onChannelChange(index, e.target.value)}
+            >
+              {sortedChannels.map((channel, i) => {
+                if (!channel) return null;
+                return (
+                  <option key={i} value={channel.id}>
+                    {channel.name}
+                  </option>
+                );
+              })}
+            </Form.Select>
+          </div>
+          {slackChannels.length > 1 && (
+            <div className="col-auto">
+              <Button
+                variant="outline-secondary"
+                onClick={() => onRemove(index)}
+                aria-label="チャンネルを削除"
+              >
+                &times;
+              </Button>
+            </div>
+          )}
+        </div>
+      ))}
+      <Button variant="outline-primary" size="sm" onClick={onAdd}>
+        チャンネルを追加
+      </Button>
     </>
   );
 };
