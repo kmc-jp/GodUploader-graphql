@@ -19,7 +19,7 @@ def _mock_slack_chat_postMessage():
     ).read_text()
     httpretty.register_uri(
         httpretty.POST,
-        "https://www.slack.com/api/chat.postMessage",
+        "https://slack.com/api/chat.postMessage",
         body=body,
     )
 

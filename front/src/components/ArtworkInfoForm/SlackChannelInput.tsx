@@ -16,7 +16,7 @@ const slackChannelInputQuery = graphql`
 `;
 
 export const SlackChannelInput: React.FC = () => {
-  const { slackChannel, notifySlack, setSlackChannel } =
+  const { slackChannels, notifySlack, setSlackChannels } =
     useUploadArtworkContext();
   const [queryRef, loadQuery] = useQueryLoader<SlackChannelInputQuery>(
     slackChannelInputQuery,
@@ -28,16 +28,23 @@ export const SlackChannelInput: React.FC = () => {
 
   return (
     <>
-      <Form.Label htmlFor="channel_id">
-        投稿先のチャンネル(迷惑厳禁！)
+      <Form.Label htmlFor="channel_ids">
+        投稿先のチャンネル(迷惑厳禁！、複数選択可)
       </Form.Label>
       <div className="row g-2">
         <div className="col-lg">
           <Form.Select
-            id="channel_id"
-            value={slackChannel}
+            id="channel_ids"
+            multiple
+            value={slackChannels}
             disabled={!notifySlack}
-            onChange={(e) => setSlackChannel(e.target.value)}
+            onChange={(e) => {
+              const selected = Array.from(
+                e.target.selectedOptions,
+                (opt) => opt.value,
+              );
+              setSlackChannels(selected);
+            }}
           >
             <Suspense fallback={null}>
               {notifySlack && queryRef && (

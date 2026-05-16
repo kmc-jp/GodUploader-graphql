@@ -47,7 +47,8 @@ class UploadArtwork(graphene.ClientIDMutation):
         )
         rating = ArtworkRatingEnum(description="更新後の年齢制限", required=True)
         share_option = SlackShareOptionEnum(description="作品をSlackにシェアするかどうか")
-        channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID")
+        channel_id = graphene.String(description="投稿したことを共有するSlackチャンネルのID (後方互換性のために残しています。channel_ids を優先してください)")
+        channel_ids = graphene.List(graphene.String, description="投稿したことを共有するSlackチャンネルのIDリスト")
         twitter_share_option = TwitterShareOption(
             description="Twitterへの共有設定。nullのときは共有しない"
         )
@@ -77,6 +78,11 @@ class UploadArtwork(graphene.ClientIDMutation):
         session.add(artwork)
 
         share_option = SlackShareOptionEnum.get(input.get("share_option", 0))
+
+        channel_ids = list(input.get("channel_ids") or [])
+        legacy_channel_id = input.get("channel_id")
+        if legacy_channel_id and legacy_channel_id not in channel_ids:
+            channel_ids.append(legacy_channel_id)
 
         for buf in files:
             content = buf.stream.read()
@@ -112,15 +118,16 @@ class UploadArtwork(graphene.ClientIDMutation):
         session.commit()
 
         # 外部サービスへの共有時には Artwork.id に有効な値が設定されている必要があるのでcommit後に共有します
-        try:
-            share_to_slack(
-                artwork,
-                top_illust.image_path("full"),
-                share_option,
-                input.get("channel_id"),
-            )
-        except Exception as e:
-            logging.error(e)
+        for ch_id in channel_ids:
+            try:
+                share_to_slack(
+                    artwork,
+                    top_illust.image_path("full"),
+                    share_option,
+                    ch_id,
+                )
+            except Exception as e:
+                logging.error(e)
 
         _share_to_twitter(input, current_user, artwork)
 

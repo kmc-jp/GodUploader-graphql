@@ -14,6 +14,7 @@ export type SlackShareOptionEnum = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_W
 export type UploadArtworkInput = {
   caption: string;
   channelId?: string | null | undefined;
+  channelIds?: ReadonlyArray<string | null | undefined> | null | undefined;
   clientMutationId?: string | null | undefined;
   files: ReadonlyArray<null>;
   rating: ArtworkRatingEnum;

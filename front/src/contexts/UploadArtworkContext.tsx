@@ -21,7 +21,7 @@ type UplaodArtworkContextValue = {
   notifyTwitter: boolean;
   twitterUserName: string;
   showThumbnail: boolean;
-  slackChannel: string;
+  slackChannels: string[];
   files: (File | Blob)[];
   uploadErrors: PayloadError[] | null | undefined;
   totalFilesize: number;
@@ -32,7 +32,7 @@ type UplaodArtworkContextValue = {
   setNotifyTwitter: (b: boolean) => void;
   setShowThumbnail: (b: boolean) => void;
   setTwitterUserName: (n: string) => void;
-  setSlackChannel: (ch: string) => void;
+  setSlackChannels: (chs: string[]) => void;
   setFiles: Dispatch<SetStateAction<File[] | Blob[]>>;
   setUploadErrors: (errors: PayloadError[] | null | undefined) => void;
 
@@ -45,7 +45,7 @@ const defaultValue: UplaodArtworkContextValue = {
   notifyTwitter: false,
   twitterUserName: "",
   showThumbnail: false,
-  slackChannel: "",
+  slackChannels: [],
   files: [],
   totalFilesize: 0,
   uploadErrors: null,
@@ -66,7 +66,7 @@ const defaultValue: UplaodArtworkContextValue = {
   setShowThumbnail: () => {
     /* noop */
   },
-  setSlackChannel: () => {
+  setSlackChannels: () => {
     /* noop */
   },
   setFiles: () => {
@@ -112,7 +112,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
   const [notifyTwitter, setNotifyTwitter] = useState(false);
   const [twitterUserName, setTwitterUserName] = useState("");
   const [showThumbnail, setShowThumbnail] = useState(true);
-  const [slackChannel, setSlackChannel] = useState("C039TN7Q1"); // #graphics
+  const [slackChannels, setSlackChannels] = useState(["C039TN7Q1"]); // #graphics
   const [uploadErrors, setUploadErrors] = useState<
     PayloadError[] | null | undefined
   >(null);
@@ -155,7 +155,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
             shareOption,
             twitterShareOption,
             rating,
-            channelId: slackChannel,
+            channelIds: slackChannels,
           },
         },
         uploadables,
@@ -190,7 +190,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
       notifyTwitter,
       twitterUserName,
       showThumbnail,
-      slackChannel,
+      slackChannels,
       tags,
       title,
     ],
@@ -205,7 +205,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
         notifyTwitter,
         twitterUserName,
         showThumbnail,
-        slackChannel,
+        slackChannels,
         uploadErrors,
         totalFilesize,
         filesizeLimitExceeded,
@@ -215,7 +215,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
         setNotifyTwitter,
         setTwitterUserName,
         setShowThumbnail,
-        setSlackChannel,
+        setSlackChannels,
         setUploadErrors,
         handleSubmit,
       }}
