@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink as RouterNavLink, NavLinkProps } from "react-router-dom";
+import { NavLink as RouterNavLink, NavLinkProps } from 'react-router';
 
 import { useNavigate } from "../contexts/NavigationContext";
 

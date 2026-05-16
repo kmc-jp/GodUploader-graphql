@@ -1,5 +1,5 @@
 import React from "react";
-import { Link as RouterLink, LinkProps } from "react-router-dom";
+import { Link as RouterLink, LinkProps } from 'react-router';
 
 import { useNavigate } from "../contexts/NavigationContext";
 

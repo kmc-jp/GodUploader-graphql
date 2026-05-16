@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router';
 
 import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";

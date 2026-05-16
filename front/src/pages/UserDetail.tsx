@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router';
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateAccountModal } from "../components/UserDetail/UpdateInfoForm";
@@ -11,7 +11,7 @@ import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 
 export const UserDetail: React.VFC = () => {
-  const { kmcid } = useParams<{ kmcid: string }>();
+  const { kmcid = '' } = useParams<{ kmcid: string }>();
   const { user } = useLazyLoadQuery<UserDetailQuery>(
     graphql`
       query UserDetailQuery($kmcid: String!) {

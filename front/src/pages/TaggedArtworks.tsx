@@ -1,23 +1,23 @@
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Redirect, useParams } from "react-router-dom";
+import { Navigate, useParams } from 'react-router';
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateTagModal } from "../components/TaggedArtworks/UpdateTagModal";
 import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
 
 export const TaggedArtworks: React.VFC = () => {
-  const { tag } = useParams<{ tag: string }>();
+  const { tag = '' } = useParams<{ tag: string }>();
   // NOTE: # などの文字列がパーセントエンコードされているのでデコードしておく
   const decodedTag = decodeURIComponent(tag);
 
   if (decodedTag === "R-18") {
-    return <Redirect to="/artworks?mode=r_18" />;
+    return <Navigate to="/artworks?mode=r_18" replace />;
   }
 
   if (decodedTag === "R-18G") {
-    return <Redirect to="/artworks?mode=r_18" />;
+    return <Navigate to="/artworks?mode=r_18" replace />;
   }
 
   return <Inner tag={decodedTag} />;

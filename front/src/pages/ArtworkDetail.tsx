@@ -3,7 +3,7 @@ import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router';
 
 import { Link } from "../components/Link";
 import reactStringReplace from "react-string-replace";
@@ -51,7 +51,7 @@ const Caption: React.VFC<CaptionProps> = ({ caption }) => {
 };
 
 const ArtworkDetail: React.VFC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = '' } = useParams<{ id: string }>();
   const { artworkWithBidirectional } = useLazyLoadQuery<ArtworkDetailQuery>(
     graphql`
       query ArtworkDetailQuery($id: ID!) {
