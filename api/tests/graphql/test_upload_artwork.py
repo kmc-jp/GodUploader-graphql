@@ -173,7 +173,7 @@ def test_upload_artwork_share_option_shate_to_slack(client):
     assert "errors" not in result
 
     last_request = httpretty.last_request
-    assert last_request.headers['host'] == "slack.com"
+    assert last_request.headers['host'] == "www.slack.com"
     assert last_request.path == "/api/chat.postMessage"
 
 
@@ -205,7 +205,7 @@ def test_upload_artwork_share_option_shate_to_slack_with_image(client):
     latest_requests = httpretty.latest_requests
     assert latest_requests[0].headers['host'] == "upload.gyazo.com"
     assert latest_requests[0].path == "/api/upload"
-    assert latest_requests[1].headers['host'] == "slack.com"
+    assert latest_requests[1].headers['host'] == "www.slack.com"
     assert latest_requests[1].path == "/api/chat.postMessage"
 
 
@@ -236,7 +236,7 @@ def test_upload_artwork_share_option_share_to_slack_multiple_channels(client):
 
     post_message_requests = [
         req for req in httpretty.latest_requests
-        if req.headers['host'] == "slack.com" and req.path == "/api/chat.postMessage"
+        if req.headers['host'] == "www.slack.com" and req.path == "/api/chat.postMessage"
     ]
     assert len(post_message_requests) == 2
 
@@ -267,7 +267,7 @@ def test_upload_artwork_share_option_share_to_slack_channel_id_backward_compat(c
     assert "errors" not in result
 
     last_request = httpretty.last_request
-    assert last_request.headers['host'] == "slack.com"
+    assert last_request.headers['host'] == "www.slack.com"
     assert last_request.path == "/api/chat.postMessage"
 
 
@@ -299,7 +299,7 @@ def test_upload_artwork_share_option_share_to_slack_channel_id_dedup(client):
 
     post_message_requests = [
         req for req in httpretty.latest_requests
-        if req.headers['host'] == "slack.com" and req.path == "/api/chat.postMessage"
+        if req.headers['host'] == "www.slack.com" and req.path == "/api/chat.postMessage"
     ]
     assert len(post_message_requests) == 2
 
