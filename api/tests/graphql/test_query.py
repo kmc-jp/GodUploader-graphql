@@ -129,7 +129,7 @@ def _mock_slack_conversations_list():
     ).read_text()
     httpretty.register_uri(
         httpretty.POST,
-        "https://www.slack.com/api/conversations.list",
+        "https://slack.com/api/conversations.list",
         body=body,
     )
 
