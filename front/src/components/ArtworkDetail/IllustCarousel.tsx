@@ -43,7 +43,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
       return;
     }
     carouselRef.current = new Carousel(carouselElementRef.current, {
-      pause: true,
+      pause: "hover",
       wrap: false,
     });
 
