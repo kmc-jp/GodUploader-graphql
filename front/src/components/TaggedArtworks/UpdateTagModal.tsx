@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from "react";
-import { Alert, Button, Form, Modal } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 import { useNavigate } from "react-router";
 import { PayloadError } from "relay-runtime";
 
+import { ModalForm } from "../../components/ModalForm";
 import { commitUpdateTagMutation } from "../../mutation/UpdateTag";
 import { UpdateTagModal_tag$key } from "./__generated__/UpdateTagModal_tag.graphql";
 
@@ -72,36 +73,29 @@ export const UpdateTagModal: React.FC<UpdateTagModalProps> = ({ tagKey }) => {
       <Button variant="primary" onClick={() => setShow(true)}>
         情報の編集
       </Button>
-      <Modal show={show} onHide={handleHide}>
-        <form onSubmit={handleUpdate}>
-          <Modal.Header closeButton>
-            <Modal.Title>タグの情報編集</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {errors &&
-              errors.map((error, i) => (
-                <Alert key={i} variant="danger">
-                  {error.message}
-                </Alert>
-              ))}
-            <Form.Label htmlFor="name">
-              タグ名 <span className="text-danger">(必須)</span>
-            </Form.Label>
-            <Form.Control
-              type="text"
-              id="name"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value.trim())}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type="submit" variant="primary" className="w-100">
-              保存する
-            </Button>
-          </Modal.Footer>
-        </form>
-      </Modal>
+      <ModalForm
+        show={show}
+        onHide={handleHide}
+        onSubmit={handleUpdate}
+        title="タグの情報編集"
+      >
+        {errors &&
+          errors.map((error, i) => (
+            <Alert key={i} variant="danger">
+              {error.message}
+            </Alert>
+          ))}
+        <Form.Label htmlFor="name">
+          タグ名 <span className="text-danger">(必須)</span>
+        </Form.Label>
+        <Form.Control
+          type="text"
+          id="name"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value.trim())}
+        />
+      </ModalForm>
     </>
   );
 };

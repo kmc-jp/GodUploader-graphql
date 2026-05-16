@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
+import { ModalForm } from "../../components/ModalForm";
 import { commitUpdateAccountMutation } from "../../mutation/UpdateAccount";
 import { UpdateInfoForm_account$key } from "./__generated__/UpdateInfoForm_account.graphql";
 
@@ -58,41 +59,34 @@ export const UpdateAccountModal: React.FC<Props> = ({ account: _account }) => {
           情報の編集
         </Button>
       </div>
-      <Modal show={show} onHide={handleHide}>
-        <form onSubmit={handleUpdate}>
-          <Modal.Header closeButton>
-            <Modal.Title>絵師情報の編集</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="mb-3">
-              <Form.Label htmlFor="kmcid">KMC-ID</Form.Label>
-              <Form.Control
-                type="text"
-                id="kmcid"
-                value={account.kmcid}
-                disabled
-              />
-            </div>
-            <div className="mb-3">
-              <Form.Label htmlFor="title">
-                表示名 <span className="text-danger">(必須)</span>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                id="title"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type="submit" variant="primary" className="w-100">
-              保存する
-            </Button>
-          </Modal.Footer>
-        </form>
-      </Modal>
+      <ModalForm
+        show={show}
+        onHide={handleHide}
+        onSubmit={handleUpdate}
+        title="絵師情報の編集"
+      >
+        <div className="mb-3">
+          <Form.Label htmlFor="kmcid">KMC-ID</Form.Label>
+          <Form.Control
+            type="text"
+            id="kmcid"
+            value={account.kmcid}
+            disabled
+          />
+        </div>
+        <div className="mb-3">
+          <Form.Label htmlFor="title">
+            表示名 <span className="text-danger">(必須)</span>
+          </Form.Label>
+          <Form.Control
+            type="text"
+            id="title"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+      </ModalForm>
     </>
   );
 };
