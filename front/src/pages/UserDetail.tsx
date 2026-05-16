@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import InfiniteScroll from "react-infinite-scroller";
+import { InfiniteScroll } from "../components/InfiniteScroll";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { useParams } from "react-router";

@@ -69,7 +69,7 @@ async function buildDb() {
     },
   };
 
-  const [base0, base1, base2] = await Promise.all([
+  const [base0, base1, base2, ...extraArtworks] = await Promise.all([
     ArtworkFactory.build({
       title: "テスト作品1",
       caption: "これはテスト用の作品です。",
@@ -112,6 +112,22 @@ async function buildDb() {
         pageInfo: { hasPreviousPage: false, startCursor: null },
       },
     }),
+    ...Array.from({ length: 57 }, (_, i) =>
+      ArtworkFactory.build({
+        title: `追加作品${i + 4}`,
+        caption: `自動生成された作品${i + 4}のキャプション`,
+        editable: true,
+        account: account0,
+        topIllust: illust0,
+        illusts: { edges: [{ node: illust0 }] },
+        tags: { edges: [{ node: tag0 }] },
+        likes: emptyLikes,
+        comments: {
+          edges: [],
+          pageInfo: { hasPreviousPage: false, startCursor: null },
+        },
+      }),
+    ),
   ]);
 
   const artworks = [
@@ -122,6 +138,11 @@ async function buildDb() {
       nextArtwork: pickArtwork(base2),
     },
     { ...base2, previousArtwork: pickArtwork(base1), nextArtwork: null },
+    ...extraArtworks.map((a) => ({
+      ...a,
+      previousArtwork: null,
+      nextArtwork: null,
+    })),
   ];
 
   return {
@@ -158,6 +179,60 @@ export function toConnection<T>(nodes: T[]) {
       hasPreviousPage: false,
       startCursor: nodes.length > 0 ? btoa("0") : null,
       endCursor: nodes.length > 0 ? btoa(String(nodes.length - 1)) : null,
+    },
+  };
+}
+
+export function toPaginatedConnection<T>(
+  nodes: T[],
+  first: number,
+  after: string | null | undefined,
+) {
+  let startIndex = 0;
+  if (after) {
+    try {
+      startIndex = parseInt(atob(after), 10) + 1;
+    } catch {
+      // ignore
+    }
+  }
+  const slice = nodes.slice(startIndex, startIndex + first);
+  const hasNextPage = startIndex + first < nodes.length;
+  return {
+    edges: slice.map((node, i) => ({ node, cursor: btoa(String(startIndex + i)) })),
+    pageInfo: {
+      hasNextPage,
+      hasPreviousPage: startIndex > 0,
+      startCursor: slice.length > 0 ? btoa(String(startIndex)) : null,
+      endCursor:
+        slice.length > 0 ? btoa(String(startIndex + slice.length - 1)) : null,
+    },
+  };
+}
+
+export function toPaginatedConnectionBackward<T>(
+  nodes: T[],
+  last: number,
+  before: string | null | undefined,
+) {
+  let endIndex = nodes.length;
+  if (before) {
+    try {
+      endIndex = parseInt(atob(before), 10);
+    } catch {
+      // ignore
+    }
+  }
+  const startIndex = Math.max(0, endIndex - last);
+  const slice = nodes.slice(startIndex, endIndex);
+  return {
+    edges: slice.map((node, i) => ({ node, cursor: btoa(String(startIndex + i)) })),
+    pageInfo: {
+      hasNextPage: endIndex < nodes.length,
+      hasPreviousPage: startIndex > 0,
+      startCursor: slice.length > 0 ? btoa(String(startIndex)) : null,
+      endCursor:
+        slice.length > 0 ? btoa(String(startIndex + slice.length - 1)) : null,
     },
   };
 }
