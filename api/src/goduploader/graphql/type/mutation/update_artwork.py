@@ -7,8 +7,6 @@ from goduploader.graphql.type.artwork_rating_enum import ArtworkRatingEnum
 from goduploader.model.artwork import Artwork as ArtworkModel
 from graphene import relay
 
-from goduploader.model.tag import has_nsfw_tag
-
 
 class UpdateArtwork(graphene.ClientIDMutation):
     class Input:

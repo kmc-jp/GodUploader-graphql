@@ -1,6 +1,5 @@
 import graphene
-from goduploader.db import session
-from goduploader.graphql.dataloader import AccountLoader, ArtworkLoader, IllustLoader
+from goduploader.graphql.dataloader import AccountLoader, ArtworkLoader
 from goduploader.graphql.type.account import Account
 from goduploader.graphql.type.artwork import Artwork
 from goduploader.model import Comment as CommentModel
