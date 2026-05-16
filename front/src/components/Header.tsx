@@ -1,6 +1,9 @@
 import { Collapse } from "bootstrap";
 import React, { useEffect, useRef } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
+import { Link } from "./Link";
+import { NavLink } from "./NavLink";
 
 export const Header: React.VFC = () => {
   const ref = useRef<HTMLDivElement>(null);

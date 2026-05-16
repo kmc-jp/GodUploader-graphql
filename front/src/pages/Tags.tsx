@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Link } from "react-router-dom";
+import { Link } from "../components/Link";
 
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 

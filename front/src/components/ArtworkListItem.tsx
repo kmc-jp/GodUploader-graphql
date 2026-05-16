@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { graphql } from "react-relay";
 import { useFragment } from "react-relay/hooks";
-import { Link } from "react-router-dom";
+import { Link } from "./Link";
 
 import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
 import { SuspenseImage } from "./SuspenseImage";
