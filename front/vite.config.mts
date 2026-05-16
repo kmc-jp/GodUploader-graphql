@@ -1,10 +1,9 @@
 import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
 import relay from "vite-plugin-relay";
 
 export default defineConfig({
-  plugins: [reactRouter(), nodePolyfills({ protocolImports: true }), relay],
+  plugins: [reactRouter(), relay],
   server: {
     proxy: {
       "/api": "http://localhost:5000",
@@ -33,5 +32,12 @@ export default defineConfig({
       /^react-konva/,
       /^@dnd-kit\//,
     ],
+    // dev mode の SSR module runner は noExternal だけでは CJS を扱えず
+    // "module is not defined" になる。root.tsx から直接呼ばれる CJS パッケージは
+    // esbuild で事前バンドルさせて ESM に変換しておく。
+    // (他のページ依存は route lazy load 経由で client 側に解決されるので不要)
+    optimizeDeps: {
+      include: ["react-relay", "react-relay/hooks", "relay-runtime"],
+    },
   },
 });
