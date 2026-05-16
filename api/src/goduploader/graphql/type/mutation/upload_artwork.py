@@ -1,6 +1,7 @@
 import imghdr
 import logging
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional
 
 import graphene
@@ -118,16 +119,16 @@ class UploadArtwork(graphene.ClientIDMutation):
         session.commit()
 
         # 外部サービスへの共有時には Artwork.id に有効な値が設定されている必要があるのでcommit後に共有します
-        for ch_id in channel_ids:
+        image_path = top_illust.image_path("full")
+
+        def _post_to_channel(ch_id):
             try:
-                share_to_slack(
-                    artwork,
-                    top_illust.image_path("full"),
-                    share_option,
-                    ch_id,
-                )
+                share_to_slack(artwork, image_path, share_option, ch_id)
             except Exception as e:
                 logging.error(e)
+
+        with ThreadPoolExecutor() as executor:
+            executor.map(_post_to_channel, channel_ids)
 
         _share_to_twitter(input, current_user, artwork)
 
