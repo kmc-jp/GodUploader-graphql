@@ -90,6 +90,7 @@ def test_upload_artwork(client):
         ("me.png", True),
         ("me.jpg", True),
         ("me.gif", True),
+        ("me_animated.gif", True),
         ("hello.txt", False),
     ],
 )
