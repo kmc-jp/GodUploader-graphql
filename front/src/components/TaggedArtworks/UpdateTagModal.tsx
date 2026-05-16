@@ -1,5 +1,5 @@
-import { Modal } from "bootstrap";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 import { useNavigate } from "react-router";
@@ -23,24 +23,16 @@ export const UpdateTagModal: React.FC<UpdateTagModalProps> = ({ tagKey }) => {
     `,
     tagKey,
   );
+  const [show, setShow] = useState(false);
   const [name, setName] = useState(tag.name);
 
   const resetStates = useCallback(() => {
     setName(tag.name);
   }, [tag.name]);
 
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-
-    el.addEventListener("hidden.bs.modal", resetStates);
-    return () => {
-      el.removeEventListener("hidden.bs.modal", resetStates);
-    };
+  const handleHide = useCallback(() => {
+    setShow(false);
+    resetStates();
   }, [resetStates]);
 
   const [errors, setErrors] = useState<PayloadError[] | null | undefined>(null);
@@ -57,17 +49,12 @@ export const UpdateTagModal: React.FC<UpdateTagModalProps> = ({ tagKey }) => {
           },
         },
         onCompleted: (response, errors) => {
-          if (!ref.current) {
-            return;
-          }
-
           if (errors) {
             setErrors(errors.slice());
             return;
           }
 
-          const modal = Modal.getInstance(ref.current);
-          modal?.hide();
+          setShow(false);
           navigate(
             `/tagged_artworks/${encodeURIComponent(
               response.updateTag?.tag?.name ?? "",
@@ -81,51 +68,40 @@ export const UpdateTagModal: React.FC<UpdateTagModalProps> = ({ tagKey }) => {
   );
 
   return (
-    <div
-      className="modal fade"
-      id="updateTagModal"
-      aria-hidden="true"
-      ref={ref}
-    >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <form onSubmit={handleUpdate}>
-            <div className="modal-header">
-              <h5 className="modal-title">タグの情報編集</h5>
-              <button
-                type="button"
-                className="btn-close"
-                aria-label="閉じる"
-                data-bs-dismiss="modal"
-              ></button>
-            </div>
-            <div className="modal-body">
-              {errors &&
-                errors.map((error, i) => (
-                  <div key={i} className="alert alert-danger" role="alert">
-                    {error.message}
-                  </div>
-                ))}
-              <label htmlFor="name" className="form-label">
-                タグ名 <span className="text-danger">(必須)</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="form-control"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value.trim())}
-              />
-            </div>
-            <div className="modal-footer">
-              <button type="submit" className="btn btn-primary form-control">
-                保存する
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    <>
+      <Button variant="primary" onClick={() => setShow(true)}>
+        情報の編集
+      </Button>
+      <Modal show={show} onHide={handleHide}>
+        <form onSubmit={handleUpdate}>
+          <Modal.Header closeButton>
+            <Modal.Title>タグの情報編集</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {errors &&
+              errors.map((error, i) => (
+                <Alert key={i} variant="danger">
+                  {error.message}
+                </Alert>
+              ))}
+            <Form.Label htmlFor="name">
+              タグ名 <span className="text-danger">(必須)</span>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              id="name"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value.trim())}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button type="submit" variant="primary" className="w-100">
+              保存する
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
+    </>
   );
 };

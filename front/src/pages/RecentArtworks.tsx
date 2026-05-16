@@ -1,10 +1,11 @@
 import React, { ChangeEventHandler, useCallback } from "react";
-import { InfiniteScroll } from "../components/InfiniteScroll";
+import { Card, Form, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { useLocation, useNavigate } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
+import { InfiniteScroll } from "../components/InfiniteScroll";
 import { RecentArtworkListPaginationQuery } from "./__generated__/RecentArtworkListPaginationQuery.graphql";
 import type {
   ArtworkRatingEnum,
@@ -78,9 +79,9 @@ const ArtworkList: React.FC<{
       hasMore={hasNext && !isLoadingNext}
       loader={
         <div key={0} className="d-flex justify-content-center">
-          <div className="spinner-border text-light" role="status">
+          <Spinner animation="border" variant="light" role="status">
             <span className="visually-hidden">Uploading...</span>
-          </div>
+          </Spinner>
         </div>
       }
     >
@@ -122,14 +123,13 @@ export const RecentArtworks: React.FC = () => {
 
   return (
     <div>
-      <div className="card">
-        <div className="card-header">
+      <Card>
+        <Card.Header>
           <h2 className="text-center flex-fill">最新の絵</h2>
           <div className="d-flex justify-content-end">
             <div>
-              <select
+              <Form.Select
                 id="rating-select"
-                className="form-select"
                 value={selectedRating}
                 onChange={handleChangeRating}
               >
@@ -137,14 +137,14 @@ export const RecentArtworks: React.FC = () => {
                 <option value="r_18">R-18</option>
                 <option value="r_18g">R-18G</option>
                 <option value="all">全て (NSFW含む)</option>
-              </select>
+              </Form.Select>
             </div>
           </div>
-        </div>
-        <div className="card-body">
+        </Card.Header>
+        <Card.Body>
           <ArtworkList artworks={artworks} />
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

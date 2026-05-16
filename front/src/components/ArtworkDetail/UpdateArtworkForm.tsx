@@ -1,5 +1,5 @@
-import { Modal } from "bootstrap";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
@@ -58,7 +58,8 @@ export const UpdateArtworkModal: React.FC<Props> = ({ artworkKey }) => {
     setAgeRestriction,
   } = useArtworkInformation();
 
-  const ref = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(false);
+
   const resetStates = useCallback(() => {
     // explicitly reset values
     setTitle(artwork.title || "");
@@ -76,16 +77,9 @@ export const UpdateArtworkModal: React.FC<Props> = ({ artworkKey }) => {
     setTitle,
   ]);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-
-    el.addEventListener("hidden.bs.modal", resetStates);
-    return () => {
-      el.removeEventListener("hidden.bs.modal", resetStates);
-    };
+  const handleHide = useCallback(() => {
+    setShow(false);
+    resetStates();
   }, [resetStates]);
 
   const handleUpdate = useCallback(
@@ -105,8 +99,7 @@ export const UpdateArtworkModal: React.FC<Props> = ({ artworkKey }) => {
           },
         },
         onCompleted: () => {
-          const modal = Modal.getInstance(ref.current!);
-          modal?.hide();
+          setShow(false);
         },
       });
     },
@@ -115,54 +108,35 @@ export const UpdateArtworkModal: React.FC<Props> = ({ artworkKey }) => {
 
   return (
     <>
-      <div
-        className="modal fade"
-        id="updateArtworkModal"
-        aria-hidden="true"
-        ref={ref}
-      >
-        <div className="modal-dialog modal-xl">
-          <div className="modal-content">
-            <form onSubmit={handleUpdate}>
-              <div className="modal-header">
-                <h5 className="modal-title">神絵の情報編集</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  aria-label="閉じる"
-                  data-bs-dismiss="modal"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <TitleInput />
-                </div>
-                <div className="mb-3">
-                  <CaptionInput />
-                </div>
-                <div className="mb-3">
-                  <TagsInput />
-                </div>
-                <div className="mb-3">
-                  <AgeRestrictionInput />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button type="submit" className="btn btn-primary form-control">
-                  保存する
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <button
-        className="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#updateArtworkModal"
-      >
+      <Button variant="primary" onClick={() => setShow(true)}>
         情報の編集
-      </button>
+      </Button>
+      <Modal show={show} onHide={handleHide} size="xl">
+        <form onSubmit={handleUpdate}>
+          <Modal.Header closeButton>
+            <Modal.Title>神絵の情報編集</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="mb-3">
+              <TitleInput />
+            </div>
+            <div className="mb-3">
+              <CaptionInput />
+            </div>
+            <div className="mb-3">
+              <TagsInput />
+            </div>
+            <div className="mb-3">
+              <AgeRestrictionInput />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button type="submit" variant="primary" className="w-100">
+              保存する
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
     </>
   );
 };

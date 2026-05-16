@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
+import { Button, Container } from "react-bootstrap";
 
 import { ArtworkInformationProvider } from "../../contexts/ArtworkInformationContext";
 import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
@@ -62,7 +63,7 @@ export const Sidebar: React.FC = () => {
   }, [setIsPosting, toBlob]);
 
   return (
-    <div className="container h-100">
+    <Container className="h-100">
       <ArtworkInformationProvider initialTags={["tegaki_du"]}>
         <UploadArtworkProvider>
           <UploadArtworkModal blob={serializedBlob} />
@@ -111,42 +112,48 @@ export const Sidebar: React.FC = () => {
       </div>
       <div className="row">
         <div className="col">
-          <button
-            className="btn btn-secondary w-100"
+          <Button
+            variant="secondary"
+            className="w-100"
             disabled={!undoable}
             onClick={undo}
           >
             元に戻す
-          </button>
+          </Button>
         </div>
         <div className="col">
-          <button
-            className="btn btn-secondary w-100"
+          <Button
+            variant="secondary"
+            className="w-100"
             disabled={!redoable}
             onClick={redo}
           >
             やり直す
-          </button>
+          </Button>
         </div>
         <div className="my-2">
-          <button className="btn btn-danger w-100" onClick={handleDeleteAll}>
+          <Button variant="danger" className="w-100" onClick={handleDeleteAll}>
             全て消す
-          </button>
+          </Button>
         </div>
         <div className="d-flex justify-content-around">
           <div className="col-sm-8">
-            <button className="btn btn-success w-100" onClick={handleUpload}>
+            <Button variant="success" className="w-100" onClick={handleUpload}>
               アップロード
-            </button>
+            </Button>
           </div>
           <div className="col-sm-4">
-            <button className="btn btn-primary w-100" onClick={handleDownload}>
+            <Button
+              variant="primary"
+              className="w-100"
+              onClick={handleDownload}
+            >
               DL
-            </button>
+            </Button>
           </div>
         </div>
         {isSerializing && <div>シリアライズ中……</div>}
       </div>
-    </div>
+    </Container>
   );
 };

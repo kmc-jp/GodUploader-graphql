@@ -1,4 +1,5 @@
 import React from "react";
+import { Form } from "react-bootstrap";
 
 import { useArtworkInformation } from "../../hooks/useArtworkInformation";
 
@@ -7,12 +8,10 @@ export const CaptionInput: React.FC = () => {
 
   return (
     <>
-      <label htmlFor="caption" className="form-label">
-        キャプション
-      </label>
-      <textarea
+      <Form.Label htmlFor="caption">キャプション</Form.Label>
+      <Form.Control
+        as="textarea"
         id="caption"
-        className="form-control"
         value={caption}
         onChange={(e) => setCaption(e.target.value)}
       />

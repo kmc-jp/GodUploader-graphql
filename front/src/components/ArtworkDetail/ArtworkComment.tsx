@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { Button, Form, ListGroup, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
@@ -39,7 +40,7 @@ export const ArtworkComment: React.FC<Props> = ({ artwork }) => {
 
   return (
     <div className="mt-2">
-      <ul className="list-group">
+      <ListGroup>
         {edges.map((edge, i) => {
           if (!edge) {
             return null;
@@ -51,16 +52,16 @@ export const ArtworkComment: React.FC<Props> = ({ artwork }) => {
           }
 
           return (
-            <li key={i} className="list-group-item d-flex align-items-start">
+            <ListGroup.Item key={i} className="d-flex align-items-start">
               <div className="ms2 me-auto">
                 <div className="fw-bold">{node.account?.kmcid}</div>
                 {node.text}
               </div>
               {node.createdAt}
-            </li>
+            </ListGroup.Item>
           );
         })}
-      </ul>
+      </ListGroup>
       <div className="mt-2">
         <CommentForm artworkId={artworkId} connectionId={comments.__id} />
       </div>
@@ -104,27 +105,24 @@ const CommentForm: React.FC<{ artworkId: string; connectionId: string }> = ({
     <form onSubmit={handleSubmit}>
       <div className="row g-3">
         <div className="col-sm-9">
-          <input
+          <Form.Control
             type="text"
             id="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             required
-            className="form-control"
           />
         </div>
         <div className="col-sm-3">
-          <input
-            type="submit"
-            value="コメントする"
-            className="btn btn-primary form-control"
-          />
+          <Button type="submit" variant="primary" className="w-100">
+            コメントする
+          </Button>
         </div>
         {isPosting && (
           <div className="col-sm-1 text-center">
-            <div className="spinner-border text-primary" role="status">
+            <Spinner animation="border" variant="primary" role="status">
               <span className="visually-hidden">Uploading...</span>
-            </div>
+            </Spinner>
           </div>
         )}
       </div>

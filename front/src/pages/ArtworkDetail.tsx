@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React, { Fragment, useMemo } from "react";
+import { Card } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
@@ -154,8 +155,8 @@ const ArtworkDetail: React.FC = () => {
           {`${artwork.title} - ${artwork.account?.name}のイラスト - God Illust Uploader`}
         </title>
       </Helmet>
-      <div className="card">
-        <div className="card-header text-center">
+      <Card>
+        <Card.Header className="text-center">
           <h2>{artwork.title}</h2>
           <Caption caption={artwork.caption} />
           <p>
@@ -174,8 +175,8 @@ const ArtworkDetail: React.FC = () => {
               <UpdateArtworkModal artworkKey={artwork} />
             </ArtworkInformationProvider>
           )}
-        </div>
-        <div className="card-body">
+        </Card.Header>
+        <Card.Body>
           {((artwork.tags?.edges && artwork.tags.edges.length > 0) ||
             artwork.rating !== "safe") && (
             <div className="row">
@@ -222,8 +223,8 @@ const ArtworkDetail: React.FC = () => {
               <DeleteArtworkButton artworkId={artwork.id} />
             </div>
           )}
-        </div>
-        <div className="card-footer">
+        </Card.Body>
+        <Card.Footer>
           <nav aria-label="前後の作品">
             <ul
               className={clsx(
@@ -285,8 +286,8 @@ const ArtworkDetail: React.FC = () => {
               )}
             </ul>
           </nav>
-        </div>
-      </div>
+        </Card.Footer>
+      </Card>
     </div>
   );
 };

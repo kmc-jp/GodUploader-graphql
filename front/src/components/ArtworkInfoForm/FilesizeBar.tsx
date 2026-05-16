@@ -1,5 +1,5 @@
-import clsx from "clsx";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
+import { ProgressBar } from "react-bootstrap";
 
 interface FilesizeBarProps {
   filesize: number;
@@ -16,17 +16,10 @@ export const FilesizeBar: React.FC<FilesizeBarProps> = ({
   );
 
   return (
-    <div className="progress">
-      <div
-        className={clsx("progress-bar", ratio >= 100 && "bg-danger")}
-        role="progressbar"
-        style={{ width: `${ratio}%` }}
-        aria-valuenow={ratio}
-        aria-valuemin={0}
-        aria-valuemax={100}
-      >
-        {ratio}%
-      </div>
-    </div>
+    <ProgressBar
+      now={ratio}
+      label={`${ratio}%`}
+      variant={ratio >= 100 ? "danger" : undefined}
+    />
   );
 };

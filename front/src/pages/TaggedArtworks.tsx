@@ -1,4 +1,5 @@
 import React from "react";
+import { Card } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 import { Navigate, useParams } from "react-router";
@@ -50,23 +51,16 @@ const Inner: React.FC<{ tag: string }> = ({ tag }) => {
 
   return (
     <div>
-      <div className="card">
-        <div className="card-header">
+      <Card>
+        <Card.Header>
           <h2 className="text-center">タグ&quot;{tag}&quot;の絵たち</h2>
           {!tagByName.editFreezed && (
             <div className="d-flex justify-content-center mb-2">
               <UpdateTagModal tagKey={tagByName} />
-              <button
-                className="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#updateTagModal"
-              >
-                情報の編集
-              </button>
             </div>
           )}
-        </div>
-        <div className="card-body">
+        </Card.Header>
+        <Card.Body>
           <div className="row row-cols-1 row-cols-lg-4">
             {taggedArtworks?.edges.map((edge, i) => {
               if (!(edge && edge.node)) {
@@ -80,8 +74,8 @@ const Inner: React.FC<{ tag: string }> = ({ tag }) => {
               );
             })}
           </div>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

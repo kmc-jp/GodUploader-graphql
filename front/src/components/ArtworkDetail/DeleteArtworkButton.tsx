@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import { useRelayEnvironment } from "react-relay";
 import { useNavigate } from "react-router";
 
@@ -31,8 +32,8 @@ export const DeleteArtworkButton: React.FC<DeleteArtworkButtonProps> = ({
   };
 
   return (
-    <button className="btn btn-danger" onClick={handleDeleteButtonClick}>
+    <Button variant="danger" onClick={handleDeleteButtonClick}>
       この神絵を削除する
-    </button>
+    </Button>
   );
 };

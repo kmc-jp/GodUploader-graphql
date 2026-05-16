@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { Card, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment } from "react-relay/hooks";
 
@@ -11,17 +12,11 @@ interface ArtworkListItemProps {
   artwork: ArtworkListItem_artwork$key;
 }
 
-const Spinner: React.FC = () => (
-  <div style={{ height: 186 }}>
-    <div className="d-flex justify-content-center h-100">
-      <div
-        className="spinner-border"
-        role="status"
-        style={{ width: 80, height: 80 }}
-      >
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    </div>
+const LoadingSpinner: React.FC = () => (
+  <div style={{ height: 186 }} className="d-flex justify-content-center h-100">
+    <Spinner animation="border" role="status" style={{ width: 80, height: 80 }}>
+      <span className="visually-hidden">Loading...</span>
+    </Spinner>
   </div>
 );
 
@@ -50,8 +45,8 @@ export const ArtworkListItem: React.FC<ArtworkListItemProps> = (props) => {
   }
 
   return (
-    <div className="card p-1" style={{ height: 320 }}>
-      <Suspense fallback={<Spinner />}>
+    <Card className="p-1" style={{ height: 320 }}>
+      <Suspense fallback={<LoadingSpinner />}>
         <SuspenseImage
           src={
             artwork.nsfw
@@ -68,7 +63,7 @@ export const ArtworkListItem: React.FC<ArtworkListItemProps> = (props) => {
           className="card-img-top mx-auto my-0"
         />
       </Suspense>
-      <div className="card-body">
+      <Card.Body>
         <h3 className="text-truncate">
           <Link
             to={`/artwork/${artwork.id}`}
@@ -77,9 +72,11 @@ export const ArtworkListItem: React.FC<ArtworkListItemProps> = (props) => {
             {artwork.title}
           </Link>
         </h3>
-        {account && <p className="card-text text-truncate">{account.name}</p>}
-        <p className="card-text text-truncate">{artwork.caption}</p>
-      </div>
-    </div>
+        {account && (
+          <Card.Text className="text-truncate">{account.name}</Card.Text>
+        )}
+        <Card.Text className="text-truncate">{artwork.caption}</Card.Text>
+      </Card.Body>
+    </Card>
   );
 };

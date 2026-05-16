@@ -199,7 +199,10 @@ export function toPaginatedConnection<T>(
   const slice = nodes.slice(startIndex, startIndex + first);
   const hasNextPage = startIndex + first < nodes.length;
   return {
-    edges: slice.map((node, i) => ({ node, cursor: btoa(String(startIndex + i)) })),
+    edges: slice.map((node, i) => ({
+      node,
+      cursor: btoa(String(startIndex + i)),
+    })),
     pageInfo: {
       hasNextPage,
       hasPreviousPage: startIndex > 0,
@@ -226,7 +229,10 @@ export function toPaginatedConnectionBackward<T>(
   const startIndex = Math.max(0, endIndex - last);
   const slice = nodes.slice(startIndex, endIndex);
   return {
-    edges: slice.map((node, i) => ({ node, cursor: btoa(String(startIndex + i)) })),
+    edges: slice.map((node, i) => ({
+      node,
+      cursor: btoa(String(startIndex + i)),
+    })),
     pageInfo: {
       hasNextPage: endIndex < nodes.length,
       hasPreviousPage: startIndex > 0,

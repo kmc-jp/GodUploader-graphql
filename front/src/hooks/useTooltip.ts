@@ -1,20 +1,2 @@
-import { Tooltip } from "bootstrap";
-import { useEffect, useRef } from "react";
-
-export const useTooltip = <TElement extends string | Element>() => {
-  const ref = useRef<TElement>(null);
-
-  useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
-    const tooltip = new Tooltip(ref.current);
-    return () => {
-      // ページ遷移したときにツールチップが消えるようにする
-      tooltip.hide();
-    };
-  });
-
-  return ref;
-};
+// このファイルは使用されていません。OverlayTrigger + Tooltip (react-bootstrap) を直接使用してください。
+export {};

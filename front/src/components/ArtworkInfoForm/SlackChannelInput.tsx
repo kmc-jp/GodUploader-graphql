@@ -1,4 +1,5 @@
 import React, { useEffect, Suspense } from "react";
+import { Form } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
 
@@ -27,12 +28,13 @@ export const SlackChannelInput: React.FC = () => {
 
   return (
     <>
-      <label htmlFor="channel_id">投稿先のチャンネル(迷惑厳禁！)</label>
+      <Form.Label htmlFor="channel_id">
+        投稿先のチャンネル(迷惑厳禁！)
+      </Form.Label>
       <div className="row g-2">
         <div className="col-lg">
-          <select
+          <Form.Select
             id="channel_id"
-            className="form-select"
             value={slackChannel}
             disabled={!notifySlack}
             onChange={(e) => setSlackChannel(e.target.value)}
@@ -42,7 +44,7 @@ export const SlackChannelInput: React.FC = () => {
                 <ChannelSuggestion queryRef={queryRef} />
               )}
             </Suspense>
-          </select>
+          </Form.Select>
         </div>
       </div>
     </>
