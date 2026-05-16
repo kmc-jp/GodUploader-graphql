@@ -7,6 +7,7 @@
     "@dnd-kit/sortable": "^4.0.0",
     "@dnd-kit/utilities": "^2.0.0",
     "@popperjs/core": "^2.9.2",
+    "@react-router/node": "^7.15.1",
     "@types/bootstrap": "^5.0.16",
     "@types/node": "^20",
     "@types/react": "^19.0.0",
@@ -27,7 +28,8 @@
     "react-router": "^7",
     "react-string-replace": "^0.4.4",
     "react-use": "^17.4.0",
-    "relay-runtime": "^20.1.1"
+    "relay-runtime": "^20.1.1",
+    "isbot": "^5"
   },
   "scripts": {
     "start": "env VITE_REVISION=`git rev-parse HEAD` VITE_BUILT_AT=`date +%s` vite",
@@ -76,11 +78,11 @@
     "@graphql-codegen/schema-ast": "^6.0.0",
     "@graphql-codegen/typescript": "^6.0.1",
     "@mizdra/graphql-codegen-typescript-fabbrica": "^0.6.1",
+    "@react-router/dev": "^7.15.1",
     "@testing-library/dom": "^10.0.0",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.0.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.1",
-    "@vitejs/plugin-react": "^5.1.2",
     "babel-plugin-relay": "^20.1.1",
     "eslint": "^9.17.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",

@@ -22,3 +22,5 @@ export const RedirectToMyPage: React.FC = () => {
 
   return <Navigate to={`/users/${viewer.kmcid}`} replace />;
 };
+
+export default RedirectToMyPage;

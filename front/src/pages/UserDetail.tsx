@@ -121,3 +121,5 @@ const ArtworkList: React.FC<{ user: UserDetail_artworks$key }> = ({ user }) => {
     </Card.Body>
   );
 };
+
+export default UserDetail;

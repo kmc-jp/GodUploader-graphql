@@ -25,3 +25,5 @@ export const RedirectFolderToArtwork: React.FC = () => {
 
   return <Navigate to={`/artwork/${artwork.id}`} replace />;
 };
+
+export default RedirectFolderToArtwork;

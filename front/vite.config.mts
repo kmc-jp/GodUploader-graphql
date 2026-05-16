@@ -1,12 +1,12 @@
 /// <reference types="vitest/config" />
-import react from "@vitejs/plugin-react";
+import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import relay from "vite-plugin-relay";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), nodePolyfills({ protocolImports: true }), relay],
+  plugins: [reactRouter(), nodePolyfills({ protocolImports: true }), relay],
   server: {
     proxy: {
       "/api": "http://localhost:5000",

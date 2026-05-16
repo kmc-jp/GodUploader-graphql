@@ -327,3 +327,5 @@ const SortableImage: React.FC<{
     </div>
   );
 };
+
+export default UploadArtwork;

@@ -79,3 +79,5 @@ const Inner: React.FC<{ tag: string }> = ({ tag }) => {
     </div>
   );
 };
+
+export default TaggedArtworks;

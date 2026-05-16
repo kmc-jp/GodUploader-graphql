@@ -148,3 +148,5 @@ export const RecentArtworks: React.FC = () => {
     </div>
   );
 };
+
+export default RecentArtworks;
