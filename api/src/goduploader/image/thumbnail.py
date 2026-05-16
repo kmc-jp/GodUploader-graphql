@@ -24,6 +24,9 @@ def _generate_normal_thumbnail(illust_path, thumbnail_path):
 
 
 def _generate_animated_thumbnail(illust_path, thumbnail_path):
+    # アニメーションGIFの各フレームを個別にリサイズしてから再合成する。
+    # Pillowのthumbnail()はin-placeで動作するため、フレームをコピーしてからリサイズする。
+    # 各フレームのdurationを保持してアニメーションの速度を維持する。
     with Image.open(illust_path) as img:
         frames = []
         durations = []

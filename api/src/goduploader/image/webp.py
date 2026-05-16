@@ -18,6 +18,9 @@ def _generate_normal_webp(illust_path, webp_path):
 
 
 def _generate_animated_webp(illust_path, webp_path):
+    # アニメーションGIFの各フレームを取り出してアニメーションWebPとして保存する。
+    # ImageSequence.Iteratorでフレームを順に取り出し、durationを収集する。
+    # save_all=Trueとappend_imagesを使うことで全フレームをまとめて書き出す。
     with Image.open(illust_path) as img:
         frames = []
         durations = []
