@@ -67,12 +67,7 @@ export const UpdateAccountModal: React.FC<Props> = ({ account: _account }) => {
       >
         <div className="mb-3">
           <Form.Label htmlFor="kmcid">KMC-ID</Form.Label>
-          <Form.Control
-            type="text"
-            id="kmcid"
-            value={account.kmcid}
-            disabled
-          />
+          <Form.Control type="text" id="kmcid" value={account.kmcid} disabled />
         </div>
         <div className="mb-3">
           <Form.Label htmlFor="title">
