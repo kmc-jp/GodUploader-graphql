@@ -28,7 +28,7 @@ export const App: React.VFC = () => {
         if (action === "PUSH") {
           window.scrollTo(0, 0);
         }
-        if (action === "POP") {
+        if (action === "POP" || action === "REPLACE") {
           startTransition(() => {
             setDisplayLocation(location);
           });
