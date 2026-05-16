@@ -24,7 +24,7 @@ jobs:
     env:
       DB_URL: 'sqlite:///:memory:'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       # ref: api/Dockerfile
       - name: install deps
@@ -32,17 +32,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libjpeg-dev libwebp-dev imagemagick webp
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: "pip"
           cache-dependency-path: ./api/poetry.lock
 
-      - uses: abatilo/actions-poetry@v3
+      - uses: abatilo/actions-poetry@fd0e6716a0de25ef6ade151b8b53190b0376acfd # v3
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
         with:
           path: api/.venv
           key: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-poetry-${{ hashFiles('**/poetry.lock') }}
