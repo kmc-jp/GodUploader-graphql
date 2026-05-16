@@ -51,41 +51,42 @@ interface ArtworkInformationProviderProps {
   children: React.ReactNode;
 }
 
-export const ArtworkInformationProvider: React.FC<ArtworkInformationProviderProps> =
-  ({
-    initialTitle,
-    initialCaption,
-    initialTags,
-    initialAgeRestriction,
-    children,
-  }) => {
-    const [title, setTitle] = useState<string>(initialTitle ?? "");
-    const [caption, setCaption] = useState<string>(initialCaption ?? "");
-    const [tags, setTags] = useState<string[]>(initialTags ?? []);
-    const [ageRestriction, setAgeRestriction] = useState<AgeRestriction>(
-      initialAgeRestriction ?? "UNSELECTED"
-    );
+export const ArtworkInformationProvider: React.FC<
+  ArtworkInformationProviderProps
+> = ({
+  initialTitle,
+  initialCaption,
+  initialTags,
+  initialAgeRestriction,
+  children,
+}) => {
+  const [title, setTitle] = useState<string>(initialTitle ?? "");
+  const [caption, setCaption] = useState<string>(initialCaption ?? "");
+  const [tags, setTags] = useState<string[]>(initialTags ?? []);
+  const [ageRestriction, setAgeRestriction] = useState<AgeRestriction>(
+    initialAgeRestriction ?? "UNSELECTED",
+  );
 
-    return (
-      <ArtworkInformationContext.Provider
-        value={{
-          title,
-          caption,
-          tags,
-          ageRestriction,
-          setTitle,
-          setCaption,
-          setTags,
-          setAgeRestriction,
-        }}
-      >
-        {children}
-      </ArtworkInformationContext.Provider>
-    );
-  };
+  return (
+    <ArtworkInformationContext.Provider
+      value={{
+        title,
+        caption,
+        tags,
+        ageRestriction,
+        setTitle,
+        setCaption,
+        setTags,
+        setAgeRestriction,
+      }}
+    >
+      {children}
+    </ArtworkInformationContext.Provider>
+  );
+};
 
 export const ageRestirctionToRating = (
-  r: AgeRestriction
+  r: AgeRestriction,
 ): ArtworkRatingEnum | null => {
   switch (r) {
     case "SAFE":
@@ -100,7 +101,7 @@ export const ageRestirctionToRating = (
 };
 
 export const ratingToAgeRestriction = (
-  r: ArtworkRatingEnum
+  r: ArtworkRatingEnum,
 ): AgeRestriction => {
   switch (r) {
     case "safe":

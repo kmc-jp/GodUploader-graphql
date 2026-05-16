@@ -5,7 +5,7 @@ import { UpdateAccountMutation } from "./__generated__/UpdateAccountMutation.gra
 
 export const commitUpdateAccountMutation = (
   environment: Environment,
-  config: Omit<MutationConfig<UpdateAccountMutation>, "mutation">
+  config: Omit<MutationConfig<UpdateAccountMutation>, "mutation">,
 ) => {
   return commitMutation<UpdateAccountMutation>(environment, {
     mutation: graphql`

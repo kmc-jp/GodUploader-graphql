@@ -1,9 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Link } from "../components/Link";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
+import { Link } from "../components/Link";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
 export const Index: React.FC = () => {
@@ -35,7 +35,7 @@ export const Index: React.FC = () => {
       }
     `,
     {},
-    { fetchPolicy: "store-and-network" }
+    { fetchPolicy: "store-and-network" },
   );
   const artworkCount = safeArtworks?.edges?.length || 0;
 

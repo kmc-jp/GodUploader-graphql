@@ -1,7 +1,7 @@
 import { graphql, HttpResponse } from "msw";
 
-import { CommentFactory, LikeFactory } from "./factories";
 import { getDb, toConnection } from "./db";
+import { CommentFactory, LikeFactory } from "./factories";
 
 export const handlers = [
   graphql.query("IndexQuery", async () => {
@@ -31,7 +31,7 @@ export const handlers = [
     const user = accounts.find((a) => a.kmcid === variables.kmcid) ?? null;
     if (!user) return HttpResponse.json({ data: { user: null } });
     const userArtworks = artworks.filter(
-      (a) => a.account?.kmcid === variables.kmcid
+      (a) => a.account?.kmcid === variables.kmcid,
     );
     return HttpResponse.json({
       data: {
@@ -45,7 +45,9 @@ export const handlers = [
     const ratings: string[] = variables.rating ?? ["safe"];
     return HttpResponse.json({
       data: {
-        artworks: toConnection(artworks.filter((a) => ratings.includes(a.rating ?? ""))),
+        artworks: toConnection(
+          artworks.filter((a) => ratings.includes(a.rating ?? "")),
+        ),
       },
     });
   }),
@@ -55,7 +57,9 @@ export const handlers = [
     const ratings: string[] = variables.rating ?? ["safe"];
     return HttpResponse.json({
       data: {
-        artworks: toConnection(artworks.filter((a) => ratings.includes(a.rating ?? ""))),
+        artworks: toConnection(
+          artworks.filter((a) => ratings.includes(a.rating ?? "")),
+        ),
       },
     });
   }),
@@ -65,7 +69,9 @@ export const handlers = [
     const ratings: string[] = variables.rating ?? ["safe"];
     return HttpResponse.json({
       data: {
-        artworks: toConnection(artworks.filter((a) => ratings.includes(a.rating ?? ""))),
+        artworks: toConnection(
+          artworks.filter((a) => ratings.includes(a.rating ?? "")),
+        ),
       },
     });
   }),
@@ -107,7 +113,7 @@ export const handlers = [
     const tag = tags.find((t) => t.name === variables.tag) ?? null;
     const tagged = tag
       ? artworks.filter((a) =>
-          a.tags?.edges?.some((e) => e?.node?.name === variables.tag)
+          a.tags?.edges?.some((e) => e?.node?.name === variables.tag),
         )
       : [];
     return HttpResponse.json({

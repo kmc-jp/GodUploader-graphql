@@ -1,8 +1,8 @@
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Link } from "../components/Link";
 
+import { Link } from "../components/Link";
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
 export const Tags: React.FC = () => {
@@ -20,7 +20,7 @@ export const Tags: React.FC = () => {
       }
     `,
     {},
-    { fetchPolicy: "store-and-network" }
+    { fetchPolicy: "store-and-network" },
   );
 
   return (

@@ -18,7 +18,7 @@ const buildRequestUrl = (params: RequestParameters, variables: Variables) => {
     Object.entries(variables).forEach(([k, v]) => {
       url.searchParams.set(
         `_trace_variables.${k}`,
-        typeof v === "object" ? JSON.stringify(v) : String(v)
+        typeof v === "object" ? JSON.stringify(v) : String(v),
       );
     });
   }
@@ -29,7 +29,7 @@ const fetchRelay: FetchFunction = async (
   params,
   variables,
   cacheConfig,
-  uploadables?
+  uploadables?,
 ) => {
   const headers = new Headers({ Accept: "application/json" });
 
@@ -38,7 +38,7 @@ const fetchRelay: FetchFunction = async (
     const formData = new FormData();
     formData.append(
       "operations",
-      JSON.stringify({ query: params.text, variables })
+      JSON.stringify({ query: params.text, variables }),
     );
 
     const map: Record<string, string[]> = {};

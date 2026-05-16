@@ -6,7 +6,7 @@ import type { UpdateTagMutation } from "./__generated__/UpdateTagMutation.graphq
 
 export const commitUpdateTagMutation = (
   environment: Environment,
-  config: Omit<MutationConfig<UpdateTagMutation>, "mutation">
+  config: Omit<MutationConfig<UpdateTagMutation>, "mutation">,
 ) => {
   return commitMutation<UpdateTagMutation>(environment, {
     mutation: graphql`

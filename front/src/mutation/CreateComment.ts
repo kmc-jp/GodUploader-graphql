@@ -6,7 +6,7 @@ import type { CreateCommentMutation } from "./__generated__/CreateCommentMutatio
 
 export const commitCreateCommentMutation = (
   environment: Environment,
-  config: Omit<MutationConfig<CreateCommentMutation>, "mutation">
+  config: Omit<MutationConfig<CreateCommentMutation>, "mutation">,
 ) => {
   return commitMutation<CreateCommentMutation>(environment, {
     mutation: graphql`

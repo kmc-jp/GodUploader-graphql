@@ -19,7 +19,7 @@ const cache = {
           img.src = src;
         }).then(() => {
           this.__data.set(src, true);
-        })
+        }),
       );
     }
     if (this.__data.get(src) instanceof Promise) {

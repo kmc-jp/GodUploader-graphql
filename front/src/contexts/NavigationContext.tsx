@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { To } from 'react-router';
+import type { To } from "react-router";
 
 export type NavigateFn = (to: To, replace?: boolean) => void;
 

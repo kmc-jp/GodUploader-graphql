@@ -19,7 +19,7 @@ export const UpdateAccountModal: React.FC<Props> = ({ account: _account }) => {
         name
       }
     `,
-    _account
+    _account,
   );
   const [name, setName] = useState(account.name || "");
   const ref = useRef<HTMLDivElement>(null);
@@ -56,7 +56,7 @@ export const UpdateAccountModal: React.FC<Props> = ({ account: _account }) => {
         },
       });
     },
-    [environment, name]
+    [environment, name],
   );
 
   return (

@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { Circle, Layer, Line, Rect, Stage } from "react-konva";
-import { useBlocker } from 'react-router';
+import { useBlocker } from "react-router";
 
 import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
 import { PaintStackContext } from "../../contexts/TegakiDU/PaintStackContext";
@@ -51,7 +51,7 @@ export const Canvas: React.FC<{ width: number; height: number }> = ({
         { tool: "pen", color, strokeWidth, points: [pos.x, pos.y] },
       ]);
     },
-    [color, paints, setPaints, strokeWidth]
+    [color, paints, setPaints, strokeWidth],
   );
 
   const addPoints = useCallback(
@@ -77,7 +77,7 @@ export const Canvas: React.FC<{ width: number; height: number }> = ({
       paints.splice(paints.length - 1, 1, lastLine);
       setPaints(paints.concat());
     },
-    [paints, setPaints]
+    [paints, setPaints],
   );
 
   const handleTouchMove = useCallback(
@@ -87,7 +87,7 @@ export const Canvas: React.FC<{ width: number; height: number }> = ({
 
       addPoints(e);
     },
-    [addPoints]
+    [addPoints],
   );
 
   const handleMouseMove = useCallback(
@@ -96,7 +96,7 @@ export const Canvas: React.FC<{ width: number; height: number }> = ({
       setMouseY(e.evt.offsetY);
       addPoints(e);
     },
-    [addPoints]
+    [addPoints],
   );
 
   const handleTouchEnd = useCallback(
@@ -124,7 +124,7 @@ export const Canvas: React.FC<{ width: number; height: number }> = ({
       append(paints);
       isDrawing.current = false;
     },
-    [append, paints, setPaints]
+    [append, paints, setPaints],
   );
 
   const handleKeydown = useCallback(
@@ -143,7 +143,7 @@ export const Canvas: React.FC<{ width: number; height: number }> = ({
         redo();
       }
     },
-    [redo, undo]
+    [redo, undo],
   );
 
   useEffect(() => {
@@ -157,7 +157,7 @@ export const Canvas: React.FC<{ width: number; height: number }> = ({
     ({ currentLocation, nextLocation }) =>
       paints.length > 0 &&
       !isPosting &&
-      currentLocation.pathname !== nextLocation.pathname
+      currentLocation.pathname !== nextLocation.pathname,
   );
 
   useEffect(() => {

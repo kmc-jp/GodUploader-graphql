@@ -23,7 +23,7 @@ export const Sidebar: React.FC = () => {
   const handleDeleteAll = useCallback(() => {
     if (
       !window.confirm(
-        "本当に全て消してしまいますか？ (現在の背景色で塗りつぶします。)"
+        "本当に全て消してしまいますか？ (現在の背景色で塗りつぶします。)",
       )
     ) {
       return;
