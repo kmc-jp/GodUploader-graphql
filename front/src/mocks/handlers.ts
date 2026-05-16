@@ -77,6 +77,31 @@ export const handlers = [
     });
   }),
 
+  graphql.query("TagsInputQuery", async () => {
+    const { tags } = await getDb();
+    return HttpResponse.json({
+      data: { allTags: toConnection(tags) },
+    });
+  }),
+
+  graphql.query("SlackChannelInputQuery", () => {
+    return HttpResponse.json({
+      data: {
+        allSlackChannels: [
+          { id: btoa("SlackChannel:1"), name: "general" },
+          { id: btoa("SlackChannel:2"), name: "illust" },
+        ],
+      },
+    });
+  }),
+
+  graphql.query("UploadArtworkModalQuery", async () => {
+    const { accounts } = await getDb();
+    return HttpResponse.json({
+      data: { viewer: { kmcid: accounts[0].kmcid } },
+    });
+  }),
+
   graphql.query("TaggedArtworksQuery", async ({ variables }) => {
     const { artworks, tags } = await getDb();
     const tag = tags.find((t) => t.name === variables.tag) ?? null;
