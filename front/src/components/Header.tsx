@@ -1,6 +1,6 @@
 import { Collapse } from "bootstrap";
 import React, { useEffect, useRef } from "react";
-import { useLocation } from 'react-router';
+import { useLocation } from "react-router";
 
 import { Link } from "./Link";
 import { NavLink } from "./NavLink";
@@ -51,7 +51,9 @@ export const Header: React.VFC = () => {
             <li className="nav-item">
               <NavLink
                 to="/artwork/new"
-                className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+                className={({ isActive }) =>
+                  `nav-link${isActive ? " active" : ""}`
+                }
               >
                 アップロード
               </NavLink>
@@ -59,7 +61,9 @@ export const Header: React.VFC = () => {
             <li className="nav-item">
               <NavLink
                 to="/my"
-                className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+                className={({ isActive }) =>
+                  `nav-link${isActive ? " active" : ""}`
+                }
               >
                 マイページ
               </NavLink>
@@ -67,7 +71,9 @@ export const Header: React.VFC = () => {
             <li className="nav-item">
               <NavLink
                 to="/tags"
-                className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+                className={({ isActive }) =>
+                  `nav-link${isActive ? " active" : ""}`
+                }
               >
                 タグ検索
               </NavLink>
@@ -75,7 +81,9 @@ export const Header: React.VFC = () => {
             <li className="nav-item">
               <NavLink
                 to="/tegaki"
-                className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+                className={({ isActive }) =>
+                  `nav-link${isActive ? " active" : ""}`
+                }
               >
                 tegaki_du
               </NavLink>

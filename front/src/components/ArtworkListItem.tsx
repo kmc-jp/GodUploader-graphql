@@ -1,9 +1,9 @@
 import React, { Suspense } from "react";
 import { graphql } from "react-relay";
 import { useFragment } from "react-relay/hooks";
-import { Link } from "./Link";
 
 import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
+import { Link } from "./Link";
 import { SuspenseImage } from "./SuspenseImage";
 import { ArtworkListItem_artwork$key } from "./__generated__/ArtworkListItem_artwork.graphql";
 
@@ -41,7 +41,7 @@ export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
         }
       }
     `,
-    props.artwork
+    props.artwork,
   );
 
   const account = artwork.account;

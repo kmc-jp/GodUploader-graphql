@@ -29,7 +29,7 @@ export const TagsInput: React.VFC = () => {
     (newTag: string) => {
       setTags([...tags, newTag]);
     },
-    [setTags, tags]
+    [setTags, tags],
   );
 
   const popLastTag = useCallback(() => {
@@ -79,7 +79,7 @@ export const TagsInput: React.VFC = () => {
           setCurrentInput(lastTag);
         }
       },
-      [appendTag, currentInput, popLastTag, tags.length]
+      [appendTag, currentInput, popLastTag, tags.length],
     );
 
   return (

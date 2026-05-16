@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
-import { Link } from "../Link";
 
 import { useTooltip } from "../../hooks/useTooltip";
 import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
+import { Link } from "../Link";
 import type { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
 
 interface Props {
@@ -29,7 +29,7 @@ export const LikeList: React.VFC<Props> = ({ artwork }) => {
         }
       }
     `,
-    artwork
+    artwork,
   );
   const environment = useRelayEnvironment();
 
@@ -46,7 +46,7 @@ export const LikeList: React.VFC<Props> = ({ artwork }) => {
         },
       });
     },
-    [artworkId, environment, likes]
+    [artworkId, environment, likes],
   );
 
   const buttonRef = useTooltip<HTMLButtonElement>();
@@ -85,10 +85,13 @@ export const LikeList: React.VFC<Props> = ({ artwork }) => {
 
 interface LikeIconProps {
   like: {
-    readonly account: {
-      readonly id: string;
-      readonly kmcid: string;
-    } | null | undefined;
+    readonly account:
+      | {
+          readonly id: string;
+          readonly kmcid: string;
+        }
+      | null
+      | undefined;
   };
 }
 

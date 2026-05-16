@@ -1,6 +1,6 @@
 import React from "react";
 import { useRelayEnvironment } from "react-relay";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 
 import { commitDeleteArtworkMutation } from "../../mutation/DeleteArtwork";
 

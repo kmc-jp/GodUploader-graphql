@@ -10,7 +10,7 @@ import {
   useLocation,
   useNavigate as useRouterNavigate,
   useNavigationType,
-} from 'react-router';
+} from "react-router";
 
 import { AppRoutes } from "./AppRoutes";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -39,7 +39,7 @@ export const App: React.VFC = () => {
     (to, replace = false) => {
       routerNavigate(to, { replace });
     },
-    [routerNavigate]
+    [routerNavigate],
   );
 
   return (

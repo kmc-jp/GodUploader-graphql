@@ -28,7 +28,7 @@ export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
         }
       }
     `,
-    artwork
+    artwork,
   );
   if (!comments?.edges) {
     return null;
@@ -97,7 +97,7 @@ const CommentForm: React.VFC<{ artworkId: string; connectionId: string }> = ({
       });
       setText("");
     },
-    [artworkId, connectionId, environment, text]
+    [artworkId, connectionId, environment, text],
   );
 
   return (

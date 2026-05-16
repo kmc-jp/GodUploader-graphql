@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import React from "react";
-import { Route, Routes } from 'react-router';
-import type { Location } from 'react-router';
+import { Route, Routes } from "react-router";
+import type { Location } from "react-router";
 
 import { Index } from "./pages/Index";
 import { RecentArtworks } from "./pages/RecentArtworks";
@@ -13,14 +13,13 @@ import { UploadArtwork } from "./pages/UploadArtwork";
 import { UserDetail } from "./pages/UserDetail";
 
 const ArtworkDetail = lazy(
-  () =>
-    import(/* webpackChunkName: 'ArtworkDetail' */ "./pages/ArtworkDetail")
+  () => import(/* webpackChunkName: 'ArtworkDetail' */ "./pages/ArtworkDetail"),
 );
 const TegakiDU = lazy(
-  () => import(/* webpackChunkName: 'TegakiDU' */ "./pages/TegakiDU")
+  () => import(/* webpackChunkName: 'TegakiDU' */ "./pages/TegakiDU"),
 );
 const NotFound = lazy(
-  () => import(/* webpackChunkName: 'NotFound' */ "./pages/NotFound")
+  () => import(/* webpackChunkName: 'NotFound' */ "./pages/NotFound"),
 );
 
 interface AppRoutesProps {

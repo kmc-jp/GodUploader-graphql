@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file_path=$(jq -r '.tool_input.file_path // .tool_input.new_path // empty' 2>/dev/null); [ -z \"$file_path\" ] && exit 0; case \"$file_path\" in */GodUploader-graphql/front/src/*) cd /home/user/GodUploader-graphql/front && npm run format 2>/dev/null || true ;; esac"
+          }
+        ]
+      }
+    ]
+  }
+}

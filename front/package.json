@@ -38,9 +38,13 @@
     "codegen:mocks": "graphql-codegen --config codegen.fabbrica.yml",
     "relay-compiler": "node node_modules/relay-compiler/cli.js",
     "eslint": "eslint",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,css}'"
   },
   "prettier": {
+    "plugins": [
+      "@trivago/prettier-plugin-sort-imports"
+    ],
     "importOrder": [
       "^[./]"
     ],
@@ -88,7 +92,7 @@
     "graphql": "^16.14.0",
     "happy-dom": "^20.8.9",
     "msw": "^2.14.6",
-    "prettier": "^2.3.1",
+    "prettier": "^3.8.3",
     "relay-compiler": "^20.1.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.51.0",
