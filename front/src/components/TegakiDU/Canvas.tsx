@@ -21,7 +21,7 @@ const modifierKeyPressed = (e: KeyboardEvent) => {
   }
 };
 
-export const Canvas: React.VFC<{ width: number; height: number }> = ({
+export const Canvas: React.FC<{ width: number; height: number }> = ({
   width,
   height,
 }) => {

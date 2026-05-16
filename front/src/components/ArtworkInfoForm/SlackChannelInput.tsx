@@ -14,7 +14,7 @@ const slackChannelInputQuery = graphql`
   }
 `;
 
-export const SlackChannelInput: React.VFC = () => {
+export const SlackChannelInput: React.FC = () => {
   const { slackChannel, notifySlack, setSlackChannel } =
     useUploadArtworkContext();
   const [queryRef, loadQuery] = useQueryLoader<SlackChannelInputQuery>(
@@ -49,7 +49,7 @@ export const SlackChannelInput: React.VFC = () => {
   );
 };
 
-const ChannelSuggestion: React.VFC<{
+const ChannelSuggestion: React.FC<{
   queryRef: PreloadedQuery<SlackChannelInputQuery>;
 }> = ({ queryRef }) => {
   const { allSlackChannels } = usePreloadedQuery<SlackChannelInputQuery>(

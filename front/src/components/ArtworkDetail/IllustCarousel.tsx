@@ -11,7 +11,7 @@ interface Props {
   artwork: IllustCarousel_illusts$key;
 }
 
-export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
+export const IllustCarousel: React.FC<Props> = ({ artwork }) => {
   const { illusts } = useFragment<IllustCarousel_illusts$key>(
     graphql`
       fragment IllustCarousel_illusts on Artwork {

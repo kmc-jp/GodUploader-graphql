@@ -94,7 +94,7 @@ interface UploadArtworkProviderProps {
   children: React.ReactNode;
 }
 
-export const UploadArtworkProvider: React.VFC<UploadArtworkProviderProps> = ({
+export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
   children,
 }) => {
   const { title, caption, tags, ageRestriction } = useArtworkInformation();

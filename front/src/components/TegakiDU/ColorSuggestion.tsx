@@ -1,6 +1,6 @@
 import React from "react";
 
-export const ColorSuggestion: React.VFC = () => {
+export const ColorSuggestion: React.FC = () => {
   const colorsGrid = [
     ["#000000", "#ffffff", "#a80515", "#f1d0d0", "#4b3d38", "#eae5d5"],
     ["#384b43", "#cfeadd", "#313768", "#d5e9f3", "#800000", "#f0e0d6"],

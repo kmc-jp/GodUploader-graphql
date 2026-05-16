@@ -19,7 +19,7 @@ import { Header } from "./components/Header";
 import { LoadingOverlay } from "./components/LoadingOverlay";
 import { NavigationContext, NavigateFn } from "./contexts/NavigationContext";
 
-export const App: React.VFC = () => {
+export const App: React.FC = () => {
   const currentLocation = useLocation();
   const navigationType = useNavigationType();
   const routerNavigate = useRouterNavigate();

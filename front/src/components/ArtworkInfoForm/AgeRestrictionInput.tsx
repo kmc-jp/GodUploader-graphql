@@ -2,7 +2,7 @@ import React from "react";
 
 import { useArtworkInformation } from "../../hooks/useArtworkInformation";
 
-export const AgeRestrictionInput: React.VFC = () => {
+export const AgeRestrictionInput: React.FC = () => {
   const { ageRestriction, setAgeRestriction } = useArtworkInformation();
 
   return (

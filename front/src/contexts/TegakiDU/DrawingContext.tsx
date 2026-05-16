@@ -36,7 +36,7 @@ interface DrawingProviderProps {
   children: React.ReactNode;
 }
 
-export const DrawingProvider: React.VFC<DrawingProviderProps> = ({
+export const DrawingProvider: React.FC<DrawingProviderProps> = ({
   children,
 }) => {
   const [color, setColor] = useState("#000000");

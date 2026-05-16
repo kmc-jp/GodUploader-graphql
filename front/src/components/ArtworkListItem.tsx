@@ -11,7 +11,7 @@ interface ArtworkListItemProps {
   artwork: ArtworkListItem_artwork$key;
 }
 
-const Spinner: React.VFC = () => (
+const Spinner: React.FC = () => (
   <div style={{ height: 186 }}>
     <div className="d-flex justify-content-center h-100">
       <div
@@ -25,7 +25,7 @@ const Spinner: React.VFC = () => (
   </div>
 );
 
-export const ArtworkListItem: React.VFC<ArtworkListItemProps> = (props) => {
+export const ArtworkListItem: React.FC<ArtworkListItemProps> = (props) => {
   const artwork = useFragment(
     graphql`
       fragment ArtworkListItem_artwork on Artwork {

@@ -41,7 +41,7 @@ interface PaintStackContextProviderProps {
   children: React.ReactNode;
 }
 
-export const PaintStackContextProvider: React.VFC<PaintStackContextProviderProps> =
+export const PaintStackContextProvider: React.FC<PaintStackContextProviderProps> =
   ({ children }) => {
     const [paints, setPaints] = useState<Drawing[]>([]);
     const {

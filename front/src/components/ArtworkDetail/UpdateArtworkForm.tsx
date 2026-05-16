@@ -19,7 +19,7 @@ interface Props {
   artworkKey: UpdateArtworkForm_artwork$key;
 }
 
-export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
+export const UpdateArtworkModal: React.FC<Props> = ({ artworkKey }) => {
   const artwork = useFragment<UpdateArtworkForm_artwork$key>(
     graphql`
       fragment UpdateArtworkForm_artwork on Artwork {

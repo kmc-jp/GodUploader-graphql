@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Footer: React.VFC = () => {
+export const Footer: React.FC = () => {
   const builtAt = import.meta.env.VITE_BUILT_AT
     ? new Date(Number(import.meta.env.VITE_BUILT_AT) * 1000)
     : null;

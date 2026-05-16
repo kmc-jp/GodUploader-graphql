@@ -9,7 +9,7 @@ interface Props {
   artwork: ArtworkComment_comments$key;
 }
 
-export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
+export const ArtworkComment: React.FC<Props> = ({ artwork }) => {
   const { artworkId, comments } = useFragment<ArtworkComment_comments$key>(
     graphql`
       fragment ArtworkComment_comments on Artwork {
@@ -68,7 +68,7 @@ export const ArtworkComment: React.VFC<Props> = ({ artwork }) => {
   );
 };
 
-const CommentForm: React.VFC<{ artworkId: string; connectionId: string }> = ({
+const CommentForm: React.FC<{ artworkId: string; connectionId: string }> = ({
   artworkId,
   connectionId,
 }) => {
