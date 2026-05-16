@@ -29,12 +29,10 @@ export const App: React.VFC = () => {
   useEffect(() => {
     if (navigationType === "PUSH") {
       window.scrollTo(0, 0);
-      setDisplayLocation(currentLocation);
-    } else if (navigationType === "POP" || navigationType === "REPLACE") {
-      startTransition(() => {
-        setDisplayLocation(currentLocation);
-      });
     }
+    startTransition(() => {
+      setDisplayLocation(currentLocation);
+    });
   }, [currentLocation, navigationType, startTransition]);
 
   const navigate = useCallback<NavigateFn>(
