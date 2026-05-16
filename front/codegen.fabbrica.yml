@@ -1,0 +1,13 @@
+schema: ./schema.graphql
+generates:
+  ./src/mocks/__generated__/types.ts:
+    plugins:
+      - typescript
+    config:
+      enumsAsTypes: true
+      avoidOptionals: true
+  ./src/mocks/__generated__/fabbrica.ts:
+    plugins:
+      - "@mizdra/graphql-codegen-typescript-fabbrica"
+    config:
+      typesFile: "./types"

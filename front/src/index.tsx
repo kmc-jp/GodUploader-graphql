@@ -8,13 +8,21 @@ import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";
 
+async function enableMocking() {
+  if (import.meta.env.VITE_USE_MSW !== "1") return;
+  const { worker } = await import("./mocks/browser");
+  return worker.start({ onUnhandledRequest: "warn" });
+}
+
 // opt-out Strict mode of React. ref: https://github.com/ReactTraining/react-router/issues/7870
 
-const root = createRoot(document.getElementById("root")!);
-root.render(
-  <RelayEnvironmentProvider environment={RelayEnvironment}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </RelayEnvironmentProvider>
-);
+enableMocking().then(() => {
+  const root = createRoot(document.getElementById("root")!);
+  root.render(
+    <RelayEnvironmentProvider environment={RelayEnvironment}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </RelayEnvironmentProvider>
+  );
+});
