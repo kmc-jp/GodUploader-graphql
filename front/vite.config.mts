@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [reactRouter(), relay],
   server: {
     proxy: {
-      "/api": "http://localhost:5000",
+      "/api": "http://127.0.0.1:5000",
+      "/public": "http://127.0.0.1:5000",
     },
   },
   resolve: {
