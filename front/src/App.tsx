@@ -39,10 +39,12 @@ export const App: React.VFC = () => {
 
   const navigate = useCallback<NavigateFn>(
     (to, replace = false) => {
+      const resolvedTo =
+        typeof to === "function" ? to(history.location) : to;
       if (replace) {
-        history.replace(to);
+        history.replace(resolvedTo);
       } else {
-        history.push(to);
+        history.push(resolvedTo);
       }
       startTransition(() => {
         setDisplayLocation(history.location);
