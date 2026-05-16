@@ -32,8 +32,8 @@ export const SlackChannelInput: React.FC = () => {
     setSlackChannels(updated);
   };
 
-  const handleAddChannel = () => {
-    setSlackChannels([...slackChannels, slackChannels[0] ?? ""]);
+  const handleAddChannel = (firstUnselectedId: string) => {
+    setSlackChannels([...slackChannels, firstUnselectedId]);
   };
 
   const handleRemoveChannel = (index: number) => {
@@ -76,7 +76,7 @@ const ChannelRows: React.FC<{
   notifySlack: boolean;
   onChannelChange: (index: number, value: string) => void;
   onRemove: (index: number) => void;
-  onAdd: () => void;
+  onAdd: (firstUnselectedId: string) => void;
 }> = ({ queryRef, slackChannels, onChannelChange, onRemove, onAdd }) => {
   const { allSlackChannels } = usePreloadedQuery<SlackChannelInputQuery>(
     slackChannelInputQuery,
@@ -87,40 +87,56 @@ const ChannelRows: React.FC<{
     .slice()
     .sort((a, b) => a?.name.localeCompare(b?.name || "") || 0);
 
+  const selectedSet = new Set(slackChannels);
+  const firstUnselected = sortedChannels.find(
+    (ch) => ch && !selectedSet.has(ch.id),
+  );
+
   return (
     <>
-      {slackChannels.map((channelId, index) => (
-        <div key={index} className="row g-2 mb-2">
-          <div className="col-lg">
-            <Form.Select
-              id={index === 0 ? "channel_id" : undefined}
-              value={channelId}
-              onChange={(e) => onChannelChange(index, e.target.value)}
-            >
-              {sortedChannels.map((channel, i) => {
-                if (!channel) return null;
-                return (
-                  <option key={i} value={channel.id}>
-                    {channel.name}
-                  </option>
-                );
-              })}
-            </Form.Select>
-          </div>
-          {slackChannels.length > 1 && (
-            <div className="col-auto">
-              <Button
-                variant="outline-secondary"
-                onClick={() => onRemove(index)}
-                aria-label="チャンネルを削除"
+      {slackChannels.map((channelId, index) => {
+        const otherSelected = new Set(
+          slackChannels.filter((_, i) => i !== index),
+        );
+        return (
+          <div key={index} className="row g-2 mb-2">
+            <div className="col-lg">
+              <Form.Select
+                id={index === 0 ? "channel_id" : undefined}
+                value={channelId}
+                onChange={(e) => onChannelChange(index, e.target.value)}
               >
-                &times;
-              </Button>
+                {sortedChannels.map((channel, i) => {
+                  if (!channel) return null;
+                  if (otherSelected.has(channel.id)) return null;
+                  return (
+                    <option key={i} value={channel.id}>
+                      {channel.name}
+                    </option>
+                  );
+                })}
+              </Form.Select>
             </div>
-          )}
-        </div>
-      ))}
-      <Button variant="outline-primary" size="sm" onClick={onAdd}>
+            {slackChannels.length > 1 && (
+              <div className="col-auto">
+                <Button
+                  variant="outline-secondary"
+                  onClick={() => onRemove(index)}
+                  aria-label="チャンネルを削除"
+                >
+                  &times;
+                </Button>
+              </div>
+            )}
+          </div>
+        );
+      })}
+      <Button
+        variant="outline-primary"
+        size="sm"
+        disabled={!firstUnselected}
+        onClick={() => firstUnselected && onAdd(firstUnselected.id)}
+      >
         チャンネルを追加
       </Button>
     </>
