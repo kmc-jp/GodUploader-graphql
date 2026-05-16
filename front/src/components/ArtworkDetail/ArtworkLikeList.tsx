@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
-import { Link } from "react-router-dom";
+import { Link } from "../Link";
 
 import { useTooltip } from "../../hooks/useTooltip";
 import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";

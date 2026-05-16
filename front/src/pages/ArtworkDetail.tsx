@@ -3,7 +3,9 @@ import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import { Link } from "../components/Link";
 import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
