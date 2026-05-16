@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2d77ef0290dac72ad5f99dd5ddcbcd94>>
+ * @generated SignedSource<<ec916e9d8646bdcfdcfb37f34fd6b281>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,13 +8,13 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type RecentArtworkListPaginationQuery$variables = {
-  count?: number | null;
-  cursor?: string | null;
-  rating?: ReadonlyArray<ArtworkRatingEnum> | null;
+  count?: number | null | undefined;
+  cursor?: string | null | undefined;
+  rating?: ReadonlyArray<ArtworkRatingEnum> | null | undefined;
 };
 export type RecentArtworkListPaginationQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"RecentArtworks_artworks">;

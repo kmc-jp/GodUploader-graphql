@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a0eb02d62d9a35411ad233dd132f9a93>>
+ * @generated SignedSource<<6a1d5e135173775faf4d9bbffd327845>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,10 +8,10 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type CreateCommentInput = {
   artworkId: string;
-  clientMutationId?: string | null;
+  clientMutationId?: string | null | undefined;
   text: string;
 };
 export type CreateCommentMutation$variables = {
@@ -23,11 +23,11 @@ export type CreateCommentMutation$data = {
     readonly comment: {
       readonly account: {
         readonly kmcid: string;
-      } | null;
+      } | null | undefined;
       readonly createdAt: string;
       readonly text: string;
-    } | null;
-  } | null;
+    } | null | undefined;
+  } | null | undefined;
 };
 export type CreateCommentMutation = {
   response: CreateCommentMutation$data;

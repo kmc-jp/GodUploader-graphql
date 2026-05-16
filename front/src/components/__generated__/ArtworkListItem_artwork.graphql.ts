@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2a4cf3997d5f6684b0947122ea01080b>>
+ * @generated SignedSource<<938833838899d5398e2d9c76539d0875>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,19 +8,19 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkListItem_artwork$data = {
   readonly account: {
     readonly name: string;
-  } | null;
+  } | null | undefined;
   readonly caption: string;
   readonly id: string;
   readonly nsfw: boolean;
   readonly title: string;
   readonly topIllust: {
     readonly thumbnailUrl: string;
-  } | null;
+  } | null | undefined;
   readonly " $fragmentType": "ArtworkListItem_artwork";
 };
 export type ArtworkListItem_artwork$key = {

@@ -90,7 +90,7 @@ export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
     { fetchPolicy: "store-or-network" }
   );
   useEffect(() => {
-    setTwitterUserName(viewer === null ? "" : viewer.kmcid);
+    setTwitterUserName(!viewer ? "" : viewer.kmcid);
   }, []);
 
   const { ageRestriction } = useArtworkInformation();

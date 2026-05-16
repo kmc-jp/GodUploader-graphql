@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9c85f9f8220d7be9f52c0d5325bba67e>>
+ * @generated SignedSource<<9db36195b758cd66aaeaa439a886864d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UpdateInfoForm_account$data = {
   readonly kmcid: string;

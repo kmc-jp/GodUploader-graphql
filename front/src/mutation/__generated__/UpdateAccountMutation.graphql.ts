@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c62f36ec50a9aa4a68f884c0bc94ee03>>
+ * @generated SignedSource<<ea261a7f2715742a57ee7b3e9652590a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,9 +8,9 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type UpdateAccountInput = {
-  clientMutationId?: string | null;
+  clientMutationId?: string | null | undefined;
   name: string;
 };
 export type UpdateAccountMutation$variables = {
@@ -22,8 +22,8 @@ export type UpdateAccountMutation$data = {
       readonly id: string;
       readonly kmcid: string;
       readonly name: string;
-    } | null;
-  } | null;
+    } | null | undefined;
+  } | null | undefined;
 };
 export type UpdateAccountMutation = {
   response: UpdateAccountMutation$data;

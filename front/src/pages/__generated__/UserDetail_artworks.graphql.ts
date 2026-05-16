@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f58670435d829f97fee32f5ef9f66bf3>>
+ * @generated SignedSource<<0b8ee785f502c51f17a581707767d47c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,16 +8,16 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UserDetail_artworks$data = {
   readonly artworks: {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
   readonly id: string;
   readonly " $fragmentType": "UserDetail_artworks";
 };
@@ -68,7 +68,10 @@ return {
         "node"
       ],
       "operation": ArtworkListPaginationQuery_graphql,
-      "identifierField": "id"
+      "identifierInfo": {
+        "identifierField": "id",
+        "identifierQueryVariableName": "id"
+      }
     }
   },
   "name": "UserDetail_artworks",

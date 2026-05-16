@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<679f3da4518ea75e4ae527f4f20006f6>>
+ * @generated SignedSource<<f26aca39f5ffd1f017b0e72169a60dbd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,13 +8,13 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type UpdateArtworkInput = {
   caption: string;
-  clientMutationId?: string | null;
+  clientMutationId?: string | null | undefined;
   id: string;
-  rating?: ArtworkRatingEnum | null;
+  rating?: ArtworkRatingEnum | null | undefined;
   tags: ReadonlyArray<string>;
   title: string;
 };
@@ -31,12 +31,12 @@ export type UpdateArtworkMutation$data = {
         readonly edges: ReadonlyArray<{
           readonly node: {
             readonly name: string;
-          } | null;
-        } | null>;
-      } | null;
+          } | null | undefined;
+        } | null | undefined>;
+      } | null | undefined;
       readonly title: string;
-    } | null;
-  } | null;
+    } | null | undefined;
+  } | null | undefined;
 };
 export type UpdateArtworkMutation = {
   response: UpdateArtworkMutation$data;

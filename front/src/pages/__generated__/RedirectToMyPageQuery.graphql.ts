@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8684de938606c0b95e580c50d480ed89>>
+ * @generated SignedSource<<bfe74283788c171c6273c459b3b73928>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,12 +8,12 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type RedirectToMyPageQuery$variables = {};
+import { ConcreteRequest } from 'relay-runtime';
+export type RedirectToMyPageQuery$variables = Record<PropertyKey, never>;
 export type RedirectToMyPageQuery$data = {
   readonly viewer: {
     readonly kmcid: string;
-  } | null;
+  } | null | undefined;
 };
 export type RedirectToMyPageQuery = {
   response: RedirectToMyPageQuery$data;

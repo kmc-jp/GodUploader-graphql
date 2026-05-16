@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<27f7955b08e9726fa4bf9369b9752d6d>>
+ * @generated SignedSource<<2948a182d1e1786b915b15143b53c3a4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkComment_comments$data = {
   readonly artworkId: string;
@@ -18,12 +18,12 @@ export type ArtworkComment_comments$data = {
       readonly node: {
         readonly account: {
           readonly kmcid: string;
-        } | null;
+        } | null | undefined;
         readonly createdAt: string;
         readonly text: string;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
   readonly " $fragmentType": "ArtworkComment_comments";
 };
 export type ArtworkComment_comments$key = {

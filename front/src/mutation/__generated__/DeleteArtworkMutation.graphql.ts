@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<201446e68467582be723ba9d27a3fae8>>
+ * @generated SignedSource<<a6aac3c029aa12eea18ac8307fa58a50>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,9 +8,9 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type DeleteArtworkInput = {
-  clientMutationId?: string | null;
+  clientMutationId?: string | null | undefined;
   id: string;
 };
 export type DeleteArtworkMutation$variables = {
@@ -19,8 +19,8 @@ export type DeleteArtworkMutation$variables = {
 };
 export type DeleteArtworkMutation$data = {
   readonly deleteArtwork: {
-    readonly deletedArtworkId: string | null;
-  } | null;
+    readonly deletedArtworkId: string | null | undefined;
+  } | null | undefined;
 };
 export type DeleteArtworkMutation = {
   response: DeleteArtworkMutation$data;

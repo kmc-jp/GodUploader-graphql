@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e295004222c776c6e04f8738b39fbef8>>
+ * @generated SignedSource<<a8b7392a24cc62a1cb3e3717224350a3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type TaggedArtworksQuery$variables = {
   tag: string;
@@ -17,14 +17,14 @@ export type TaggedArtworksQuery$data = {
   readonly tagByName: {
     readonly editFreezed: boolean;
     readonly " $fragmentSpreads": FragmentRefs<"UpdateTagModal_tag">;
-  } | null;
+  } | null | undefined;
   readonly taggedArtworks: {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
 };
 export type TaggedArtworksQuery = {
   response: TaggedArtworksQuery$data;

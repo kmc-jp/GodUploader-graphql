@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<adfae5449625a532ce3be885f807950a>>
+ * @generated SignedSource<<8f478af7e74283de2eee7cab97022cc4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,9 +8,9 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type IndexQuery$variables = {};
+export type IndexQuery$variables = Record<PropertyKey, never>;
 export type IndexQuery$data = {
   readonly activeAccounts: {
     readonly edges: ReadonlyArray<{
@@ -19,17 +19,17 @@ export type IndexQuery$data = {
         readonly id: string;
         readonly kmcid: string;
         readonly name: string;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
   readonly safeArtworks: {
     readonly __id: string;
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
 };
 export type IndexQuery = {
   response: IndexQuery$data;

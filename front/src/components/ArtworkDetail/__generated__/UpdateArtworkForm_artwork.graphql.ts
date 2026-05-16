@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a4ffd0e35b19574dbebcad9bf5b3136b>>
+ * @generated SignedSource<<56983d472c1237f9629fe201bb80477d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type UpdateArtworkForm_artwork$data = {
@@ -19,9 +19,9 @@ export type UpdateArtworkForm_artwork$data = {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly name: string;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
   readonly title: string;
   readonly " $fragmentType": "UpdateArtworkForm_artwork";
 };
