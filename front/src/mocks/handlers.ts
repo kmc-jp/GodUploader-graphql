@@ -1,6 +1,11 @@
 import { graphql, HttpResponse } from "msw";
 
-import { getDb, toConnection } from "./db";
+import {
+  getDb,
+  toConnection,
+  toPaginatedConnection,
+  toPaginatedConnectionBackward,
+} from "./db";
 import { CommentFactory, LikeFactory } from "./factories";
 
 export const handlers = [
@@ -43,23 +48,32 @@ export const handlers = [
   graphql.query("RecentArtworksQuery", async ({ variables }) => {
     const { artworks } = await getDb();
     const ratings: string[] = variables.rating ?? ["safe"];
+    const filtered = artworks.filter((a) => ratings.includes(a.rating ?? ""));
     return HttpResponse.json({
       data: {
-        artworks: toConnection(
-          artworks.filter((a) => ratings.includes(a.rating ?? "")),
-        ),
+        artworks: toPaginatedConnection(filtered, 40, null),
       },
     });
   }),
 
   graphql.query("ArtworkListPaginationQuery", async ({ variables }) => {
-    const { artworks } = await getDb();
-    const ratings: string[] = variables.rating ?? ["safe"];
+    const { accounts, artworks } = await getDb();
+    const account = accounts.find((a) => a.id === variables.id) ?? null;
+    if (!account) return HttpResponse.json({ data: { node: null } });
+    const userArtworks = artworks.filter(
+      (a) => a.account?.kmcid === account.kmcid,
+    );
     return HttpResponse.json({
       data: {
-        artworks: toConnection(
-          artworks.filter((a) => ratings.includes(a.rating ?? "")),
-        ),
+        node: {
+          __typename: "Account",
+          id: account.id,
+          artworks: toPaginatedConnectionBackward(
+            userArtworks,
+            variables.count ?? 20,
+            variables.cursor,
+          ),
+        },
       },
     });
   }),
@@ -67,10 +81,13 @@ export const handlers = [
   graphql.query("RecentArtworkListPaginationQuery", async ({ variables }) => {
     const { artworks } = await getDb();
     const ratings: string[] = variables.rating ?? ["safe"];
+    const filtered = artworks.filter((a) => ratings.includes(a.rating ?? ""));
     return HttpResponse.json({
       data: {
-        artworks: toConnection(
-          artworks.filter((a) => ratings.includes(a.rating ?? "")),
+        artworks: toPaginatedConnection(
+          filtered,
+          variables.count ?? 20,
+          variables.cursor,
         ),
       },
     });
