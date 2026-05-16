@@ -1,6 +1,6 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
 import {
   Links,
@@ -38,21 +38,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function Root() {
-  const [isLoading, setIsLoading] = useState(true);
-
   return (
     <RelayEnvironmentProvider environment={RelayEnvironment}>
       <div className="App">
-        {isLoading ? <LoadingOverlay /> : null}
         <Header />
         <div className="container">
           <AppErrorBoundary>
-            <LoadingPresence
-              onLoadStart={() => setIsLoading(true)}
-              onLoadEnd={() => setIsLoading(false)}
-            >
+            <Suspense fallback={<LoadingOverlay />}>
               <Outlet />
-            </LoadingPresence>
+            </Suspense>
           </AppErrorBoundary>
         </div>
         <Footer />
