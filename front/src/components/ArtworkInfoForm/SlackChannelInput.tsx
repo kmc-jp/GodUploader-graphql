@@ -18,7 +18,7 @@ export const SlackChannelInput: React.VFC = () => {
   const { slackChannel, notifySlack, setSlackChannel } =
     useUploadArtworkContext();
   const [queryRef, loadQuery] = useQueryLoader<SlackChannelInputQuery>(
-    slackChannelInputQuery
+    slackChannelInputQuery,
   );
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const ChannelSuggestion: React.VFC<{
 }> = ({ queryRef }) => {
   const { allSlackChannels } = usePreloadedQuery<SlackChannelInputQuery>(
     slackChannelInputQuery,
-    queryRef
+    queryRef,
   );
 
   const sortedChannels = allSlackChannels

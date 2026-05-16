@@ -36,7 +36,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
         }
       }
     `,
-    artworkKey
+    artworkKey,
   );
   const environment = useRelayEnvironment();
   const initialTagList = (artwork.tags?.edges || [])
@@ -110,7 +110,7 @@ export const UpdateArtworkModal: React.VFC<Props> = ({ artworkKey }) => {
         },
       });
     },
-    [ageRestriction, artwork.id, caption, environment, tags, title]
+    [ageRestriction, artwork.id, caption, environment, tags, title],
   );
 
   return (

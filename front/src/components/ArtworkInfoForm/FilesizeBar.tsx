@@ -12,7 +12,7 @@ export const FilesizeBar: React.VFC<FilesizeBarProps> = ({
 }) => {
   const ratio = useMemo(
     () => Math.trunc((filesize / maxFilesize) * 100),
-    [filesize, maxFilesize]
+    [filesize, maxFilesize],
   );
 
   return (

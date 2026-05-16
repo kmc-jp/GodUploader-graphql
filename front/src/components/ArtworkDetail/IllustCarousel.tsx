@@ -27,7 +27,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
         }
       }
     `,
-    artwork
+    artwork,
   );
   const [index, setIndex] = useState(0);
   const carouselElementRef = useRef<HTMLDivElement>(null);
@@ -150,7 +150,7 @@ export const IllustCarousel: React.VFC<Props> = ({ artwork }) => {
                 className={clsx(
                   "card",
                   "me-2",
-                  i === index && "border-primary"
+                  i === index && "border-primary",
                 )}
                 onClick={(e) => {
                   e.preventDefault();
