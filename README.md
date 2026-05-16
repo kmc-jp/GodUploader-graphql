@@ -8,9 +8,6 @@ GodUploader with GraphQL
 - Node.js v20.5.1
 - Python 3.14.2
 - poetry version 2.2.1
-- ImageMagick 6.9.7-4
-- WebP
-  - Debian系なら `apt install webp` でWebPのコマンド群をインストールすればOKです
 
 ### api
 
