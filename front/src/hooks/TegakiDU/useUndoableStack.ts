@@ -13,7 +13,7 @@ type UseUndoableStackReturnValue<T = any> = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useUndoableStack = <T = any>(
-  initialValue: T
+  initialValue: T,
 ): UseUndoableStackReturnValue<T> => {
   const [undoStack, setUndoStack] = useState<T[]>([initialValue]);
   const [redoStack, setRedoStack] = useState<T[]>([]);

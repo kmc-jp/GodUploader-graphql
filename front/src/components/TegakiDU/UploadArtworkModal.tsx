@@ -87,7 +87,7 @@ export const UploadArtworkModal: React.FC<Props> = ({ blob }) => {
       }
     `,
     {},
-    { fetchPolicy: "store-or-network" }
+    { fetchPolicy: "store-or-network" },
   );
   useEffect(() => {
     setTwitterUserName(!viewer ? "" : viewer.kmcid);

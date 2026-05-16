@@ -41,36 +41,37 @@ interface PaintStackContextProviderProps {
   children: React.ReactNode;
 }
 
-export const PaintStackContextProvider: React.FC<PaintStackContextProviderProps> =
-  ({ children }) => {
-    const [paints, setPaints] = useState<Drawing[]>([]);
-    const {
-      append,
-      undo: undoStack,
-      redo: redoStack,
-      undoable,
-      redoable,
-    } = useUndoableStack<Drawing[]>([]);
+export const PaintStackContextProvider: React.FC<
+  PaintStackContextProviderProps
+> = ({ children }) => {
+  const [paints, setPaints] = useState<Drawing[]>([]);
+  const {
+    append,
+    undo: undoStack,
+    redo: redoStack,
+    undoable,
+    redoable,
+  } = useUndoableStack<Drawing[]>([]);
 
-    const undo = useCallback(() => {
-      const undoValue = undoStack();
-      if (undoValue) {
-        setPaints(undoValue);
-      }
-    }, [undoStack]);
+  const undo = useCallback(() => {
+    const undoValue = undoStack();
+    if (undoValue) {
+      setPaints(undoValue);
+    }
+  }, [undoStack]);
 
-    const redo = useCallback(() => {
-      const redoValue = redoStack();
-      if (redoValue) {
-        setPaints(redoValue);
-      }
-    }, [redoStack]);
+  const redo = useCallback(() => {
+    const redoValue = redoStack();
+    if (redoValue) {
+      setPaints(redoValue);
+    }
+  }, [redoStack]);
 
-    return (
-      <PaintStackContext.Provider
-        value={{ paints, setPaints, append, undo, redo, undoable, redoable }}
-      >
-        {children}
-      </PaintStackContext.Provider>
-    );
-  };
+  return (
+    <PaintStackContext.Provider
+      value={{ paints, setPaints, append, undo, redo, undoable, redoable }}
+    >
+      {children}
+    </PaintStackContext.Provider>
+  );
+};

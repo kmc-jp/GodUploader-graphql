@@ -1,6 +1,6 @@
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Navigate } from 'react-router';
+import { Navigate } from "react-router";
 
 import type { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
 
@@ -14,7 +14,7 @@ export const RedirectToMyPage: React.FC = () => {
       }
     `,
     {},
-    { fetchPolicy: "store-or-network" }
+    { fetchPolicy: "store-or-network" },
   );
   if (!viewer) {
     return <Navigate to="/" replace />;

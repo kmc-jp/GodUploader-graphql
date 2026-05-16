@@ -68,27 +68,29 @@ const UploadArtworkForm = () => {
     useCallback(
       (e) => {
         setFiles((files) =>
-          e.target.files ? [...files, ...Array.from(e.target.files)] : files
+          e.target.files ? [...files, ...Array.from(e.target.files)] : files,
         );
       },
-      [setFiles]
+      [setFiles],
     );
 
   const handleDeleteImage = useCallback(
     (index: number) => {
       setFiles((files) => files.filter((file, i) => i !== index));
     },
-    [setFiles]
+    [setFiles],
   );
 
   const images = useMemo(
     () => files.map((file) => URL.createObjectURL(file)),
-    [files]
+    [files],
   );
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const handleDragEnd = useCallback(
@@ -104,7 +106,7 @@ const UploadArtworkForm = () => {
       const newIndex = images.indexOf(over.id);
       setFiles((files) => arrayMove(files, oldIndex, newIndex));
     },
-    [images, setFiles]
+    [images, setFiles],
   );
 
   const { viewer } = useLazyLoadQuery<UploadArtworkQuery>(
@@ -116,7 +118,7 @@ const UploadArtworkForm = () => {
       }
     `,
     {},
-    { fetchPolicy: "store-or-network" }
+    { fetchPolicy: "store-or-network" },
   );
   useEffect(() => {
     setTwitterUserName(!viewer ? "" : viewer.kmcid);

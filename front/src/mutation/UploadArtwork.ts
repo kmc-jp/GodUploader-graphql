@@ -6,20 +6,20 @@ import type { UploadArtworkMutation } from "./__generated__/UploadArtworkMutatio
 
 export const makeUploadablesFromFileList = (
   objectPath: string,
-  files: FileList
+  files: FileList,
 ): UploadableMap =>
   Object.fromEntries<File>(
-    Array.from(files, (file, i) => [`${objectPath}.${i}`, file])
+    Array.from(files, (file, i) => [`${objectPath}.${i}`, file]),
   );
 
 export const makeUploadablesFromBlob = (
   objectPath: string,
-  blob: Blob
+  blob: Blob,
 ): UploadableMap => ({ [`${objectPath}.0`]: blob });
 
 export const commitUploadArtworkMutation = (
   environment: Environment,
-  config: Omit<MutationConfig<UploadArtworkMutation>, "mutation">
+  config: Omit<MutationConfig<UploadArtworkMutation>, "mutation">,
 ) => {
   return commitMutation<UploadArtworkMutation>(environment, {
     mutation: graphql`

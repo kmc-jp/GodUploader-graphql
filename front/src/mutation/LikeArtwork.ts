@@ -6,7 +6,7 @@ import type { LikeArtworkMutation } from "./__generated__/LikeArtworkMutation.gr
 
 export const commitLikeArtworkMutation = (
   environment: Environment,
-  config: Omit<MutationConfig<LikeArtworkMutation>, "mutation">
+  config: Omit<MutationConfig<LikeArtworkMutation>, "mutation">,
 ) => {
   return commitMutation<LikeArtworkMutation>(environment, {
     mutation: graphql`

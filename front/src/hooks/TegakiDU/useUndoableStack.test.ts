@@ -1,4 +1,4 @@
-import { renderHook, act } from "@testing-library/react-hooks/dom";
+import { renderHook, act } from "@testing-library/react";
 
 import { useUndoableStack } from "./useUndoableStack";
 

@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useRelayEnvironment } from "react-relay";
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 import { PayloadError } from "relay-runtime";
 
 import { useArtworkInformation } from "../hooks/useArtworkInformation";
@@ -102,7 +102,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
   const [files, setFiles] = useState<File[] | Blob[]>([]);
   const totalFilesize = useMemo(
     () => files.map((file) => file.size).reduce((a, b) => a + b, 0),
-    [files]
+    [files],
   );
   const filesizeLimitExceeded = useMemo(() => {
     return totalFilesize >= MAX_FILESIZE;
@@ -142,7 +142,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
 
       setIsUploading(true);
       const uploadables = Object.fromEntries<File | Blob>(
-        Array.from(files, (file, i) => [`variables.input.files.${i}`, file])
+        Array.from(files, (file, i) => [`variables.input.files.${i}`, file]),
       );
       commitUploadArtworkMutation(environment, {
         variables: {
@@ -170,7 +170,9 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
             return;
           }
 
-          navigate(`/artwork/${resp.uploadArtwork.artwork.id}`, { replace: true });
+          navigate(`/artwork/${resp.uploadArtwork.artwork.id}`, {
+            replace: true,
+          });
         },
         onError: (error) => {
           setIsUploading(false);
@@ -191,7 +193,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
       slackChannel,
       tags,
       title,
-    ]
+    ],
   );
 
   return (

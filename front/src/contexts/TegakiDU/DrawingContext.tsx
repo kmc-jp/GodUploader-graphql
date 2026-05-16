@@ -29,7 +29,7 @@ const defaultDrawingContextValue = {
 };
 
 export const DrawingContext = React.createContext<DrawingContextValue>(
-  defaultDrawingContextValue
+  defaultDrawingContextValue,
 );
 
 interface DrawingProviderProps {
@@ -51,7 +51,7 @@ export const DrawingProvider: React.FC<DrawingProviderProps> = ({
 
     const canvas = stageRef.current.toCanvas();
     const blob = await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob((b) => resolve(b))
+      canvas.toBlob((b) => resolve(b)),
     );
 
     return blob;

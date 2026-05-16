@@ -3,9 +3,7 @@ import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { useParams } from 'react-router';
-
-import { Link } from "../components/Link";
+import { useParams } from "react-router";
 import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
@@ -14,6 +12,7 @@ import { LikeList } from "../components/ArtworkDetail/ArtworkLikeList";
 import { DeleteArtworkButton } from "../components/ArtworkDetail/DeleteArtworkButton";
 import { IllustCarousel } from "../components/ArtworkDetail/IllustCarousel";
 import { UpdateArtworkModal } from "../components/ArtworkDetail/UpdateArtworkForm";
+import { Link } from "../components/Link";
 import { ShareButton } from "../components/ShareButton";
 import { SuspenseImage } from "../components/SuspenseImage";
 import {
@@ -51,7 +50,7 @@ const Caption: React.FC<CaptionProps> = ({ caption }) => {
 };
 
 const ArtworkDetail: React.FC = () => {
-  const { id = '' } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
   const { artworkWithBidirectional } = useLazyLoadQuery<ArtworkDetailQuery>(
     graphql`
       query ArtworkDetailQuery($id: ID!) {
@@ -102,7 +101,7 @@ const ArtworkDetail: React.FC = () => {
       }
     `,
     { id },
-    { fetchPolicy: "store-and-network" }
+    { fetchPolicy: "store-and-network" },
   );
 
   const tags = useMemo((): string[] => {
@@ -232,7 +231,7 @@ const ArtworkDetail: React.FC = () => {
                 "align-items-stretch",
                 previous && next && "justify-content-between",
                 previous && !next && "justify-content-end",
-                !previous && next && "justify-content-start"
+                !previous && next && "justify-content-start",
               )}
             >
               {next && (

@@ -1,34 +1,47 @@
 import React from "react";
-import { Link as RouterLink, LinkProps } from 'react-router';
+import { Link as RouterLink, LinkProps } from "react-router";
 
 import { useNavigate } from "../contexts/NavigationContext";
 
 const isModifiedEvent = (e: React.MouseEvent) =>
   e.metaKey || e.altKey || e.ctrlKey || e.shiftKey;
 
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ to, replace, onClick, children, ...props }, ref) => {
-    const navigate = useNavigate();
+type Props = LinkProps & { ref?: React.Ref<HTMLAnchorElement> };
 
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      onClick?.(e);
-      if (
-        !e.defaultPrevented &&
-        e.button === 0 &&
-        !isModifiedEvent(e) &&
-        !(props.target && props.target !== "_self")
-      ) {
-        e.preventDefault();
-        navigate(to, replace);
-      }
-    };
+export const Link = ({
+  to,
+  replace,
+  onClick,
+  children,
+  ref,
+  ...props
+}: Props) => {
+  const navigate = useNavigate();
 
-    return (
-      <RouterLink to={to} replace={replace} onClick={handleClick} ref={ref} {...props}>
-        {children}
-      </RouterLink>
-    );
-  }
-);
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(e);
+    if (
+      !e.defaultPrevented &&
+      e.button === 0 &&
+      !isModifiedEvent(e) &&
+      !(props.target && props.target !== "_self")
+    ) {
+      e.preventDefault();
+      navigate(to, replace);
+    }
+  };
+
+  return (
+    <RouterLink
+      to={to}
+      replace={replace}
+      onClick={handleClick}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </RouterLink>
+  );
+};
 
 Link.displayName = "Link";

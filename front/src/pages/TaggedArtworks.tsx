@@ -1,14 +1,14 @@
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Navigate, useParams } from 'react-router';
+import { Navigate, useParams } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateTagModal } from "../components/TaggedArtworks/UpdateTagModal";
 import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
 
 export const TaggedArtworks: React.FC = () => {
-  const { tag = '' } = useParams<{ tag: string }>();
+  const { tag = "" } = useParams<{ tag: string }>();
   // NOTE: # などの文字列がパーセントエンコードされているのでデコードしておく
   const decodedTag = decodeURIComponent(tag);
 
@@ -41,7 +41,7 @@ const Inner: React.FC<{ tag: string }> = ({ tag }) => {
       }
     `,
     { tag },
-    { fetchPolicy: "store-and-network" }
+    { fetchPolicy: "store-and-network" },
   );
 
   if (!tagByName) {

@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
-import { useParams } from 'react-router';
+import { useParams } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateAccountModal } from "../components/UserDetail/UpdateInfoForm";
@@ -11,7 +11,7 @@ import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 
 export const UserDetail: React.FC = () => {
-  const { kmcid = '' } = useParams<{ kmcid: string }>();
+  const { kmcid = "" } = useParams<{ kmcid: string }>();
   const { user } = useLazyLoadQuery<UserDetailQuery>(
     graphql`
       query UserDetailQuery($kmcid: String!) {
@@ -26,7 +26,7 @@ export const UserDetail: React.FC = () => {
       }
     `,
     { kmcid },
-    { fetchPolicy: "store-and-network" }
+    { fetchPolicy: "store-and-network" },
   );
 
   if (!user) {
@@ -46,9 +46,7 @@ export const UserDetail: React.FC = () => {
   );
 };
 
-const ArtworkList: React.FC<{ user: UserDetail_artworks$key }> = ({
-  user,
-}) => {
+const ArtworkList: React.FC<{ user: UserDetail_artworks$key }> = ({ user }) => {
   const {
     data: { artworks },
     loadPrevious,
@@ -75,7 +73,7 @@ const ArtworkList: React.FC<{ user: UserDetail_artworks$key }> = ({
         }
       }
     `,
-    user
+    user,
   );
 
   const handleLoadArtworks = useCallback(() => {
