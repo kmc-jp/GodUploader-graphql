@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "@react-router/node"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -11,11 +11,18 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "rootDirs": [".", "./.react-router/types"]
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    ".react-router/types/**/*",
+    "react-router.config.ts",
+    "vite.config.mts",
+    "vitest.config.ts"
+  ]
 }

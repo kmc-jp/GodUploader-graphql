@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
@@ -57,3 +57,5 @@ export const Tags: React.VFC = () => {
     </div>
   );
 };
+
+export default Tags;

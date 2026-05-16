@@ -1,12 +1,10 @@
-/// <reference types="vitest/config" />
-import react from "@vitejs/plugin-react";
+import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import relay from "vite-plugin-relay";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), nodePolyfills({ protocolImports: true }), relay],
+  plugins: [reactRouter(), nodePolyfills({ protocolImports: true }), relay],
   server: {
     proxy: {
       "/api": "http://localhost:5000",
@@ -18,8 +16,22 @@ export default defineConfig({
       "react-infinite-scroller": "react-infinite-scroller/index.js",
     },
   },
-  test: {
-    globals: true,
-    environment: "happy-dom",
+  // SPA モード (ssr: false) でも build/client/index.html を生成するために
+  // 一度サーバ向けバンドルを通すので、CJS の依存パッケージを ESM に変換しておく
+  ssr: {
+    // SPA mode の事前レンダリング時、CJS の依存パッケージは
+    // Node ESM の named import で読めないため ESM 化してインライン化する。
+    // `bootstrap` は browser-only (document に触る) のため動的 import に留め、
+    // ここには含めない。
+    noExternal: [
+      "react-relay",
+      "react-helmet",
+      "relay-runtime",
+      "react-string-replace",
+      "react-infinite-scroller",
+      "clsx",
+      /^react-konva/,
+      /^@dnd-kit\//,
+    ],
   },
 });

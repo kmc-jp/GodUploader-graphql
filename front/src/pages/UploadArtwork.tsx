@@ -295,6 +295,8 @@ const UploadArtworkForm = () => {
   );
 };
 
+export default UploadArtwork;
+
 const SortableImage: React.VFC<{
   index: number;
   dataURL: string;

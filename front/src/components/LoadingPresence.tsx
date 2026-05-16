@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect, useRef } from "react";
-import { useLocation, useHistory } from "react-router";
+import React, { Suspense, useEffect } from "react";
+import { useLocation } from "react-router";
 
 interface LoadingPresenceProps {
   children: React.ReactElement;
@@ -12,33 +12,16 @@ export const LoadingPresence: React.VFC<LoadingPresenceProps> = ({
   onLoadStart,
   onLoadEnd,
 }) => {
-  const currentLocation = useLocation();
-  const history = useHistory();
-  const previousElement = useRef<React.ReactElement>();
+  const location = useLocation();
 
   useEffect(() => {
-    const dispose = history.listen((nextLocation, action) => {
-      if (nextLocation !== currentLocation) {
-        if (action !== "REPLACE") {
-          previousElement.current = children;
-        }
-        onLoadStart();
-      }
-    });
-
-    return () => {
-      onLoadEnd();
-      dispose();
-    };
-  }, [history, currentLocation, onLoadStart, onLoadEnd, children]);
+    onLoadStart();
+  }, [location.key, onLoadStart]);
 
   return (
     <Suspense
       fallback={
-        <Suspense fallback={null}>
-          {previousElement.current}
-          <LoadingWatcher onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} />
-        </Suspense>
+        <LoadingWatcher onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} />
       }
     >
       {children}

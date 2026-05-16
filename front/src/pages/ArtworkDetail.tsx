@@ -3,7 +3,7 @@ import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import reactStringReplace from "react-string-replace";
 
 import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
@@ -49,7 +49,7 @@ const Caption: React.VFC<CaptionProps> = ({ caption }) => {
 };
 
 const ArtworkDetail: React.VFC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams();
   const { artworkWithBidirectional } = useLazyLoadQuery<ArtworkDetailQuery>(
     graphql`
       query ArtworkDetailQuery($id: ID!) {

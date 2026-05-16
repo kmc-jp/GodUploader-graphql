@@ -7,6 +7,14 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
+  {
+    ignores: [
+      "build/**",
+      "dist/**",
+      ".react-router/**",
+      "**/__generated__/**",
+    ],
+  },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {

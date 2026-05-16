@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useRelayEnvironment } from "react-relay";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { PayloadError } from "relay-runtime";
 
 import { useArtworkInformation } from "../hooks/useArtworkInformation";
@@ -118,7 +118,7 @@ export const UploadArtworkProvider: React.VFC<UploadArtworkProviderProps> = ({
   >(null);
 
   const environment = useRelayEnvironment();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit: FormEventHandler = useCallback(
     (event) => {
@@ -170,7 +170,9 @@ export const UploadArtworkProvider: React.VFC<UploadArtworkProviderProps> = ({
             return;
           }
 
-          history.replace(`/artwork/${resp.uploadArtwork.artwork.id}`);
+          navigate(`/artwork/${resp.uploadArtwork.artwork.id}`, {
+            replace: true,
+          });
         },
         onError: (error) => {
           setIsUploading(false);
@@ -183,7 +185,7 @@ export const UploadArtworkProvider: React.VFC<UploadArtworkProviderProps> = ({
       caption,
       environment,
       files,
-      history,
+      navigate,
       notifySlack,
       notifyTwitter,
       twitterUserName,

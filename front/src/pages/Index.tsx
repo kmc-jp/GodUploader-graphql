@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
@@ -108,3 +108,5 @@ export const Index: React.VFC = () => {
     </div>
   );
 };
+
+export default Index;

@@ -34,7 +34,7 @@ jobs:
       - run: npm run relay-compiler --validate
         working-directory: ./front
 
-      - run: npm run tsc --noEmit
+      - run: npm run typecheck
         working-directory: ./front
 
       - run: npm run eslint
@@ -65,4 +65,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: front/dist
+          path: front/build/client

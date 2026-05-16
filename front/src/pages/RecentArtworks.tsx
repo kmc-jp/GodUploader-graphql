@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { RecentArtworkListPaginationQuery } from "./__generated__/RecentArtworkListPaginationQuery.graphql";
@@ -112,12 +112,12 @@ export const RecentArtworks: React.VFC = () => {
     { rating },
     { fetchPolicy: "store-and-network" }
   );
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleChangeRating = useCallback<ChangeEventHandler<HTMLSelectElement>>(
     (e) => {
-      history.push(`artworks?mode=${e.target.value}`);
+      navigate(`/artworks?mode=${e.target.value}`);
     },
-    [history]
+    [navigate]
   );
 
   return (
@@ -148,3 +148,5 @@ export const RecentArtworks: React.VFC = () => {
     </div>
   );
 };
+
+export default RecentArtworks;

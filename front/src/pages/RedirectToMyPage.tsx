@@ -1,6 +1,6 @@
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router";
 
 import type { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
 
@@ -17,8 +17,10 @@ export const RedirectToMyPage: React.VFC = () => {
     { fetchPolicy: "store-or-network" }
   );
   if (!viewer) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" replace />;
   }
 
-  return <Redirect to={`/users/${viewer.kmcid}`} />;
+  return <Navigate to={`/users/${viewer.kmcid}`} replace />;
 };
+
+export default RedirectToMyPage;

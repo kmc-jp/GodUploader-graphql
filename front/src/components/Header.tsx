@@ -1,27 +1,40 @@
-import { Collapse } from "bootstrap";
+import type { Collapse as BSCollapse } from "bootstrap";
 import React, { useEffect, useRef } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router";
+
+const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
+  isActive ? "nav-link active" : "nav-link";
 
 export const Header: React.VFC = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const history = useHistory();
+  const collapseRef = useRef<BSCollapse | null>(null);
+  const location = useLocation();
 
-  // ページ遷移時にドロップダウンメニューが閉じるようにする
   useEffect(() => {
     if (!ref.current) {
       return;
     }
-    // toggle: false を指定しないとページ遷移するたびにドロップダウンメニューが開閉してしまう
-    const collapse = new Collapse(ref.current, { toggle: false });
-    const unsubscribe = history.listen(() => {
-      collapse.hide();
+    // bootstrap は document に触るので動的にロードする (SPA pre-render を破壊しないため)
+    let disposed = false;
+    import("bootstrap").then(({ Collapse }) => {
+      if (disposed || !ref.current) {
+        return;
+      }
+      // toggle: false を指定しないとページ遷移するたびにドロップダウンメニューが開閉してしまう
+      collapseRef.current = new Collapse(ref.current, { toggle: false });
     });
 
     return () => {
-      collapse.dispose();
-      unsubscribe();
+      disposed = true;
+      collapseRef.current?.dispose();
+      collapseRef.current = null;
     };
-  }, [history]);
+  }, []);
+
+  // ページ遷移時にドロップダウンメニューが閉じるようにする
+  useEffect(() => {
+    collapseRef.current?.hide();
+  }, [location.pathname, location.search]);
 
   return (
     <nav className="navbar navbar-expand-xl navbar-light bg-light mb-3">
@@ -48,30 +61,22 @@ export const Header: React.VFC = () => {
         >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink
-                to="/artwork/new"
-                className="nav-link"
-                activeClassName="active"
-              >
+              <NavLink to="/artwork/new" className={navLinkClassName}>
                 アップロード
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/my" className="nav-link" activeClassName="active">
+              <NavLink to="/my" className={navLinkClassName}>
                 マイページ
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/tags" className="nav-link" activeClassName="active">
+              <NavLink to="/tags" className={navLinkClassName}>
                 タグ検索
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink
-                to="/tegaki"
-                className="nav-link"
-                activeClassName="active"
-              >
+              <NavLink to="/tegaki" className={navLinkClassName}>
                 tegaki_du
               </NavLink>
             </li>

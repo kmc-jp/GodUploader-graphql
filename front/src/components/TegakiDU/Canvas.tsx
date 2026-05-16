@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { Circle, Layer, Line, Rect, Stage } from "react-konva";
-import { Prompt } from "react-router-dom";
+import { useBlocker } from "react-router";
 
 import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
 import { PaintStackContext } from "../../contexts/TegakiDU/PaintStackContext";
@@ -159,12 +159,20 @@ export const Canvas: React.VFC<{ width: number; height: number }> = ({
     setMouseY(-999999);
   }, []);
 
+  const shouldBlockNavigation = paints.length > 0 && !isPosting;
+  const blocker = useBlocker(shouldBlockNavigation);
+  useEffect(() => {
+    if (blocker.state === "blocked") {
+      if (window.confirm("このページを離れると絵は破棄されます。")) {
+        blocker.proceed();
+      } else {
+        blocker.reset();
+      }
+    }
+  }, [blocker]);
+
   return (
     <div className="mw-100">
-      <Prompt
-        when={paints.length > 0 && !isPosting}
-        message="このページを離れると絵は破棄されます。"
-      />
       <Stage
         width={width}
         height={height}

@@ -2,7 +2,7 @@ import { Modal } from "bootstrap";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { PayloadError } from "relay-runtime";
 
 import { commitUpdateTagMutation } from "../../mutation/UpdateTag";
@@ -45,7 +45,7 @@ export const UpdateTagModal: React.VFC<UpdateTagModalProps> = ({ tagKey }) => {
 
   const [errors, setErrors] = useState<PayloadError[] | null | undefined>(null);
   const environment = useRelayEnvironment();
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleUpdate: React.FormEventHandler = useCallback(
     (e) => {
       e.preventDefault();
@@ -68,15 +68,16 @@ export const UpdateTagModal: React.VFC<UpdateTagModalProps> = ({ tagKey }) => {
 
           const modal = Modal.getInstance(ref.current);
           modal?.hide();
-          history.replace(
+          navigate(
             `/tagged_artworks/${encodeURIComponent(
               response.updateTag?.tag?.name ?? ""
-            )}`
+            )}`,
+            { replace: true }
           );
         },
       });
     },
-    [environment, history, name, tag.id]
+    [environment, navigate, name, tag.id]
   );
 
   return (

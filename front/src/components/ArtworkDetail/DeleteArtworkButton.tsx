@@ -1,6 +1,6 @@
 import React from "react";
 import { useRelayEnvironment } from "react-relay";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { commitDeleteArtworkMutation } from "../../mutation/DeleteArtwork";
 
@@ -12,7 +12,7 @@ export const DeleteArtworkButton: React.VFC<DeleteArtworkButtonProps> = ({
   artworkId,
 }) => {
   const environment = useRelayEnvironment();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleDeleteButtonClick = () => {
     if (!window.confirm("本当に削除しますか？")) {
@@ -25,7 +25,7 @@ export const DeleteArtworkButton: React.VFC<DeleteArtworkButtonProps> = ({
         connections: [],
       },
       onCompleted: () => {
-        history.replace("/");
+        navigate("/", { replace: true });
       },
     });
   };

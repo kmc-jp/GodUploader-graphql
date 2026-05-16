@@ -13,6 +13,9 @@
 /_app
 /_app_k8s
 
+# react-router framework mode (generated types)
+/.react-router
+
 # misc
 .DS_Store
 .env.local
