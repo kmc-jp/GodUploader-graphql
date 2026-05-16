@@ -19,7 +19,8 @@ UPLOAD_ARTWORK_QUERY = """
         $rating: ArtworkRatingEnum!,
         $shareOption: SlackShareOptionEnum = NONE,
         $twitterShareOption: TwitterShareOption,
-        $channelId: String
+        $channelId: String,
+        $channelIds: [String]
     ) {
         uploadArtwork(input: {
             files: $files,
@@ -29,6 +30,7 @@ UPLOAD_ARTWORK_QUERY = """
             rating: $rating,
             shareOption: $shareOption,
             channelId: $channelId,
+            channelIds: $channelIds,
             twitterShareOption: $twitterShareOption,
         }) {
             artwork {
@@ -165,6 +167,7 @@ def test_upload_artwork_share_option_shate_to_slack(client):
             "tags": ["tag"],
             "rating": "safe",
             "shareOption": "SHARE_TO_SLACK",
+            "channelIds": ["C0000000001"],
         },
         context_value=mock_context(kmcid=account.kmcid),
     )
@@ -194,6 +197,7 @@ def test_upload_artwork_share_option_shate_to_slack_with_image(client):
             "tags": ["tag"],
             "rating": "safe",
             "shareOption": "SHARE_TO_SLACK_WITH_IMAGE",
+            "channelIds": ["C0000000001"],
         },
         context_value=mock_context(kmcid=account.kmcid),
     )
@@ -204,6 +208,101 @@ def test_upload_artwork_share_option_shate_to_slack_with_image(client):
     assert latest_requests[0].path == "/api/upload"
     assert latest_requests[1].headers['host'] == "www.slack.com"
     assert latest_requests[1].path == "/api/chat.postMessage"
+
+
+def test_upload_artwork_share_option_share_to_slack_multiple_channels(client):
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "rating": "safe",
+            "shareOption": "SHARE_TO_SLACK",
+            "channelIds": ["C0000000001", "C0000000002"],
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+
+    post_message_requests = [
+        req for req in httpretty.latest_requests
+        if req.headers['host'] == "www.slack.com" and req.path == "/api/chat.postMessage"
+    ]
+    assert len(post_message_requests) == 2
+
+
+def test_upload_artwork_share_option_share_to_slack_channel_id_backward_compat(client):
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "rating": "safe",
+            "shareOption": "SHARE_TO_SLACK",
+            "channelId": "C0000000001",
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+
+    last_request = httpretty.last_request
+    assert last_request.headers['host'] == "www.slack.com"
+    assert last_request.path == "/api/chat.postMessage"
+
+
+def test_upload_artwork_share_option_share_to_slack_channel_id_dedup(client):
+    account = create_account()
+    upload_src = Path(__file__).parent.parent / "data" / "me.png"
+
+    result = client.execute(
+        UPLOAD_ARTWORK_QUERY,
+        variable_values={
+            "files": [
+                FileStorage(
+                    stream=open(upload_src, "rb"),
+                    filename="me.png",
+                    content_type="image/png",
+                )
+            ],
+            "title": "title",
+            "caption": "caption",
+            "tags": ["tag"],
+            "rating": "safe",
+            "shareOption": "SHARE_TO_SLACK",
+            "channelId": "C0000000001",
+            "channelIds": ["C0000000001", "C0000000002"],
+        },
+        context_value=mock_context(kmcid=account.kmcid),
+    )
+    assert "errors" not in result
+
+    post_message_requests = [
+        req for req in httpretty.latest_requests
+        if req.headers['host'] == "www.slack.com" and req.path == "/api/chat.postMessage"
+    ]
+    assert len(post_message_requests) == 2
 
 
 def test_upload_artwork_twitter_share_option_false(client):

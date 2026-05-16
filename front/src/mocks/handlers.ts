@@ -111,6 +111,7 @@ export const handlers = [
     return HttpResponse.json({
       data: {
         allSlackChannels: [
+          { id: "C039TN7Q1", name: "graphics" },
           { id: btoa("SlackChannel:1"), name: "general" },
           { id: btoa("SlackChannel:2"), name: "illust" },
         ],

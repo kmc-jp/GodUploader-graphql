@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b27fea7d5684ebf9862106f2d6f81712>>
+ * @generated SignedSource<<8a0ed58839a61657115acc6d865c32d6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,6 +14,7 @@ export type SlackShareOptionEnum = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_W
 export type UploadArtworkInput = {
   caption: string;
   channelId?: string | null | undefined;
+  channelIds?: ReadonlyArray<string | null | undefined> | null | undefined;
   clientMutationId?: string | null | undefined;
   files: ReadonlyArray<null>;
   rating: ArtworkRatingEnum;

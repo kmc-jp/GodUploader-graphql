@@ -460,8 +460,11 @@ input UploadArtworkInput {
   """作品をSlackにシェアするかどうか"""
   shareOption: SlackShareOptionEnum
 
-  """投稿したことを共有するSlackチャンネルのID"""
+  """投稿したことを共有するSlackチャンネルのID (後方互換性のために残しています。channelIds を優先してください)"""
   channelId: String
+
+  """投稿したことを共有するSlackチャンネルのIDリスト"""
+  channelIds: [String]
 
   """Twitterへの共有設定。nullのときは共有しない"""
   twitterShareOption: TwitterShareOption
