@@ -119,6 +119,12 @@ class UploadArtwork(graphene.ClientIDMutation):
         session.commit()
 
         # 外部サービスへの共有時には Artwork.id に有効な値が設定されている必要があるのでcommit後に共有します
+        # commit後にSQLAlchemyが全オブジェクトを期限切れにするため、スレッドプールに入る前に
+        # メインスレッドでリレーションを読み込んでおく（SQLiteのクロススレッドアクセス禁止対策）
+        _ = artwork.title
+        _ = artwork.account.name
+        _ = [t.name for t in artwork.tags]
+
         image_path = top_illust.image_path("full")
 
         def _post_to_channel(ch_id):
