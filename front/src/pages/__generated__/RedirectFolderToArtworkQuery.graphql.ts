@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b6bf47a5b4cc0d7c0d1b5b18a0cc2399>>
+ * @generated SignedSource<<b513f52d12fb9f0b354f1d45c8772053>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,14 +8,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type RedirectFolderToArtworkQuery$variables = {
   folderId: number;
 };
 export type RedirectFolderToArtworkQuery$data = {
   readonly artworkByFolderId: {
     readonly id: string;
-  } | null;
+  } | null | undefined;
 };
 export type RedirectFolderToArtworkQuery = {
   response: RedirectFolderToArtworkQuery$data;

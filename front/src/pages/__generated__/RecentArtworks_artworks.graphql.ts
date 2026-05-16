@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d75def9a8e96ee2c8a80a1e9f18c75aa>>
+ * @generated SignedSource<<9a87de1b648e1a55cd1b850f1648034c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,16 +8,16 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type RecentArtworks_artworks$data = {
   readonly artworks: {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly " $fragmentSpreads": FragmentRefs<"ArtworkListItem_artwork">;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
   readonly " $fragmentType": "RecentArtworks_artworks";
 };
 export type RecentArtworks_artworks$key = {

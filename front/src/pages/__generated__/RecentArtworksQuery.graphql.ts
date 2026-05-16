@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d1524e975c4c7ff3e05793a4845bd8e3>>
+ * @generated SignedSource<<9995c6c76316ab9d836d1570d2d4c362>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type RecentArtworksQuery$variables = {

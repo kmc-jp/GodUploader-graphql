@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c9eae92f2f2708f1f7ab5ed09cd4d81f>>
+ * @generated SignedSource<<245805bb95becf4796cafdae89eaa77b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,17 +8,17 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkListPaginationQuery$variables = {
-  count?: number | null;
-  cursor?: string | null;
+  count?: number | null | undefined;
+  cursor?: string | null | undefined;
   id: string;
 };
 export type ArtworkListPaginationQuery$data = {
   readonly node: {
     readonly " $fragmentSpreads": FragmentRefs<"UserDetail_artworks">;
-  } | null;
+  } | null | undefined;
 };
 export type ArtworkListPaginationQuery = {
   response: ArtworkListPaginationQuery$data;

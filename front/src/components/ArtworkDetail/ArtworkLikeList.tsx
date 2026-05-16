@@ -88,7 +88,7 @@ interface LikeIconProps {
     readonly account: {
       readonly id: string;
       readonly kmcid: string;
-    } | null;
+    } | null | undefined;
   };
 }
 

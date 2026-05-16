@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<aad47e76d4f45e491aa021b3446eb231>>
+ * @generated SignedSource<<f920c5b52ca20bb310826cec405ae0c2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkLikeList_likes$data = {
   readonly artworkId: string;
@@ -19,10 +19,10 @@ export type ArtworkLikeList_likes$data = {
         readonly account: {
           readonly id: string;
           readonly kmcid: string;
-        } | null;
-      } | null;
-    } | null>;
-  } | null;
+        } | null | undefined;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
   readonly " $fragmentType": "ArtworkLikeList_likes";
 };
 export type ArtworkLikeList_likes$key = {

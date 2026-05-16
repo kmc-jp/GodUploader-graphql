@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1b476c1a7c6177aa9cac92226a0ef985>>
+ * @generated SignedSource<<c1b4b4914270302176d8637a4b8dc147>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,9 +8,9 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type UpdateTagInput = {
-  clientMutationId?: string | null;
+  clientMutationId?: string | null | undefined;
   id: string;
   name: string;
 };
@@ -22,8 +22,8 @@ export type UpdateTagMutation$data = {
     readonly tag: {
       readonly id: string;
       readonly name: string;
-    } | null;
-  } | null;
+    } | null | undefined;
+  } | null | undefined;
 };
 export type UpdateTagMutation = {
   response: UpdateTagMutation$data;

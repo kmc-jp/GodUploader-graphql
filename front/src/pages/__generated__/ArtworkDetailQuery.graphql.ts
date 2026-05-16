@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<04dc5eb2ca1f81de2ec519560d0d5f70>>
+ * @generated SignedSource<<07ff394ee0675c28e313da77277a04ea>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type ArtworkDetailQuery$variables = {
@@ -21,7 +21,7 @@ export type ArtworkDetailQuery$data = {
       readonly id: string;
       readonly kmcid: string;
       readonly name: string;
-    } | null;
+    } | null | undefined;
     readonly caption: string;
     readonly createdAt: string;
     readonly editable: boolean;
@@ -32,32 +32,32 @@ export type ArtworkDetailQuery$data = {
       readonly title: string;
       readonly topIllust: {
         readonly thumbnailUrl: string;
-      } | null;
-    } | null;
+      } | null | undefined;
+    } | null | undefined;
     readonly previousArtwork: {
       readonly id: string;
       readonly nsfw: boolean;
       readonly title: string;
       readonly topIllust: {
         readonly thumbnailUrl: string;
-      } | null;
-    } | null;
+      } | null | undefined;
+    } | null | undefined;
     readonly rating: ArtworkRatingEnum;
     readonly tags: {
       readonly edges: ReadonlyArray<{
         readonly node: {
           readonly id: string;
           readonly name: string;
-        } | null;
-      } | null>;
-    } | null;
+        } | null | undefined;
+      } | null | undefined>;
+    } | null | undefined;
     readonly title: string;
     readonly " $fragmentSpreads": FragmentRefs<"ArtworkComment_comments" | "ArtworkLikeList_likes" | "IllustCarousel_illusts" | "UpdateArtworkForm_artwork">;
   } | {
     // This will never be '%other', but we need some
     // value in case none of the concrete values match.
     readonly __typename: "%other";
-  } | null;
+  } | null | undefined;
 };
 export type ArtworkDetailQuery = {
   response: ArtworkDetailQuery$data;

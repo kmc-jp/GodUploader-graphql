@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<16efff4e1838212ac0b7489d5fcfcaaa>>
+ * @generated SignedSource<<220b314619078d37fe71d2f81233911a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,10 +8,10 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type LikeArtworkInput = {
   artworkId: string;
-  clientMutationId?: string | null;
+  clientMutationId?: string | null | undefined;
 };
 export type LikeArtworkMutation$variables = {
   connections: ReadonlyArray<string>;
@@ -23,10 +23,10 @@ export type LikeArtworkMutation$data = {
       readonly account: {
         readonly id: string;
         readonly kmcid: string;
-      } | null;
+      } | null | undefined;
       readonly id: string;
-    } | null;
-  } | null;
+    } | null | undefined;
+  } | null | undefined;
 };
 export type LikeArtworkMutation = {
   response: LikeArtworkMutation$data;

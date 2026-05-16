@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f04580b64291fa0cbe4d6820ca35526e>>
+ * @generated SignedSource<<b27fea7d5684ebf9862106f2d6f81712>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,23 +8,23 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type SlackShareOptionEnum = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
 export type UploadArtworkInput = {
   caption: string;
-  channelId?: string | null;
-  clientMutationId?: string | null;
+  channelId?: string | null | undefined;
+  clientMutationId?: string | null | undefined;
   files: ReadonlyArray<null>;
   rating: ArtworkRatingEnum;
-  shareOption?: SlackShareOptionEnum | null;
+  shareOption?: SlackShareOptionEnum | null | undefined;
   tags: ReadonlyArray<string>;
   title: string;
-  twitterShareOption?: TwitterShareOption | null;
+  twitterShareOption?: TwitterShareOption | null | undefined;
 };
 export type TwitterShareOption = {
   share: boolean;
-  username?: string | null;
+  username?: string | null | undefined;
 };
 export type UploadArtworkMutation$variables = {
   connections: ReadonlyArray<string>;
@@ -34,8 +34,8 @@ export type UploadArtworkMutation$data = {
   readonly uploadArtwork: {
     readonly artwork: {
       readonly id: string;
-    } | null;
-  } | null;
+    } | null | undefined;
+  } | null | undefined;
 };
 export type UploadArtworkMutation = {
   response: UploadArtworkMutation$data;

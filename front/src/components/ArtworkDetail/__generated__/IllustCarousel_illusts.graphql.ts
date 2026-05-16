@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<86ae95eae4319ac4aba0560a39e9a509>>
+ * @generated SignedSource<<9766cc49e9e03751b3edc01a51e0f54a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type IllustCarousel_illusts$data = {
   readonly illusts: {
@@ -18,9 +18,9 @@ export type IllustCarousel_illusts$data = {
         readonly imageUrl: string;
         readonly thumbnailUrl: string;
         readonly webpUrl: string;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
   readonly " $fragmentType": "IllustCarousel_illusts";
 };
 export type IllustCarousel_illusts$key = {

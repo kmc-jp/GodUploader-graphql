@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<fe5752e2f0b60718e65f4bba3dad6583>>
+ * @generated SignedSource<<0f048413cd1d64265161185bc707fa4d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,17 +8,17 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type TagsInputQuery$variables = {};
+import { ConcreteRequest } from 'relay-runtime';
+export type TagsInputQuery$variables = Record<PropertyKey, never>;
 export type TagsInputQuery$data = {
   readonly allTags: {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly artworksCount: number;
         readonly name: string;
-      } | null;
-    } | null>;
-  } | null;
+      } | null | undefined;
+    } | null | undefined>;
+  } | null | undefined;
 };
 export type TagsInputQuery = {
   response: TagsInputQuery$data;
