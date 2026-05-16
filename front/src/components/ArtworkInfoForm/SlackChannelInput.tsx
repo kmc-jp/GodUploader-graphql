@@ -32,8 +32,8 @@ export const SlackChannelInput: React.FC = () => {
     setSlackChannels(updated);
   };
 
-  const handleAddChannel = (firstUnselectedId: string) => {
-    setSlackChannels([...slackChannels, firstUnselectedId]);
+  const handleAddChannel = () => {
+    setSlackChannels([...slackChannels, ""]);
   };
 
   const handleRemoveChannel = (index: number) => {
@@ -76,7 +76,7 @@ const ChannelRows: React.FC<{
   notifySlack: boolean;
   onChannelChange: (index: number, value: string) => void;
   onRemove: (index: number) => void;
-  onAdd: (firstUnselectedId: string) => void;
+  onAdd: () => void;
 }> = ({ queryRef, slackChannels, onChannelChange, onRemove, onAdd }) => {
   const { allSlackChannels } = usePreloadedQuery<SlackChannelInputQuery>(
     slackChannelInputQuery,
@@ -87,16 +87,17 @@ const ChannelRows: React.FC<{
     .slice()
     .sort((a, b) => a?.name.localeCompare(b?.name || "") || 0);
 
-  const selectedSet = new Set(slackChannels);
-  const firstUnselected = sortedChannels.find(
-    (ch) => ch && !selectedSet.has(ch.id),
+  // 空文字（未選択）は除外して、実際に選択済みのチャンネル数を数える
+  const realSelectedSet = new Set(slackChannels.filter((id) => id !== ""));
+  const canAddMore = sortedChannels.some(
+    (ch) => ch && !realSelectedSet.has(ch.id),
   );
 
   return (
     <>
       {slackChannels.map((channelId, index) => {
         const otherSelected = new Set(
-          slackChannels.filter((_, i) => i !== index),
+          slackChannels.filter((id, i) => i !== index && id !== ""),
         );
         return (
           <div key={index} className="row g-2 mb-2">
@@ -106,6 +107,7 @@ const ChannelRows: React.FC<{
                 value={channelId}
                 onChange={(e) => onChannelChange(index, e.target.value)}
               >
+                <option value="">チャンネルを選択してください</option>
                 {sortedChannels.map((channel, i) => {
                   if (!channel) return null;
                   if (otherSelected.has(channel.id)) return null;
@@ -134,8 +136,8 @@ const ChannelRows: React.FC<{
       <Button
         variant="outline-primary"
         size="sm"
-        disabled={!firstUnselected}
-        onClick={() => firstUnselected && onAdd(firstUnselected.id)}
+        disabled={!canAddMore}
+        onClick={onAdd}
       >
         チャンネルを追加
       </Button>

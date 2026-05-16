@@ -112,7 +112,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
   const [notifyTwitter, setNotifyTwitter] = useState(false);
   const [twitterUserName, setTwitterUserName] = useState("");
   const [showThumbnail, setShowThumbnail] = useState(true);
-  const [slackChannels, setSlackChannels] = useState(["C039TN7Q1"]); // #graphics
+  const [slackChannels, setSlackChannels] = useState([""]);
   const [uploadErrors, setUploadErrors] = useState<
     PayloadError[] | null | undefined
   >(null);
@@ -155,7 +155,7 @@ export const UploadArtworkProvider: React.FC<UploadArtworkProviderProps> = ({
             shareOption,
             twitterShareOption,
             rating,
-            channelIds: slackChannels,
+            channelIds: slackChannels.filter((id) => id !== ""),
           },
         },
         uploadables,
