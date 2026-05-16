@@ -8,16 +8,42 @@ import relay from "vite-plugin-relay";
 export default defineConfig({
   plugins: [
     reactRouter(),
+    nodePolyfills({ protocolImports: true }),
+    relay,
     {
-      // nodePolyfills はブラウザ向けポリフィルのため、SSR環境では除外する
-      // (stream-browserify 等の CJS モジュールが ESM 環境で実行されると
-      //  `module is not defined` エラーになるため)
-      ...nodePolyfills({ protocolImports: true }),
-      applyToEnvironment(env: { name: string }) {
-        return env.name === "client";
+      // vite-plugin-node-polyfills が config フックでグローバルに設定するエイリアス
+      // (stream → stream-browserify 等) は SSR 環境でも適用されてしまう。
+      // stream-browserify は CJS 形式のため ESM の SSR モジュールランナーで
+      // `module is not defined` エラーになる。
+      // enforce: 'pre' でエイリアス解決より先に実行し、SSR では Node.js
+      // のネイティブモジュールを使うよう外部化する。
+      name: "ssr-native-builtins",
+      enforce: "pre",
+      resolveId(id: string) {
+        if (this.environment?.name !== "client") {
+          const nodeBuiltins = [
+            "assert",
+            "buffer",
+            "crypto",
+            "events",
+            "http",
+            "https",
+            "net",
+            "os",
+            "path",
+            "querystring",
+            "stream",
+            "tls",
+            "url",
+            "util",
+            "zlib",
+          ];
+          if (nodeBuiltins.includes(id) || id.startsWith("node:")) {
+            return { id, external: true };
+          }
+        }
       },
     },
-    relay,
   ],
   server: {
     proxy: {
