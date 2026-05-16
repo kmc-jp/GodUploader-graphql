@@ -54,10 +54,11 @@
     "src": "./src",
     "language": "typescript",
     "eagerEsModules": true,
-    "customScalars": {
+    "customScalarTypes": {
       "DateTime": "string",
       "Upload": "null"
-    }
+    },
+    "typescriptExcludeUndefinedFromNullableUnion": true
   },
   "browserslist": {
     "production": [

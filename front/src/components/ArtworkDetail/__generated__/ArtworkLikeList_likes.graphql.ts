@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<aad47e76d4f45e491aa021b3446eb231>>
+ * @generated SignedSource<<fd51283c3e0d666a60024e2b7ba9a276>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkLikeList_likes$data = {
   readonly artworkId: string;

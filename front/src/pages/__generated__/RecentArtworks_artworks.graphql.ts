@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d75def9a8e96ee2c8a80a1e9f18c75aa>>
+ * @generated SignedSource<<20eb78f22274cb8d5b8290fffda4f42e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type RecentArtworks_artworks$data = {
   readonly artworks: {

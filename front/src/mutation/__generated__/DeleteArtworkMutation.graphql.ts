@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<201446e68467582be723ba9d27a3fae8>>
+ * @generated SignedSource<<7324848ece639459b8a1f6f4743b5538>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type DeleteArtworkInput = {
   clientMutationId?: string | null;
   id: string;

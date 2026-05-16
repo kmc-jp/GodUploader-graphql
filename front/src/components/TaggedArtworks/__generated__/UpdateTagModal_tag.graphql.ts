@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4a10fd506c4de50120d5d0c3f6f13ea4>>
+ * @generated SignedSource<<7290f305ca8e023e0cff4d6946d1d809>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UpdateTagModal_tag$data = {
   readonly canonicalName: string;

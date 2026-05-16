@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f04580b64291fa0cbe4d6820ca35526e>>
+ * @generated SignedSource<<f0a5edff8c3ecb9736f163172223a937>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type SlackShareOptionEnum = "NONE" | "SHARE_TO_SLACK" | "SHARE_TO_SLACK_WITH_IMAGE" | "%future added value";
 export type UploadArtworkInput = {

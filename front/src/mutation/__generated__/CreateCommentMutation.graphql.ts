@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a0eb02d62d9a35411ad233dd132f9a93>>
+ * @generated SignedSource<<b949da0568ec42ea8a3b4d093f5c0640>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type CreateCommentInput = {
   artworkId: string;
   clientMutationId?: string | null;

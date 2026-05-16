@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f1d9929d3925209b905d822d7890912a>>
+ * @generated SignedSource<<d7187a8067a45f7a0dd91415d667dc69>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type UploadArtworkQuery$variables = {};
+import { ConcreteRequest } from 'relay-runtime';
+export type UploadArtworkQuery$variables = Record<PropertyKey, never>;
 export type UploadArtworkQuery$data = {
   readonly viewer: {
     readonly kmcid: string;

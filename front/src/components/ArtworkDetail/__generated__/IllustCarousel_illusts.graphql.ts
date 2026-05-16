@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<86ae95eae4319ac4aba0560a39e9a509>>
+ * @generated SignedSource<<cad33cbe348bae0b2223affdcbe91248>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type IllustCarousel_illusts$data = {
   readonly illusts: {

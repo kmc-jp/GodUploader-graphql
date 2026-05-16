@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c9eae92f2f2708f1f7ab5ed09cd4d81f>>
+ * @generated SignedSource<<b24b39182e187651fc86bb46624c590a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkListPaginationQuery$variables = {
   count?: number | null;

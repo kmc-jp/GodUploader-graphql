@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f58670435d829f97fee32f5ef9f66bf3>>
+ * @generated SignedSource<<62a2a5faaf20c2879477f8730fe34353>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UserDetail_artworks$data = {
   readonly artworks: {
@@ -68,7 +68,10 @@ return {
         "node"
       ],
       "operation": ArtworkListPaginationQuery_graphql,
-      "identifierField": "id"
+      "identifierInfo": {
+        "identifierField": "id",
+        "identifierQueryVariableName": "id"
+      }
     }
   },
   "name": "UserDetail_artworks",

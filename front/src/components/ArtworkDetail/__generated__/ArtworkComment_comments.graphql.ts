@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<27f7955b08e9726fa4bf9369b9752d6d>>
+ * @generated SignedSource<<58c45cfa4605595f1856fbe16f132dc1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ArtworkComment_comments$data = {
   readonly artworkId: string;

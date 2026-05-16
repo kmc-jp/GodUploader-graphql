@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b01ae547cf051b30386fdd7194fd3c2a>>
+ * @generated SignedSource<<08f99d14cf2007eecab5e7088a3c68db>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type TagsQuery$variables = {};
+import { ConcreteRequest } from 'relay-runtime';
+export type TagsQuery$variables = Record<PropertyKey, never>;
 export type TagsQuery$data = {
   readonly allTags: {
     readonly edges: ReadonlyArray<{

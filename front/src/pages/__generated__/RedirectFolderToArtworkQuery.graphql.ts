@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b6bf47a5b4cc0d7c0d1b5b18a0cc2399>>
+ * @generated SignedSource<<8aa40b30a1cbeded6b7f658d408e658e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type RedirectFolderToArtworkQuery$variables = {
   folderId: number;
 };

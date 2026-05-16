@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<a4ffd0e35b19574dbebcad9bf5b3136b>>
+ * @generated SignedSource<<5646c53df5cb1ac804eb4759a1141cfa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type UpdateArtworkForm_artwork$data = {

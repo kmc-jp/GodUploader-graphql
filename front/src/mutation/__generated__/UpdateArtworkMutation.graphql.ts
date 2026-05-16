@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<679f3da4518ea75e4ae527f4f20006f6>>
+ * @generated SignedSource<<4319a7b64e2577ccca6f15ecced9eea7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type ArtworkRatingEnum = "r_18" | "r_18g" | "safe" | "%future added value";
 export type UpdateArtworkInput = {
   caption: string;

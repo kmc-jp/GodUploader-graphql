@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<98cb2ad769c12e1c1e9dcffc2165fdf6>>
+ * @generated SignedSource<<61e6c52143ed793f5f0c3289f6c5b24d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type UserDetailQuery$variables = {
   kmcid: string;

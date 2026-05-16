@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<afb07f1ef8db7b386cad3a1928c28e98>>
+ * @generated SignedSource<<c0dd6f98fbcadabf453ce492a4b3b0bd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,8 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type SlackChannelInputQuery$variables = {};
+import { ConcreteRequest } from 'relay-runtime';
+export type SlackChannelInputQuery$variables = Record<PropertyKey, never>;
 export type SlackChannelInputQuery$data = {
   readonly allSlackChannels: ReadonlyArray<{
     readonly id: string;

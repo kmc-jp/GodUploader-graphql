@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<16efff4e1838212ac0b7489d5fcfcaaa>>
+ * @generated SignedSource<<4652e5c12de6fb7486e7b9915429383f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type LikeArtworkInput = {
   artworkId: string;
   clientMutationId?: string | null;
