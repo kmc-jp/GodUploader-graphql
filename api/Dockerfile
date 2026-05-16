@@ -5,7 +5,7 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq
 
-RUN apt-get install -y -qq --no-install-recommends libjpeg-dev libwebp-dev imagemagick webp
+RUN apt-get install -y -qq --no-install-recommends libjpeg-dev libwebp-dev
 
 # poetry
 ENV PIP_NO_CACHE_DIR=yes
