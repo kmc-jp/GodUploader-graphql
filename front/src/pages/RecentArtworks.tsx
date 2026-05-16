@@ -116,7 +116,7 @@ export const RecentArtworks: React.FC = () => {
   const navigate = useNavigate();
   const handleChangeRating = useCallback<ChangeEventHandler<HTMLSelectElement>>(
     (e) => {
-      navigate(`artworks?mode=${e.target.value}`);
+      navigate(`/artworks?mode=${e.target.value}`);
     },
     [navigate],
   );
