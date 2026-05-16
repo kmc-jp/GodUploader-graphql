@@ -16,24 +16,9 @@ export async function getDb() {
 
 async function buildDb() {
   const [account0, account1, account2] = await Promise.all([
-    AccountFactory.build({
-      kmcid: "testuser",
-      name: "テストユーザー",
-      isYou: true as boolean,
-      artworksCount: 3,
-    }),
-    AccountFactory.build({
-      kmcid: "artist2",
-      name: "アーティスト2",
-      isYou: false as boolean,
-      artworksCount: 5,
-    }),
-    AccountFactory.build({
-      kmcid: "creator3",
-      name: "クリエイター3",
-      isYou: false as boolean,
-      artworksCount: 2,
-    }),
+    AccountFactory.build({ kmcid: "testuser", name: "テストユーザー", isYou: true, artworksCount: 3 }),
+    AccountFactory.build({ kmcid: "artist2", name: "アーティスト2", isYou: false, artworksCount: 5 }),
+    AccountFactory.build({ kmcid: "creator3", name: "クリエイター3", isYou: false, artworksCount: 2 }),
   ]);
 
   const [illust0, illust1, illust2, illust3] = await Promise.all([
@@ -45,11 +30,7 @@ async function buildDb() {
 
   const [tag0, tag1, tag2] = await Promise.all([
     TagFactory.build({ name: "風景", canonicalName: "風景", artworksCount: 2 }),
-    TagFactory.build({
-      name: "キャラクター",
-      canonicalName: "キャラクター",
-      artworksCount: 1,
-    }),
+    TagFactory.build({ name: "キャラクター", canonicalName: "キャラクター", artworksCount: 1 }),
     TagFactory.build({ name: "抽象", canonicalName: "抽象", artworksCount: 1 }),
   ]);
 
@@ -61,20 +42,14 @@ async function buildDb() {
 
   const emptyLikes = {
     edges: [] as never[],
-    pageInfo: {
-      hasNextPage: false,
-      hasPreviousPage: false,
-      startCursor: null,
-      endCursor: null,
-    },
+    pageInfo: { hasNextPage: false, hasPreviousPage: false, startCursor: null, endCursor: null },
   };
 
-  // 各アートワークのベースを先に構築し、prev/next は後から付加する
   const [base0, base1, base2] = await Promise.all([
     ArtworkFactory.build({
       title: "テスト作品1",
       caption: "これはテスト用の作品です。",
-      editable: true as boolean,
+      editable: true,
       account: account0,
       topIllust: illust0,
       illusts: { edges: [{ node: illust0 }, { node: illust1 }] },
@@ -88,49 +63,30 @@ async function buildDb() {
     ArtworkFactory.build({
       title: "テスト作品2",
       caption: "二番目のテスト作品です。",
-      editable: false as boolean,
+      editable: false,
       account: account1,
       topIllust: illust2,
       illusts: { edges: [{ node: illust2 }] },
       tags: { edges: [{ node: tag0 }, { node: tag2 }] },
       likes: emptyLikes,
-      comments: {
-        edges: [],
-        pageInfo: { hasPreviousPage: false, startCursor: null },
-      },
+      comments: { edges: [], pageInfo: { hasPreviousPage: false, startCursor: null } },
     }),
     ArtworkFactory.build({
       title: "テスト作品3",
       caption: "三番目の作品。",
-      editable: true as boolean,
+      editable: true,
       account: account0,
       topIllust: illust3,
       illusts: { edges: [{ node: illust3 }] },
       tags: { edges: [{ node: tag1 }] },
       likes: emptyLikes,
-      comments: {
-        edges: [],
-        pageInfo: { hasPreviousPage: false, startCursor: null },
-      },
+      comments: { edges: [], pageInfo: { hasPreviousPage: false, startCursor: null } },
     }),
   ]);
 
-  const pickArtwork = (b: typeof base0) => ({
-    id: b.id,
-    title: b.title,
-    nsfw: b.nsfw,
-    topIllust: b.topIllust
-      ? { id: b.topIllust.id, thumbnailUrl: b.topIllust.thumbnailUrl }
-      : null,
-  });
-
   const artworks = [
     { ...base0, previousArtwork: null, nextArtwork: pickArtwork(base1) },
-    {
-      ...base1,
-      previousArtwork: pickArtwork(base0),
-      nextArtwork: pickArtwork(base2),
-    },
+    { ...base1, previousArtwork: pickArtwork(base0), nextArtwork: pickArtwork(base2) },
     { ...base2, previousArtwork: pickArtwork(base1), nextArtwork: null },
   ];
 
@@ -139,6 +95,24 @@ async function buildDb() {
     illusts: [illust0, illust1, illust2, illust3],
     tags: [tag0, tag1, tag2],
     artworks,
+  };
+}
+
+// pickArtwork は使うフィールドだけを宣言した構造型で受け取ることで
+// リテラル型の相違 (editable: true vs false など) に依存しない
+function pickArtwork(b: {
+  id?: string;
+  title?: string;
+  nsfw?: boolean;
+  topIllust?: { id?: string; thumbnailUrl?: string } | null;
+}) {
+  return {
+    id: b.id,
+    title: b.title,
+    nsfw: b.nsfw,
+    topIllust: b.topIllust
+      ? { id: b.topIllust.id, thumbnailUrl: b.topIllust.thumbnailUrl }
+      : null,
   };
 }
 

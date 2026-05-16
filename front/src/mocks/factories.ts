@@ -28,15 +28,9 @@ export const IllustFactory = defineIllustFactory({
     id: dynamic(({ seq }) => btoa(`Illust:${seq}`)),
     artworkId: dynamic(({ seq }) => seq),
     filename: dynamic(({ seq }) => `illust${seq}.jpg`),
-    imageUrl: dynamic(
-      ({ seq }) => `https://placehold.jp/800x600.png?text=Illust${seq}`
-    ),
-    thumbnailUrl: dynamic(
-      ({ seq }) => `https://placehold.jp/300x200.png?text=Illust${seq}`
-    ),
-    webpUrl: dynamic(
-      ({ seq }) => `https://placehold.jp/800x600.png?text=Illust${seq}`
-    ),
+    imageUrl: "/mocks/placeholder.svg",
+    thumbnailUrl: "/mocks/placeholder.svg",
+    webpUrl: "/mocks/placeholder.svg",
     createdAt: "2024-01-10T00:00:00",
     updatedAt: "2024-01-10T00:00:00",
   },
