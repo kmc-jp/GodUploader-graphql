@@ -18,7 +18,7 @@ interface Props {
   blob?: Blob;
 }
 
-export const UploadArtworkModal: React.VFC<Props> = ({ blob }) => {
+export const UploadArtworkModal: React.FC<Props> = ({ blob }) => {
   const {
     isUploading,
     showThumbnail,

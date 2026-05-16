@@ -12,7 +12,7 @@ interface UpdateTagModalProps {
   tagKey: UpdateTagModal_tag$key;
 }
 
-export const UpdateTagModal: React.VFC<UpdateTagModalProps> = ({ tagKey }) => {
+export const UpdateTagModal: React.FC<UpdateTagModalProps> = ({ tagKey }) => {
   const tag = useFragment(
     graphql`
       fragment UpdateTagModal_tag on Tag {

@@ -5,7 +5,7 @@ import { Link } from "../components/Link";
 
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
-export const Tags: React.VFC = () => {
+export const Tags: React.FC = () => {
   const { allTags } = useLazyLoadQuery<TagsQuery>(
     graphql`
       query TagsQuery {

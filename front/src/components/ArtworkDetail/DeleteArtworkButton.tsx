@@ -8,7 +8,7 @@ interface DeleteArtworkButtonProps {
   artworkId: string;
 }
 
-export const DeleteArtworkButton: React.VFC<DeleteArtworkButtonProps> = ({
+export const DeleteArtworkButton: React.FC<DeleteArtworkButtonProps> = ({
   artworkId,
 }) => {
   const environment = useRelayEnvironment();

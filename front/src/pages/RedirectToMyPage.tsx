@@ -4,7 +4,7 @@ import { Navigate } from 'react-router';
 
 import type { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
 
-export const RedirectToMyPage: React.VFC = () => {
+export const RedirectToMyPage: React.FC = () => {
   const { viewer } = useLazyLoadQuery<RedirectToMyPageQuery>(
     graphql`
       query RedirectToMyPageQuery {

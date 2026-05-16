@@ -28,7 +28,7 @@ const useRatingParam = (): [string, ArtworkRatingEnum[]] => {
   }
 };
 
-const ArtworkList: React.VFC<{
+const ArtworkList: React.FC<{
   artworks: RecentArtworks_artworks$key;
 }> = ({ artworks: queryRef }) => {
   const {
@@ -101,7 +101,7 @@ const ArtworkList: React.VFC<{
   );
 };
 
-export const RecentArtworks: React.VFC = () => {
+export const RecentArtworks: React.FC = () => {
   const [selectedRating, rating] = useRatingParam();
   const artworks = useLazyLoadQuery<RecentArtworksQuery>(
     graphql`

@@ -10,7 +10,7 @@ import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginatio
 import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 
-export const UserDetail: React.VFC = () => {
+export const UserDetail: React.FC = () => {
   const { kmcid = '' } = useParams<{ kmcid: string }>();
   const { user } = useLazyLoadQuery<UserDetailQuery>(
     graphql`
@@ -46,7 +46,7 @@ export const UserDetail: React.VFC = () => {
   );
 };
 
-const ArtworkList: React.VFC<{ user: UserDetail_artworks$key }> = ({
+const ArtworkList: React.FC<{ user: UserDetail_artworks$key }> = ({
   user,
 }) => {
   const {

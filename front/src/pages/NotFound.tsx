@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from 'react-router';
 
-const NotFound: React.VFC = () => {
+const NotFound: React.FC = () => {
   const location = useLocation();
   return (
     <div className="alert alert-warning">

@@ -10,7 +10,7 @@ interface Props {
   account: UpdateInfoForm_account$key;
 }
 
-export const UpdateAccountModal: React.VFC<Props> = ({ account: _account }) => {
+export const UpdateAccountModal: React.FC<Props> = ({ account: _account }) => {
   const environment = useRelayEnvironment();
   const account = useFragment(
     graphql`

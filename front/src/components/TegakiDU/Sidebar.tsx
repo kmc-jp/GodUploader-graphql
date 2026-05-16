@@ -6,7 +6,7 @@ import { PaintStackContext } from "../../contexts/TegakiDU/PaintStackContext";
 import { UploadArtworkProvider } from "../../contexts/UploadArtworkContext";
 import { UploadArtworkModal } from "./UploadArtworkModal";
 
-export const Sidebar: React.VFC = () => {
+export const Sidebar: React.FC = () => {
   const {
     color,
     backgroundColor,

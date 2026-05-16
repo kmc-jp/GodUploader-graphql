@@ -23,7 +23,7 @@ const isSafari = () =>
   navigator.userAgent.includes("Safari/") &&
   navigator.userAgent.includes("Version/");
 
-export const TagsInput: React.VFC = () => {
+export const TagsInput: React.FC = () => {
   const { tags, setTags } = useArtworkInformation();
   const appendTag = useCallback(
     (newTag: string) => {
@@ -119,7 +119,7 @@ export const TagsInput: React.VFC = () => {
   );
 };
 
-const TagList: React.VFC = () => {
+const TagList: React.FC = () => {
   const { tags, setTags } = useArtworkInformation();
 
   const removeTag = (targetTag: string) => {
@@ -147,7 +147,7 @@ const TagList: React.VFC = () => {
   );
 };
 
-const TagSuggestion: React.VFC = () => {
+const TagSuggestion: React.FC = () => {
   const { allTags } = useLazyLoadQuery<TagsInputQuery>(tagsInputQuery, {});
   if (!(allTags && allTags.edges)) {
     return null;

@@ -35,7 +35,7 @@ interface CaptionProps {
   caption: string;
 }
 
-const Caption: React.VFC<CaptionProps> = ({ caption }) => {
+const Caption: React.FC<CaptionProps> = ({ caption }) => {
   const lines = caption.split("\n");
 
   return (
@@ -50,7 +50,7 @@ const Caption: React.VFC<CaptionProps> = ({ caption }) => {
   );
 };
 
-const ArtworkDetail: React.VFC = () => {
+const ArtworkDetail: React.FC = () => {
   const { id = '' } = useParams<{ id: string }>();
   const { artworkWithBidirectional } = useLazyLoadQuery<ArtworkDetailQuery>(
     graphql`

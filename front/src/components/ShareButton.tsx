@@ -9,7 +9,7 @@ interface ShareButtonProps {
 
 const canShare = "share" in navigator;
 
-export const ShareButton: React.VFC<ShareButtonProps> = ({ url, title }) => {
+export const ShareButton: React.FC<ShareButtonProps> = ({ url, title }) => {
   const handleClick = useCallback(() => {
     if (!canShare) {
       return;

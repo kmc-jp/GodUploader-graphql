@@ -35,7 +35,7 @@ import { useArtworkInformation } from "../hooks/useArtworkInformation";
 import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
 import { UploadArtworkQuery } from "./__generated__/UploadArtworkQuery.graphql";
 
-export const UploadArtwork: React.VFC = () => {
+export const UploadArtwork: React.FC = () => {
   return (
     <ArtworkInformationProvider>
       <UploadArtworkProvider>
@@ -295,7 +295,7 @@ const UploadArtworkForm = () => {
   );
 };
 
-const SortableImage: React.VFC<{
+const SortableImage: React.FC<{
   index: number;
   dataURL: string;
   handleDeleteImage: (i: number) => void;

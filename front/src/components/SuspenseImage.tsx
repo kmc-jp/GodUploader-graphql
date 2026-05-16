@@ -33,7 +33,7 @@ interface SuspenseImageProps {
   timeout?: number;
 }
 
-export const SuspenseImage: React.VFC<
+export const SuspenseImage: React.FC<
   React.DetailedHTMLProps<
     ImgHTMLAttributes<HTMLImageElement>,
     HTMLImageElement

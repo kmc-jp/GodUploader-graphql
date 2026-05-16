@@ -5,7 +5,7 @@ import { useLocation } from "react-router";
 import { Link } from "./Link";
 import { NavLink } from "./NavLink";
 
-export const Header: React.VFC = () => {
+export const Header: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const collapseRef = useRef<Collapse | null>(null);
   const location = useLocation();

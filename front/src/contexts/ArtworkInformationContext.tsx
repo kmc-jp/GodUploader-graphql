@@ -51,7 +51,7 @@ interface ArtworkInformationProviderProps {
   children: React.ReactNode;
 }
 
-export const ArtworkInformationProvider: React.VFC<ArtworkInformationProviderProps> =
+export const ArtworkInformationProvider: React.FC<ArtworkInformationProviderProps> =
   ({
     initialTitle,
     initialCaption,

@@ -6,7 +6,7 @@ interface FilesizeBarProps {
   maxFilesize: number;
 }
 
-export const FilesizeBar: React.VFC<FilesizeBarProps> = ({
+export const FilesizeBar: React.FC<FilesizeBarProps> = ({
   filesize,
   maxFilesize,
 }) => {

@@ -7,7 +7,7 @@ import { ArtworkListItem } from "../components/ArtworkListItem";
 import { UpdateTagModal } from "../components/TaggedArtworks/UpdateTagModal";
 import { TaggedArtworksQuery } from "./__generated__/TaggedArtworksQuery.graphql";
 
-export const TaggedArtworks: React.VFC = () => {
+export const TaggedArtworks: React.FC = () => {
   const { tag = '' } = useParams<{ tag: string }>();
   // NOTE: # などの文字列がパーセントエンコードされているのでデコードしておく
   const decodedTag = decodeURIComponent(tag);
@@ -23,7 +23,7 @@ export const TaggedArtworks: React.VFC = () => {
   return <Inner tag={decodedTag} />;
 };
 
-const Inner: React.VFC<{ tag: string }> = ({ tag }) => {
+const Inner: React.FC<{ tag: string }> = ({ tag }) => {
   const { tagByName, taggedArtworks } = useLazyLoadQuery<TaggedArtworksQuery>(
     graphql`
       query TaggedArtworksQuery($tag: String!) {
