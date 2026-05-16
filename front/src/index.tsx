@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
-import { BrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from 'react-router';
 
 import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";
@@ -14,15 +14,13 @@ async function enableMocking() {
   return worker.start({ onUnhandledRequest: "warn" });
 }
 
-// opt-out Strict mode of React. ref: https://github.com/ReactTraining/react-router/issues/7870
+const router = createBrowserRouter([{ path: "*", element: <App /> }]);
 
 enableMocking().then(() => {
   const root = createRoot(document.getElementById("root")!);
   root.render(
     <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </RelayEnvironmentProvider>
   );
 });

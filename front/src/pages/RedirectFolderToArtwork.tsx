@@ -1,12 +1,12 @@
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
-import { Redirect, useParams } from "react-router-dom";
+import { Navigate, useParams } from 'react-router';
 
 import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";
 
 export const RedirectFolderToArtwork: React.VFC = () => {
-  const { folder_id } = useParams<{ folder_id: string }>();
+  const { folder_id = '0' } = useParams<{ folder_id: string }>();
   const { artworkByFolderId: artwork } =
     useLazyLoadQuery<RedirectFolderToArtworkQuery>(
       graphql`
@@ -23,5 +23,5 @@ export const RedirectFolderToArtwork: React.VFC = () => {
     return <div>artwork not found</div>;
   }
 
-  return <Redirect to={`/artwork/${artwork.id}`} />;
+  return <Navigate to={`/artwork/${artwork.id}`} replace />;
 };

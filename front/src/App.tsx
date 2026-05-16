@@ -6,51 +6,42 @@ import React, {
   useTransition,
 } from "react";
 import { Helmet } from "react-helmet";
-import { renderRoutes } from "react-router-config";
-import { useHistory, useLocation } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate as useRouterNavigate,
+  useNavigationType,
+} from 'react-router';
 
+import { AppRoutes } from "./AppRoutes";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { LoadingOverlay } from "./components/LoadingOverlay";
 import { NavigationContext, NavigateFn } from "./contexts/NavigationContext";
-import { routes } from "./routes";
 
 export const App: React.VFC = () => {
   const currentLocation = useLocation();
-  const history = useHistory();
+  const navigationType = useNavigationType();
+  const routerNavigate = useRouterNavigate();
   const [isPending, startTransition] = useTransition();
   const [displayLocation, setDisplayLocation] = useState(currentLocation);
 
-  useEffect(
-    () =>
-      history.listen((location, action) => {
-        if (action === "PUSH") {
-          window.scrollTo(0, 0);
-        }
-        if (action === "POP" || action === "REPLACE") {
-          startTransition(() => {
-            setDisplayLocation(location);
-          });
-        }
-      }),
-    [history, startTransition]
-  );
+  useEffect(() => {
+    if (navigationType === "PUSH") {
+      window.scrollTo(0, 0);
+      setDisplayLocation(currentLocation);
+    } else if (navigationType === "POP" || navigationType === "REPLACE") {
+      startTransition(() => {
+        setDisplayLocation(currentLocation);
+      });
+    }
+  }, [currentLocation, navigationType, startTransition]);
 
   const navigate = useCallback<NavigateFn>(
     (to, replace = false) => {
-      const resolvedTo =
-        typeof to === "function" ? to(history.location) : to;
-      if (replace) {
-        history.replace(resolvedTo);
-      } else {
-        history.push(resolvedTo);
-      }
-      startTransition(() => {
-        setDisplayLocation(history.location);
-      });
+      routerNavigate(to, { replace });
     },
-    [history, startTransition]
+    [routerNavigate]
   );
 
   return (
@@ -64,7 +55,7 @@ export const App: React.VFC = () => {
         <div className="container">
           <ErrorBoundary>
             <Suspense fallback={<LoadingOverlay />}>
-              {renderRoutes(routes, null, { location: displayLocation })}
+              <AppRoutes location={displayLocation} />
             </Suspense>
           </ErrorBoundary>
         </div>

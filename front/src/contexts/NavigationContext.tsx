@@ -1,10 +1,7 @@
 import { createContext, useContext } from "react";
-import { LinkProps } from "react-router-dom";
+import type { To } from 'react-router';
 
-export type NavigateFn = (
-  to: LinkProps["to"],
-  replace?: boolean
-) => void;
+export type NavigateFn = (to: To, replace?: boolean) => void;
 
 export const NavigationContext = createContext<NavigateFn>(() => {});
 
