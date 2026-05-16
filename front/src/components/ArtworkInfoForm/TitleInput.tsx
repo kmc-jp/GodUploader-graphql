@@ -1,4 +1,5 @@
 import React from "react";
+import { Form } from "react-bootstrap";
 
 import { useArtworkInformation } from "../../hooks/useArtworkInformation";
 
@@ -7,13 +8,12 @@ export const TitleInput: React.FC = () => {
 
   return (
     <>
-      <label htmlFor="title" className="form-label">
+      <Form.Label htmlFor="title">
         タイトル <span className="text-danger">(必須)</span>
-      </label>
-      <input
+      </Form.Label>
+      <Form.Control
         type="text"
         id="title"
-        className="form-control"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         required

@@ -1,4 +1,5 @@
 import React from "react";
+import { Badge, Card } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 
@@ -25,11 +26,11 @@ export const Tags: React.FC = () => {
 
   return (
     <div>
-      <div className="card">
-        <div className="card-header">
+      <Card>
+        <Card.Header>
           <h2 className="text-center">タグまとめ</h2>
-        </div>
-        <div className="card-body">
+        </Card.Header>
+        <Card.Body>
           <div className="d-flex flex-wrap justify-content-between">
             {allTags?.edges.map((edge, i) => {
               if (!(edge && edge.node)) {
@@ -44,16 +45,16 @@ export const Tags: React.FC = () => {
                     className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between flex-fill"
                   >
                     <div className="me-auto">#{node.name}</div>
-                    <div className="badge rounded-pill bg-secondary ms-1">
+                    <Badge bg="secondary" pill className="ms-1">
                       {node.artworksCount}
-                    </div>
+                    </Badge>
                   </Link>
                 </div>
               );
             })}
           </div>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

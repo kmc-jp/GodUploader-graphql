@@ -1,4 +1,5 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 
 export const Footer: React.FC = () => {
   const builtAt = import.meta.env.VITE_BUILT_AT
@@ -9,7 +10,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="mt-3 py-3">
-      <div className="container">
+      <Container>
         <div className="text-muted">
           Goduploader-graphql
           {builtAt && ` (built at ${builtAt.toLocaleString()})`}
@@ -27,7 +28,7 @@ export const Footer: React.FC = () => {
             </>
           )}
         </div>
-      </div>
+      </Container>
     </footer>
   );
 };

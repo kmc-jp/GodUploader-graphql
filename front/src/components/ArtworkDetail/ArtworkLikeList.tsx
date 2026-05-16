@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
-import { useTooltip } from "../../hooks/useTooltip";
 import { commitLikeArtworkMutation } from "../../mutation/LikeArtwork";
 import { Link } from "../Link";
 import type { ArtworkLikeList_likes$key } from "./__generated__/ArtworkLikeList_likes.graphql";
@@ -49,25 +49,27 @@ export const LikeList: React.FC<Props> = ({ artwork }) => {
     [artworkId, environment, likes],
   );
 
-  const buttonRef = useTooltip<HTMLButtonElement>();
-
   if (!(likes && likes.edges)) {
     return null;
   }
 
   return (
     <div>
-      <button
-        className="btn btn-sm btn-outline-secondary"
-        ref={buttonRef}
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-        data-bs-html="true"
-        title={`<i class="bi bi-heart-fill"></i> をつける`}
-        onClick={handleClickLikeButton}
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          <Tooltip>
+            <i className="bi bi-heart-fill"></i> をつける
+          </Tooltip>
+        }
       >
-        +<i className="bi bi-heart-fill"></i>
-      </button>{" "}
+        <button
+          className="btn btn-sm btn-outline-secondary"
+          onClick={handleClickLikeButton}
+        >
+          +<i className="bi bi-heart-fill"></i>
+        </button>
+      </OverlayTrigger>{" "}
       {likes.edges.map((edge, i) => {
         if (!edge) {
           return null;
@@ -96,21 +98,18 @@ interface LikeIconProps {
 }
 
 const LikeIcon: React.FC<LikeIconProps> = ({ like }) => {
-  const ref = useTooltip<HTMLAnchorElement>();
-
   if (!like.account) {
     return null;
   }
 
   return (
-    <Link
-      to={`/users/${like.account.kmcid}`}
-      data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title={like.account.kmcid}
-      ref={ref}
+    <OverlayTrigger
+      placement="top"
+      overlay={<Tooltip>{like.account.kmcid}</Tooltip>}
     >
-      <i className="bi bi-heart-fill"></i>
-    </Link>
+      <Link to={`/users/${like.account.kmcid}`}>
+        <i className="bi bi-heart-fill"></i>
+      </Link>
+    </OverlayTrigger>
   );
 };

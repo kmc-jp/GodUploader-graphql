@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { Button } from "react-bootstrap";
 
 import styles from "./ShareButton.module.css";
 
@@ -23,11 +24,8 @@ export const ShareButton: React.FC<ShareButtonProps> = ({ url, title }) => {
   }
 
   return (
-    <button
-      className={`btn btn-info ${styles.container}`}
-      onClick={handleClick}
-    >
+    <Button variant="info" className={styles.container} onClick={handleClick}>
       シェアする
-    </button>
+    </Button>
   );
 };

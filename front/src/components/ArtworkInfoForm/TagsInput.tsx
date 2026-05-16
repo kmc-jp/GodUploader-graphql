@@ -91,9 +91,7 @@ export const TagsInput: React.FC = () => {
         <TagList />
         <div className="col-lg">
           <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text">#</span>
-            </div>
+            <span className="input-group-text">#</span>
             <input
               type="text"
               id="tags"

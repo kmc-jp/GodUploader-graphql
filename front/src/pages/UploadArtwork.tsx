@@ -16,6 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import React, { useCallback, useEffect, useMemo } from "react";
+import { Alert, Button, Card, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 
@@ -127,8 +128,8 @@ const UploadArtworkForm = () => {
   const { ageRestriction } = useArtworkInformation();
 
   return (
-    <div className="card">
-      <div className="card-header">画像のアップロード</div>
+    <Card>
+      <Card.Header>画像のアップロード</Card.Header>
       <div className="panel-body px-4 py-4">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -150,9 +151,9 @@ const UploadArtworkForm = () => {
             />
             <FilesizeBar filesize={totalFilesize} maxFilesize={MAX_FILESIZE} />
             {filesizeLimitExceeded && (
-              <div className="alert alert-danger mt-3" role="alert">
+              <Alert variant="danger" className="mt-3">
                 アップロードするファイルのサイズが大きすぎます
-              </div>
+              </Alert>
             )}
             <div className="d-flex mt-2">
               {images.length > 0 && (
@@ -263,37 +264,33 @@ const UploadArtworkForm = () => {
             <SlackChannelInput />
           </div>
           <div>
-            <button
+            <Button
               type="submit"
-              className="btn btn-primary form-control"
+              variant="primary"
+              className="w-100"
               disabled={
                 files.length === 0 || isUploading || filesizeLimitExceeded
               }
             >
               {isUploading ? (
                 <div className="d-flex align-items-center justify-content-center">
-                  <div>
-                    <span
-                      className="spinner-border text-light"
-                      role="status"
-                    ></span>
-                  </div>
-                  <div>アップロード中……</div>
+                  <Spinner size="sm" className="me-2" />
+                  アップロード中……
                 </div>
               ) : (
                 "アップロードする"
               )}
-            </button>
+            </Button>
           </div>
           {uploadErrors &&
             uploadErrors.map((error, i) => (
-              <div key={i} className="alert alert-danger mt-3" role="alert">
+              <Alert key={i} variant="danger" className="mt-3">
                 {error.message}
-              </div>
+              </Alert>
             ))}
         </form>
       </div>
-    </div>
+    </Card>
   );
 };
 

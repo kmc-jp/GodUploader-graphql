@@ -19,6 +19,7 @@
     "clsx": "^1.1.1",
     "konva": "^8.0.4",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.0.0",
     "react-helmet": "^6.1.0",
     "react-konva": "^19.0.0",

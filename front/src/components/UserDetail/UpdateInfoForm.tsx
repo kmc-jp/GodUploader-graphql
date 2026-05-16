@@ -1,5 +1,5 @@
-import { Modal } from "bootstrap";
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useFragment, useRelayEnvironment } from "react-relay";
 
@@ -21,24 +21,17 @@ export const UpdateAccountModal: React.FC<Props> = ({ account: _account }) => {
     `,
     _account,
   );
+  const [show, setShow] = useState(false);
   const [name, setName] = useState(account.name || "");
-  const ref = useRef<HTMLDivElement>(null);
 
   const resetStates = useCallback(() => {
     // explicitly reset values
     setName(account.name || "");
   }, [account.name]);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      return;
-    }
-
-    el.addEventListener("hidden.bs.modal", resetStates);
-    return () => {
-      el.removeEventListener("hidden.bs.modal", resetStates);
-    };
+  const handleHide = useCallback(() => {
+    setShow(false);
+    resetStates();
   }, [resetStates]);
 
   const handleUpdate = useCallback(
@@ -51,8 +44,7 @@ export const UpdateAccountModal: React.FC<Props> = ({ account: _account }) => {
           },
         },
         onCompleted: () => {
-          const modal = Modal.getInstance(ref.current!);
-          modal?.hide();
+          setShow(false);
         },
       });
     },
@@ -61,69 +53,46 @@ export const UpdateAccountModal: React.FC<Props> = ({ account: _account }) => {
 
   return (
     <>
-      <div
-        className="modal fade"
-        id="updateAccountModal"
-        aria-hidden="true"
-        ref={ref}
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <form onSubmit={handleUpdate}>
-              <div className="modal-header">
-                <h5 className="modal-title">絵師情報の編集</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  aria-label="閉じる"
-                  data-bs-dismiss="modal"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <label htmlFor="kmcid" className="form-label">
-                    KMC-ID
-                  </label>
-                  <input
-                    type="text"
-                    id="kmcid"
-                    className="form-control"
-                    value={account.kmcid}
-                    disabled
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="title" className="form-label">
-                    表示名 <span className="text-danger">(必須)</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    className="form-control"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button type="submit" className="btn btn-primary form-control">
-                  保存する
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
       <div className="d-flex justify-content-center mb-2">
-        <button
-          className="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#updateAccountModal"
-        >
+        <Button variant="primary" onClick={() => setShow(true)}>
           情報の編集
-        </button>
+        </Button>
       </div>
+      <Modal show={show} onHide={handleHide}>
+        <form onSubmit={handleUpdate}>
+          <Modal.Header closeButton>
+            <Modal.Title>絵師情報の編集</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="mb-3">
+              <Form.Label htmlFor="kmcid">KMC-ID</Form.Label>
+              <Form.Control
+                type="text"
+                id="kmcid"
+                value={account.kmcid}
+                disabled
+              />
+            </div>
+            <div className="mb-3">
+              <Form.Label htmlFor="title">
+                表示名 <span className="text-danger">(必須)</span>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                id="title"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button type="submit" variant="primary" className="w-100">
+              保存する
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
     </>
   );
 };

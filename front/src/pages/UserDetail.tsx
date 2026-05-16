@@ -1,10 +1,11 @@
 import React, { useCallback } from "react";
-import { InfiniteScroll } from "../components/InfiniteScroll";
+import { Card, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { useParams } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
+import { InfiniteScroll } from "../components/InfiniteScroll";
 import { UpdateAccountModal } from "../components/UserDetail/UpdateInfoForm";
 import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginationQuery.graphql";
 import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
@@ -35,13 +36,13 @@ export const UserDetail: React.FC = () => {
 
   return (
     <div>
-      <div className="card">
-        <div className="card-header">
+      <Card>
+        <Card.Header>
           <h2 className="text-center mb-4">{user.name}の作品置場</h2>
           {user.isYou && <UpdateAccountModal account={user} />}
-        </div>
+        </Card.Header>
         <ArtworkList user={user} />
-      </div>
+      </Card>
     </div>
   );
 };
@@ -91,15 +92,15 @@ const ArtworkList: React.FC<{ user: UserDetail_artworks$key }> = ({ user }) => {
   const reversedEdges = edges.slice().reverse();
 
   return (
-    <div className="card-body">
+    <Card.Body>
       <InfiniteScroll
         loadMore={handleLoadArtworks}
         hasMore={hasPrevious && !isLoadingPrevious}
         loader={
           <div key={0} className="d-flex justify-content-center">
-            <div className="spinner-border text-light" role="status">
+            <Spinner animation="border" variant="light" role="status">
               <span className="visually-hidden">Uploading...</span>
-            </div>
+            </Spinner>
           </div>
         }
       >
@@ -117,6 +118,6 @@ const ArtworkList: React.FC<{ user: UserDetail_artworks$key }> = ({ user }) => {
           })}
         </div>
       </InfiniteScroll>
-    </div>
+    </Card.Body>
   );
 };

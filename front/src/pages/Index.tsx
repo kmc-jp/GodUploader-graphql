@@ -1,4 +1,5 @@
 import React from "react";
+import { Badge, Card } from "react-bootstrap";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay";
 
@@ -42,11 +43,11 @@ export const Index: React.FC = () => {
   return (
     <div>
       {safeArtworks && safeArtworks.edges ? (
-        <div className="card mb-5">
-          <div className="card-header">
+        <Card className="mb-5">
+          <Card.Header>
             <h2 className="text-center">最新{artworkCount}件の絵</h2>
-          </div>
-          <div className="card-body">
+          </Card.Header>
+          <Card.Body>
             <div className="row row-cols-1 row-cols-lg-4">
               {safeArtworks.edges.map((edge, i) => {
                 if (!edge) {
@@ -71,16 +72,16 @@ export const Index: React.FC = () => {
             >
               もっと見る
             </Link>
-          </div>
-        </div>
+          </Card.Body>
+        </Card>
       ) : (
-        <div className="card mb-5"></div> // fallback
+        <Card className="mb-5" /> // fallback
       )}
-      <div className="card">
-        <div className="card-header">
+      <Card>
+        <Card.Header>
           <h2 className="text-center">利用者達</h2>
-        </div>
-        <div className="card-body">
+        </Card.Header>
+        <Card.Body>
           <div className="row row-cols-2 row-cols-lg-4">
             {activeAccounts?.edges.map((edge, i) => {
               if (!(edge && edge.node)) {
@@ -95,16 +96,16 @@ export const Index: React.FC = () => {
                     className="btn btn-outline-secondary text-center w-100 d-flex justify-content-between"
                   >
                     {node.name}
-                    <span className="badge rounded-pill bg-secondary">
+                    <Badge bg="secondary" pill>
                       {node.artworksCount}
-                    </span>
+                    </Badge>
                   </Link>
                 </div>
               );
             })}
           </div>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

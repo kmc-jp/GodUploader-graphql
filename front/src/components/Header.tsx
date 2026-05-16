@@ -1,52 +1,35 @@
-import { Collapse } from "bootstrap";
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import { Container, Navbar } from "react-bootstrap";
 import { useLocation } from "react-router";
 
 import { Link } from "./Link";
 import { NavLink } from "./NavLink";
 
 export const Header: React.FC = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const collapseRef = useRef<Collapse | null>(null);
+  const [expanded, setExpanded] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    if (!ref.current) return;
-    collapseRef.current = new Collapse(ref.current, { toggle: false });
-    return () => {
-      collapseRef.current?.dispose();
-      collapseRef.current = null;
-    };
-  }, []);
 
   // ページ遷移時にドロップダウンメニューが閉じるようにする
   useEffect(() => {
-    collapseRef.current?.hide();
+    setExpanded(false);
   }, [location]);
 
   return (
-    <nav className="navbar navbar-expand-xl navbar-light bg-light mb-3">
-      <div className="container">
-        <Link className="navbar-brand" to="/">
+    <Navbar
+      expand="xl"
+      bg="light"
+      variant="light"
+      className="mb-3"
+      expanded={expanded}
+      onToggle={setExpanded}
+    >
+      <Container>
+        <Navbar.Brand as={Link} to="/">
           <span className="d-none d-md-inline">KMC画像アップローダー </span>
           God Illust Uploader
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div
-          className="collapse navbar-collapse"
-          id="navbarSupportedContent"
-          ref={ref}
-        >
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarSupportedContent" />
+        <Navbar.Collapse id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <NavLink
@@ -89,8 +72,8 @@ export const Header: React.FC = () => {
               </NavLink>
             </li>
           </ul>
-        </div>
-      </div>
-    </nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };

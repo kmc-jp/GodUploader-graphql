@@ -1,13 +1,14 @@
 import React from "react";
+import { Alert } from "react-bootstrap";
 import { useLocation } from "react-router";
 
 const NotFound: React.FC = () => {
   const location = useLocation();
   return (
-    <div className="alert alert-warning">
-      <h4 className="alert-heading">ページがみつかりません</h4>
+    <Alert variant="warning">
+      <Alert.Heading>ページがみつかりません</Alert.Heading>
       <pre>{location.pathname}</pre>
-    </div>
+    </Alert>
   );
 };
 
