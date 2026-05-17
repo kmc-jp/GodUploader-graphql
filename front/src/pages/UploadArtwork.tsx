@@ -18,7 +18,8 @@ import { CSS } from "@dnd-kit/utilities";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { Alert, Button, Card, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery } from "react-relay";
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { useLoaderData } from "react-router";
 
 import { AgeRestrictionInput } from "../components/ArtworkInfoForm/AgeRestrictionInput";
 import { CaptionInput } from "../components/ArtworkInfoForm/CaptionInput";
@@ -35,6 +36,14 @@ import {
 import { useArtworkInformation } from "../hooks/useArtworkInformation";
 import { useUploadArtworkContext } from "../hooks/useUploadArtworkContext";
 import { UploadArtworkQuery } from "./__generated__/UploadArtworkQuery.graphql";
+
+export const uploadArtworkQuery = graphql`
+  query UploadArtworkQuery {
+    viewer {
+      kmcid
+    }
+  }
+`;
 
 export const UploadArtwork: React.FC = () => {
   return (
@@ -110,16 +119,10 @@ const UploadArtworkForm = () => {
     [images, setFiles],
   );
 
-  const { viewer } = useLazyLoadQuery<UploadArtworkQuery>(
-    graphql`
-      query UploadArtworkQuery {
-        viewer {
-          kmcid
-        }
-      }
-    `,
-    {},
-    { fetchPolicy: "store-or-network" },
+  const queryRef = useLoaderData() as PreloadedQuery<UploadArtworkQuery>;
+  const { viewer } = usePreloadedQuery<UploadArtworkQuery>(
+    uploadArtworkQuery,
+    queryRef,
   );
   useEffect(() => {
     setTwitterUserName(!viewer ? "" : viewer.kmcid);
