@@ -54,6 +54,10 @@ const renderUpdateArtworkModal = () => {
   return { environment };
 };
 
+/**
+ * UpdateArtworkFormTestRendererQuery を解決してモーダルを描画可能にする。
+ * artwork に追加フィールドを渡すとデフォルト値を上書きできる。
+ */
 const resolveArtworkQuery = (
   environment: ReturnType<typeof createMockEnvironment>,
   artwork: Record<string, unknown> = {},
@@ -132,7 +136,7 @@ describe("UpdateArtworkModal", () => {
 
     await screen.findByRole("button", { name: "情報の編集" });
 
-    // Open then close to trigger resetStates
+    // 一度開いて閉じることで resetStates を発火させる
     await userEvent.click(screen.getByRole("button", { name: "情報の編集" }));
     await screen.findByText("神絵の情報編集");
     await userEvent.click(screen.getByRole("button", { name: "Close" }));
@@ -141,7 +145,7 @@ describe("UpdateArtworkModal", () => {
       expect(screen.queryByText("神絵の情報編集")).not.toBeInTheDocument(),
     );
 
-    // Re-open — title should now be populated from the fragment
+    // 再オープン時はフラグメントの値がフォームに反映されている
     await userEvent.click(screen.getByRole("button", { name: "情報の編集" }));
     const titleInput = await screen.findByRole("textbox", { name: /タイトル/ });
     expect(titleInput).toHaveValue("既存のタイトル");

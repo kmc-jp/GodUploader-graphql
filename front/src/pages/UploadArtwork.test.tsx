@@ -14,7 +14,7 @@ import { createMockEnvironment, MockPayloadGenerator } from "relay-test-utils";
 import { UploadArtwork } from "./UploadArtwork";
 
 // ---------------------------------------------------------------------------
-// Fixtures
+// フィクスチャ
 // ---------------------------------------------------------------------------
 
 const SINGLE_CHANNEL = [{ id: "C039TN7Q1", name: "graphics" }];
@@ -25,7 +25,7 @@ const TWO_CHANNELS = [
 ];
 
 // ---------------------------------------------------------------------------
-// Helpers
+// ヘルパー
 // ---------------------------------------------------------------------------
 
 const renderUploadArtwork = (
@@ -33,10 +33,11 @@ const renderUploadArtwork = (
 ) => {
   const environment = createMockEnvironment();
 
-  // Auto-resolve all queries except SlackChannelInputQuery.
-  // SlackChannelInputQuery is left pending so tests can resolve it at the
-  // right moment (after ChannelRows mounts) to avoid a race with
-  // usePreloadedQuery subscribing before the observable emits.
+  // SlackChannelInputQuery 以外のクエリは自動解決する。
+  // SlackChannelInputQuery はペンディングのままにしておき、各テストが
+  // 適切なタイミング（ChannelRows マウント前）で明示的に解決する。
+  // これにより、usePreloadedQuery がオブザーバブルの emit より後に
+  // サブスクライブするレースコンディションを回避できる。
   environment.mock.queueOperationResolver((operation) => {
     if (operation.request.node.params.name === "SlackChannelInputQuery") {
       return null;
@@ -60,10 +61,10 @@ const renderUploadArtwork = (
 };
 
 /**
- * Resolve the pending SlackChannelInputQuery so ChannelRows can render.
- * Call this after setupForm() but before enabling the Slack notification
- * checkbox, so the data is in the Relay store when usePreloadedQuery first
- * reads it.
+ * ペンディング中の SlackChannelInputQuery を解決して ChannelRows を描画可能にする。
+ * setupForm() の後、Slack 通知チェックボックスを有効にする前に呼ぶこと。
+ * こうすることで usePreloadedQuery が初めて読み取るときに
+ * Relay ストアにデータが存在する状態になる。
  */
 const resolveSlackChannels = (
   environment: ReturnType<typeof createMockEnvironment>,
@@ -76,7 +77,7 @@ const resolveSlackChannels = (
   });
 };
 
-/** Attach a File to the hidden file input. */
+/** 非表示のファイル入力にファイルを添付する。 */
 const attachFile = (file: File) => {
   const input = document.getElementById("file") as HTMLInputElement;
   fireEvent.change(input, { target: { files: [file] } });
@@ -86,8 +87,8 @@ const makeImageFile = (name = "test.png") =>
   new File(["(binary)"], name, { type: "image/png" });
 
 /**
- * Wait for the form to finish loading (Suspense resolves), then attach a file,
- * fill title, and select age restriction radio — the minimum needed to submit.
+ * フォームの読み込み（Suspense 解決）を待ち、ファイル添付・タイトル入力・
+ * 年齢制限選択を行う。送信に最低限必要な操作をまとめたヘルパー。
  */
 const setupForm = async ({
   title = "テスト作品",
@@ -106,8 +107,8 @@ const setupForm = async ({
 };
 
 /**
- * Click the submit button, wait for the mutation to be queued, then resolve
- * it so the caller can assert on the variables inside the callback.
+ * 送信ボタンをクリックし、ミューテーションがキューに積まれるのを待ってから
+ * 解決する。コールバック内で mutation の変数をアサートできる。
  */
 const submitAndResolve = async (
   environment: ReturnType<typeof createMockEnvironment>,
@@ -128,7 +129,7 @@ const submitAndResolve = async (
 };
 
 // ---------------------------------------------------------------------------
-// Tests
+// テスト
 // ---------------------------------------------------------------------------
 
 describe("UploadArtwork", () => {
@@ -206,12 +207,12 @@ describe("UploadArtwork", () => {
 
         await userEvent.click(screen.getByRole("radio", { name: label }));
 
-        // Twitter checkbox is disabled
+        // Twitter チェックボックスが無効になる
         expect(
           screen.getByRole("checkbox", { name: /Twitterにも投稿する/ }),
         ).toBeDisabled();
 
-        // Warning message is visible
+        // 警告メッセージが表示される
         expect(
           screen.getByText(
             "年齢制限のある作品をTwitterに共有することはできません",
@@ -224,19 +225,19 @@ describe("UploadArtwork", () => {
       renderUploadArtwork();
       await screen.findByRole("button", { name: "アップロードする" });
 
-      // Select R-18 first
+      // まず R-18 を選択
       await userEvent.click(screen.getByRole("radio", { name: "R-18" }));
       expect(
         screen.getByRole("checkbox", { name: /Twitterにも投稿する/ }),
       ).toBeDisabled();
 
-      // Switch back to 全年齢
+      // 全年齢に戻す
       await userEvent.click(screen.getByRole("radio", { name: "全年齢" }));
       expect(
         screen.getByRole("checkbox", { name: /Twitterにも投稿する/ }),
       ).not.toBeDisabled();
 
-      // Warning message disappears
+      // 警告メッセージが消える
       expect(
         screen.queryByText(
           "年齢制限のある作品をTwitterに共有することはできません",
@@ -273,7 +274,7 @@ describe("UploadArtwork", () => {
         screen.getByRole("checkbox", { name: /Slackに通知する/ }),
       );
 
-      // Thumbnail checkbox is enabled once Slack is on; uncheck it
+      // Slack 有効時はサムネイルチェックボックスが活性化するので外す
       const thumbnailCheckbox = screen.getByRole("checkbox", {
         name: /サムネイルを表示する/,
       });
@@ -300,20 +301,21 @@ describe("UploadArtwork", () => {
       const { environment, channels } = renderUploadArtwork(TWO_CHANNELS);
       await setupForm();
 
-      // Resolve the Slack channel query before enabling Slack so the store
-      // has data when ChannelRows first renders via usePreloadedQuery.
+      // Slack を有効にする前にクエリを解決しておく。
+      // こうすることで ChannelRows が最初に描画されたとき
+      // usePreloadedQuery がストアからデータを読み取れる。
       resolveSlackChannels(environment, channels);
 
       await userEvent.click(
         screen.getByRole("checkbox", { name: /Slackに通知する/ }),
       );
 
-      // Add a second channel row
+      // 2つ目のチャンネル行を追加する
       await userEvent.click(
         await screen.findByRole("button", { name: "チャンネルを追加" }),
       );
 
-      // The second <select> has only "general" as an option (graphics is taken)
+      // 2つ目の <select> には "general" のみが選択肢として表示される（graphics は使用済み）
       const selects = document.querySelectorAll("select");
       expect(selects).toHaveLength(2);
       fireEvent.change(selects[1], { target: { value: "C039TN7Q2" } });
@@ -329,30 +331,30 @@ describe("UploadArtwork", () => {
       const { environment, channels } = renderUploadArtwork(TWO_CHANNELS);
       await setupForm();
 
-      // Resolve before enabling Slack so ChannelRows has store data on first render.
+      // Slack を有効にする前にクエリを解決して ChannelRows がストアを読めるようにする
       resolveSlackChannels(environment, channels);
 
       await userEvent.click(
         screen.getByRole("checkbox", { name: /Slackに通知する/ }),
       );
 
-      // Add second channel and select it
+      // 2つ目のチャンネルを追加して選択する
       await userEvent.click(
         await screen.findByRole("button", { name: "チャンネルを追加" }),
       );
       const selects = document.querySelectorAll("select");
       fireEvent.change(selects[1], { target: { value: "C039TN7Q2" } });
 
-      // Two delete buttons should now be visible
+      // 削除ボタンが2つ表示される
       const deleteBtns = screen.getAllByRole("button", {
         name: "チャンネルを削除",
       });
       expect(deleteBtns).toHaveLength(2);
 
-      // Remove the second channel
+      // 2つ目のチャンネルを削除する
       await userEvent.click(deleteBtns[1]);
 
-      // Only one channel row remains
+      // チャンネル行が1つに戻り削除ボタンも消える
       expect(
         screen.queryAllByRole("button", { name: "チャンネルを削除" }),
       ).toHaveLength(0);
