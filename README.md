@@ -1,4 +1,5 @@
 # GodUploader-graphql
+
 GodUploader with GraphQL
 
 ## 動かす
@@ -20,7 +21,7 @@ GodUploader with GraphQL
 $ docker-compose up --build
 ```
 
------
+---
 
 以降のセクションに書いてあるコマンドは全て `api` ディレクトリ以下で、Docker環境外で実行してください。
 
@@ -90,7 +91,15 @@ $ npm run test
 
 ## デプロイする
 
-mainブランチに変更がマージされると、GitHub ActionsでDockerイメージがbuildされて、GitHub Container Registryにpushされます。イメージがpushされてちょっと待つとデプロイされます。
+### サーバーサイド
+
+~passenger/GodUploader-graphql 以下で `git pull` を実行したのち、 `passenger-config restart-app .` を実行するとアプリケーションがデプロイされます。
+
+### フロントエンド
+
+hatsuneで ~passenger/GodUploader-graphql/front/deploy.sh を実行すると、GitHub Actionsでビルドされた最新の成果物がデプロイされます。
+
+deploy.shの引数としてrun IDを渡すと、当該runの成果物を使ってデプロイを行うため、ロールバックなどに使えます。
 
 ### DBのマイグレーションを行う
 
