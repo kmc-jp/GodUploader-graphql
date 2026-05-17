@@ -4,11 +4,8 @@ import { Card } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { graphql } from "react-relay";
 import { PreloadedQuery, usePreloadedQuery } from "react-relay";
-import { loadQuery } from "react-relay";
-import { LoaderFunctionArgs, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 import reactStringReplace from "react-string-replace";
-
-import RelayEnvironment from "../RelayEnvironment";
 import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
 import { ArtworkComment } from "../components/ArtworkDetail/ArtworkComment";
 import { LikeList } from "../components/ArtworkDetail/ArtworkLikeList";
@@ -25,7 +22,7 @@ import {
 import { formatDateTime } from "../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
 
-const artworkDetailQuery = graphql`
+export const artworkDetailQuery = graphql`
   query ArtworkDetailQuery($id: ID!) {
     artworkWithBidirectional: node(id: $id) {
       __typename
@@ -73,15 +70,6 @@ const artworkDetailQuery = graphql`
     }
   }
 `;
-
-export function loader({ params }: LoaderFunctionArgs) {
-  return loadQuery(
-    RelayEnvironment,
-    artworkDetailQuery,
-    { id: params.id! },
-    { fetchPolicy: "store-and-network" },
-  );
-}
 
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
