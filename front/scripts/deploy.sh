@@ -51,6 +51,6 @@ unzip -q "$TMPDIR/artifact.zip" -d "$TMPDIR/extracted"
 
 mkdir -p "$DIST_DIR"
 echo "Syncing to $DIST_DIR..."
-rsync -a --delete "$TMPDIR/extracted/" "$DIST_DIR/"
+rsync -av --delete "$TMPDIR/extracted/" "$DIST_DIR/"
 
 echo "Done."
