@@ -7,6 +7,7 @@ import { RouterProvider, createBrowserRouter, redirect } from "react-router";
 
 import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";
+import ArtworkDetail, { loader as artworkDetailLoader } from "./pages/ArtworkDetail";
 import { Index, indexQuery } from "./pages/Index";
 import {
   RecentArtworks,
@@ -86,10 +87,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/artwork/:id",
-        lazy: () =>
-          import(
-            /* webpackChunkName: 'ArtworkDetail' */ "./pages/ArtworkDetail"
-          ),
+        loader: artworkDetailLoader,
+        Component: ArtworkDetail,
       },
       {
         path: "/illust/:folder_id",
