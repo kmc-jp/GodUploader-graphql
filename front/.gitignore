@@ -13,6 +13,8 @@
 /_app
 /_app_k8s
 /.react-router
+/dist/
+/dist.*/
 
 # misc
 .DS_Store

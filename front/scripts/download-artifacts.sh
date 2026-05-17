@@ -55,30 +55,21 @@ api_get "$ARTIFACT_URL" -L -o "$TMPDIR/artifact.zip"
 
 DIST_PARENT="$(dirname "$DIST_DIR")"
 DIST_NAME="$(basename "$DIST_DIR")"
-NEW_DIST="$DIST_PARENT/${DIST_NAME}.new"
+TIMESTAMP="$(date +%Y%m%d%H%M%S)"
+NEW_DIST="$DIST_PARENT/${DIST_NAME}.${TIMESTAMP}"
 
 echo "Extracting to $NEW_DIST..."
-rm -rf "$NEW_DIST"
 mkdir -p "$NEW_DIST"
 unzip -q "$TMPDIR/artifact.zip" -d "$NEW_DIST"
 
-# Record the current symlink target (if any) so we can clean it up after the swap
-OLD_LINK_TARGET=""
-if [[ -L "$DIST_DIR" ]]; then
-  OLD_LINK_TARGET="$(readlink "$DIST_DIR")"
-  [[ "$OLD_LINK_TARGET" != /* ]] && OLD_LINK_TARGET="$DIST_PARENT/$OLD_LINK_TARGET"
-elif [[ -d "$DIST_DIR" ]]; then
+if [[ -d "$DIST_DIR" && ! -L "$DIST_DIR" ]]; then
   # First run: dist is a real directory; move it aside before swapping
-  mv "$DIST_DIR" "$DIST_PARENT/${DIST_NAME}.old"
-  OLD_LINK_TARGET="$DIST_PARENT/${DIST_NAME}.old"
+  mv "$DIST_DIR" "$DIST_PARENT/${DIST_NAME}.$(date -r "$DIST_DIR" +%Y%m%d%H%M%S 2>/dev/null || echo old)"
 fi
 
 # Atomically replace the symlink via rename(2): ln creates a temp symlink,
 # mv -T renames it over dist in a single syscall so dist is never absent
-ln -sfn "${DIST_NAME}.new" "$DIST_PARENT/${DIST_NAME}.tmp"
+ln -sfn "${DIST_NAME}.${TIMESTAMP}" "$DIST_PARENT/${DIST_NAME}.tmp"
 mv -T "$DIST_PARENT/${DIST_NAME}.tmp" "$DIST_DIR"
 
-# Clean up the previous content now that the swap is complete
-[[ -n "$OLD_LINK_TARGET" ]] && rm -rf "$OLD_LINK_TARGET"
-
-echo "Done. Artifact deployed to $DIST_DIR"
+echo "Done. Artifact deployed to $DIST_DIR -> ${DIST_NAME}.${TIMESTAMP}"
