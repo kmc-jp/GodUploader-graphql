@@ -1,42 +1,42 @@
 import React from "react";
 import { Badge, Card } from "react-bootstrap";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery } from "react-relay";
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { useLoaderData } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { Link } from "../components/Link";
 import type { IndexQuery } from "./__generated__/IndexQuery.graphql";
 
-export const Index: React.FC = () => {
-  const { safeArtworks, activeAccounts } = useLazyLoadQuery<IndexQuery>(
-    graphql`
-      query IndexQuery {
-        activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
-          edges {
-            node {
-              id
-              kmcid
-              name
-              artworksCount
-            }
-          }
-        }
-        safeArtworks: artworks(
-          first: 8
-          sort: [CREATED_AT_DESC]
-          rating: [safe]
-        ) @connection(key: "Index_safeArtworks") {
-          __id
-          edges {
-            node {
-              ...ArtworkListItem_artwork
-            }
-          }
+export const indexQuery = graphql`
+  query IndexQuery {
+    activeAccounts(sort: [ARTWORKS_COUNT_DESC]) {
+      edges {
+        node {
+          id
+          kmcid
+          name
+          artworksCount
         }
       }
-    `,
-    {},
-    { fetchPolicy: "store-and-network" },
+    }
+    safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], rating: [safe])
+      @connection(key: "Index_safeArtworks") {
+      __id
+      edges {
+        node {
+          ...ArtworkListItem_artwork
+        }
+      }
+    }
+  }
+`;
+
+export const Index: React.FC = () => {
+  const queryRef = useLoaderData() as PreloadedQuery<IndexQuery>;
+  const { safeArtworks, activeAccounts } = usePreloadedQuery<IndexQuery>(
+    indexQuery,
+    queryRef,
   );
   const artworkCount = safeArtworks?.edges?.length || 0;
 

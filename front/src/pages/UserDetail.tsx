@@ -1,8 +1,12 @@
 import React, { useCallback } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
-import { useParams } from "react-router";
+import {
+  PreloadedQuery,
+  usePreloadedQuery,
+  usePaginationFragment,
+} from "react-relay";
+import { useLoaderData } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { InfiniteScroll } from "../components/InfiniteScroll";
@@ -11,23 +15,24 @@ import { ArtworkListPaginationQuery } from "./__generated__/ArtworkListPaginatio
 import { UserDetailQuery } from "./__generated__/UserDetailQuery.graphql";
 import { UserDetail_artworks$key } from "./__generated__/UserDetail_artworks.graphql";
 
+export const userDetailQuery = graphql`
+  query UserDetailQuery($kmcid: String!) {
+    user: accountByKmcid(kmcid: $kmcid) {
+      id
+      kmcid
+      name
+      isYou
+      ...UpdateInfoForm_account
+      ...UserDetail_artworks
+    }
+  }
+`;
+
 export const UserDetail: React.FC = () => {
-  const { kmcid = "" } = useParams<{ kmcid: string }>();
-  const { user } = useLazyLoadQuery<UserDetailQuery>(
-    graphql`
-      query UserDetailQuery($kmcid: String!) {
-        user: accountByKmcid(kmcid: $kmcid) {
-          id
-          kmcid
-          name
-          isYou
-          ...UpdateInfoForm_account
-          ...UserDetail_artworks
-        }
-      }
-    `,
-    { kmcid },
-    { fetchPolicy: "store-and-network" },
+  const queryRef = useLoaderData() as PreloadedQuery<UserDetailQuery>;
+  const { user } = usePreloadedQuery<UserDetailQuery>(
+    userDetailQuery,
+    queryRef,
   );
 
   if (!user) {

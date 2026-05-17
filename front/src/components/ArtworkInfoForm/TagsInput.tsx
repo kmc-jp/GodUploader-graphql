@@ -1,6 +1,12 @@
-import React, { Suspense, useCallback, useRef, useState } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery } from "react-relay";
+import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
 
 import { useArtworkInformation } from "../../hooks/useArtworkInformation";
 import { TagsInputQuery } from "./__generated__/TagsInputQuery.graphql";
@@ -24,6 +30,12 @@ const isSafari = () =>
   navigator.userAgent.includes("Version/");
 
 export const TagsInput: React.FC = () => {
+  const [queryRef, loadQuery] = useQueryLoader<TagsInputQuery>(tagsInputQuery);
+
+  useEffect(() => {
+    loadQuery({});
+  }, [loadQuery]);
+
   const { tags, setTags } = useArtworkInformation();
   const appendTag = useCallback(
     (newTag: string) => {
@@ -111,7 +123,7 @@ export const TagsInput: React.FC = () => {
         </div>
       </div>
       <Suspense fallback={null}>
-        <TagSuggestion />
+        {queryRef && <TagSuggestion queryRef={queryRef} />}
       </Suspense>
     </>
   );
@@ -145,8 +157,13 @@ const TagList: React.FC = () => {
   );
 };
 
-const TagSuggestion: React.FC = () => {
-  const { allTags } = useLazyLoadQuery<TagsInputQuery>(tagsInputQuery, {});
+const TagSuggestion: React.FC<{ queryRef: PreloadedQuery<TagsInputQuery> }> = ({
+  queryRef,
+}) => {
+  const { allTags } = usePreloadedQuery<TagsInputQuery>(
+    tagsInputQuery,
+    queryRef,
+  );
   if (!(allTags && allTags.edges)) {
     return null;
   }

@@ -3,10 +3,12 @@ import React, { Fragment, useMemo } from "react";
 import { Card } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { graphql } from "react-relay";
-import { useLazyLoadQuery } from "react-relay";
-import { useParams } from "react-router";
+import { PreloadedQuery, usePreloadedQuery } from "react-relay";
+import { loadQuery } from "react-relay";
+import { LoaderFunctionArgs, useLoaderData } from "react-router";
 import reactStringReplace from "react-string-replace";
 
+import RelayEnvironment from "../RelayEnvironment";
 import CensoredThumbnailImage from "../assets/img/regulation_mark_r18.png";
 import { ArtworkComment } from "../components/ArtworkDetail/ArtworkComment";
 import { LikeList } from "../components/ArtworkDetail/ArtworkLikeList";
@@ -22,6 +24,64 @@ import {
 } from "../contexts/ArtworkInformationContext";
 import { formatDateTime } from "../util";
 import { ArtworkDetailQuery } from "./__generated__/ArtworkDetailQuery.graphql";
+
+const artworkDetailQuery = graphql`
+  query ArtworkDetailQuery($id: ID!) {
+    artworkWithBidirectional: node(id: $id) {
+      __typename
+      ... on Artwork {
+        previousArtwork {
+          id
+          title
+          nsfw
+          topIllust {
+            thumbnailUrl
+          }
+        }
+        nextArtwork {
+          id
+          title
+          nsfw
+          topIllust {
+            thumbnailUrl
+          }
+        }
+        id
+        title
+        caption
+        createdAt
+        editable
+        rating
+        account {
+          id
+          kmcid
+          name
+        }
+        ...UpdateArtworkForm_artwork
+        ...IllustCarousel_illusts
+        ...ArtworkLikeList_likes
+        ...ArtworkComment_comments
+        tags {
+          edges {
+            node {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export function loader({ params }: LoaderFunctionArgs) {
+  return loadQuery(
+    RelayEnvironment,
+    artworkDetailQuery,
+    { id: params.id! },
+    { fetchPolicy: "store-and-network" },
+  );
+}
 
 const autolink = (caption: string) => {
   return reactStringReplace(caption, /(https?:\/\/\S+)/g, (match, i) => (
@@ -51,58 +111,10 @@ const Caption: React.FC<CaptionProps> = ({ caption }) => {
 };
 
 const ArtworkDetail: React.FC = () => {
-  const { id = "" } = useParams<{ id: string }>();
-  const { artworkWithBidirectional } = useLazyLoadQuery<ArtworkDetailQuery>(
-    graphql`
-      query ArtworkDetailQuery($id: ID!) {
-        artworkWithBidirectional: node(id: $id) {
-          __typename
-          ... on Artwork {
-            previousArtwork {
-              id
-              title
-              nsfw
-              topIllust {
-                thumbnailUrl
-              }
-            }
-            nextArtwork {
-              id
-              title
-              nsfw
-              topIllust {
-                thumbnailUrl
-              }
-            }
-            id
-            title
-            caption
-            createdAt
-            editable
-            rating
-            account {
-              id
-              kmcid
-              name
-            }
-            ...UpdateArtworkForm_artwork
-            ...IllustCarousel_illusts
-            ...ArtworkLikeList_likes
-            ...ArtworkComment_comments
-            tags {
-              edges {
-                node {
-                  id
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
-    { id },
-    { fetchPolicy: "store-and-network" },
+  const queryRef = useLoaderData() as PreloadedQuery<ArtworkDetailQuery>;
+  const { artworkWithBidirectional } = usePreloadedQuery<ArtworkDetailQuery>(
+    artworkDetailQuery,
+    queryRef,
   );
 
   const tags = useMemo((): string[] => {
