@@ -20,6 +20,15 @@ import { Tags, tagsQuery } from "./pages/Tags";
 import { UploadArtwork, uploadArtworkQuery } from "./pages/UploadArtwork";
 import { UserDetail, userDetailQuery } from "./pages/UserDetail";
 
+async function enableMocking() {
+  if (import.meta.env.VITE_USE_MSW !== "1") return;
+  const { worker } = await import("./mocks/browser");
+  return worker.start({ onUnhandledRequest: "warn" });
+}
+
+// ルーティング定義よりも先にMSWの設定が完了しないと、うまくリクエストがモックされない
+await enableMocking();
+
 const router = createBrowserRouter([
   {
     Component: App,
@@ -134,17 +143,9 @@ const router = createBrowserRouter([
   },
 ]);
 
-async function enableMocking() {
-  if (import.meta.env.VITE_USE_MSW !== "1") return;
-  const { worker } = await import("./mocks/browser");
-  return worker.start({ onUnhandledRequest: "warn" });
-}
-
-enableMocking().then(() => {
-  const root = createRoot(document.getElementById("root")!);
-  root.render(
-    <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <RouterProvider router={router} />
-    </RelayEnvironmentProvider>,
-  );
-});
+const root = createRoot(document.getElementById("root")!);
+root.render(
+  <RelayEnvironmentProvider environment={RelayEnvironment}>
+    <RouterProvider router={router} />
+  </RelayEnvironmentProvider>,
+);
