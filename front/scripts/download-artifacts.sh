@@ -33,21 +33,19 @@ if [[ $# -ge 1 ]]; then
 else
   echo "Fetching latest successful run of $WORKFLOW_FILE..."
   RUN_ID=$(api_get "$API_BASE/repos/$REPO/actions/workflows/$WORKFLOW_FILE/runs?status=success&per_page=1" \
-    | python3 -c "import sys,json; runs=json.load(sys.stdin)['workflow_runs']; print(runs[0]['id']) if runs else (print('No successful runs found', file=sys.stderr) or exit(1))")
+    | jq -r 'if (.workflow_runs | length) == 0 then error("No successful runs found") else .workflow_runs[0].id end')
   echo "Latest successful run ID: $RUN_ID"
 fi
 
 echo "Fetching artifact list for run $RUN_ID..."
 ARTIFACT_URL=$(api_get "$API_BASE/repos/$REPO/actions/runs/$RUN_ID/artifacts" \
-  | python3 -c "
-import sys, json
-data = json.load(sys.stdin)
-artifacts = [a for a in data['artifacts'] if a['name'] == '$ARTIFACT_NAME']
-if not artifacts:
-    print('Artifact \"$ARTIFACT_NAME\" not found in run $RUN_ID', file=sys.stderr)
-    exit(1)
-print(artifacts[0]['archive_download_url'])
-")
+  | jq -r --arg name "$ARTIFACT_NAME" \
+      '.artifacts[] | select(.name == $name) | .archive_download_url' \
+  | head -1)
+if [[ -z "$ARTIFACT_URL" ]]; then
+  echo "Error: Artifact \"$ARTIFACT_NAME\" not found in run $RUN_ID" >&2
+  exit 1
+fi
 
 echo "Downloading artifact: $ARTIFACT_NAME"
 TMPDIR=$(mktemp -d)
