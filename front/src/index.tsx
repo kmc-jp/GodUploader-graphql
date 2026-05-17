@@ -5,18 +5,21 @@ import { createRoot } from "react-dom/client";
 import { loadQuery } from "react-relay";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
 import { RouterProvider, createBrowserRouter, redirect } from "react-router";
-import { fetchQuery } from "relay-runtime";
 
 import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";
 import { Index, indexQuery } from "./pages/Index";
-import { RecentArtworks, recentArtworksQuery, modeToRating } from "./pages/RecentArtworks";
-import { Tags, tagsQuery } from "./pages/Tags";
+import {
+  RecentArtworks,
+  recentArtworksQuery,
+  modeToRating,
+} from "./pages/RecentArtworks";
+import { loader as redirectFolderToArtworkLoader } from "./pages/RedirectFolderToArtwork";
+import { loader as redirectToMyPageLoader } from "./pages/RedirectToMyPage";
 import { TaggedArtworks, taggedArtworksQuery } from "./pages/TaggedArtworks";
+import { Tags, tagsQuery } from "./pages/Tags";
 import { UploadArtwork, uploadArtworkQuery } from "./pages/UploadArtwork";
 import { UserDetail, userDetailQuery } from "./pages/UserDetail";
-import { loader as redirectToMyPageLoader } from "./pages/RedirectToMyPage";
-import { loader as redirectFolderToArtworkLoader } from "./pages/RedirectFolderToArtwork";
 
 const TegakiDU = lazy(
   () => import(/* webpackChunkName: 'TegakiDU' */ "./pages/TegakiDU"),
@@ -32,7 +35,12 @@ const router = createBrowserRouter([
       {
         path: "/",
         loader: () =>
-          loadQuery(RelayEnvironment, indexQuery, {}, { fetchPolicy: "store-and-network" }),
+          loadQuery(
+            RelayEnvironment,
+            indexQuery,
+            {},
+            { fetchPolicy: "store-and-network" },
+          ),
         element: <Index />,
       },
       {
@@ -77,7 +85,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/artwork/:id",
-        lazy: () => import(/* webpackChunkName: 'ArtworkDetail' */ "./pages/ArtworkDetail"),
+        lazy: () =>
+          import(
+            /* webpackChunkName: 'ArtworkDetail' */ "./pages/ArtworkDetail"
+          ),
       },
       {
         path: "/illust/:folder_id",
@@ -86,7 +97,12 @@ const router = createBrowserRouter([
       {
         path: "/tags",
         loader: () =>
-          loadQuery(RelayEnvironment, tagsQuery, {}, { fetchPolicy: "store-and-network" }),
+          loadQuery(
+            RelayEnvironment,
+            tagsQuery,
+            {},
+            { fetchPolicy: "store-and-network" },
+          ),
         element: <Tags />,
       },
       {
