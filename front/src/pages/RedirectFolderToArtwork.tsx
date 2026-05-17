@@ -1,29 +1,27 @@
+import React from "react";
 import { graphql } from "react-relay";
-import { LoaderFunctionArgs, redirect } from "react-router";
-import { fetchQuery } from "relay-runtime";
+import { useLazyLoadQuery } from "react-relay";
+import { Navigate, useParams } from "react-router";
 
-import RelayEnvironment from "../RelayEnvironment";
 import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";
 
-const redirectFolderToArtworkQuery = graphql`
-  query RedirectFolderToArtworkQuery($folderId: Int!) {
-    artworkByFolderId(folderId: $folderId) {
-      id
-    }
-  }
-`;
+export const RedirectFolderToArtwork: React.FC = () => {
+  const { folder_id = "0" } = useParams<{ folder_id: string }>();
+  const { artworkByFolderId: artwork } =
+    useLazyLoadQuery<RedirectFolderToArtworkQuery>(
+      graphql`
+        query RedirectFolderToArtworkQuery($folderId: Int!) {
+          artworkByFolderId(folderId: $folderId) {
+            id
+          }
+        }
+      `,
+      { folderId: Number(folder_id) },
+    );
 
-export async function loader({ params }: LoaderFunctionArgs) {
-  const folderId = Number(params.folder_id);
-  const data = await fetchQuery<RedirectFolderToArtworkQuery>(
-    RelayEnvironment,
-    redirectFolderToArtworkQuery,
-    { folderId },
-  ).toPromise();
-
-  if (!data?.artworkByFolderId) {
-    throw new Response("Not Found", { status: 404 });
+  if (!artwork) {
+    return <div>artwork not found</div>;
   }
 
-  return redirect(`/artwork/${data.artworkByFolderId.id}`);
-}
+  return <Navigate to={`/artwork/${artwork.id}`} replace />;
+};

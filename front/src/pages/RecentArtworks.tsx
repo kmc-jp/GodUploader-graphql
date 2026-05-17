@@ -1,12 +1,8 @@
 import React, { ChangeEventHandler, useCallback } from "react";
 import { Card, Form, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
-import {
-  PreloadedQuery,
-  usePreloadedQuery,
-  usePaginationFragment,
-} from "react-relay";
-import { useLoaderData, useNavigate } from "react-router";
+import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
+import { useLocation, useNavigate } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
 import { InfiniteScroll } from "../components/InfiniteScroll";
@@ -17,30 +13,21 @@ import type {
 } from "./__generated__/RecentArtworksQuery.graphql";
 import { RecentArtworks_artworks$key } from "./__generated__/RecentArtworks_artworks.graphql";
 
-export const recentArtworksQuery = graphql`
-  query RecentArtworksQuery($rating: [ArtworkRatingEnum!]!) {
-    ...RecentArtworks_artworks
-  }
-`;
+const useRatingParam = (): [string, ArtworkRatingEnum[]] => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
 
-export function modeToRating(mode: string | null): ArtworkRatingEnum[] {
-  switch (mode) {
+  switch (queryParams.get("mode")) {
     case "all":
-      return ["safe", "r_18", "r_18g"];
+      return ["all", ["safe", "r_18", "r_18g"]];
     case "r_18":
-      return ["r_18"];
+      return ["r_18", ["r_18"]];
     case "r_18g":
-      return ["r_18g"];
+      return ["r_18g", ["r_18g"]];
     default:
-      return ["safe"];
+      return ["safe", ["safe"]];
   }
-}
-
-function ratingToMode(rating: ArtworkRatingEnum[]): string {
-  if (rating.length === 3) return "all";
-  if (rating.length === 1) return rating[0];
-  return "safe";
-}
+};
 
 const ArtworkList: React.FC<{
   artworks: RecentArtworks_artworks$key;
@@ -116,22 +103,22 @@ const ArtworkList: React.FC<{
 };
 
 export const RecentArtworks: React.FC = () => {
-  const queryRef = useLoaderData() as PreloadedQuery<RecentArtworksQuery>;
-  const data = usePreloadedQuery<RecentArtworksQuery>(
-    recentArtworksQuery,
-    queryRef,
+  const [selectedRating, rating] = useRatingParam();
+  const artworks = useLazyLoadQuery<RecentArtworksQuery>(
+    graphql`
+      query RecentArtworksQuery($rating: [ArtworkRatingEnum!]!) {
+        ...RecentArtworks_artworks
+      }
+    `,
+    { rating },
+    { fetchPolicy: "store-and-network" },
   );
-
   const navigate = useNavigate();
   const handleChangeRating = useCallback<ChangeEventHandler<HTMLSelectElement>>(
     (e) => {
       navigate(`/artworks?mode=${e.target.value}`);
     },
     [navigate],
-  );
-
-  const selectedRating = ratingToMode(
-    queryRef.variables.rating as ArtworkRatingEnum[],
   );
 
   return (
@@ -155,7 +142,7 @@ export const RecentArtworks: React.FC = () => {
           </div>
         </Card.Header>
         <Card.Body>
-          <ArtworkList artworks={data} />
+          <ArtworkList artworks={artworks} />
         </Card.Body>
       </Card>
     </div>
