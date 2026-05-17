@@ -101,7 +101,7 @@ hatsuneで ~passenger/GodUploader-graphql/front/deploy.sh を実行すると、G
 
 deploy.shの引数としてrun IDを渡すと、当該runの成果物を使ってデプロイを行うため、ロールバックなどに使えます。
 
-GitHub Actionsの実行結果や成果物を取得する際に使う認証情報の管理に [ghtkn](https://github.com/suzuki-shunsuke/ghtkn) を使っています。
+deploy.shはGitHub APIへのアクセスに必要なトークンを [OAuth2 Device Flow](https://docs.github.com/ja/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#device-flow) で取得します。スクリプトを実行すると認証用のURLとコードが表示されるので、ブラウザでURLを開いてコードを入力し、GitHubアカウントでアプリを認証してください。認証完了後にEnterキーを押すとデプロイが続行されます。
 
 ### DBのマイグレーションを行う
 
