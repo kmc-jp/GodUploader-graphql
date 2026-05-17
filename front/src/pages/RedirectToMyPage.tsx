@@ -1,24 +1,24 @@
 import { graphql } from "react-relay";
-import { redirect } from "react-router";
-import { fetchQuery } from "relay-runtime";
+import { useLazyLoadQuery } from "react-relay";
+import { Navigate } from "react-router";
 
-import RelayEnvironment from "../RelayEnvironment";
 import type { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
 
-const redirectToMyPageQuery = graphql`
-  query RedirectToMyPageQuery {
-    viewer {
-      kmcid
-    }
-  }
-`;
-
-export async function loader() {
-  const data = await fetchQuery<RedirectToMyPageQuery>(
-    RelayEnvironment,
-    redirectToMyPageQuery,
+export const RedirectToMyPage: React.FC = () => {
+  const { viewer } = useLazyLoadQuery<RedirectToMyPageQuery>(
+    graphql`
+      query RedirectToMyPageQuery {
+        viewer {
+          kmcid
+        }
+      }
+    `,
     {},
     { fetchPolicy: "store-or-network" },
-  ).toPromise();
-  return redirect(data?.viewer ? `/users/${data.viewer.kmcid}` : "/");
-}
+  );
+  if (!viewer) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Navigate to={`/users/${viewer.kmcid}`} replace />;
+};

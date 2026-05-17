@@ -12,7 +12,6 @@
 /build
 /_app
 /_app_k8s
-/.react-router
 
 # misc
 .DS_Store

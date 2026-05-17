@@ -1,28 +1,28 @@
 import React from "react";
 import { Badge, Card } from "react-bootstrap";
 import { graphql } from "react-relay";
-import { PreloadedQuery, usePreloadedQuery } from "react-relay";
-import { useLoaderData } from "react-router";
+import { useLazyLoadQuery } from "react-relay";
 
 import { Link } from "../components/Link";
 import { TagsQuery } from "./__generated__/TagsQuery.graphql";
 
-export const tagsQuery = graphql`
-  query TagsQuery {
-    allTags(sort: [UPDATED_AT_DESC]) {
-      edges {
-        node {
-          name
-          artworksCount
+export const Tags: React.FC = () => {
+  const { allTags } = useLazyLoadQuery<TagsQuery>(
+    graphql`
+      query TagsQuery {
+        allTags(sort: [UPDATED_AT_DESC]) {
+          edges {
+            node {
+              name
+              artworksCount
+            }
+          }
         }
       }
-    }
-  }
-`;
-
-export const Tags: React.FC = () => {
-  const queryRef = useLoaderData() as PreloadedQuery<TagsQuery>;
-  const { allTags } = usePreloadedQuery<TagsQuery>(tagsQuery, queryRef);
+    `,
+    {},
+    { fetchPolicy: "store-and-network" },
+  );
 
   return (
     <div>

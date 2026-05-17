@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { graphql } from "react-relay";
-import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
+import { useLazyLoadQuery } from "react-relay";
 
 import { DrawingContext } from "../../contexts/TegakiDU/DrawingContext";
 import { useArtworkInformation } from "../../hooks/useArtworkInformation";
@@ -12,28 +12,6 @@ import { TagsInput } from "../ArtworkInfoForm/TagsInput";
 import { TitleInput } from "../ArtworkInfoForm/TitleInput";
 import { ModalForm } from "../ModalForm";
 import { UploadArtworkModalQuery } from "./__generated__/UploadArtworkModalQuery.graphql";
-
-const uploadArtworkModalQuery = graphql`
-  query UploadArtworkModalQuery {
-    viewer {
-      kmcid
-    }
-  }
-`;
-
-const ViewerInitializer: React.FC<{
-  queryRef: PreloadedQuery<UploadArtworkModalQuery>;
-  setTwitterUserName: (name: string) => void;
-}> = ({ queryRef, setTwitterUserName }) => {
-  const { viewer } = usePreloadedQuery<UploadArtworkModalQuery>(
-    uploadArtworkModalQuery,
-    queryRef,
-  );
-  useEffect(() => {
-    setTwitterUserName(viewer ? viewer.kmcid : "");
-  }, [viewer, setTwitterUserName]);
-  return null;
-};
 
 interface Props {
   blob?: Blob;
@@ -55,13 +33,6 @@ export const UploadArtworkModal: React.FC<Props> = ({ blob }) => {
   } = useUploadArtworkContext();
   const { setIsPosting } = useContext(DrawingContext);
   const [show, setShow] = useState(false);
-  const [queryRef, loadQuery] = useQueryLoader<UploadArtworkModalQuery>(
-    uploadArtworkModalQuery,
-  );
-
-  useEffect(() => {
-    loadQuery({}, { fetchPolicy: "store-or-network" });
-  }, [loadQuery]);
 
   useEffect(() => {
     if (blob) {
@@ -74,6 +45,21 @@ export const UploadArtworkModal: React.FC<Props> = ({ blob }) => {
     setShow(false);
     setIsPosting(false);
   };
+
+  const { viewer } = useLazyLoadQuery<UploadArtworkModalQuery>(
+    graphql`
+      query UploadArtworkModalQuery {
+        viewer {
+          kmcid
+        }
+      }
+    `,
+    {},
+    { fetchPolicy: "store-or-network" },
+  );
+  useEffect(() => {
+    setTwitterUserName(!viewer ? "" : viewer.kmcid);
+  }, []);
 
   const { ageRestriction } = useArtworkInformation();
 
@@ -88,12 +74,6 @@ export const UploadArtworkModal: React.FC<Props> = ({ blob }) => {
       submitLabel="アップロードする"
       submittingLabel="アップロード中……"
     >
-      {queryRef && (
-        <ViewerInitializer
-          queryRef={queryRef}
-          setTwitterUserName={setTwitterUserName}
-        />
-      )}
       <div className="mb-3">
         <TitleInput />
       </div>

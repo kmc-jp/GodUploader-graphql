@@ -1,11 +1,18 @@
-import React, { Suspense, useCallback } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 import { Helmet } from "react-helmet";
 import {
-  Outlet,
+  useLocation,
   useNavigate as useRouterNavigate,
-  useNavigation,
+  useNavigationType,
 } from "react-router";
 
+import { AppRoutes } from "./AppRoutes";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
@@ -13,9 +20,20 @@ import { LoadingOverlay } from "./components/LoadingOverlay";
 import { NavigationContext, NavigateFn } from "./contexts/NavigationContext";
 
 export const App: React.FC = () => {
-  const navigation = useNavigation();
-  const isPending = navigation.state !== "idle";
+  const currentLocation = useLocation();
+  const navigationType = useNavigationType();
   const routerNavigate = useRouterNavigate();
+  const [isPending, startTransition] = useTransition();
+  const [displayLocation, setDisplayLocation] = useState(currentLocation);
+
+  useEffect(() => {
+    if (navigationType === "PUSH") {
+      window.scrollTo(0, 0);
+    }
+    startTransition(() => {
+      setDisplayLocation(currentLocation);
+    });
+  }, [currentLocation, navigationType, startTransition]);
 
   const navigate = useCallback<NavigateFn>(
     (to, replace = false) => {
@@ -35,7 +53,7 @@ export const App: React.FC = () => {
         <div className="container">
           <ErrorBoundary>
             <Suspense fallback={<LoadingOverlay />}>
-              <Outlet />
+              <AppRoutes location={displayLocation} />
             </Suspense>
           </ErrorBoundary>
         </div>
