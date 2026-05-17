@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 
 // relay-test-utils internally calls jest.fn(). Expose Vitest's `vi` as `jest` so it works.
-globalThis.jest = vi;
+(globalThis as unknown as Record<string, unknown>).jest = vi;
 
 // URL.createObjectURL / revokeObjectURL are not implemented in happy-dom.
 // UploadArtworkForm uses createObjectURL to generate preview URLs for attached files,
