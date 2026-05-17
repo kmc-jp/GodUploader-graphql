@@ -8,7 +8,7 @@ DIST_DIR="$(realpath "$(dirname "$0")/..")/dist"
 
 api() {
   curl -fsSL \
-    -H "Authorization: Bearer $(ghtkn get)" \
+    -H "Authorization: Bearer $(ghtkn get -c $(realpath "$(dirname "$0")/../..")/ghtkn.yaml)" \
     -H "Accept: application/vnd.github+json" \
     -H "X-GitHub-Api-Version: 2026-03-10" \
     "$@"
