@@ -6,6 +6,7 @@ WORKFLOW_FILE="front.yml"
 ARTIFACT_NAME="build-artifacts"
 DIST_DIR="$(realpath "$(dirname "$0")/..")/dist"
 
+# https://github.com/organizations/kmc-jp/settings/apps/goduploader-graphql-deploy
 CLIENT_ID="Iv23liAVKe614ZUwJS4I"
 
 get_github_token() {
