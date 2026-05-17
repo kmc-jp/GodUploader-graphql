@@ -141,6 +141,33 @@ describe("UploadArtwork", () => {
     expect(button).toBeDisabled();
   });
 
+  it("添付ファイルが mutation の uploadables に含まれる", async () => {
+    const { environment } = renderUploadArtwork();
+
+    const executeMutationSpy = vi.spyOn(environment, "executeMutation");
+
+    await screen.findByRole("button", { name: "アップロードする" });
+    const file = makeImageFile("artwork.png");
+    attachFile(file);
+    await userEvent.type(
+      screen.getByRole("textbox", { name: /タイトル/ }),
+      "テスト作品",
+    );
+    await userEvent.click(screen.getByRole("radio", { name: "全年齢" }));
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "アップロードする" }),
+    );
+
+    expect(executeMutationSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        uploadables: {
+          "variables.input.files.0": file,
+        },
+      }),
+    );
+  });
+
   it("ファイル添付・フォーム入力後に送信すると UploadArtworkMutation が正しい変数で呼ばれる", async () => {
     const { environment } = renderUploadArtwork();
     await setupForm();
