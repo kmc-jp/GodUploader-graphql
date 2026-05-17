@@ -9,7 +9,7 @@ import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";
 
 async function enableMocking() {
-  if (import.meta.env.VITE_USE_MSW !== "1") return;
+  if (!import.meta.env.DEV || import.meta.env.VITE_USE_MSW !== "1") return;
   const { worker } = await import("./mocks/browser");
   return worker.start({ onUnhandledRequest: "warn" });
 }
