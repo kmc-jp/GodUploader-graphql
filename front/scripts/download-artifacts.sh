@@ -32,7 +32,7 @@ if [[ $# -ge 1 ]]; then
   echo "Using specified run ID: $RUN_ID"
 else
   echo "Fetching latest successful run of $WORKFLOW_FILE..."
-  RUN_ID=$(api_get "$API_BASE/repos/$REPO/actions/workflows/$WORKFLOW_FILE/runs?status=success&per_page=1" \
+  RUN_ID=$(api_get "$API_BASE/repos/$REPO/actions/workflows/$WORKFLOW_FILE/runs?status=success&branch=main&per_page=1" \
     | jq -r 'if (.workflow_runs | length) == 0 then error("No successful runs found") else .workflow_runs[0].id end')
   echo "Latest successful run ID: $RUN_ID"
 fi
