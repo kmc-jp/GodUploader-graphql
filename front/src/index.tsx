@@ -1,6 +1,5 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { loadQuery } from "react-relay";
 import { RelayEnvironmentProvider } from "react-relay/hooks";
@@ -21,16 +20,9 @@ import { Tags, tagsQuery } from "./pages/Tags";
 import { UploadArtwork, uploadArtworkQuery } from "./pages/UploadArtwork";
 import { UserDetail, userDetailQuery } from "./pages/UserDetail";
 
-const TegakiDU = lazy(
-  () => import(/* webpackChunkName: 'TegakiDU' */ "./pages/TegakiDU"),
-);
-const NotFound = lazy(
-  () => import(/* webpackChunkName: 'NotFound' */ "./pages/NotFound"),
-);
-
 const router = createBrowserRouter([
   {
-    element: <App />,
+    Component: App,
     children: [
       {
         path: "/",
@@ -41,7 +33,7 @@ const router = createBrowserRouter([
             {},
             { fetchPolicy: "store-and-network" },
           ),
-        element: <Index />,
+        Component: Index,
       },
       {
         path: "/users/:kmcid",
@@ -52,7 +44,7 @@ const router = createBrowserRouter([
             { kmcid: params.kmcid! },
             { fetchPolicy: "store-and-network" },
           ),
-        element: <UserDetail />,
+        Component: UserDetail,
       },
       {
         path: "/my",
@@ -70,7 +62,7 @@ const router = createBrowserRouter([
             { fetchPolicy: "store-and-network" },
           );
         },
-        element: <RecentArtworks />,
+        Component: RecentArtworks,
       },
       {
         path: "/artwork/new",
@@ -81,7 +73,7 @@ const router = createBrowserRouter([
             {},
             { fetchPolicy: "store-or-network" },
           ),
-        element: <UploadArtwork />,
+        Component: UploadArtwork,
       },
       {
         path: "/artwork/:id",
@@ -103,7 +95,7 @@ const router = createBrowserRouter([
             {},
             { fetchPolicy: "store-and-network" },
           ),
-        element: <Tags />,
+        Component: Tags,
       },
       {
         path: "/tagged_artworks/:tag",
@@ -118,15 +110,25 @@ const router = createBrowserRouter([
             { fetchPolicy: "store-and-network" },
           );
         },
-        element: <TaggedArtworks />,
+        Component: TaggedArtworks,
       },
       {
         path: "/tegaki",
-        element: <TegakiDU />,
+        lazy: async () => {
+          const { default: Component } = await import(
+            /* webpackChunkName: 'TegakiDU' */ "./pages/TegakiDU"
+          );
+          return { Component };
+        },
       },
       {
         path: "*",
-        element: <NotFound />,
+        lazy: async () => {
+          const { default: Component } = await import(
+            /* webpackChunkName: 'NotFound' */ "./pages/NotFound"
+          );
+          return { Component };
+        },
       },
     ],
   },
