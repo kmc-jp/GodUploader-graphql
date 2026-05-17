@@ -1,4 +1,10 @@
-import React, { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { graphql } from "react-relay";
 import { PreloadedQuery, usePreloadedQuery, useQueryLoader } from "react-relay";
 
@@ -151,8 +157,13 @@ const TagList: React.FC = () => {
   );
 };
 
-const TagSuggestion: React.FC<{ queryRef: PreloadedQuery<TagsInputQuery> }> = ({ queryRef }) => {
-  const { allTags } = usePreloadedQuery<TagsInputQuery>(tagsInputQuery, queryRef);
+const TagSuggestion: React.FC<{ queryRef: PreloadedQuery<TagsInputQuery> }> = ({
+  queryRef,
+}) => {
+  const { allTags } = usePreloadedQuery<TagsInputQuery>(
+    tagsInputQuery,
+    queryRef,
+  );
   if (!(allTags && allTags.edges)) {
     return null;
   }

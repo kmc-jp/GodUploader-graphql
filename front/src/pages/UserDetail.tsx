@@ -1,7 +1,11 @@
 import React, { useCallback } from "react";
 import { Card, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
-import { PreloadedQuery, usePreloadedQuery, usePaginationFragment } from "react-relay";
+import {
+  PreloadedQuery,
+  usePreloadedQuery,
+  usePaginationFragment,
+} from "react-relay";
 import { useLoaderData } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
@@ -26,7 +30,10 @@ export const userDetailQuery = graphql`
 
 export const UserDetail: React.FC = () => {
   const queryRef = useLoaderData() as PreloadedQuery<UserDetailQuery>;
-  const { user } = usePreloadedQuery<UserDetailQuery>(userDetailQuery, queryRef);
+  const { user } = usePreloadedQuery<UserDetailQuery>(
+    userDetailQuery,
+    queryRef,
+  );
 
   if (!user) {
     return <div>user not found</div>;

@@ -1,6 +1,6 @@
 import { graphql } from "react-relay";
-import { fetchQuery } from "relay-runtime";
 import { LoaderFunctionArgs, redirect } from "react-router";
+import { fetchQuery } from "relay-runtime";
 
 import RelayEnvironment from "../RelayEnvironment";
 import { RedirectFolderToArtworkQuery } from "./__generated__/RedirectFolderToArtworkQuery.graphql";

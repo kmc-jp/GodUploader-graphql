@@ -1,6 +1,10 @@
 import React, { Suspense, useCallback } from "react";
 import { Helmet } from "react-helmet";
-import { Outlet, useNavigate as useRouterNavigate, useNavigation } from "react-router";
+import {
+  Outlet,
+  useNavigate as useRouterNavigate,
+  useNavigation,
+} from "react-router";
 
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Footer } from "./components/Footer";

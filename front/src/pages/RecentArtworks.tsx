@@ -1,7 +1,11 @@
 import React, { ChangeEventHandler, useCallback } from "react";
 import { Card, Form, Spinner } from "react-bootstrap";
 import { graphql } from "react-relay";
-import { PreloadedQuery, usePreloadedQuery, usePaginationFragment } from "react-relay";
+import {
+  PreloadedQuery,
+  usePreloadedQuery,
+  usePaginationFragment,
+} from "react-relay";
 import { useLoaderData, useNavigate } from "react-router";
 
 import { ArtworkListItem } from "../components/ArtworkListItem";
@@ -113,7 +117,10 @@ const ArtworkList: React.FC<{
 
 export const RecentArtworks: React.FC = () => {
   const queryRef = useLoaderData() as PreloadedQuery<RecentArtworksQuery>;
-  const data = usePreloadedQuery<RecentArtworksQuery>(recentArtworksQuery, queryRef);
+  const data = usePreloadedQuery<RecentArtworksQuery>(
+    recentArtworksQuery,
+    queryRef,
+  );
 
   const navigate = useNavigate();
   const handleChangeRating = useCallback<ChangeEventHandler<HTMLSelectElement>>(
@@ -123,7 +130,9 @@ export const RecentArtworks: React.FC = () => {
     [navigate],
   );
 
-  const selectedRating = ratingToMode(queryRef.variables.rating as ArtworkRatingEnum[]);
+  const selectedRating = ratingToMode(
+    queryRef.variables.rating as ArtworkRatingEnum[],
+  );
 
   return (
     <div>

@@ -20,11 +20,8 @@ export const indexQuery = graphql`
         }
       }
     }
-    safeArtworks: artworks(
-      first: 8
-      sort: [CREATED_AT_DESC]
-      rating: [safe]
-    ) @connection(key: "Index_safeArtworks") {
+    safeArtworks: artworks(first: 8, sort: [CREATED_AT_DESC], rating: [safe])
+      @connection(key: "Index_safeArtworks") {
       __id
       edges {
         node {

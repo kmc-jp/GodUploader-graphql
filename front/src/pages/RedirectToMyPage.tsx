@@ -1,6 +1,6 @@
 import { graphql } from "react-relay";
-import { fetchQuery } from "relay-runtime";
 import { redirect } from "react-router";
+import { fetchQuery } from "relay-runtime";
 
 import RelayEnvironment from "../RelayEnvironment";
 import type { RedirectToMyPageQuery } from "./__generated__/RedirectToMyPageQuery.graphql";
