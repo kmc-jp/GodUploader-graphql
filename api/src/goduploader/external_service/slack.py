@@ -1,9 +1,9 @@
+from dataclasses import dataclass
 from enum import Enum
+from typing import List, Optional
 
 from cacheout import Cache
 from goduploader.config import app_config
-from goduploader.external_service.gyazo import upload_image
-from goduploader.model import Artwork
 from slack_sdk.web.client import WebClient
 
 
@@ -16,25 +16,39 @@ class ShareOption(Enum):
     SHARE_TO_SLACK_WITH_IMAGE = 2
 
 
+@dataclass
+class TagSlackInfo:
+    name: str
+    artworks_url: str
+
+
+@dataclass
+class ArtworkSlackInfo:
+    title: str
+    caption: str
+    artwork_url: str
+    account_name: str
+    account_user_page_url: str
+    tags: List[TagSlackInfo]
+    image_url: Optional[str] = None
+
+
 def _build_web_client():
     return WebClient(token=app_config.slack_token)
 
 def share_to_slack(
-    artwork: Artwork, image_path: str, share_option=ShareOption.NONE, channel_id=None
+    artwork_info: ArtworkSlackInfo, share_option=ShareOption.NONE, channel_id=None
 ):
     if share_option == ShareOption.NONE:
         return
 
-    image_url = None
-    if share_option == ShareOption.SHARE_TO_SLACK_WITH_IMAGE:
-        uploaded_image = upload_image(artwork, image_path)
-        image_url = uploaded_image.url
+    image_url = artwork_info.image_url
 
-    text = f"<{artwork.artwork_url}|*{artwork.title}*>"
-    if artwork.caption:
-        text += f"\n{artwork.caption}"
-    if len(artwork.tags) > 0:
-        tag_links = " ".join([f"<{t.artworks_url}|#{t.name}>" for t in artwork.tags])
+    text = f"<{artwork_info.artwork_url}|*{artwork_info.title}*>"
+    if artwork_info.caption:
+        text += f"\n{artwork_info.caption}"
+    if len(artwork_info.tags) > 0:
+        tag_links = " ".join([f"<{t.artworks_url}|#{t.name}>" for t in artwork_info.tags])
         text += f"\n{tag_links}"
 
     blocks = [
@@ -51,18 +65,18 @@ def share_to_slack(
             {
                 "type": "image",
                 "image_url": image_url,
-                "alt_text": artwork.title,
+                "alt_text": artwork_info.title,
             },
         )
 
     data = {
         "username": "GodIllustUploader",
         "icon_emoji": ":godicon:",
-        "text": f"{artwork.account.name}が新たな絵をアップロードなさいました！",
+        "text": f"{artwork_info.account_name}が新たな絵をアップロードなさいました！",
         "attachments": [
             {
                 "blocks": blocks,
-                "fallback": artwork.artwork_url,
+                "fallback": artwork_info.artwork_url,
             },
         ],
     }

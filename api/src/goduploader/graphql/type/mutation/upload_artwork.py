@@ -1,11 +1,13 @@
 import imghdr
 import logging
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional
 
 import graphene
 from goduploader.db import session
-from goduploader.external_service.slack import ShareOption as ShareOptionEnum
+from goduploader.external_service.gyazo import upload_image
+from goduploader.external_service.slack import ArtworkSlackInfo, ShareOption as ShareOptionEnum, TagSlackInfo
 from goduploader.external_service.slack import share_to_slack
 from goduploader.external_service.twitter import post_tweet
 from goduploader.graphql.type.artwork import Artwork
@@ -118,16 +120,30 @@ class UploadArtwork(graphene.ClientIDMutation):
         session.commit()
 
         # 外部サービスへの共有時には Artwork.id に有効な値が設定されている必要があるのでcommit後に共有します
-        for ch_id in channel_ids:
+        image_path = top_illust.image_path("full")
+        image_url = None
+        if share_option == ShareOptionEnum.SHARE_TO_SLACK_WITH_IMAGE:
+            uploaded_image = upload_image(artwork.account.name, artwork.account.user_page_url, image_path)
+            image_url = uploaded_image.url
+
+        artwork_info = ArtworkSlackInfo(
+            title=artwork.title,
+            caption=artwork.caption,
+            artwork_url=artwork.artwork_url,
+            account_name=artwork.account.name,
+            account_user_page_url=artwork.account.user_page_url,
+            tags=[TagSlackInfo(name=t.name, artworks_url=t.artworks_url) for t in artwork.tags],
+            image_url=image_url,
+        )
+
+        def _post_to_channel(ch_id):
             try:
-                share_to_slack(
-                    artwork,
-                    top_illust.image_path("full"),
-                    share_option,
-                    ch_id,
-                )
+                share_to_slack(artwork_info, share_option, ch_id)
             except Exception as e:
                 logging.error(e)
+
+        with ThreadPoolExecutor() as executor:
+            executor.map(_post_to_channel, channel_ids)
 
         _share_to_twitter(input, current_user, artwork)
 
