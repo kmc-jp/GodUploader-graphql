@@ -4,7 +4,7 @@ set -euo pipefail
 REPO="kmc-jp/goduploader-graphql"
 WORKFLOW_FILE="front.yml"
 ARTIFACT_NAME="build-artifacts"
-DIST_DIR="$(cd "$(dirname "$0")/../dist" && pwd)"
+DIST_DIR="$(realpath "$(dirname "$0")/..")/dist"
 TOKEN_FILE="$HOME/.secrets/goduploader-graphql-deploy"
 
 if [ ! -f "$TOKEN_FILE" ]; then
