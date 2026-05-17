@@ -99,6 +99,8 @@ $ npm run test
 
 hatsuneで ~passenger/GodUploader-graphql/front/deploy.sh を実行すると、GitHub Actionsでビルドされた最新の成果物がデプロイされます。
 
+deploy.shの引数としてrun IDを渡すと、当該runの成果物を使ってデプロイを行うため、ロールバックなどに使えます。
+
 ### DBのマイグレーションを行う
 
 https://github.com/sqldef/sqldef からsqlite3defをインストールしておいてください。
