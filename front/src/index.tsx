@@ -7,7 +7,10 @@ import { RouterProvider, createBrowserRouter, redirect } from "react-router";
 
 import { App } from "./App";
 import RelayEnvironment from "./RelayEnvironment";
+import ArtworkDetail, { artworkDetailQuery } from "./pages/ArtworkDetail";
 import { Index, indexQuery } from "./pages/Index";
+import NotFound from "./pages/NotFound";
+import TegakiDU from "./pages/TegakiDU";
 import {
   RecentArtworks,
   recentArtworksQuery,
@@ -86,10 +89,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/artwork/:id",
-        lazy: () =>
-          import(
-            /* webpackChunkName: 'ArtworkDetail' */ "./pages/ArtworkDetail"
+        loader: ({ params }) =>
+          loadQuery(
+            RelayEnvironment,
+            artworkDetailQuery,
+            { id: params.id! },
+            { fetchPolicy: "store-and-network" },
           ),
+        Component: ArtworkDetail,
       },
       {
         path: "/illust/:folder_id",
@@ -123,21 +130,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/tegaki",
-        lazy: async () => {
-          const { default: Component } = await import(
-            /* webpackChunkName: 'TegakiDU' */ "./pages/TegakiDU"
-          );
-          return { Component };
-        },
+        Component: TegakiDU,
       },
       {
         path: "*",
-        lazy: async () => {
-          const { default: Component } = await import(
-            /* webpackChunkName: 'NotFound' */ "./pages/NotFound"
-          );
-          return { Component };
-        },
+        Component: NotFound,
       },
     ],
   },
