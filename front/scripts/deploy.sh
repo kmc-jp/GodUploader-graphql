@@ -5,16 +5,10 @@ REPO="kmc-jp/goduploader-graphql"
 WORKFLOW_FILE="front.yml"
 ARTIFACT_NAME="build-artifacts"
 DIST_DIR="$(realpath "$(dirname "$0")/..")/dist"
-TOKEN_FILE="$HOME/.secrets/goduploader-graphql-deploy"
-
-if [ ! -f "$TOKEN_FILE" ]; then
-  echo "Error: Token file not found: $TOKEN_FILE" >&2
-  exit 1
-fi
 
 api() {
   curl -fsSL \
-    -H "Authorization: Bearer $(cat "$TOKEN_FILE")" \
+    -H "Authorization: Bearer $(ghtkn get)" \
     -H "Accept: application/vnd.github+json" \
     -H "X-GitHub-Api-Version: 2026-03-10" \
     "$@"

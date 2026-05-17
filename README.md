@@ -101,6 +101,8 @@ hatsuneで ~passenger/GodUploader-graphql/front/deploy.sh を実行すると、G
 
 deploy.shの引数としてrun IDを渡すと、当該runの成果物を使ってデプロイを行うため、ロールバックなどに使えます。
 
+GitHub Actionsの実行結果や成果物を取得する際に使う認証情報の管理に [ghtkn](https://github.com/suzuki-shunsuke/ghtkn) を使っています。
+
 ### DBのマイグレーションを行う
 
 https://github.com/sqldef/sqldef からsqlite3defをインストールしておいてください。
