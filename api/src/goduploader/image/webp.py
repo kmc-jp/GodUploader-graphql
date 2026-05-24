@@ -14,7 +14,7 @@ def _is_gif(illust_path: str):
 
 def _generate_normal_webp(illust_path, webp_path):
     with Image.open(illust_path) as img:
-        img.save(webp_path, format=None, quality=80)
+        img.save(webp_path, format="webp", lossless=True)
 
 
 def _generate_animated_webp(illust_path, webp_path):
@@ -33,7 +33,7 @@ def _generate_animated_webp(illust_path, webp_path):
             format="webp",
             save_all=True,
             append_images=frames[1:],
-            quality=80,
+            lossless=True,
             duration=durations,
             loop=img.info.get("loop", 0),
         )
