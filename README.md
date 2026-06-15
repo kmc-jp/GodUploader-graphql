@@ -97,7 +97,7 @@ $ npm run test
 
 ### フロントエンド
 
-hatsuneで ~passenger/GodUploader-graphql/front/deploy.sh を実行すると、GitHub Actionsでビルドされた最新の成果物がデプロイされます。
+hatsuneで ~passenger/GodUploader-graphql/front/scripts/deploy.sh を実行すると、GitHub Actionsでビルドされた最新の成果物がデプロイされます。
 
 deploy.shの引数としてrun IDを渡すと、当該runの成果物を使ってデプロイを行うため、ロールバックなどに使えます。
 
