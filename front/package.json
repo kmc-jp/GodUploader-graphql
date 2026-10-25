@@ -8,7 +8,7 @@
     "@dnd-kit/utilities": "^2.0.0",
     "@popperjs/core": "^2.9.2",
     "@types/bootstrap": "^5.0.16",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/react-helmet": "^6.1.6",
